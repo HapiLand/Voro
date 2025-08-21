@@ -1,4 +1,6 @@
 using System;
+using Internal.Configuration;
+using UnityEngine;
 
 namespace DataTypes {
 
@@ -19,12 +21,26 @@ namespace DataTypes {
  * json to be restructured in order to match the expression style
  * the new design will format the data as
  * [ { do_slope, dir, mult },  { do_noise, scale, size }, { do_terrace, iter, min, max, scale, tilt } ]
+ *
+ * v3
+ * at the moment the config json always has 3 arrays per config, this is only temporary.
+ * the actual config json could have any number of configurations inside it
+ * somehow the json is going to have to store its float arrays in a way
+ * that lets JsonConfig be constructed with any amount of float[]
+ * something possibly like [ { float[], float[], float[], float[], float[] } ]
+ * where each float[] is what is storing the values like { do_noise, scale, size }
+ *
+ * using that approach, JsonConfig 
+ * 
+ * using that approach, JsonConfig only would need to store a single array for public IConfig[] foo;
+ * 
  */
 
 
 [Serializable]
 public class JsonConfig {
-    public float[] slope;
+    // ToDo design a better format for the config json to replace the crappy float arrays
+    public SlopeCfg slope;
     public float[] noise;
     public float[] terrace;
 }

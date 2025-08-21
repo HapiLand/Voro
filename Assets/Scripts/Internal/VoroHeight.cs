@@ -28,7 +28,7 @@ public class VoroHeight {
         // generate the various IConfig structs found in the config data
         // these configurations contain the data in the json file
         // these are used to configure each instruction to control its output
-        _slopeCfg = new SlopeCfg(config.slope);
+        _slopeCfg = config.slope;
         _noiseCfg = new NoiseCfg(config.noise);
         _terraceCfg = new TerraceCfg(config.terrace);
 
@@ -64,8 +64,6 @@ public class VoroHeight {
 
             // iterate through the expression to execute each instruction
             for (var i = 0; i < instructionAmount; i++) {
-                // this code is going to be quite ugly until a true expression exists
-
                 // the current iteration has the instruction to create a slope
                 if (i == 0) {
                     _slopeNde.ComputeHeight(_slopeCfg, new Vector3(pos.x, height, pos.y), out var slopeHeight);
