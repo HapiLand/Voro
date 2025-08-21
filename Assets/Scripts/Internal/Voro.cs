@@ -27,7 +27,7 @@ public class Voro {
     public Geometry[] Geometry => _geometryArray.Geo;
 
     Voro _original;
-    readonly JsonConfig _config;
+    JsonConfig _config;
     
     Voro((PointArray, GeometryArray, JsonConfig) data) {
         _pointArray = data.Item1;
@@ -63,10 +63,10 @@ public class Voro {
         // this instruction is designed to manipulate the height value in a way
         // that allows the look of the terrain to be directed by the user
         // multiple instructions can be stored in the configuration file
-        var voroHeight = new VoroHeight();
+        VoroHeight voroHeight = new VoroHeight(_config);
 
         // get an array of float values, which are the calculated point heights
-        voroHeight.GetHeight(_config, _pointArray, offset, out var height);
+        voroHeight.GetHeight(_pointArray, offset, out var height);
         
         // apply the height value to each point that is in this voro
         ApplyHeight(height);

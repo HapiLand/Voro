@@ -6,9 +6,38 @@ using UnityEngine;
 namespace Internal {
 // to be used to produce height value from a json config
 public class VoroHeight {
-    public VoroHeight() {}
 
-    public void GetHeight(JsonConfig config, PointArray pointArr, Vector3 offset, out float[] heightArr) {
+    // the internal names for these types are IConfig and INode
+    // "Node" was chosen partly for convenience to save writing "Instruction"
+    // and technically each instruction is a single object where all instructions
+    // are executed in a sequence, not unlike a series of connected nodes
+    // Slope -> Noise -> Terrace
+    // if a GUI is to ever exist to allow you to build a configuration
+    // these instructions could probably exist as Nodes for a Node Tree
+    
+    NoiseCfg _noiseCfg;
+    Noise _noiseNde;
+    
+    SlopeCfg _slopeCfg;
+    Slope _slopeNde;
+    
+    TerraceCfg _terraceCfg;
+    Terrace _terraceNde;
+    
+    public VoroHeight(JsonConfig config) {
+        // generate the various IConfig structs found in the config data
+        // these configurations contain the data in the json file
+        // these are used to configure each instruction to control its output
+        _slopeCfg = new SlopeCfg(config.slope);
+        _noiseCfg = new NoiseCfg(config.noise);
+        _terraceCfg = new TerraceCfg(config.terrace);
+
+        _slopeNde = new Slope();
+        _noiseNde = new Noise();
+        _terraceNde = new Terrace();
+    }
+
+    public void GetHeight(PointArray pointArr, Vector3 offset, out float[] heightArr) {
         // each height value for each point
         heightArr = new float[pointArr.points.Length];
         
@@ -39,37 +68,19 @@ public class VoroHeight {
 
                 // the current iteration has the instruction to create a slope
                 if (i == 0) {
-                    // not a good place for this to be constructed
-                    // use the json config array to produce the Configuration struct
-                    // structs of the IConfig type is what the json data is used
-                    // to construct
-                    // each instruction should have its own configuration, as each
-                    // instruction has unique parameters
-                    // create the configuration for the slope instruction
-                    var slopeConfig = new SlopeCfg(config.slope);
-                    
-                    var slope = new Slope();
-                    slope.ComputeHeight(slopeConfig, new Vector3(pos.x, height, pos.y), out var slopeHeight);
+                    _slopeNde.ComputeHeight(_slopeCfg, new Vector3(pos.x, height, pos.y), out var slopeHeight);
                     height += slopeHeight;
                 }
                 
                 // the current iteration has the instruction to apply noise
                 if (i == 1) {
-                    // create the configuration for the noise instruction
-                    var noiseConfig = new NoiseCfg(config.noise);
-                    
-                    var noise = new Noise();
-                    noise.ComputeHeight(noiseConfig, new Vector3(pos.x, height, pos.y), out var noiseHeight);
+                    _noiseNde.ComputeHeight(_noiseCfg, new Vector3(pos.x, height, pos.y), out var noiseHeight);
                     height += noiseHeight;
                 }
                 
                 // the current iteration has the instruction to apply a terrace effect
                 if (i == 2) {
-                    // create the configuration for the terrace instruction
-                    var terraceConfig = new TerraceCfg(config.terrace);
-                    
-                    var terrace = new Terrace();
-                    terrace.ComputeHeight(terraceConfig, new Vector3(pos.x, height, pos.y), out var terraceHeight);
+                    _terraceNde.ComputeHeight(_terraceCfg, new Vector3(pos.x, height, pos.y), out var terraceHeight);
                     if (terraceHeight != 0.0) {
                         height += terraceHeight;
                         height /= 2;
