@@ -1,0 +1,82 @@
+using DataTypes;
+using UnityEngine;
+
+namespace Internal {
+public class Voro {
+    readonly PointArray _pointArray;
+    readonly GeometryArray _geometryArray;
+    public Point[] Points => _pointArray.points;
+    public Geometry[] Geometry => _geometryArray.Geo;
+
+    Voro _original;
+    JsonConfig _config;
+    
+    Voro((PointArray, GeometryArray, JsonConfig) data) {
+        _pointArray = data.Item1;
+        _geometryArray  = data.Item2;
+        _config = data.Item3;
+        
+        OnCreation();
+    }
+    
+    void OnCreation() {
+        // clone this voro to act as a snapshot, allows this current voro to be safely
+        // modifiable, and can easily be reset
+    }
+
+    public static bool BuildVoro(TextAsset data, out Voro voro) {
+        // point data in json file is used to build the cells for this voro
+        PointArray points = new PointArray(data);
+        GeometryArray geos = new GeometryArray(points);
+        // read the configuration
+        var config = JsonUtility.FromJson<JsonPointArray>(data.text).config[0];
+
+        // produce the voro instance in its default state
+        voro = new Voro((points, geos, config));
+        
+        return true;
+    }
+
+    public bool ConfigurePointHeight(Vector3 offset) {
+
+        // this class uses a configuration json and can read the data inside it
+        // this configuration is to alter the height value of all the voro points
+        // the config holds a set of values which are used to form an instruction
+        // this instruction is designed to manipulate the height value in a way
+        // that allows the look of the terrain to be directed by the user
+        // multiple instructions can be stored in the configuration file
+        var voroHeight = new VoroHeight();
+
+        // get an array of float values, which are the calculated point heights
+        voroHeight.GetHeight(_config, _pointArray, offset, out var height);
+        
+        // apply the height value to each point that is in this voro
+        ApplyHeight(height);
+        void ApplyHeight(float[] heightValues) {
+            for (var i = 0; i < height.Length; i++) {
+                // get the position of each point
+                var newPos = _pointArray.points[i].position;
+                // set the height value in the point
+                newPos.y = height[i];
+                // set the new position of the point, applying the height value
+                _pointArray.points[i].position = newPos;
+            }
+        }
+        
+
+        return true;
+    }
+
+    // OnConfigured() {
+    //     // 1) finalize check to ensure the requested configuration is valid
+    //     // ie terrain slope+elevation is between a constant range, correcting errors if bad
+    // }
+    // OnDeletion() {
+    //     // 1) invoke to declare this space is now empty, so anything still using it
+    //     // has to stop what its doing (the voro exploded and died rip)
+    // }
+    // OnUpdate() {
+    //     // 1) apply any proposed changes to the voro, updating parameters etc
+    // }
+}
+}
