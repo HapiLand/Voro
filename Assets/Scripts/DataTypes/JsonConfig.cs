@@ -25,12 +25,7 @@ namespace DataTypes {
 [Serializable]
 public class JsonConfig {
     public float[] slope;
-    // f[]@slope = { do_slope, slope_dir, slope_mult };
-    
     public float[] noise;
-    // f[]@noise = { do_noise, noise_scale, noise_size };
-    
     public float[] terrace;
-    // f[]@terrace = { do_terrace, terrace_iter, terrace_min, terrace_max, terrace_scale, terrace_tilt };
 }
 }

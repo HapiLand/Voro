@@ -7,6 +7,7 @@ public class GeometryArray {
         Geo = new Geometry[pointArr.points.Length];
         for (var i = 0; i < Geo.Length; i++) {
             var geo = new Geometry(pointArr.points[i].id);
+            // ToDo store a dictionary of <id,fbx[]> elsewhere, each id for every variant
             Geo[i] = geo;
         }
     }

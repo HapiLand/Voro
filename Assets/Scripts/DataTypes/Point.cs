@@ -4,7 +4,7 @@ using UnityEngine;
 namespace DataTypes {
 [Serializable]
 public struct Point {
-    // Point[id,x,height,z,convergence,col]
+    // Point[id,x,z,convergence,col]
     public int id;
     public Vector3 position;
     public Color Color {
@@ -20,6 +20,7 @@ public struct Point {
         var x = data.p[1];
         var z = data.p[0];
         position = new Vector3(x, 0, z);
+        // point is constructed with y=0, its height is set after all points have been constructed
     }
 }
 }

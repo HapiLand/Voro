@@ -3,15 +3,17 @@ using UnityEngine;
 namespace DataTypes {
 public readonly struct Geometry {
     // Geometry[id,dict<id,fbx[]>]
+    
     readonly int _id;
+    readonly GameObject[] _fbxObjects;
+    
     public GameObject MeshInstance {
         get
         {
             // pick the mesh for this cell
-            const int variants = 0;
+            var variants = _fbxObjects.Length;
             var variant = Random.Range(0, variants);
-            
-            var instance = Resources.Load<GameObject>($"FBX/{_id}_{variant}");
+            var instance = _fbxObjects[variant];
             //prefab.transform.position no longer set here
             
             // set prefab color
@@ -25,7 +27,24 @@ public readonly struct Geometry {
     }
     
     public Geometry(int id) {
+        // ToDo new Geometry should be given fbx[] for its constructor
         _id = id;
+        
+        // store all the fbx instances that the geometry can use
+        const int variants = 2;
+        _fbxObjects = new GameObject[variants];
+        for (var i = 0; i < variants; i++) {
+            // the Resources directory contains a large collection of .fbx files
+            // the id of this struct matches each fbx. for id=8 this is 8_x.fbx
+            // the second value _x.fbx is the variation of that piece, _0.fbx _1.fbx _2.fbx
+            
+            // the purpose of variants is to have slight changes on the way the mesh looks
+            // so that if there are multiple Geometry structs with the same id value
+            // a GameObject created for each one can have a different appearance
+            _fbxObjects[i] = Resources.Load<GameObject>($"FBX/{_id}_{i}");
+            // note: currently each variants are all identical
+            
+        }
     }
 }
 }
