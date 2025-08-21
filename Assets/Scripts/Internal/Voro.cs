@@ -1,5 +1,8 @@
+using System.Collections;
 using DataTypes;
 using UnityEngine;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace Internal {
 /// <summary>
@@ -47,7 +50,8 @@ public class Voro {
         PointArray points = new PointArray(data);
         GeometryArray geos = new GeometryArray(points);
         // read the configuration
-        var config = JsonUtility.FromJson<JsonPointArray>(data.text).config[0];
+        
+        var config = JObject.Parse(data.text)["config"].ToObject<JsonConfig>();
 
         // produce the voro instance in its default state
         voro = new Voro((points, geos, config));

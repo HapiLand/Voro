@@ -29,8 +29,8 @@ public class VoroHeight {
         // these configurations contain the data in the json file
         // these are used to configure each instruction to control its output
         _slopeCfg = config.slope;
-        _noiseCfg = new NoiseCfg(config.noise);
-        _terraceCfg = new TerraceCfg(config.terrace);
+        _noiseCfg = config.noise;
+        _terraceCfg = config.terrace;
 
         _slopeNde = new Slope();
         _noiseNde = new Noise();

@@ -1,22 +1,21 @@
 {
-    "config": [
-        {
-            "noise": [
+    "config": {
+        "noise": {
+            "ConfigArr": [
                 1.0,
                 0.5899999737739563,
                 1.25
-            ],
-          
-            "slope":
-            {
-              "ConfigArr" : [
+            ]
+        },
+        "slope": {
+            "ConfigArr": [
                 1.0,
                 0.0,
                 1.0
-              ]
-            },
-          
-            "terrace": [
+            ]
+        },
+        "terrace": {
+            "ConfigArr": [
                 1.0,
                 4.0,
                 0.009999999776482582,
@@ -25,7 +24,7 @@
                 41.0
             ]
         }
-    ],
+    },
     "points": [
         {
             "id": 0,

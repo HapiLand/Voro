@@ -1,10 +1,11 @@
+using System;
+using UnityEngine;
+
 namespace Internal.Configuration {
+[Serializable]
 public struct NoiseCfg : IConfig {
     // this struct stores parameters for the Noise instruction
     // to control how noise is combined into the height of the points
-    public float[] ConfigArr { get; set; }
-    public NoiseCfg(float[] configArr) {
-        ConfigArr = configArr;
-    }
+    [field: SerializeField] public float[] ConfigArr { get; set; }
 }
 }

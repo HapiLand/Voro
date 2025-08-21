@@ -41,7 +41,7 @@ namespace DataTypes {
 public class JsonConfig {
     // ToDo design a better format for the config json to replace the crappy float arrays
     public SlopeCfg slope;
-    public float[] noise;
-    public float[] terrace;
+    public NoiseCfg noise;
+    public TerraceCfg terrace;
 }
 }
