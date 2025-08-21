@@ -1,7 +1,6 @@
 using System.Collections;
 using DataTypes;
 using UnityEngine;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 namespace Internal {

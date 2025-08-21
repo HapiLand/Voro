@@ -38,6 +38,15 @@ public class VoroHeight {
     }
 
     public void GetHeight(PointArray pointArr, Vector3 offset, out float[] heightArr) {
+        /*
+         * v2 will use an array of IConfig objects, iterate through each IConfig
+         * the config is provided to the related Instruction, and a height value
+         * can be returned
+         * this new approach will aim to clear out all the Slope/Noise/Terrace code
+         * which is hardcoded into this class
+         */
+        
+        
         // each height value for each point
         heightArr = new float[pointArr.points.Length];
         
@@ -91,16 +100,3 @@ public class VoroHeight {
     }
 }
 }
-
-/*
-   public int do_noise;
-   public float noise_scale;
-   public float noise_size;
-   
-   public int do_terrace;
-   public int terrace_iter;
-   public float terrace_min;
-   public float terrace_max;
-   public float terrace_scale;
-   public float terrace_tilt;
-*/

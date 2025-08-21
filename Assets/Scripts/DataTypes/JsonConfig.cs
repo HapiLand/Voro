@@ -29,17 +29,19 @@ namespace DataTypes {
  * that lets JsonConfig be constructed with any amount of float[]
  * something possibly like [ { float[], float[], float[], float[], float[] } ]
  * where each float[] is what is storing the values like { do_noise, scale, size }
+ * using that approach, JsonConfig only would need to store a single array for each public IConfig[] foo;
  *
- * using that approach, JsonConfig 
- * 
- * using that approach, JsonConfig only would need to store a single array for public IConfig[] foo;
- * 
+ * v4
+ * the json has been updated so the configuration is stored as
+ * { IConfig{ float[] }, IConfig{ float[] }, IConfig{ float[] } }
+ * once the json stores an array of the IConfig structs, the VoroHeight method can start to be automated
+ * right now the configuration system that VoroHeight is using, is basically all hard coded
  */
 
+// ToDo json needs to store an array of IConfig as the amount of IConfig stored can change
 
 [Serializable]
 public class JsonConfig {
-    // ToDo design a better format for the config json to replace the crappy float arrays
     public SlopeCfg slope;
     public NoiseCfg noise;
     public TerraceCfg terrace;
