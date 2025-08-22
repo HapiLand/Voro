@@ -1,6 +1,6 @@
 # Voro
 
-Voro is my approach for a terrain generation tool. Which is intended as a way to create an environment for an imaginary game (**game** development is not my forte).
+Voro is my approach for a terrain generation tool. Which is intended as a way to create an environment for a hypothetical game I have imagined (alas, **game** development is not my forte), 
 
 I aim to extend it later on to make it more useful :)
 
