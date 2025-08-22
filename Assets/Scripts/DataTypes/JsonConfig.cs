@@ -64,6 +64,10 @@ public class JsonConfig {
             foreach (var prop in obj.Properties()) {
                 // not an ideal way to do this
                 //      "if it works, it works"
+                
+                // the json will hold any number of IConfig objects
+                // each object needs to create one of the Cfg structs
+                // to choose the right struct, look at the name each object uses
                 switch (prop.Name) {
                 case "slope":
                     slope = prop.Value.ToObject<SlopeCfg>();
@@ -75,6 +79,11 @@ public class JsonConfig {
                     terrace = prop.Value.ToObject<TerraceCfg>();
                     break;
                 }
+                
+                // doing it this way is probably not a bad approach
+                // performance isnt a huge concern now as there arent many types of IConfig
+                // hypothetically if this library had 100 different IConfig structs
+                // then it might suck to maintain a gigantic wall of switch cases
             }
         }
     }

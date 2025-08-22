@@ -19,6 +19,7 @@ public class VoroDemo : MonoBehaviour {
             return;
         }
         
+        // ToDo it might be better for the Voro to automatically ConfigurePointHeight()
         // configure the voro to set its height values
         // transform.position is needed as the voro game objects position in the world
         if (!_voro.ConfigurePointHeight(transform.position)) {

@@ -19,9 +19,12 @@ public readonly struct Geometry {
             
             // set prefab color
             var mat = Resources.Load<Material>("FbxMat");
-            mat.color = _color;
+            
+            var matClone = new Material(mat);
+            matClone.color = _color;
+            
             var renderer = instance.GetComponent<MeshRenderer>();
-            renderer.material = mat;
+            renderer.material = matClone;
             
             return instance;
         }
@@ -35,7 +38,7 @@ public readonly struct Geometry {
         _color = color;
         
         // store all the fbx instances that the geometry can use
-        const int variants = 2;
+        const int variants = 3;
         _fbxObjects = new GameObject[variants];
         for (var i = 0; i < variants; i++) {
             // the Resources directory contains a large collection of .fbx files
