@@ -23,6 +23,8 @@ public struct Point {
         var z = data.p[0];
         position = new Vector3(x, 0, z);
         color = new Color(data.col[0], data.col[1], data.col[2], 1.0f);
+        // ToDo allow color to have some randomness to it so its not always uniform
+        
         // point is constructed with y=0, its height is set after all points have been constructed
     }
 }
