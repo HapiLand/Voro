@@ -1,5 +1,7 @@
 using System.Collections;
+using System.Linq;
 using DataTypes;
+using Internal.Configuration;
 using UnityEngine;
 using Newtonsoft.Json.Linq;
 
@@ -49,9 +51,10 @@ public class Voro {
         PointArray points = new PointArray(data);
         GeometryArray geos = new GeometryArray(points);
         // read the configuration
-        
-        var config = JObject.Parse(data.text)["config"].ToObject<JsonConfig>();
 
+        // get the JsonConfig which contains the configuration objects for the voro height
+        var config = new JsonConfig(data);
+        
         // produce the voro instance in its default state
         voro = new Voro((points, geos, config));
         

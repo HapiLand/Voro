@@ -1,5 +1,6 @@
 using System;
 using Internal.Configuration;
+using Newtonsoft.Json.Linq;
 using UnityEngine;
 
 namespace DataTypes {
@@ -45,5 +46,37 @@ public class JsonConfig {
     public SlopeCfg slope;
     public NoiseCfg noise;
     public TerraceCfg terrace;
+
+    public JsonConfig(TextAsset data) {
+        
+        // parse the data from the json
+        JObject root = JObject.Parse(data.text);
+        
+        JArray configArr = (JArray)root["config"];
+
+        // json stores the config objects in an array IConfig[]
+        // these objects need to be extracted to be given to
+        // the JsonConfig class
+        foreach (JObject obj in configArr) {
+            // the property is each IConfig object
+            // these will configure the instructions for how
+            // to set the height for each point in the voro
+            foreach (var prop in obj.Properties()) {
+                // not an ideal way to do this
+                //      "if it works, it works"
+                switch (prop.Name) {
+                case "slope":
+                    slope = prop.Value.ToObject<SlopeCfg>();
+                    break;
+                case "noise":
+                    noise = prop.Value.ToObject<NoiseCfg>();
+                    break;
+                case "terrace":
+                    terrace = prop.Value.ToObject<TerraceCfg>();
+                    break;
+                }
+            }
+        }
+    }
 }
 }
