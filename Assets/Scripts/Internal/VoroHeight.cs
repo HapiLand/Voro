@@ -15,6 +15,8 @@ public class VoroHeight {
     // if a GUI is to ever exist to allow you to build a configuration
     // these instructions could probably exist as Nodes for a Node Tree
     
+    // ToDo store the instructions as a collection
+    
     NoiseCfg _noiseCfg;
     Noise _noiseNde;
     

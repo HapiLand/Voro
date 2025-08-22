@@ -24,6 +24,9 @@ namespace Internal {
 /// for any point, its ID matches a specific .fbx file and the position of
 /// the GO is set as the point position
 /// </summary>
+// ToDo reimplement TableSampling
+// ToDo reimplement MultiChunks + InfiniteGrid so that Voros can be generated around a player radius
+// ToDo implement method for adjacent Voros to blend together nicely
 public class Voro {
     readonly PointArray _pointArray;
     readonly GeometryArray _geometryArray;
@@ -42,6 +45,7 @@ public class Voro {
     }
     
     void OnCreation() {
+        // ToDo clone the voro for it to be restored if edited during runtime
         // clone this voro to act as a snapshot, allows this current voro to be safely
         // modifiable, and can easily be reset
     }
@@ -71,6 +75,12 @@ public class Voro {
         // multiple instructions can be stored in the configuration file
         VoroHeight voroHeight = new VoroHeight(_config);
 
+        // ToDo using VoroHeight should be able to update the points right away
+        // that would streamline "new VoroHeight -> GetHeight -> ApplyHeight"
+        // when VoroHeight gets created its only for the reason of setting height
+        // its silly having 3 steps in order to do a single step of "ApplyHeight"
+        
+        
         // get an array of float values, which are the calculated point heights
         voroHeight.GetHeight(_pointArray, offset, out var height);
         
@@ -91,14 +101,17 @@ public class Voro {
         return true;
     }
 
+    // ToDo implement OnConfigured and the ability to make sure all heights are valid
     // OnConfigured() {
     //     // 1) finalize check to ensure the requested configuration is valid
     //     // ie terrain slope+elevation is between a constant range, correcting errors if bad
     // }
+    // ToDo allow the Voro to be deleted from the game world, disconnecting it from anything else
     // OnDeletion() {
     //     // 1) invoke to declare this space is now empty, so anything still using it
     //     // has to stop what its doing (the voro exploded and died rip)
     // }
+    // ToDo let the Voro be updated, so changes can be applied during runtime
     // OnUpdate() {
     //     // 1) apply any proposed changes to the voro, updating parameters etc
     // }

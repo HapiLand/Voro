@@ -3,11 +3,12 @@ using UnityEngine;
 namespace DataTypes {
 public readonly struct Geometry {
     // Geometry[id,dict<id,fbx[]>]
-    
     readonly int _id;
     readonly GameObject[] _fbxObjects;
     readonly Color _color;
     
+    // ToDo the mass instantiation of thousands of GameObject MeshInstance needs to not suck
+    // ToDo implement 
     public GameObject MeshInstance {
         get
         {

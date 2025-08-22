@@ -29,7 +29,6 @@ public class PointArray {
             var point = new Point(pointArray[i]);
             points[i] = point;
         }
-        
 
     }
 }

@@ -4,6 +4,7 @@ using UnityEngine;
 using Object = UnityEngine.Object;
 
 namespace UnityComponents {
+
 public class VoroDemo : MonoBehaviour {
     string _jsonPath;
     Voro _voro;
