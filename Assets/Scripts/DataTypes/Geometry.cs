@@ -6,6 +6,7 @@ public readonly struct Geometry {
     
     readonly int _id;
     readonly GameObject[] _fbxObjects;
+    readonly Color _color;
     
     public GameObject MeshInstance {
         get
@@ -18,7 +19,7 @@ public readonly struct Geometry {
             
             // set prefab color
             var mat = Resources.Load<Material>("FbxMat");
-            mat.color = Color.sandyBrown;
+            mat.color = _color;
             var renderer = instance.GetComponent<MeshRenderer>();
             renderer.material = mat;
             
@@ -26,9 +27,12 @@ public readonly struct Geometry {
         }
     }
     
-    public Geometry(int id) {
+    public Geometry(int id, Color color) {
         // ToDo new Geometry should be given fbx[] for its constructor
         _id = id;
+        
+        // set the mesh color from the value in the point
+        _color = color;
         
         // store all the fbx instances that the geometry can use
         const int variants = 2;
