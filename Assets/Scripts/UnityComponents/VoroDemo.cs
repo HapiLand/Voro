@@ -6,12 +6,21 @@ using Object = UnityEngine.Object;
 namespace UnityComponents {
 
 public class VoroDemo : MonoBehaviour {
-    string _jsonPath;
+
+    public TextAsset JsonFile;
+    //string _jsonPath;
     Voro _voro;
     void Start() {
+        
         // load json file
-        _jsonPath = "Points/Table";
-        var data = LoadResource<TextAsset>(_jsonPath);
+        if (JsonFile == null) {
+            // load default text asset as one has not been set
+            JsonFile = LoadResource<TextAsset>("Points/DemoTable");
+        }
+        //_jsonPath = "Points/Table";
+        //var data = LoadResource<TextAsset>(_jsonPath);
+        var data = JsonFile;
+        
             
         // used to convert the json data
         // the voro has been built using the json text data
