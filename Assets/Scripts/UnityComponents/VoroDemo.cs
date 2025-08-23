@@ -15,7 +15,7 @@ public class VoroDemo : MonoBehaviour {
         // load json file
         if (JsonFile == null) {
             // load default text asset as one has not been set
-            JsonFile = LoadResource<TextAsset>("Points/DemoTable");
+            JsonFile = ResourceHelper.LoadResource<TextAsset>("Points/DemoTable");
         }
         //_jsonPath = "Points/Table";
         //var data = LoadResource<TextAsset>(_jsonPath);
@@ -51,11 +51,6 @@ public class VoroDemo : MonoBehaviour {
         instance.transform.position += point.position + transform.position;
     }
     
-    static T LoadResource<T>(string path) where T : Object
-    {
-        return Resources.Load<T>(path);
-    }
-
 
     
 }

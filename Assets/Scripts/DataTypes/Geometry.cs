@@ -8,7 +8,7 @@ public readonly struct Geometry {
     readonly Color _color;
     
     // ToDo the mass instantiation of thousands of GameObject MeshInstance needs to not suck
-    // ToDo implement 
+    // ToDo use a generic Cylinder so Graphics.RenderMeshInstanced can be used to boost performance during development
     public GameObject MeshInstance {
         get
         {
