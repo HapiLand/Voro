@@ -30,9 +30,9 @@ public class VoroHeight {
         // generate the various IConfig structs found in the config data
         // these configurations contain the data in the json file
         // these are used to configure each instruction to control its output
-        _slopeCfg = config.slope;
-        _noiseCfg = config.noise;
-        _terraceCfg = config.terrace;
+        _slopeCfg = config.Configs[0] is SlopeCfg ? (SlopeCfg)config.Configs[0] : default;
+        _noiseCfg = config.Configs[1] is NoiseCfg ? (NoiseCfg)config.Configs[1] : default;
+        _terraceCfg = config.Configs[2] is TerraceCfg ? (TerraceCfg)config.Configs[2] : default;
 
         _slopeNde = new Slope();
         _noiseNde = new Noise();

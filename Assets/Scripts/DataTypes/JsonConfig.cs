@@ -1,4 +1,6 @@
 using System;
+using System.Linq;
+using Internal;
 using Internal.Configuration;
 using Newtonsoft.Json.Linq;
 using UnityEngine;
@@ -43,10 +45,8 @@ namespace DataTypes {
 
 [Serializable]
 public class JsonConfig {
-    public SlopeCfg slope;
-    public NoiseCfg noise;
-    public TerraceCfg terrace;
 
+    public IConfig[] Configs;
     public JsonConfig(TextAsset data) {
         
         // parse the data from the json
@@ -54,38 +54,43 @@ public class JsonConfig {
         
         JArray configArr = (JArray)root["config"];
 
-        // json stores the config objects in an array IConfig[]
-        // these objects need to be extracted to be given to
-        // the JsonConfig class
-        foreach (JObject obj in configArr) {
+        // the json contains the IConfig objects, json is converted to this array
+        Configs = new IConfig[configArr.Count];
+        
+        for (var i = 0; i < configArr.Count; i++) {
+            // json stores the config objects in an array IConfig[]
+            // these objects need to be extracted to be given to
+            // the JsonConfig class
+            JObject obj = configArr[i] as JObject;
+            
             // the property is each IConfig object
             // these will configure the instructions for how
             // to set the height for each point in the voro
-            foreach (var prop in obj.Properties()) {
-                // not an ideal way to do this
-                //      "if it works, it works"
+            JProperty prop = obj.Properties().First();
+            
+            // not an ideal way to do this
+            //      "if it works, it works"
                 
-                // the json will hold any number of IConfig objects
-                // each object needs to create one of the Cfg structs
-                // to choose the right struct, look at the name each object uses
-                switch (prop.Name) {
-                case "slope":
-                    slope = prop.Value.ToObject<SlopeCfg>();
-                    break;
-                case "noise":
-                    noise = prop.Value.ToObject<NoiseCfg>();
-                    break;
-                case "terrace":
-                    terrace = prop.Value.ToObject<TerraceCfg>();
-                    break;
-                }
-                
-                // doing it this way is probably not a bad approach
-                // performance isnt a huge concern now as there arent many types of IConfig
-                // hypothetically if this library had 100 different IConfig structs
-                // then it might suck to maintain a gigantic wall of switch cases
+            // the json will hold any number of IConfig objects
+            // each object needs to create one of the Cfg structs
+            // to choose the right struct, look at the name each object uses
+            switch (prop.Name) {
+            case "slope":
+                Configs[i] = prop.Value.ToObject<SlopeCfg>();
+                break;
+            case "noise":
+                Configs[i] = prop.Value.ToObject<NoiseCfg>();
+                break;
+            case "terrace":
+                Configs[i] = prop.Value.ToObject<TerraceCfg>();
+                break;
             }
+            // doing it this way is probably not a bad approach
+            // performance isnt a huge concern now as there arent many types of IConfig
+            // hypothetically if this library had 100 different IConfig structs
+            // then it might suck to maintain a gigantic wall of switch cases
         }
+        
     }
 }
 }
