@@ -4,9 +4,11 @@ Voro is my approach for a terrain generation tool. Which is intended as a way to
 
 I aim to extend it later on to make it more useful :)
 
-## Note
+## Notes
 
 If Unity loads with an empty scene, either load [Scenes/DemoScene] or add to the scene, [Resources/Prefabs/VoroDemo]
+
+Voro is using Unity version 6.2, I haven't tested it with non-version6 but I dont think it will have any problems in version 2022
 
 At the moment the tool is non interactive, created only on Start :(
 
