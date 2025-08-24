@@ -575,6 +575,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Voro Demo
       objectReference: {fileID: 0}
+    - target: {fileID: 721310912433879978, guid: 54fd6df6801cdf39d9993f62dac35c76, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7966508455264973821, guid: 54fd6df6801cdf39d9993f62dac35c76, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

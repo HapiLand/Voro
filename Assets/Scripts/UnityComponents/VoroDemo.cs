@@ -4,7 +4,6 @@ using UnityEngine;
 using Object = UnityEngine.Object;
 
 namespace UnityComponents {
-
 public class VoroDemo : MonoBehaviour {
 
     Voro _voro;
