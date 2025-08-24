@@ -22,7 +22,7 @@ At the moment the tool is non interactive, created only on Start. It is not game
 See [VoroDemo](Assets/Scripts/UnityComponents/VoroDemo.cs) for the detailed steps needed to create a Voro, 
 
 ```c#
-VoroDemo : MonoBehaviour {
+Start()
 
 // 1) read the Config to use for the Voro
 //    a Config produces the terrains elevation
