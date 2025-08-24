@@ -19,7 +19,7 @@ Voro is using Unity version 6.2, I haven't tested it with non-version6 but I don
 At the moment the tool is non interactive, created only on Start. It is not game ready. :(
 
 ## Usage
-See VoroDemo.cs for the detailed steps needed to create a Voro, 
+See [VoroDemo](Assets/Scripts/UnityComponents/VoroDemo.cs) for the detailed steps needed to create a Voro, 
 
 ```c#
 VoroDemo : MonoBehaviour {
