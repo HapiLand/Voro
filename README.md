@@ -16,23 +16,21 @@ At the moment the tool is non interactive, created only on Start :(
 See VoroDemo.cs for the detailed steps needed to create a Voro, 
 
 ```c#
-// 1) read point[] and config[]
-//    Table.json
-var data = LoadResource("Points/Table")
+VoroDemo : MonoBehaviour {
 
-// 2) parse data to generate a default Voro
-//   (a chunk)
-BuildVoro(data, out voro)
+// 1) read the Config to use for the Voro
+//    a Config produces the terrains elevation
+var configName = "MyConfig"
 
-// 3) apply the config, setting the point height
-//    VoroHeight.cs
-//    this step is optional, giving you flat terrain
-voro.ConfigurePointHeight(pos)
+// 2) create a Voro at some position + its configuration
+//   (Voro = a chunk)
+new Voro(configName, position);
 
-// 4) create objects that make up the terrain
-//    W.I.P!
+// 3) create objects that make up the terrain
+//    VERY W.I.P!
 InstanceMesh(voro.Geometry[], voro.Points[])
 ```
+This is a simple overview for how it works, the specifics of it all are certain to change
 
 ## Contributing
 
