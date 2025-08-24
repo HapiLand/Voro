@@ -5,6 +5,7 @@ using DataTypes;
 using Internal;
 using Internal.Configuration;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using UnityEngine;
 using UnityEngine.UIElements;
 using Object = UnityEngine.Object;
@@ -80,18 +81,36 @@ public class SimpleEditorController : MonoBehaviour {
         // write path "Resources/Configs/MyConfig.json"
         using (JsonWriter writer = new JsonTextWriter(sw)) {
             writer.Formatting = Formatting.Indented;
+            
             writer.WriteStartObject();
-            writer.WritePropertyName("CPU");
-            writer.WriteValue("Intel");
-            writer.WritePropertyName("PSU");
-            writer.WriteValue("500W");
-            writer.WritePropertyName("Drives");
+            
+            writer.WritePropertyName("config");
             writer.WriteStartArray();
-            writer.WriteValue("DVD read/writer");
-            writer.WriteComment("(broken)");
-            writer.WriteValue("500 gigabyte hard drive");
-            writer.WriteValue("200 gigabyte hard drive");
-            writer.WriteEnd();
+            for (var i = 0; i < _configs.Length; i++) {
+                IConfig cfg = _configs[i];
+                
+                // write each IConfig into the array
+                writer.WriteStartObject();
+
+                string name = "";
+                if (cfg is SlopeCfg slope) {
+                    name = "slope";
+                }
+                else if (cfg is NoiseCfg noise) {
+                    name = "noise";
+                }
+                else if (cfg is TerraceCfg terrace) {
+                    name = "terrace";
+                }
+                writer.WritePropertyName(name);
+                
+                var token = JToken.FromObject(cfg);
+                token.WriteTo(writer);
+                
+                writer.WriteEndObject();
+            }            
+            writer.WriteEndArray();
+            
             writer.WriteEndObject();
         }
         
