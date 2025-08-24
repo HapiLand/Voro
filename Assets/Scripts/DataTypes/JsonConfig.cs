@@ -7,7 +7,6 @@ using Newtonsoft.Json.Linq;
 using UnityEngine;
 
 namespace DataTypes {
-
 /* v1
  * work in progress, config stores data in a dumb way
  * if the json could work as an expression, where the expression
@@ -47,32 +46,33 @@ namespace DataTypes {
 [Serializable]
 public class JsonConfig {
     public IConfig[] Configs;
+
     public JsonConfig(string fileName) {
         // there is now the editor tool which has exported a config json file
         // load the new MyTable.json file to load its config
-        
+
         // parse the data from the json
-        JObject root = JObject.Parse(ResourceHelper.LoadVoroConfig(fileName));
-        
-        JArray configArr = (JArray)root["config"];
+        var root = JObject.Parse(ResourceHelper.LoadVoroConfig(fileName));
+
+        var configArr = (JArray)root["config"];
 
         // the json contains the IConfig objects, json is converted to this array
         Configs = new IConfig[configArr.Count];
-        
+
         for (var i = 0; i < configArr.Count; i++) {
             // json stores the config objects in an array IConfig[]
             // these objects need to be extracted to be given to
             // the JsonConfig class
-            JObject obj = configArr[i] as JObject;
-            
+            var obj = configArr[i] as JObject;
+
             // the property is each IConfig object
             // these will configure the instructions for how
             // to set the height for each point in the voro
-            JProperty prop = obj.Properties().First();
-            
+            var prop = obj.Properties().First();
+
             // not an ideal way to do this
             //      "if it works, it works"
-                
+
             // the json will hold any number of IConfig objects
             // each object needs to create one of the Cfg structs
             // to choose the right struct, look at the name each object uses
@@ -92,7 +92,6 @@ public class JsonConfig {
             // hypothetically if this library had 100 different IConfig structs
             // then it might suck to maintain a gigantic wall of switch cases
         }
-        
     }
 }
 }

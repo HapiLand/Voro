@@ -6,7 +6,6 @@ using UnityEngine;
 namespace Internal {
 // to be used to produce height value from a json config
 public class VoroHeight {
-
     // the internal names for these types are IConfig and INode
     // "Node" was chosen partly for convenience to save writing "Instruction"
     // and technically each instruction is a single object where all instructions
@@ -14,18 +13,18 @@ public class VoroHeight {
     // Slope -> Noise -> Terrace
     // if a GUI is to ever exist to allow you to build a configuration
     // these instructions could probably exist as Nodes for a Node Tree
-    
+
     // ToDo store the instructions as a collection
-    
+
     // the new way to store configruations for each instruction
     // this originated from the json file
     // now when VoroHeight can find the height, it will iterate through this array
     public IConfig[] Configs;
-    
+
     Noise _noiseNde;
     Slope _slopeNde;
     Terrace _terraceNde;
-    
+
     public VoroHeight(JsonConfig config) {
         // generate the various IConfig structs found in the config data
         // these configurations contain the data in the json file
@@ -35,7 +34,7 @@ public class VoroHeight {
         _terraceCfg = config.Configs[2] is TerraceCfg ? (TerraceCfg)config.Configs[2] : default;*/
 
         Configs = config.Configs;
-        
+
         _slopeNde = new Slope();
         _noiseNde = new Noise();
         _terraceNde = new Terrace();
@@ -49,20 +48,20 @@ public class VoroHeight {
          * this new approach will aim to clear out all the Slope/Noise/Terrace code
          * which is hardcoded into this class
          */
-        
+
         // each height value for each point
         heightArr = new float[pointArr.points.Length];
-        
+
         // intended goal is for this method to read the configuration as an expression
         // the expression has a set of instructions for how to alter the height
         // iterate across every point so a height value can be found per point
-        
+
         for (var i = 0; i < pointArr.points.Length; i++) {
             // find the true position of the point in the world
-            Vector3 pointWorldPos = pointArr.points[i].position + offset;
+            var pointWorldPos = pointArr.points[i].position + offset;
             // world position is 2D as the Y value is what is being solved
-            Vector2 worldPos2D = new Vector2(pointWorldPos.x, pointWorldPos.z);
-            
+            var worldPos2D = new Vector2(pointWorldPos.x, pointWorldPos.z);
+
             // using the points position, find the world height there
             FindHeightAtPosition(worldPos2D, out heightArr[i]);
         }
@@ -73,8 +72,8 @@ public class VoroHeight {
 
             for (var i = 0; i < Configs.Length; i++) {
                 // read the current configuration
-                IConfig cfg = Configs[i];
-                
+                var cfg = Configs[i];
+
                 // determine the actual IConfig struct this cfg is
                 if (cfg is SlopeCfg slope) {
                     // the IConfigs type is found
@@ -82,7 +81,7 @@ public class VoroHeight {
                     // the result of this is that height is computed where the resulting height
                     // has been controlled by the instruction based on what the config says
                     // for a Slope effect, the config says how steep the slope is and what its direction is
-                    
+
                     _slopeNde.ComputeHeight(slope, new Vector3(pos.x, height, pos.y), out var slopeHeight);
                     height += slopeHeight;
                 }

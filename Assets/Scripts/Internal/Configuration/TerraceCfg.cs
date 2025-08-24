@@ -7,6 +7,9 @@ public struct TerraceCfg : IConfig {
     // this struct stores parameters for the Terrace instruction
     // creates a staircase effect for the point height
     [field: SerializeField] public float[] ConfigArr { get; set; }
-    public override string ToString() => $"Terrace Config";
+
+    public override string ToString() {
+        return $"Terrace Config";
+    }
 }
 }

@@ -27,7 +27,6 @@ namespace Internal {
 // ToDo reimplement TableSampling
 // ToDo reimplement MultiChunks + InfiniteGrid so that Voros can be generated around a player radius
 // ToDo implement method for adjacent Voros to blend together nicely
-
 public class Voro {
     readonly PointArray _pointArray;
     readonly GeometryArray _geometryArray;
@@ -35,27 +34,27 @@ public class Voro {
     public Geometry[] Geometry => _geometryArray.Geo;
 
     Voro _original;
+
     JsonConfig _config;
     // ToDo decide on the actual steps of when a json is used, and height is set
     // the points from DemoTable dont actually need to be set by anything else
     // Voro always needs Points, its pointless for the user to need to set those
-    
+
     public Voro(string configName, Vector3 offset) {
-        
         // point data in json file is used to build the cells for this voro
         _pointArray = new PointArray(ResourceHelper.LoadVoroPoints());
         _geometryArray = new GeometryArray(_pointArray);
-        
+
         // read the configuration
         // get the JsonConfig which contains the configuration objects for the voro height
         _config = new JsonConfig(configName);
-        
+
         // configure the height so the voro is built in its finished form
         ConfigurePointHeight(offset);
-        
+
         OnCreation();
     }
-    
+
     void OnCreation() {
         // ToDo clone the voro for it to be restored if edited during runtime
         // clone this voro to act as a snapshot, allows this current voro to be safely
@@ -67,26 +66,26 @@ public class Voro {
     }*/
 
     bool ConfigurePointHeight(Vector3 offset) {
-
         // this class uses a configuration json and can read the data inside it
         // this configuration is to alter the height value of all the voro points
         // the config holds a set of values which are used to form an instruction
         // this instruction is designed to manipulate the height value in a way
         // that allows the look of the terrain to be directed by the user
         // multiple instructions can be stored in the configuration file
-        VoroHeight voroHeight = new VoroHeight(_config);
+        var voroHeight = new VoroHeight(_config);
 
         // ToDo using VoroHeight should be able to update the points right away
         // that would streamline "new VoroHeight -> GetHeight -> ApplyHeight"
         // when VoroHeight gets created its only for the reason of setting height
         // its silly having 3 steps in order to do a single step of "ApplyHeight"
-        
-        
+
+
         // get an array of float values, which are the calculated point heights
         voroHeight.GetHeight(_pointArray, offset, out var height);
-        
+
         // apply the height value to each point that is in this voro
         ApplyHeight(height);
+
         void ApplyHeight(float[] heightValues) {
             for (var i = 0; i < height.Length; i++) {
                 // get the position of each point

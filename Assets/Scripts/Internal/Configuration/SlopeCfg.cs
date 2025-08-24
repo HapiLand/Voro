@@ -8,6 +8,8 @@ public struct SlopeCfg : IConfig {
     // to set the point height as a linear gradient
     [field: SerializeField] public float[] ConfigArr { get; set; }
 
-    public override string ToString() => $"Slope Config";
+    public override string ToString() {
+        return $"Slope Config";
+    }
 }
 }

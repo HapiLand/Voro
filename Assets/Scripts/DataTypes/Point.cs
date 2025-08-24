@@ -5,11 +5,11 @@ namespace DataTypes {
 [Serializable]
 public struct Point {
     // Point[id,x,z,coverage,col]
-    
+
     public int id;
     public Vector3 position;
     public Color color;
-    
+
     // ToDo coverage
     // each Point has an associated Geometry, the source for both of these
     // comes from a generated Voronoi Diagram (to produce Table.json)
@@ -23,7 +23,7 @@ public struct Point {
     // when the MeshInstance GameObject is instantiated to the Unity scene
     // any Geometry objects with a similar coverage value can share the same mesh
     // this is important for reducing the total amount of mesh files that should be generated
-    
+
     /*public Color Color {
         get
         {
@@ -38,12 +38,11 @@ public struct Point {
         var z = data.p[0];
         position = new Vector3(x, 0, z);
         // point is constructed with y=0, its height is set after all points have been constructed
-        
+
         // JsonPoint data contains random point color
         // ToDo allow color to have some randomness to it so its not always uniform
         // will be a good idea to set a random color in this struct
         color = new Color(data.col[0], data.col[1], data.col[2], 1.0f);
-        
     }
 }
 }

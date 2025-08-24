@@ -11,11 +11,11 @@ public class Terrace : INode {
         // typically are limited by ONLY creating a regular staircase size.
         // those do their job, but end up looking far too artificial. yuck.
         // terraces in reality are hardly always the same size, see: Banaue Rice Terraces
-        
+
         // in this approach, it is designed to create steps with some randomness
         // the height of each step can vary between a min and max height
         // this allows terracing to appear far more natural
-        
+
         // ToDo improve the configuration design so it is more intuitive
         var doTerrace = configuration.ConfigArr[0];
         // the iteration controls how much randomness occurs
@@ -40,36 +40,37 @@ public class Terrace : INode {
         // the json configuration has a direction rotated 41 degrees
         // the terrace ends up moving down along the slope
         // but the steps all run diagonally down that slope
-        
+
         if (doTerrace == 0) {
             height = 0f;
             return;
         }
-        
+
         // find the direction the terrace
-        float radians = direction * Mathf.Deg2Rad;
-        Vector2 axis = new Vector2(Mathf.Cos(radians), Mathf.Sin(radians));
-        float terraceHeight = Vector2.Dot(new Vector2(worldPos.x, worldPos.z), axis);
-                    
-        float h = terraceHeight;
-                    
-        float div = h / stepScale;
-        float flat = Mathf.Floor(div);
-        int seed = 0;
+        var radians = direction * Mathf.Deg2Rad;
+        var axis = new Vector2(Mathf.Cos(radians), Mathf.Sin(radians));
+        var terraceHeight = Vector2.Dot(new Vector2(worldPos.x, worldPos.z), axis);
+
+        var h = terraceHeight;
+
+        var div = h / stepScale;
+        var flat = Mathf.Floor(div);
+        var seed = 0;
         Random.InitState(Mathf.RoundToInt(flat) + seed);
-        float val = Random.value;
+        var val = Random.value;
         val = fit01(val, min, max) * iterations;
-        
+
         float fit01(float value, float newMin, float newMax) {
             // remap a value from an old range of [0,1] into a new range [min,max]
             // val = 0.5 | newMin = 10 | newMax = 20
             // result = 15
             // Debug.Log(fit01(0.5f, 10f, 20f));
-            
+
             return value * (newMax - newMin) + newMin;
         }
+
         // find the final value of the terrace
-        float level = (flat + val) * stepScale;
+        var level = (flat + val) * stepScale;
         // apply the value to the height
         height = level;
     }

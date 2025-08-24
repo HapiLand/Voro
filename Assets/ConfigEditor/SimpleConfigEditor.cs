@@ -28,20 +28,21 @@ public class SimpleConfigEditor : EditorWindow {
         var wnd = GetWindow<SimpleConfigEditor>();
         wnd.titleContent = new GUIContent("SimpleConfigEditor");
     }
+
     public void CreateGUI() {
         // Each editor window contains a root VisualElement object
         var root = rootVisualElement;
-        
+
         // the root element contains 3 VisualElements
         // 1) VoroContainer
-        
+
         // 2) ConfigContainer
         // parse the json to count how many IConfig it contains, create a UI element for each one
         // this UI element is provided that IConfig, and the element sets its name label to match
         // the outcome will display 3 UI elements in the same order as the json
-        
+
         // 3) PropertyContainer
-        
+
         // Instantiate UXML
         VisualElement labelFromUXML = m_VisualTreeAsset.Instantiate();
         root.Add(labelFromUXML);
