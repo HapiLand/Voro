@@ -47,17 +47,12 @@ namespace DataTypes {
 [Serializable]
 public class JsonConfig {
     public IConfig[] Configs;
-    public JsonConfig(TextAsset data) {
+    public JsonConfig(string fileName) {
         // there is now the editor tool which has exported a config json file
         // load the new MyTable.json file to load its config
         
-        var fileName = "MyConfig.json";
-        var path = Path.Combine(Application.persistentDataPath, fileName);
-        string stringAtPath = File.ReadAllText(path);
-        
         // parse the data from the json
-        JObject root = JObject.Parse(stringAtPath);
-        //JObject root = JObject.Parse(data.text);
+        JObject root = JObject.Parse(ResourceHelper.LoadVoroConfig(fileName));
         
         JArray configArr = (JArray)root["config"];
 

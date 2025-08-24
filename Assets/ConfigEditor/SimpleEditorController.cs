@@ -13,6 +13,13 @@ using Object = UnityEngine.Object;
 namespace ConfigEditor {
 public class SimpleEditorController : MonoBehaviour {
     
+    // IMPORTANT - not ready for general use by others
+    // this class is designed to write a MyConfig.json to Application.persistentDataPath
+    // on my linux installation, that file is placed into /home/hapi/.config/unity3d/DefaultCompany/Voro/MyConfig.json
+    // I have manually copied that file over into the projects /Resources/Configs/MyConfig.json in order
+    // later on when the Voro UnityProject is loaded for the first time, these .json Resources will be 
+    // moved over into the persistentDataPath, and Voro will no longer read from Resources
+    
     VisualElement _ui;
     VisualElement _configContainer;
     
@@ -27,8 +34,8 @@ public class SimpleEditorController : MonoBehaviour {
         _ui = GetComponent<UIDocument>().rootVisualElement;
         _configContainer = _ui.Q<VisualElement>("ConfigContainer");
         
-        // parse the json to get its configuration
-        _jsonConfig = new JsonConfig(ResourceHelper.LoadResource<TextAsset>("Points/LineTable"));
+        // JsonConfig is given the name of the config file to read, which loads its IConfig[]
+        _jsonConfig = new JsonConfig("MyConfig");
         _configs = _jsonConfig.Configs;
     }
     
@@ -66,6 +73,7 @@ public class SimpleEditorController : MonoBehaviour {
     }
 
     void ModifyJson() {
+        // 
     }
 
     void WriteJson() {
@@ -113,12 +121,18 @@ public class SimpleEditorController : MonoBehaviour {
             
             writer.WriteEndObject();
         }
-        
-        var json = sb.ToString();
-        var fileName = "MyConfig.json";
-        var path = Path.Combine(Application.persistentDataPath, fileName);
-        File.WriteAllText(path, json);
-        Debug.Log("JSON written to: " + path);
+
+        // exporting doesnt need to always happen while testing
+        bool doExport = true;
+
+        if (doExport) {
+            var json = sb.ToString();
+            var fileName = "MyConfig.json";
+            var path = Path.Combine(Application.persistentDataPath, fileName);
+            File.WriteAllText(path, json);
+            Debug.Log($"Editor wrote to: {path}");
+        }
+
     }
 }
 }

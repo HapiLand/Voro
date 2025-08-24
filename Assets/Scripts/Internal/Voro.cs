@@ -27,6 +27,7 @@ namespace Internal {
 // ToDo reimplement TableSampling
 // ToDo reimplement MultiChunks + InfiniteGrid so that Voros can be generated around a player radius
 // ToDo implement method for adjacent Voros to blend together nicely
+
 public class Voro {
     readonly PointArray _pointArray;
     readonly GeometryArray _geometryArray;
@@ -35,11 +36,22 @@ public class Voro {
 
     Voro _original;
     JsonConfig _config;
+    // ToDo decide on the actual steps of when a json is used, and height is set
+    // the points from DemoTable dont actually need to be set by anything else
+    // Voro always needs Points, its pointless for the user to need to set those
     
-    Voro((PointArray, GeometryArray, JsonConfig) data) {
-        _pointArray = data.Item1;
-        _geometryArray  = data.Item2;
-        _config = data.Item3;
+    public Voro(string configName, Vector3 offset) {
+        
+        // point data in json file is used to build the cells for this voro
+        _pointArray = new PointArray(ResourceHelper.LoadVoroPoints());
+        _geometryArray = new GeometryArray(_pointArray);
+        
+        // read the configuration
+        // get the JsonConfig which contains the configuration objects for the voro height
+        _config = new JsonConfig(configName);
+        
+        // configure the height so the voro is built in its finished form
+        ConfigurePointHeight(offset);
         
         OnCreation();
     }
@@ -50,22 +62,11 @@ public class Voro {
         // modifiable, and can easily be reset
     }
 
-    public static bool BuildVoro(TextAsset data, out Voro voro) {
-        // point data in json file is used to build the cells for this voro
-        PointArray points = new PointArray(data);
-        GeometryArray geos = new GeometryArray(points);
-        // read the configuration
-
-        // get the JsonConfig which contains the configuration objects for the voro height
-        var config = new JsonConfig(data);
-        
-        // produce the voro instance in its default state
-        voro = new Voro((points, geos, config));
-        
+    /*public static bool BuildVoro(string configName, Vector3 offset, out Voro voro) {
         return true;
-    }
+    }*/
 
-    public bool ConfigurePointHeight(Vector3 offset) {
+    bool ConfigurePointHeight(Vector3 offset) {
 
         // this class uses a configuration json and can read the data inside it
         // this configuration is to alter the height value of all the voro points
@@ -96,7 +97,6 @@ public class Voro {
                 _pointArray.points[i].position = newPos;
             }
         }
-        
 
         return true;
     }
