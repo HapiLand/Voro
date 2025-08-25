@@ -4,7 +4,6 @@ namespace Internal.Instructions {
 public class Terrace : INode {
     // this is an instruction for a terrace effect
     // the terrace can produce a staircase pattern along a given direction
-    public Terrace() { }
 
     public void ComputeHeight(IConfig configuration, Vector3 worldPos, out float height) {
         // something I dislike with other terrace functions is that those
@@ -17,34 +16,28 @@ public class Terrace : INode {
         // this allows terracing to appear far more natural
 
         // ToDo improve the configuration design so it is more intuitive
-        var doTerrace = configuration.ConfigArr[0];
         // the iteration controls how much randomness occurs
         // at 0, the step size is regular
         // increasing the iteration causes the height to be moved
         // by a random amount for every step
-        var iterations = configuration.ConfigArr[1];
+        var iterations = configuration.ConfigArr[0];
         // the min and max value that the iteration will move the height
         // higher values causes the height to change by a lot
-        var min = configuration.ConfigArr[2];
-        var max = configuration.ConfigArr[3];
+        var min = configuration.ConfigArr[1];
+        var max = configuration.ConfigArr[2];
         // step scale is how large the width of the steps are
         // lower values produces steps that are very thin, so more exist
         // higher values causes the steps to be very wide, so there are less in total
-        var stepScale = configuration.ConfigArr[4];
+        var stepScale = configuration.ConfigArr[3];
         // this controls which direction the terrace is applied
         // ( see Slope.direction on how the direction works, both uses are the same )
         // it can allow the slope of terrain to move in one direction
         // and a terrace effect is then applied in another direction
-        var direction = configuration.ConfigArr[5];
+        var direction = configuration.ConfigArr[4];
         // in this demo, the slopes direction moves along the X axis
         // the json configuration has a direction rotated 41 degrees
         // the terrace ends up moving down along the slope
         // but the steps all run diagonally down that slope
-
-        if (doTerrace == 0) {
-            height = 0f;
-            return;
-        }
 
         // find the direction the terrace
         var radians = direction * Mathf.Deg2Rad;

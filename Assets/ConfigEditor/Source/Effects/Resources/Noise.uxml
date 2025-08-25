@@ -1,0 +1,5 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd"
+         editor-extension-mode="False">
+    <Style src="project://database/Assets/ConfigEditor/Source/Effects/custom_element.uss?fileID=7433441132597879392&amp;guid=1ca2b76d81d34541d919026c96aadfd0&amp;type=3#custom_element"/>
+    <ConfigEditor.Source.Effects.NoiseElement name="NoiseElement"/>
+</ui:UXML>

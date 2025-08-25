@@ -1,0 +1,47 @@
+using ConfigEditor.Source.Effects.Base;
+using Internal;
+using Internal.Configuration;
+using UnityEngine.UIElements;
+
+namespace ConfigEditor.Source.Effects {
+/// <summary>
+///     drives the parameters for a Slope effect
+/// </summary>
+[UxmlElement]
+public partial class NoiseElement : CustomElement {
+    Slider _scale;
+
+    // these are what will drive the properties for the IConfig
+    Slider _size;
+
+    public NoiseElement() {
+        Text = "Noise Effect";
+    }
+
+    protected override void OnInitializeControls() {
+        // add the properties that the noise element controls
+
+        _size = new Slider("Size", 0.1f, 3f);
+        _size.value = 1.25f;
+        _size.name = "Slider";
+        _size.AddToClassList("element-slider");
+        Add(_size);
+        Controls.Add(_size);
+
+        _scale = new Slider("Scale", 0.1f, 1f);
+        _scale.value = 0.59f;
+        _scale.name = "Slider";
+        _scale.AddToClassList("element-slider");
+        Add(_scale);
+        Controls.Add(_scale);
+    }
+
+    public override IConfig ToConfig() {
+        var cfg = new SlopeCfg();
+        cfg.ConfigArr = new float[2];
+        cfg.ConfigArr[0] = _scale.value;
+        cfg.ConfigArr[1] = _size.value;
+        return cfg;
+    }
+}
+}
