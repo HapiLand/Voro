@@ -72,26 +72,15 @@ public class Voro {
         // this instruction is designed to manipulate the height value in a way
         // that allows the look of the terrain to be directed by the user
         // multiple instructions can be stored in the configuration file
-        var voroHeight = new VoroHeight(_config);
+        var voroHeight = new VoroHeight((_config, _pointArray), offset, out var heightMap);
 
-        // ToDo using VoroHeight should be able to update the points right away
-        // that would streamline "new VoroHeight -> GetHeight -> ApplyHeight"
-        // when VoroHeight gets created its only for the reason of setting height
-        // its silly having 3 steps in order to do a single step of "ApplyHeight"
-
-
-        // get an array of float values, which are the calculated point heights
-        voroHeight.GetHeight(_pointArray, offset, out var height);
-
-        // apply the height value to each point that is in this voro
-        ApplyHeight(height);
-
+        ApplyHeight(heightMap);
         void ApplyHeight(float[] heightValues) {
-            for (var i = 0; i < height.Length; i++) {
+            for (var i = 0; i < heightValues.Length; i++) {
                 // get the position of each point
                 var newPos = _pointArray.points[i].position;
                 // set the height value in the point
-                newPos.y = height[i];
+                newPos.y = heightValues[i];
                 // set the new position of the point, applying the height value
                 _pointArray.points[i].position = newPos;
             }

@@ -1,10 +1,8 @@
 using System;
-using System.IO;
 using System.Linq;
 using Internal;
 using Internal.Configuration;
 using Newtonsoft.Json.Linq;
-using UnityEngine;
 
 namespace DataTypes {
 /* v1
@@ -45,7 +43,7 @@ namespace DataTypes {
 
 [Serializable]
 public class JsonConfig {
-    public IConfig[] Configs;
+    public IConfig[] EffectData;
 
     public JsonConfig(string fileName) {
         // there is now the editor tool which has exported a config json file
@@ -57,7 +55,7 @@ public class JsonConfig {
         var configArr = (JArray)root["config"];
 
         // the json contains the IConfig objects, json is converted to this array
-        Configs = new IConfig[configArr.Count];
+        EffectData = new IConfig[configArr.Count];
 
         for (var i = 0; i < configArr.Count; i++) {
             // json stores the config objects in an array IConfig[]
@@ -78,13 +76,13 @@ public class JsonConfig {
             // to choose the right struct, look at the name each object uses
             switch (prop.Name) {
             case "slope":
-                Configs[i] = prop.Value.ToObject<SlopeCfg>();
+                EffectData[i] = prop.Value.ToObject<SlopeCfg>();
                 break;
             case "noise":
-                Configs[i] = prop.Value.ToObject<NoiseCfg>();
+                EffectData[i] = prop.Value.ToObject<NoiseCfg>();
                 break;
             case "terrace":
-                Configs[i] = prop.Value.ToObject<TerraceCfg>();
+                EffectData[i] = prop.Value.ToObject<TerraceCfg>();
                 break;
             }
             // doing it this way is probably not a bad approach
