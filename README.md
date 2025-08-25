@@ -19,24 +19,23 @@ Voro is using Unity version 6.2, I haven't tested it with non-version6 but I don
 At the moment the tool is non interactive, created only on Start. It is not game ready. :(
 
 ## Usage
-See [VoroDemo](Assets/Scripts/UnityComponents/VoroDemo.cs) for the detailed steps needed to create a Voro, 
+Make sure to open the [ConfigEditor Scene](Assets/ConfigEditor/EditorScene.unity) first, begin the scene and press the 'Export' button.
 
+You can also add three effects to create different styles of terrain. Make sure to press Export to view any changes. A real-time editor is planned.
+
+Open [the Demo Scene](Assets/Scenes/DemoScene.unity) to see your configuration used to produce a 3x3 grid of Voros. 
+
+A Voro is created with two easy steps
 ```c#
-Start()
-
-// 1) read the Config to use for the Voro
-//    a Config produces the terrains elevation
+// 1) choose a configuration file that will create the terrains form
+//    ( "MyConfig" is the only valid name )
 var configName = "MyConfig"
 
-// 2) create a Voro at some position + its configuration
-//   (Voro = a chunk)
+// 2) create a new Voro using the config name
+//    and the position the voro is created at
+//  ( Voro = a chunk )
 new Voro(configName, position)
-
-// 3) create objects that make up the terrain
-//    VERY W.I.P!
-InstanceMesh(voro.Geometry[], voro.Points[])
 ```
-This is a simple overview for how it works, the specifics of it all are certain to change
 
 ## Contributing
 

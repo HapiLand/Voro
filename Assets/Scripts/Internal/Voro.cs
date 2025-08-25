@@ -52,7 +52,23 @@ public class Voro {
         // configure the height so the voro is built in its finished form
         ConfigurePointHeight(offset);
 
+        // instance the geometry that exists in this voro
+        foo(offset);
+        
         OnCreation();
+    }
+
+    void foo(Vector3 offset) {
+        // instance all the unique geometry instances for the voro
+        // this is very expensive to do, but allows the Voro
+        // to resemble how it would in a game
+
+        for (var i = 0; i < Geometry.Length; i++) {
+
+            ResourceHelper.InstanceGeometry<GameObject>(Geometry[i].GeometryObject, out var instance);
+            instance.transform.position += Points[i].position + offset;
+        }
+
     }
 
     void OnCreation() {
