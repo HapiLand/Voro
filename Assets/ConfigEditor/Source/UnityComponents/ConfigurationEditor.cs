@@ -63,30 +63,27 @@ public class ConfigurationEditor : MonoBehaviour {
 
             // for each effect, its data will be written to the json
             foreach (var child in _containerElement.Children()) {
-                // get the effect type of the child
-                CustomElement currentEffect = null;
-                var effectName = "";
+                
+                var element = child.Q()[0];
 
-                // ToDo implement better way to find the current effect type
-                if (child.Q()[0] is SlopeElement slope) {
-                    currentEffect = slope;
-                    effectName = "slope";
-                }
-                else if (child.Q()[0] is NoiseElement noise) {
-                    currentEffect = noise;
-                    effectName = "noise";
-                }
-                else if (child.Q()[0] is TerraceElement terrace) {
-                    currentEffect = terrace;
-                    effectName = "terrace";
-                }
+                (CustomElement, string) jsonData = element switch
+                {
+                    SlopeElement slopeEffect => (slopeEffect, "slope"),
+                    NoiseElement noiseEffect => (noiseEffect, "noise"),
+                    TerraceElement terraceEffect => (terraceEffect, "terrace"),
+                    _ => (null, "")
+                };
 
-                if (currentEffect == null) {
+                var effect = jsonData.Item1;
+                var effectName = jsonData.Item2;
+
+                if (effectName == "") {
                     continue;
                 }
 
+
                 // read the configuration of this effect
-                var config = currentEffect.ToConfig();
+                var config = effect.ToConfig();
 
                 // write the value of config into the json
                 writer.WriteStartObject();
