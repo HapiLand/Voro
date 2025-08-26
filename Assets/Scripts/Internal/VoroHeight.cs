@@ -14,13 +14,13 @@ public class VoroHeight {
     /// <param name="input">config.json, voro points</param>
     /// <param name="origin">the bottom-left corner of a square</param>
     /// <param name="outHeight">array of generated height value</param>
-    public VoroHeight((JsonConfig, PointArray) input, Vector3 origin, out float[] outHeight) {
+    public VoroHeight((JsonConfig, Cell[]) input, Vector3 origin, out float[] outHeight) {
         // the container of ui elements
         var configuration = input.Item1.EffectData;
 
         // get the world position of every point
-        var voroPoints = input.Item2.points;
-        var points = new Vector3[input.Item2.points.Length];
+        var voroPoints = input.Item2;
+        var points = new Vector3[input.Item2.Length];
         for (var i = 0; i < points.Length; i++) {
             points[i] = voroPoints[i].position;
             points[i] += origin;

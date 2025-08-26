@@ -1,4 +1,6 @@
 using System.IO;
+using DataTypes;
+using Newtonsoft.Json.Linq;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -8,11 +10,35 @@ public static class ResourceHelper {
         return Resources.Load<T>(path);
     }
 
-    public static TextAsset LoadVoroPoints() {
+    public static Voro CreateVoro(Transform transform, string configName = "MyConfig") {
+        return new Voro(configName, transform);
+    }
+
+    static TextAsset LoadVoroPoints() {
         var pathTo = "Points/DemoTable";
         return LoadResource<TextAsset>(pathTo);
     }
 
+    static Cell CreateCell(JsonPoint jsonPoint) {
+        return new Cell(jsonPoint);
+    }
+
+    public static Cell[] CreateCellArray() {
+
+        // <id,float[]> point data from DemoTable.json
+        var pointData = LoadVoroPoints();
+        var jsonPointArray = JObject.Parse(pointData.text)["points"].ToObject<JsonPoint[]>();
+
+        // create the cell array
+        Cell[] cells = new Cell[jsonPointArray.Length];
+        for (var i = 0; i < cells.Length; i++) {
+            var jsonPoint = jsonPointArray[i];
+            cells[i] = CreateCell(jsonPoint);
+        }
+        return cells;
+
+    }
+    
     public static VisualTreeAsset LoadEffectUXML(string name) {
         return LoadResource<VisualTreeAsset>(name);
     }
