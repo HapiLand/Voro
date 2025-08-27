@@ -70,7 +70,6 @@ public class Voro {
         // to resemble how it would in a game
 
         for (var i = 0; i < _cells.Length; i++) {
-
             ResourceHelper.InstanceGeometry<GameObject>(_cells[i].GetFBX(), out var instance);
             instance.transform.position += _cells[i].position + _transform.position;
             instance.transform.SetParent(_transform);
@@ -93,6 +92,8 @@ public class Voro {
     void RefreshHeight() {
         // solve the height for the points
         ConfigurePointHeight();
+        
+        // now the points have gained a new position, the actual game objects need to change
     }
     
     /*public static bool BuildVoro(string configName, Vector3 offset, out Voro voro) {
