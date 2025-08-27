@@ -1,25 +1,21 @@
-using System.Collections;
-using System.Linq;
 using DataTypes;
-using Internal.Configuration;
 using UnityEngine;
-using Newtonsoft.Json.Linq;
 
 namespace Internal {
 // ToDo reimplement TableSampling
 // ToDo reimplement MultiChunks + InfiniteGrid so that Voros can be generated around a player radius
 // ToDo implement method for adjacent Voros to blend together nicely
 public class Voro {
+    GameObject[] _cellObjects;
 
     // ToDo make voro update at runtime
-    Cell[] _cells;
-    
-    Voro _original;
+    readonly Cell[] _cells;
     JsonConfig _config;
-    Transform _transform;
+
+    Voro _original;
+    readonly Transform _transform;
 
     public Voro(string configName, Transform tform) {
-        
         // point data in json file is used to build the cells for this voro
         _cells = ResourceHelper.CreateCellArray();
         //_pointArray = new PointArray(ResourceHelper.LoadVoroPoints());
@@ -30,13 +26,13 @@ public class Voro {
         _config = new JsonConfig(configName);
 
         _transform = tform;
-        
+
         // configure the height so the voro is built in its finished form
         ConfigurePointHeight();
 
         // instance the geometry that exists in this voro
         InstanceGeometry();
-        
+
         OnCreation();
     }
 
@@ -50,6 +46,7 @@ public class Voro {
         var voroHeight = new VoroHeight((_config, _cells), _transform.position, out var heightMap);
 
         ApplyHeight(heightMap);
+
         void ApplyHeight(float[] heightValues) {
             for (var i = 0; i < heightValues.Length; i++) {
                 // get the position of each point
@@ -63,43 +60,50 @@ public class Voro {
 
         return true;
     }
-    
+
     void InstanceGeometry() {
         // instance all the unique geometry instances for the voro
         // this is very expensive to do, but allows the Voro
         // to resemble how it would in a game
 
+        _cellObjects = new GameObject[_cells.Length];
+
         for (var i = 0; i < _cells.Length; i++) {
             ResourceHelper.InstanceGeometry<GameObject>(_cells[i].GetFBX(), out var instance);
             instance.transform.position += _cells[i].position + _transform.position;
             instance.transform.SetParent(_transform);
-        }
 
+            _cellObjects[i] = instance;
+        }
     }
 
     void OnCreation() {
         // ToDo clone the voro for it to be restored if edited during runtime
         // clone this voro to act as a snapshot, allows this current voro to be safely
         // modifiable, and can easily be reset
-    } 
-    
+    }
+
     // vor the voro to vork in vealtime, the voro vust vupdate
-    // so that any change
     public void Update() {
         RefreshHeight();
     }
 
     void RefreshHeight() {
+        // reload the config
+        _config = new JsonConfig("MyConfig");
+
         // solve the height for the points
         ConfigurePointHeight();
-        
+
         // now the points have gained a new position, the actual game objects need to change
+        for (var i = 0; i < _cellObjects.Length; i++) {
+            _cellObjects[i].transform.position = _cells[i].position + _transform.position;
+        }
     }
-    
+
     /*public static bool BuildVoro(string configName, Vector3 offset, out Voro voro) {
         return true;
     }*/
-
 
 
     // ToDo implement OnConfigured and the ability to make sure all heights are valid

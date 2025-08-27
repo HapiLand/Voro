@@ -1,4 +1,3 @@
-using System;
 using System.IO;
 using System.Text;
 using ConfigEditor.Source.Effects;
@@ -6,7 +5,6 @@ using ConfigEditor.Source.Effects.Base;
 using Internal;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using UnityComponents;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -29,9 +27,15 @@ public class ConfigurationEditor : MonoBehaviour {
     void Awake() {
         _editorUI = GetComponent<UIDocument>().rootVisualElement;
         _containerElement = _editorUI.Q<VisualElement>("Container");
-        
-        _voro = ResourceHelper.CreateVoro(transform, "MyConfig");
+
+        _voro = ResourceHelper.CreateVoro(transform);
     }
+
+    void Update() {
+        ExportConfigJson();
+        _voro.Update();
+    }
+
     void OnEnable() {
         _addSlopeBtn = _editorUI.Q<Button>("AddSlope");
         _addSlopeBtn.clicked += InstanceNewSlopeEffect;
@@ -112,11 +116,6 @@ public class ConfigurationEditor : MonoBehaviour {
         var path = Path.Combine(Application.persistentDataPath, fileName);
         File.WriteAllText(path, json);
         Debug.Log($"Editor wrote to: {path}");
-
-    }
-
-    void Update() {
-        _voro.Update();
     }
 
     void InstanceNewSlopeEffect() {
