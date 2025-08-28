@@ -22,18 +22,15 @@ public class ConfigurationEditor : MonoBehaviour {
     VisualElement _editorUI;
     Button _exportBtn;
 
-    Voro _voro;
+    GameObject _voroDemoInstance;
+    GameObject _voroPrefab;
 
     void Awake() {
         _editorUI = GetComponent<UIDocument>().rootVisualElement;
         _containerElement = _editorUI.Q<VisualElement>("Container");
 
-        _voro = ResourceHelper.CreateVoro(transform);
-    }
-
-    void Update() {
-        ExportConfigJson();
-        _voro.Update();
+        _voroPrefab = ResourceHelper.LoadResource<GameObject>("Prefabs/Voro Demo");
+        _voroDemoInstance = Instantiate(_voroPrefab);
     }
 
     void OnEnable() {
@@ -66,30 +63,26 @@ public class ConfigurationEditor : MonoBehaviour {
 
             // for each effect, its data will be written to the json
             foreach (var child in _containerElement.Children()) {
-                // get the effect type of the child
-                CustomElement currentEffect = null;
-                var effectName = "";
+                var element = child.Q()[0];
 
-                // ToDo implement better way to find the current effect type
-                if (child.Q()[0] is SlopeElement slope) {
-                    currentEffect = slope;
-                    effectName = "slope";
-                }
-                else if (child.Q()[0] is NoiseElement noise) {
-                    currentEffect = noise;
-                    effectName = "noise";
-                }
-                else if (child.Q()[0] is TerraceElement terrace) {
-                    currentEffect = terrace;
-                    effectName = "terrace";
-                }
+                (CustomElement, string) jsonData = element switch
+                {
+                    SlopeElement slopeEffect => (slopeEffect, "slope"),
+                    NoiseElement noiseEffect => (noiseEffect, "noise"),
+                    TerraceElement terraceEffect => (terraceEffect, "terrace"),
+                    _ => (null, "")
+                };
 
-                if (currentEffect == null) {
+                var effect = jsonData.Item1;
+                var effectName = jsonData.Item2;
+
+                if (effectName == "") {
                     continue;
                 }
 
+
                 // read the configuration of this effect
-                var config = currentEffect.ToConfig();
+                var config = effect.ToConfig();
 
                 // write the value of config into the json
                 writer.WriteStartObject();
@@ -116,6 +109,18 @@ public class ConfigurationEditor : MonoBehaviour {
         var path = Path.Combine(Application.persistentDataPath, fileName);
         File.WriteAllText(path, json);
         Debug.Log($"Editor wrote to: {path}");
+
+        // relaod the voro to use the updated config
+        UpdateVoroPreview();
+    }
+
+    void UpdateVoroPreview() {
+        // destroy the existing VoroDemo to a new instance can replace it
+        // ToDo VoroDemo should automatically update itself when a json is changed
+        Destroy(_voroDemoInstance);
+
+        var instance = Instantiate(_voroPrefab, transform, true);
+        _voroDemoInstance = instance;
     }
 
     void InstanceNewSlopeEffect() {
