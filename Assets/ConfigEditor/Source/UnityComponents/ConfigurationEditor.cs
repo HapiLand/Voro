@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 using System.Text;
 using ConfigEditor.Source.Effects;
@@ -5,6 +6,7 @@ using ConfigEditor.Source.Effects.Base;
 using Internal;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using UnityComponents;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -22,17 +24,14 @@ public class ConfigurationEditor : MonoBehaviour {
     VisualElement _editorUI;
     Button _exportBtn;
 
-    GameObject _voroDemoInstance;
-    GameObject _voroPrefab;
+    Voro _voro;
 
     void Awake() {
         _editorUI = GetComponent<UIDocument>().rootVisualElement;
         _containerElement = _editorUI.Q<VisualElement>("Container");
-
-        _voroPrefab = ResourceHelper.LoadResource<GameObject>("Prefabs/Voro Demo");
-        _voroDemoInstance = Instantiate(_voroPrefab);
+        
+        _voro = ResourceHelper.CreateVoro(transform, "MyConfig");
     }
-
     void OnEnable() {
         _addSlopeBtn = _editorUI.Q<Button>("AddSlope");
         _addSlopeBtn.clicked += InstanceNewSlopeEffect;
@@ -63,6 +62,7 @@ public class ConfigurationEditor : MonoBehaviour {
 
             // for each effect, its data will be written to the json
             foreach (var child in _containerElement.Children()) {
+                
                 var element = child.Q()[0];
 
                 (CustomElement, string) jsonData = element switch
@@ -110,17 +110,10 @@ public class ConfigurationEditor : MonoBehaviour {
         File.WriteAllText(path, json);
         Debug.Log($"Editor wrote to: {path}");
 
-        // relaod the voro to use the updated config
-        UpdateVoroPreview();
     }
 
-    void UpdateVoroPreview() {
-        // destroy the existing VoroDemo to a new instance can replace it
-        // ToDo VoroDemo should automatically update itself when a json is changed
-        Destroy(_voroDemoInstance);
-
-        var instance = Instantiate(_voroPrefab, transform, true);
-        _voroDemoInstance = instance;
+    void Update() {
+        _voro.Update();
     }
 
     void InstanceNewSlopeEffect() {
