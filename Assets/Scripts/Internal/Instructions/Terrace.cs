@@ -66,6 +66,9 @@ public class Terrace : INode {
 
         // find the final value of the terrace
         var level = (flat + val) * stepScale;
+
+        // level /= 2f;        
+        
         // apply the value to the height
         return level;
     }
