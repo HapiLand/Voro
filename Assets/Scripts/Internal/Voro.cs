@@ -8,7 +8,6 @@ namespace Internal {
 public class Voro {
     GameObject[] _cellObjects;
 
-    // ToDo make voro update at runtime
     readonly Cell[] _cells;
     JsonConfig _config;
 
@@ -100,11 +99,6 @@ public class Voro {
             _cellObjects[i].transform.position = _cells[i].position + _transform.position;
         }
     }
-
-    /*public static bool BuildVoro(string configName, Vector3 offset, out Voro voro) {
-        return true;
-    }*/
-
 
     // ToDo implement OnConfigured and the ability to make sure all heights are valid
     // OnConfigured() {

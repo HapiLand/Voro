@@ -109,10 +109,10 @@ public class ConfigurationEditor : MonoBehaviour {
         var path = Path.Combine(Application.persistentDataPath, fileName);
         File.WriteAllText(path, json);
         Debug.Log($"Editor wrote to: {path}");
-
     }
 
     void Update() {
+        ExportConfigJson();
         _voro.Update();
     }
 
