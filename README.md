@@ -1,6 +1,20 @@
-# Voro
 
-Voro is my approach for a terrain generation tool. Which is intended as a way to create an environment for a hypothetical game I have imagined (alas, **game** development is not my forte).
+# Voro
+Voro is a GUI tool for real-time 3D procedural terrain generation in Unity.
+
+Current Planned features -
+- GUI editor for designing preset patterns that generate different types of worlds. (in development)
+- Expand feature set of terrain generation, allowing generation to aid in implementing game mechanics.
+- Infinite world generation.
+- Improve ease-of-use and overall quality of GUI.
+- Preset Layers.
+- Object scattering, eg trees and rocks.
+- Implement Mesh generation in the form of a grass layer.
+- Increased quality of Cell Mesh library.
+- Address performance, aim to optimise realtime performance.
+- Procedural Textures.
+- Streams / Water flow.
+( not a comprehensive list, most likely to be developped, mostly ordered by priority )
 
 [Voro](Assets/Scripts/Internal/Voro.cs) works by parsing data from two .json files to generate a procedural terrain object. [The first .json](Assets/Resources/Points/DemoTable.json), is used like a dictionary, with <id,vector2> being used to create the [Points](Assets/Scripts/DataTypes/Point.cs) and [Geometry](Assets/Scripts/DataTypes/Geometry.cs) for the terrain itself. [The second .json](Assets/Resources/Configs/MyConfig.json) contains a [configuration](Assets/Scripts/DataTypes/JsonConfig.cs) for the [terrains elevation](Assets/Scripts/Internal/VoroHeight.cs). The configuration is used to control the elevation that the terrain has, as determined by [a number of instructions](Assets/Scripts/Internal/Instructions).
 
