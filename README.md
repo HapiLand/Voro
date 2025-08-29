@@ -2,7 +2,7 @@
 # Voro
 Voro is a GUI tool for real-time 3D procedural terrain generation in Unity.
 
-Current Planned features -
+Planned features -
 - GUI editor for designing preset patterns that generate different types of worlds. (in development)
 - Expand feature set of terrain generation, allowing generation to aid in implementing game mechanics.
 - Infinite world generation.
@@ -16,9 +16,17 @@ Current Planned features -
 - Streams / Water flow.
 ( not a comprehensive list, most likely to be developped, mostly ordered by priority )
 
-[Voro](Assets/Scripts/Internal/Voro.cs) works by parsing data from two .json files to generate a procedural terrain object. [The first .json](Assets/Resources/Points/DemoTable.json), is used like a dictionary, with <id,vector2> being used to create the [Points](Assets/Scripts/DataTypes/Point.cs) and [Geometry](Assets/Scripts/DataTypes/Geometry.cs) for the terrain itself. [The second .json](Assets/Resources/Configs/MyConfig.json) contains a [configuration](Assets/Scripts/DataTypes/JsonConfig.cs) for the [terrains elevation](Assets/Scripts/Internal/VoroHeight.cs). The configuration is used to control the elevation that the terrain has, as determined by [a number of instructions](Assets/Scripts/Internal/Instructions).
+---
 
-The configurations are user-generated in an [config editor tool](Assets/ConfigEditor), designed so the user can decide how they want their games world to look. My aim is to simplify the typical steps for designing terrain: If a user wants the terrain to have rivers, imagine if all it took was a button called "Make Rivers". The time spent figuring out how to generate rivers (especially when they dont care **HOW** to get rivers, they only care to **HAVE** rivers), can be put to better use for real development.
+[`Voro`](Assets/Scripts/Internal/Voro.cs) procedurally generates terrain by parsing data from two JSON files.
+
+1. **Point and Geometry Data**
+   [`DemoTable.json`](Assets/Resources/Points/DemoTable.json) acts as a dictionary `<ID, Vector2>`. This data is used to construct [`Cells`](Assets/Scripts/DataTypes/Cell.cs), this produces the geometry of the world terrain.
+
+2. **Elevation**
+   [`MyConfig.json`](Assets/Resources/Configs/MyConfig.json) defines the height generation via [`JsonConfig`](Assets/Scripts/DataTypes/JsonConfig.cs). This preset is interpreted by [`VoroHeight`](Assets/Scripts/Internal/VoroHeight.cs) to compute the vertical displacement of the terrain. Elevation is shaped according to a set of rules that were set from the [Configuration Editor](Assets/ConfigEditor).
+
+My aim is to make the process of designing terrain have a greater ease of use, simplyfying the steps taken to achieve good results. Imagine if one wanted rivers in their world and all it took was pressing a "Make Rivers" button. While Voro isnt that simple, I hope that it could do the general principle of that.
 
 I aim to extend it later on to make it more useful :)
 
