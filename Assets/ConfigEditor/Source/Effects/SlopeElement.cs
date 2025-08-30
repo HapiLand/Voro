@@ -20,14 +20,14 @@ public partial class SlopeElement : CustomElement {
     protected override void OnInitializeControls() {
         // add the properties that the slope element controls
 
-        _direction = new Slider("Direction", 0f, 360);
-        _direction.value = 45f;
+        _direction = new Slider("Direction", 0f, 360f);
+        _direction.value = 0f;
         _direction.name = "Slider";
         _direction.AddToClassList("element-slider");
         Add(_direction);
         Controls.Add(_direction);
 
-        _scale = new Slider("Scale", 0.1f, 2f);
+        _scale = new Slider("Scale", 0f, 1f);
         _scale.value = 1f;
         _scale.name = "Slider";
         _scale.AddToClassList("element-slider");

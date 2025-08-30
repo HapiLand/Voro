@@ -11,7 +11,7 @@ CustomElement Label {
     font-size: 20px;
 }
 
-.element-border {
+.element-node {
     background-color: rgb(164, 164, 164);
     border-left-color: rgb(91, 91, 91);
     border-right-color: rgb(91, 91, 91);
@@ -27,9 +27,12 @@ CustomElement Label {
     border-top-right-radius: 4px;
     border-bottom-right-radius: 4px;
     border-bottom-left-radius: 4px;
+    flex-direction: row;
+    align-items: stretch;
+    justify-content: center;
 }
 
-.element-border_on {
+.element-node_on {
     background-color: rgb(115, 238, 117);
     border-left-color: rgb(91, 91, 91);
     border-right-color: rgb(91, 91, 91);
@@ -65,6 +68,14 @@ CustomElement Label {
     border-bottom-left-radius: 4px;
     flex-direction: column;
     min-height: 20px;
+}
+
+.element-controls_on {
+    display: flex;
+}
+
+.element-controls_off {
+    display: none;
 }
 
 .element-button {

@@ -7,6 +7,7 @@ namespace Internal {
 /// <summary>
 ///     computes the elevation of the voro terrain
 /// </summary>
+// ToDo correct language in library to remove confusion (ie Effect/Instruction)
 public class VoroHeight {
     /// <summary>
     ///     new version, height is solved on construction
@@ -55,16 +56,10 @@ public class VoroHeight {
             foreach (var effect in solvers) {
                 // find the height at the world position
                 height += effect.Solve(height, worldPoint);
-
-                if (effect is TerraceCfg) {
-                    // ToDo terrace must return a value that does not require this condition
-                    height /= 2f;
-                }
             }
 
             outHeight[i] = height;
         }
     }
-
 }
 }

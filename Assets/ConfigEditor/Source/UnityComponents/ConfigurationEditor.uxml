@@ -1,16 +1,15 @@
-<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
-    <Style src="project://database/Assets/ConfigEditor/Source/ConfigurationEditor.uss?fileID=7433441132597879392&amp;guid=f7ca87f94a95a2ef380e72883379b64d&amp;type=3#ConfigurationEditor" />
+<ui:UXML xmlns:ui="UnityEngine.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd"
+         editor-extension-mode="False">
+    <Style src="project://database/Assets/ConfigEditor/Source/ConfigurationEditor.uss?fileID=7433441132597879392&amp;guid=f7ca87f94a95a2ef380e72883379b64d&amp;type=3#ConfigurationEditor"/>
+    <Style src="project://database/Assets/ConfigEditor/Source/Effects/custom_effect.uss?fileID=7433441132597879392&amp;guid=1ca2b76d81d34541d919026c96aadfd0&amp;type=3#custom_effect"/>
     <ui:VisualElement name="VisualElement" class="stretch" style="flex-grow: 1; flex-shrink: 0;">
-        <ui:VisualElement name="Preview" style="flex-grow: 1;" />
+        <ui:VisualElement name="Preview" style="flex-grow: 1;"/>
         <ui:VisualElement name="Effects" style="flex-grow: 1; background-color: rgb(107, 129, 150);">
-            <ui:VisualElement name="Container" style="flex-grow: 1;" />
+            <ui:VisualElement name="Container" style="flex-grow: 1;"/>
             <ui:VisualElement name="Controls" style="flex-grow: 0; flex-direction: column;">
-                <ui:Button text="Add Slope" name="AddSlope" />
-                <ui:Button text="Add Noise" name="AddNoise" />
-                <ui:Button text="Add Terrace" name="AddTerrace" />
-                <ui:Button text="Export" name="Export" />
+                <ui:Button text="Export" name="Export"/>
             </ui:VisualElement>
         </ui:VisualElement>
-        <ui:VisualElement name="Properties" style="flex-grow: 1; background-color: rgb(187, 127, 85);" />
+        <ui:VisualElement name="Properties" style="flex-grow: 1; background-color: rgb(187, 127, 85);"/>
     </ui:VisualElement>
 </ui:UXML>

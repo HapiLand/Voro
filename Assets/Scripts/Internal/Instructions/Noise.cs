@@ -12,7 +12,7 @@ public class Noise : INode {
         var perlin = new Perlin();
         double dx = Mathf.Abs(worldPoint.x * size);
         double dy = Mathf.Abs(worldPoint.y * size);
-        double dz = Mathf.Abs(worldPoint.y * size);
+        double dz = Mathf.Abs(worldPoint.z * size);
         var noise = perlin.Noise(dx, dy, dz);
         noise *= scale;
         return (float)noise;

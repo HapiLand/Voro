@@ -23,36 +23,36 @@ public partial class TerraceElement : CustomElement {
     protected override void OnInitializeControls() {
         // add the properties that the noise element controls
 
-        _iterations = new Slider("Iterations", 1f);
-        _iterations.value = 4f;
+        _iterations = new Slider("Iterations");
+        _iterations.value = 0f;
         _iterations.name = "Slider";
         _iterations.AddToClassList("element-slider");
         Add(_iterations);
         Controls.Add(_iterations);
 
-        _min = new Slider("Min", 0f, 0.1f);
-        _min.value = 0.01f;
+        _min = new Slider("Min", 0f, 1f);
+        _min.value = 0f;
         _min.name = "Slider";
         _min.AddToClassList("element-slider");
         Add(_min);
         Controls.Add(_min);
 
-        _max = new Slider("Max", 0.0f, 0.4f);
-        _max.value = 0.2f;
+        _max = new Slider("Max", 0f, 1f);
+        _max.value = 0f;
         _max.name = "Slider";
         _max.AddToClassList("element-slider");
         Add(_max);
         Controls.Add(_max);
 
-        _stepScale = new Slider("Step Scale", 0f, 1f);
-        _stepScale.value = 0.163f;
+        _stepScale = new Slider("Step Scale", 0.01f, 1f);
+        _stepScale.value = 0.01f;
         _stepScale.name = "Slider";
         _stepScale.AddToClassList("element-slider");
         Add(_stepScale);
         Controls.Add(_stepScale);
 
         _direction = new Slider("Direction", 0f, 360f);
-        _direction.value = 41f;
+        _direction.value = 0f;
         _direction.name = "Slider";
         _direction.AddToClassList("element-slider");
         Add(_direction);

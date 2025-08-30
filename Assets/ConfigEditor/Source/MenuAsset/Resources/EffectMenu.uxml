@@ -1,0 +1,4 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/ConfigEditor/Source/MenuAsset/menu_node_element.uss?fileID=7433441132597879392&amp;guid=ed2ba8adb888202d59a992a64d31e205&amp;type=3#menu_node_element" />
+    <ConfigEditor.Source.MenuAsset.EffectMenuElement name="EffectMenuElement" />
+</ui:UXML>

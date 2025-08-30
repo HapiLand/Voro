@@ -8,6 +8,10 @@ namespace ConfigEditor.Source.Effects.Base {
 /// </summary>
 [UxmlElement]
 public partial class CustomElement : VisualElement {
+    Button _deleteBtn;
+    Button _downBtn;
+    Button _upBtn;
+
     public CustomElement() {
         ConfigureContainerObject();
         ConfigureProperties();
@@ -24,40 +28,71 @@ public partial class CustomElement : VisualElement {
             _label.name = "Text";
             _label.AddToClassList("element-label");
 
-            _border = new VisualElement();
-            _border.name = "Border";
-            _border.AddToClassList("element-border");
+            _node = new VisualElement();
+            _node.name = "Node";
+            _node.AddToClassList("element-node");
 
             Add(_label);
-            Add(_border);
-            _border.Add(_label);
+            Add(_node);
+            _node.Add(_label);
+
+            // create the buttons so the element order can be changed
+            CreateMoveButton(-1, out _upBtn);
+            _node.Add(_upBtn); // add to hierarchy
+            CreateMoveButton(1, out _downBtn);
+            _node.Add(_downBtn); // add to hierarchy
+
+            _deleteBtn = new Button(() => {
+                //MoveClicked?.Invoke(this, moveValue);
+            });
+            _deleteBtn.text = "✖";
+            _deleteBtn.name = "Delete";
+            _node.Add(_deleteBtn); // add to hierarchy
 
             // events
             // allow the element to be clicked to select it
-            // ToDo allow this value to become false when a different element is selected
-            _border.RegisterCallback<MouseDownEvent>(e => Value = !Value);
+            _node.RegisterCallback<MouseDownEvent>(e => Value = !Value);
         }
 
         void ConfigureProperties() {
-            // ToDo Controls element must be invisible when this is not selected
-            // Todo controls should be displayed in the Properties element
             Controls = new VisualElement();
             Controls.name = "Controls";
             Controls.AddToClassList("element-controls");
-
             Add(Controls);
         }
     }
 
-    #region Properties
+    #region Effect Configuration
 
     // these is what the element uses to drive an effect
     // each of the elements (slope,noise,terrace)
 
     // the container that the properties will go inside
     protected VisualElement Controls { get; private set; }
+    // ToDo controls should display the current value of each slider
 
     #endregion
+
+    public Action<CustomElement, int> MoveClicked { get; set; }
+
+    void CreateMoveButton(int moveValue, out Button btn) {
+        btn = new Button(() => {
+            // notify the button press
+            // 1  = up
+            // -1 = down
+            MoveClicked?.Invoke(this, moveValue);
+        });
+
+        if (moveValue == -1) {
+            btn.text = "↑";
+            btn.name = "MoveUp";
+        }
+        else if (moveValue == 1) {
+            btn.text = "↓";
+            btn.name = "MoveDown";
+        }
+    }
+
 
     protected virtual void OnInitializeControls() { }
 
@@ -65,7 +100,11 @@ public partial class CustomElement : VisualElement {
         throw new NotImplementedException();
     }
 
-    #region Container Object
+    public void RemoveConfigElement() {
+        Controls.RemoveFromHierarchy();
+    }
+
+    #region Node Element
 
     // these are what is visible in the config container
     // a clickable box with a label inside that
@@ -80,8 +119,7 @@ public partial class CustomElement : VisualElement {
     Label _label;
 
     // the background for the label
-    // ToDo rename _border to something better
-    VisualElement _border;
+    VisualElement _node;
 
     // this element must be clickable, in order for the element to be selected
     bool _value;
@@ -92,16 +130,20 @@ public partial class CustomElement : VisualElement {
         set => Set(value);
     }
 
-    public Action<bool> Selected { get; set; }
+    public Action<CustomElement, bool> Selected { get; set; }
 
     void Set(bool value) {
         _value = value;
-        Selected?.Invoke(value);
+        Selected?.Invoke(this, value);
         SetState(value);
     }
 
     void SetState(bool value) {
-        _border.EnableInClassList("element-border_on", value);
+        _node.EnableInClassList("element-node_on", value);
+
+        // hide the controls when the effect is not selected
+        Controls.EnableInClassList("element-controls_on", value);
+        Controls.EnableInClassList("element-controls_off", !value);
     }
 
     #endregion
@@ -109,69 +151,41 @@ public partial class CustomElement : VisualElement {
 }
 
 /*
- * using UnityEditor;
-   using UnityEditor.UIElements;
-   using UnityEngine.UIElements;
-
-   // today's goal - get the ConfigurationElement working
-   // 1) it can be added to the ConfigContainer
-   // 2) the ConfigContainer can move the order of them
-   // 3) each of the ConfigurationElements - Slope/Noise/Terrace need different UI elements for their values
-   //    ie slope and noise have float[3], terrace has float[6], the PropertyContainer shows these
-   // 4) the values from the ConfigurationElement is written to MyConfig.json
-
-   namespace ConfigEditor.Source {
-   [UxmlElement]
-   public partial class ConfigurationElement : VisualElement {
-       // the actual elements per effect derive from ConfigurationElement
-
-       [UxmlAttribute]
-       public string Label { get; set; } // element name
-       //public int PropertyCount { get; set; } // how many properties this element sets
-
-       public ConfigurationElement() {
-
-       }
-
-       /*
-        * every configuration element that can be created in the editor
-        * exists as a ConfigurationElement
-        *
-        * every config requires a path for the menu location where the
-        * user can find this when searching for a configuration to
-        * add to the ConfigContainer
-        *
-        * this element is designed to be added into the container, it
-        * registers a click which toggles this element as selected
-        * it changes color when hovered over
-        *
-        * this class shall contain a method that gets this as IConfig
-        *
-        * the configuration contains the variables that go into IConfig
-        * when the element is selected, the children inside this
-        * are displayed in the PropertyContainer, the user sets the values
-        * with several forms of control styles, for different occasions
-        * sliders, log sliders, inputs, toggles, ranges, etc.
-        *
-        * the intent for how the configuration element is so settings
-        * and properties to drive the terrain, is to take unnecessary
-        * complexity out of the equation, by giving simpler options
-        * (not baby simple,
-        * but do they 'need' to know what octaves or lacunarity mean?)
-        * also due to how voro is designed to function for its purpose
-        * these values should be set within a sensible range, in where
-        * setting the values should be intuitive based on the way things
-        * are named
-        *
-        * is the term "size" in terms of noise, counter-intuitive?
-        * smaller value = smaller noise
-        * but actually
-        * smaller value = zoom-in the noise
-        * although it is technically incorrect, if a tool is going
-        * to have a setting, it **sounding** correct has got
-        * to be better than if it actually **is** correct
-        * anyone who disagrees is a nerd
-        * /
-   }
-   }
-*/
+ * every configuration element that can be created in the editor
+ * exists as a ConfigurationElement
+ *
+ * every config requires a path for the menu location where the
+ * user can find this when searching for a configuration to
+ * add to the ConfigContainer
+ *
+ * this element is designed to be added into the container, it
+ * registers a click which toggles this element as selected
+ * it changes color when hovered over
+ *
+ * this class shall contain a method that gets this as IConfig
+ *
+ * the configuration contains the variables that go into IConfig
+ * when the element is selected, the children inside this
+ * are displayed in the PropertyContainer, the user sets the values
+ * with several forms of control styles, for different occasions
+ * sliders, log sliders, inputs, toggles, ranges, etc.
+ *
+ * the intent for how the configuration element is so settings
+ * and properties to drive the terrain, is to take unnecessary
+ * complexity out of the equation, by giving simpler options
+ * (not baby simple,
+ * but do they 'need' to know what octaves or lacunarity mean?)
+ * also due to how voro is designed to function for its purpose
+ * these values should be set within a sensible range, in where
+ * setting the values should be intuitive based on the way things
+ * are named
+ *
+ * is the term "size" in terms of noise, counter-intuitive?
+ * smaller value = smaller noise
+ * but actually
+ * smaller value = zoom-in the noise
+ * although it is technically incorrect, if a tool is going
+ * to have a setting, it **sounding** correct has got
+ * to be better than if it actually **is** correct
+ * anyone who disagrees is a nerd
+ */

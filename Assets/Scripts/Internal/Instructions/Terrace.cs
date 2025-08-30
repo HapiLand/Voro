@@ -1,42 +1,41 @@
-using System;
 using UnityEngine;
-using UnityEngine.Rendering;
 using Random = UnityEngine.Random;
 
 namespace Internal.Instructions {
 public class Terrace : INode {
-    IConfig config;
+    readonly IConfig config;
+
     public Terrace(IConfig config) {
         this.config = config;
     }
 
-        // something I dislike with other terrace functions is that those
-        // typically are limited by ONLY creating a regular staircase size.
-        // those do their job, but end up looking far too artificial. yuck.
-        // terraces in reality are hardly always the same size, see: Banaue Rice Terraces
+    // something I dislike with other terrace functions is that those
+    // typically are limited by ONLY creating a regular staircase size.
+    // those do their job, but end up looking far too artificial. yuck.
+    // terraces in reality are hardly always the same size, see: Banaue Rice Terraces
 
-        // in this approach, it is designed to create steps with some randomness
-        // the height of each step can vary between a min and max height
-        // this allows terracing to appear far more natural
+    // in this approach, it is designed to create steps with some randomness
+    // the height of each step can vary between a min and max height
+    // this allows terracing to appear far more natural
     public float Solve(float height, Vector3 worldPoint) {
         // the iteration controls how much randomness occurs
         // at 0, the step size is regular
         // increasing the iteration causes the height to be moved
         // by a random amount for every step
-        var iterations = this.config.ConfigArr[0];
+        var iterations = config.ConfigArr[0];
         // the min and max value that the iteration will move the height
         // higher values causes the height to change by a lot
-        var min = this.config.ConfigArr[1];
-        var max = this.config.ConfigArr[2];
+        var min = config.ConfigArr[1];
+        var max = config.ConfigArr[2];
         // step scale is how large the width of the steps are
         // lower values produces steps that are very thin, so more exist
         // higher values causes the steps to be very wide, so there are less in total
-        var stepScale = this.config.ConfigArr[3];
+        var stepScale = config.ConfigArr[3];
         // this controls which direction the terrace is applied
         // ( see Slope.direction on how the direction works, both uses are the same )
         // it can allow the slope of terrain to move in one direction
         // and a terrace effect is then applied in another direction
-        var direction = this.config.ConfigArr[4];
+        var direction = config.ConfigArr[4];
         // in this demo, the slopes direction moves along the X axis
         // the json configuration has a direction rotated 41 degrees
         // the terrace ends up moving down along the slope
@@ -66,6 +65,9 @@ public class Terrace : INode {
 
         // find the final value of the terrace
         var level = (flat + val) * stepScale;
+
+        level /= 2f;
+
         // apply the value to the height
         return level;
     }

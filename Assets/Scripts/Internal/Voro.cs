@@ -6,13 +6,11 @@ namespace Internal {
 // ToDo reimplement MultiChunks + InfiniteGrid so that Voros can be generated around a player radius
 // ToDo implement method for adjacent Voros to blend together nicely
 public class Voro {
-    GameObject[] _cellObjects;
-
     readonly Cell[] _cells;
-    JsonConfig _config;
 
-    Voro _original;
     readonly Transform _transform;
+    GameObject[] _cellObjects;
+    JsonConfig _config;
 
     public Voro(string configName, Transform tform) {
         // point data in json file is used to build the cells for this voro
@@ -76,11 +74,7 @@ public class Voro {
         }
     }
 
-    void OnCreation() {
-        // ToDo clone the voro for it to be restored if edited during runtime
-        // clone this voro to act as a snapshot, allows this current voro to be safely
-        // modifiable, and can easily be reset
-    }
+    void OnCreation() { }
 
     // vor the voro to vork in vealtime, the voro vust vupdate
     public void Update() {
@@ -109,10 +103,6 @@ public class Voro {
     // OnDeletion() {
     //     // 1) invoke to declare this space is now empty, so anything still using it
     //     // has to stop what its doing (the voro exploded and died rip)
-    // }
-    // ToDo let the Voro be updated, so changes can be applied during runtime
-    // OnUpdate() {
-    //     // 1) apply any proposed changes to the voro, updating parameters etc
     // }
 }
 }
