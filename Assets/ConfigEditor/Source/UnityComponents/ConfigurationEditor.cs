@@ -1,4 +1,3 @@
-using System;
 using System.IO;
 using System.Text;
 using ConfigEditor.Source.Effects;
@@ -6,7 +5,6 @@ using ConfigEditor.Source.Effects.Base;
 using Internal;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using UnityComponents;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -14,6 +12,7 @@ namespace ConfigEditor.Source.UnityComponents {
 /// <summary>
 ///     creates the GUI editor that the user interacts with
 /// </summary>
+// ToDo make editor a runtime gui, intended to be used in the unity editor
 public class ConfigurationEditor : MonoBehaviour {
     Button _addNoiseBtn;
     Button _addSlopeBtn;
@@ -29,9 +28,15 @@ public class ConfigurationEditor : MonoBehaviour {
     void Awake() {
         _editorUI = GetComponent<UIDocument>().rootVisualElement;
         _containerElement = _editorUI.Q<VisualElement>("Container");
-        
-        _voro = ResourceHelper.CreateVoro(transform, "MyConfig");
+
+        _voro = ResourceHelper.CreateVoro(transform.position);
     }
+
+    void Update() {
+        ExportConfigJson();
+        _voro.Update();
+    }
+
     void OnEnable() {
         _addSlopeBtn = _editorUI.Q<Button>("AddSlope");
         _addSlopeBtn.clicked += InstanceNewSlopeEffect;
@@ -62,7 +67,6 @@ public class ConfigurationEditor : MonoBehaviour {
 
             // for each effect, its data will be written to the json
             foreach (var child in _containerElement.Children()) {
-                
                 var element = child.Q()[0];
 
                 (CustomElement, string) jsonData = element switch
@@ -109,11 +113,6 @@ public class ConfigurationEditor : MonoBehaviour {
         var path = Path.Combine(Application.persistentDataPath, fileName);
         File.WriteAllText(path, json);
         Debug.Log($"Editor wrote to: {path}");
-    }
-
-    void Update() {
-        ExportConfigJson();
-        _voro.Update();
     }
 
     void InstanceNewSlopeEffect() {

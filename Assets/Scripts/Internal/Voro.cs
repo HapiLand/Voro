@@ -6,25 +6,26 @@ namespace Internal {
 // ToDo reimplement MultiChunks + InfiniteGrid so that Voros can be generated around a player radius
 // ToDo implement method for adjacent Voros to blend together nicely
 public class Voro {
-    GameObject[] _cellObjects;
-
     readonly Cell[] _cells;
+    readonly Vector3 _position;
+    GameObject[] _cellObjects;
     JsonConfig _config;
 
     Voro _original;
-    readonly Transform _transform;
 
-    public Voro(string configName, Transform tform) {
+    // there must be a better way to find the actual world position
+    // for any point, without the voro having to be given the position at all
+    // there must also be a better way for a Voro to add GameObjects into the world
+    // without Transform needing to make sure they gain the correct parent object
+    public Voro(string configName, Vector3 origin) {
         // point data in json file is used to build the cells for this voro
         _cells = ResourceHelper.CreateCellArray();
-        //_pointArray = new PointArray(ResourceHelper.LoadVoroPoints());
-        //_geometryArray = new GeometryArray(_pointArray);
 
         // read the configuration
         // get the JsonConfig which contains the configuration objects for the voro height
         _config = new JsonConfig(configName);
 
-        _transform = tform;
+        _position = origin;
 
         // configure the height so the voro is built in its finished form
         ConfigurePointHeight();
@@ -42,7 +43,7 @@ public class Voro {
         // this instruction is designed to manipulate the height value in a way
         // that allows the look of the terrain to be directed by the user
         // multiple instructions can be stored in the configuration file
-        var voroHeight = new VoroHeight((_config, _cells), _transform.position, out var heightMap);
+        var voroHeight = new VoroHeight((_config, _cells), _position, out var heightMap);
 
         ApplyHeight(heightMap);
 
@@ -69,8 +70,9 @@ public class Voro {
 
         for (var i = 0; i < _cells.Length; i++) {
             ResourceHelper.InstanceGeometry<GameObject>(_cells[i].GetFBX(), out var instance);
-            instance.transform.position += _cells[i].position + _transform.position;
-            instance.transform.SetParent(_transform);
+            instance.transform.position += _cells[i].position + _position;
+            // ToDo set parent for instance
+            //instance.transform.SetParent(_position);
 
             _cellObjects[i] = instance;
         }
@@ -96,7 +98,7 @@ public class Voro {
 
         // now the points have gained a new position, the actual game objects need to change
         for (var i = 0; i < _cellObjects.Length; i++) {
-            _cellObjects[i].transform.position = _cells[i].position + _transform.position;
+            _cellObjects[i].transform.position = _cells[i].position + _position;
         }
     }
 
@@ -105,14 +107,9 @@ public class Voro {
     //     // 1) finalize check to ensure the requested configuration is valid
     //     // ie terrain slope+elevation is between a constant range, correcting errors if bad
     // }
-    // ToDo allow the Voro to be deleted from the game world, disconnecting it from anything else
     // OnDeletion() {
     //     // 1) invoke to declare this space is now empty, so anything still using it
     //     // has to stop what its doing (the voro exploded and died rip)
-    // }
-    // ToDo let the Voro be updated, so changes can be applied during runtime
-    // OnUpdate() {
-    //     // 1) apply any proposed changes to the voro, updating parameters etc
     // }
 }
 }

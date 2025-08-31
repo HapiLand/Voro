@@ -10,8 +10,8 @@ public static class ResourceHelper {
         return Resources.Load<T>(path);
     }
 
-    public static Voro CreateVoro(Transform transform, string configName = "MyConfig") {
-        return new Voro(configName, transform);
+    public static Voro CreateVoro(Vector3 position, string configName = "MyConfig") {
+        return new Voro(configName, position);
     }
 
     static TextAsset LoadVoroPoints() {
@@ -24,30 +24,28 @@ public static class ResourceHelper {
     }
 
     public static Cell[] CreateCellArray() {
-
         // <id,float[]> point data from DemoTable.json
         var pointData = LoadVoroPoints();
         var jsonPointArray = JObject.Parse(pointData.text)["points"].ToObject<JsonPoint[]>();
 
         // create the cell array
-        Cell[] cells = new Cell[jsonPointArray.Length];
+        var cells = new Cell[jsonPointArray.Length];
         for (var i = 0; i < cells.Length; i++) {
             var jsonPoint = jsonPointArray[i];
             cells[i] = CreateCell(jsonPoint);
         }
-        return cells;
 
+        return cells;
     }
-    
+
     public static VisualTreeAsset LoadEffectUXML(string name) {
         return LoadResource<VisualTreeAsset>(name);
     }
 
-    public static void InstanceGeometry<T>(GameObject geo, out T instance) where T : UnityEngine.Object
-    {
+    public static void InstanceGeometry<T>(GameObject geo, out T instance) where T : Object {
         instance = Object.Instantiate(geo) as T;
     }
-    
+
     public static string LoadVoroConfig(string configName = "MyConfig") {
         var fileName = configName + ".json";
         var path = Path.Combine(Application.persistentDataPath, fileName);

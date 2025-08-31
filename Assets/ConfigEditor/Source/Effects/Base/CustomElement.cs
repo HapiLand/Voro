@@ -7,6 +7,10 @@ namespace ConfigEditor.Source.Effects.Base {
 ///     the base visual element, to be used by all custom effects
 /// </summary>
 [UxmlElement]
+// ToDo implement mask effect for making cell groups
+//  generic data just be written to a cell, a group value is arbitrary
+// ToDo pattern mask
+// ToDo Null effect type
 public partial class CustomElement : VisualElement {
     public CustomElement() {
         ConfigureContainerObject();
@@ -24,22 +28,21 @@ public partial class CustomElement : VisualElement {
             _label.name = "Text";
             _label.AddToClassList("element-label");
 
-            _border = new VisualElement();
-            _border.name = "Border";
-            _border.AddToClassList("element-border");
+            _node = new VisualElement();
+            _node.name = "Node";
+            _node.AddToClassList("element-node");
 
             Add(_label);
-            Add(_border);
-            _border.Add(_label);
+            Add(_node);
+            _node.Add(_label);
 
             // events
             // allow the element to be clicked to select it
             // ToDo allow this value to become false when a different element is selected
-            _border.RegisterCallback<MouseDownEvent>(e => Value = !Value);
+            _node.RegisterCallback<MouseDownEvent>(e => Value = !Value);
         }
 
         void ConfigureProperties() {
-            // ToDo Controls element must be invisible when this is not selected
             // Todo controls should be displayed in the Properties element
             Controls = new VisualElement();
             Controls.name = "Controls";
@@ -80,8 +83,7 @@ public partial class CustomElement : VisualElement {
     Label _label;
 
     // the background for the label
-    // ToDo rename _border to something better
-    VisualElement _border;
+    VisualElement _node;
 
     // this element must be clickable, in order for the element to be selected
     bool _value;
@@ -101,7 +103,7 @@ public partial class CustomElement : VisualElement {
     }
 
     void SetState(bool value) {
-        _border.EnableInClassList("element-border_on", value);
+        _node.EnableInClassList("element-node_on", value);
     }
 
     #endregion
@@ -109,30 +111,6 @@ public partial class CustomElement : VisualElement {
 }
 
 /*
- * using UnityEditor;
-   using UnityEditor.UIElements;
-   using UnityEngine.UIElements;
-
-   // today's goal - get the ConfigurationElement working
-   // 1) it can be added to the ConfigContainer
-   // 2) the ConfigContainer can move the order of them
-   // 3) each of the ConfigurationElements - Slope/Noise/Terrace need different UI elements for their values
-   //    ie slope and noise have float[3], terrace has float[6], the PropertyContainer shows these
-   // 4) the values from the ConfigurationElement is written to MyConfig.json
-
-   namespace ConfigEditor.Source {
-   [UxmlElement]
-   public partial class ConfigurationElement : VisualElement {
-       // the actual elements per effect derive from ConfigurationElement
-
-       [UxmlAttribute]
-       public string Label { get; set; } // element name
-       //public int PropertyCount { get; set; } // how many properties this element sets
-
-       public ConfigurationElement() {
-
-       }
-
        /*
         * every configuration element that can be created in the editor
         * exists as a ConfigurationElement
@@ -172,6 +150,4 @@ public partial class CustomElement : VisualElement {
         * to be better than if it actually **is** correct
         * anyone who disagrees is a nerd
         * /
-   }
-   }
 */
