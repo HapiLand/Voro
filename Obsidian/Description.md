@@ -1,1 +1,0 @@
-The world shall always begins at a section, not unlike a bunker embedded in a cliff, there are no voros behind this point. You follow a downwards hill, 
