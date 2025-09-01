@@ -1,3 +1,4 @@
+using DataTypes;
 using UnityEngine;
 
 namespace Internal.Instructions {
@@ -16,6 +17,10 @@ public class Noise : INode {
         var noise = perlin.Noise(dx, dy, dz);
         noise *= scale;
         return (float)noise;
+    }
+
+    public void Solve(ref Cell cell, Vector3 worldPoint) {
+        throw new System.NotImplementedException();
     }
 }
 }

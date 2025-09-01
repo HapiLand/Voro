@@ -1,3 +1,4 @@
+using DataTypes;
 using UnityEngine;
 
 namespace Internal.Instructions {
@@ -21,6 +22,10 @@ public class Slope : INode {
 
         slopeHeight *= multiplier;
         return slopeHeight;
+    }
+
+    public void Solve(ref Cell cell, Vector3 worldPoint) {
+        throw new System.NotImplementedException();
     }
 }
 }

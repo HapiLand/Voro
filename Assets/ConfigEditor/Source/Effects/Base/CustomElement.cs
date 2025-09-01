@@ -7,10 +7,61 @@ namespace ConfigEditor.Source.Effects.Base {
 ///     the base visual element, to be used by all custom effects
 /// </summary>
 [UxmlElement]
+// ToDo it is too inconvenient to create new effects
+//  the process should be simplified, as 4 different files have to be created
+//  and several random lines need to also have the effect added to those
+
+
+// ToDo implement new effects related to game mechanics
+// groups -             rules that set a tag for points in certain positions
+//                      so that certain effects can only be applied to a certain tag
+// smart elevation -    stops the elevation difference between two cells have a value
+//                      greater than some amount. can be used to forbid all lethal drops
+// flat regions -       locations where the terrain is flat
+// ramped steepness -   steepness of elevation increases along a direction
+//                      so that the terrain can be shallow at first, then steeper later
+// route -              begin at the start of the level, a path runs down the slope
+//                      where the elevation along this path is consistent and safe
+/*
+ * the element/effect workflow will need significant refactoring in order for it to support additional functions
+ * -----
+ * 1) the editor should be integrated directly with generation
+ * create Voro -> execute VoroHeight through ConfigurationEditor -> generate height value
+ * NoiseElement/SlopeElement/TerraceElement themselves should Solve height
+ *
+ * MyConfig.json will be used differently, the controls for the editor (to make an effect, change its properties)
+ * will write to the json. the GUI itself will then convert the json into the elements for the UI
+ * the way the json is used by VoroHeight is basically how the editor will use it
+ *
+ * the final height generation will never change, but with this first refactor step, it will allow for
+ * easier effect creation, as all I need is to create a new type of CustomElement
+ * and less work to solve height, no need for the whole process to be so fractured like it is now
+ *
+ * 2) height solve must be overhauled
+ * the current method to solve height is yucky
+ *      for each point { for each effect { solve height } }
+ *
+ * for the new method, pass the Voro directly to the effect, not each individual position
+ * this allows effects to be context aware, Slope 2.0 can set height for the next step neighbor
+ * and smart elevation can only exist in a context aware effect
+ *
+ * and certain effects could be solved on the GPU, something that is easier to do when the effects
+ * have access to every point as a collection
+ * -----
+ * this refactor is not essential now, but the limitations of the current system are starting to show
+ *
+ * - the planned multi-preset-column idea can only be done when the editor itself is solving height
+ * overhauling the GUI will require refactor (1) treat the GUI overhaul as being the new height solver
+ *
+ * - some important effects and infinite generation are going to require refactor (2), those effects
+ * are impossible to develop in this current system and infinite generation will be far too slow unless
+ * the height solver is improved
+ */
 public partial class CustomElement : VisualElement {
     Button _deleteBtn;
     Button _downBtn;
     Button _upBtn;
+
 
     public CustomElement() {
         ConfigureContainerObject();
@@ -42,6 +93,7 @@ public partial class CustomElement : VisualElement {
             CreateMoveButton(1, out _downBtn);
             _node.Add(_downBtn); // add to hierarchy
 
+            // ToDo delete button needs to remove element
             _deleteBtn = new Button(() => {
                 //MoveClicked?.Invoke(this, moveValue);
             });

@@ -1,3 +1,4 @@
+using DataTypes;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -70,6 +71,10 @@ public class Terrace : INode {
 
         // apply the value to the height
         return level;
+    }
+
+    public void Solve(ref Cell cell, Vector3 worldPoint) {
+        throw new System.NotImplementedException();
     }
 }
 }

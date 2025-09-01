@@ -37,7 +37,7 @@ public class VoroDemo : MonoBehaviour {
     }
 
     void Update() {
-        _voro.Update();
+        //_voro.Update();
     }
 
     /*

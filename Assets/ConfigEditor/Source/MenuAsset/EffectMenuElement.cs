@@ -51,7 +51,9 @@ public partial class EffectMenuElement : VisualElement {
         {
             { "EffectMenu/CategoryFoo/Slope", ResourceHelper.LoadEffectUXML("Slope") },
             { "EffectMenu/CategoryFoo/Noise", ResourceHelper.LoadEffectUXML("Noise") },
-            { "EffectMenu/CategoryBar/Terrace", ResourceHelper.LoadEffectUXML("Terrace") }
+            { "EffectMenu/CategoryBar/Terrace", ResourceHelper.LoadEffectUXML("Terrace") },
+            { "EffectMenu/CategoryBar/Null", ResourceHelper.LoadEffectUXML("Null") },
+            { "EffectMenu/CategoryBar/SetGroup", ResourceHelper.LoadEffectUXML("SetGroup") }
         };
     }
 
@@ -99,7 +101,7 @@ public partial class EffectMenuElement : VisualElement {
             // add the buttons to this category so effects can be created
             var visualTreeAsset = kvp.Value; // the uxml effect associated with this button
             var effectButton = new Button(() => {
-                Debug.Log($"clicked: {effectName}");
+                //Debug.Log($"clicked: {effectName}");
                 OnMenuButtonClicked?.Invoke(visualTreeAsset); // notify what uxml should be created
             });
             effectButton.text = effectName;

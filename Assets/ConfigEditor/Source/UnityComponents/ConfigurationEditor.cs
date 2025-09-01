@@ -127,6 +127,8 @@ public class ConfigurationEditor : MonoBehaviour {
                     SlopeElement slopeEffect => (slopeEffect, "slope"),
                     NoiseElement noiseEffect => (noiseEffect, "noise"),
                     TerraceElement terraceEffect => (terraceEffect, "terrace"),
+                    NullElement nullEffect => (nullEffect, "null"),
+                    SetGroupElement setGroupEffect => (setGroupEffect, "setGroup"),
                     _ => (null, "")
                 };
 

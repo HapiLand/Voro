@@ -41,6 +41,8 @@ public class VoroHeight {
                 SlopeCfg => new Slope(configuration[i]),
                 NoiseCfg => new Noise(configuration[i]),
                 TerraceCfg => new Terrace(configuration[i]),
+                NullCfg => new Null(configuration[i]),
+                SetGroupCfg => new SetGroup(configuration[i]),
                 _ => solvers[i]
             };
         }
@@ -54,8 +56,20 @@ public class VoroHeight {
             // for every effect that is in the configuration
             // solve the height at this world position
             foreach (var effect in solvers) {
-                // find the height at the world position
-                height += effect.Solve(height, worldPoint);
+
+                if (effect is SetGroup setGroup) {
+                    // ToDo allow the effect to work with a Cell
+                    // this is where the SetGroup effect should be used to write a value to the cell
+                    // setGroup.Solve(ref Cell)
+                    // the current design makes this impossible
+                }
+                else {
+                    // find the height at the world position
+                    height += effect.Solve(height, worldPoint);
+                }
+                
+                
+
             }
 
             outHeight[i] = height;

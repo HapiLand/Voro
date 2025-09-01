@@ -12,6 +12,7 @@ public struct Cell {
     public Vector3 position;
     public Color color;
     public GameObject[] fbxArray;
+    public int GroupID;
     // ToDo coverage
 
     public GameObject GetFBX() {
@@ -41,6 +42,7 @@ public struct Cell {
         color = new Color(point.col[0], point.col[1], point.col[2], 1.0f);
         //var t = Mathf.Abs(position.y) % 1;
         //return Color.Lerp(Color.cornflowerBlue, Color.crimson, t);
+        GroupID = -1;
 
         const int variants = 3;
         fbxArray = new GameObject[variants];
