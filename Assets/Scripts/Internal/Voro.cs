@@ -7,25 +7,22 @@ namespace Internal {
 // ToDo implement method for adjacent Voros to blend together nicely
 public class Voro {
     readonly Cell[] _cells;
-    readonly Vector3 _position;
+
+    readonly Transform _transform;
     GameObject[] _cellObjects;
     JsonConfig _config;
 
-    Voro _original;
-
-    // there must be a better way to find the actual world position
-    // for any point, without the voro having to be given the position at all
-    // there must also be a better way for a Voro to add GameObjects into the world
-    // without Transform needing to make sure they gain the correct parent object
-    public Voro(string configName, Vector3 origin) {
+    public Voro(string configName, Transform tform) {
         // point data in json file is used to build the cells for this voro
         _cells = ResourceHelper.CreateCellArray();
+        //_pointArray = new PointArray(ResourceHelper.LoadVoroPoints());
+        //_geometryArray = new GeometryArray(_pointArray);
 
         // read the configuration
         // get the JsonConfig which contains the configuration objects for the voro height
         _config = new JsonConfig(configName);
 
-        _position = origin;
+        _transform = tform;
 
         // configure the height so the voro is built in its finished form
         ConfigurePointHeight();
@@ -43,7 +40,7 @@ public class Voro {
         // this instruction is designed to manipulate the height value in a way
         // that allows the look of the terrain to be directed by the user
         // multiple instructions can be stored in the configuration file
-        var voroHeight = new VoroHeight((_config, _cells), _position, out var heightMap);
+        var voroHeight = new VoroHeight((_config, _cells), _transform.position, out var heightMap);
 
         ApplyHeight(heightMap);
 
@@ -70,19 +67,14 @@ public class Voro {
 
         for (var i = 0; i < _cells.Length; i++) {
             ResourceHelper.InstanceGeometry<GameObject>(_cells[i].GetFBX(), out var instance);
-            instance.transform.position += _cells[i].position + _position;
-            // ToDo set parent for instance
-            //instance.transform.SetParent(_position);
+            instance.transform.position += _cells[i].position + _transform.position;
+            instance.transform.SetParent(_transform);
 
             _cellObjects[i] = instance;
         }
     }
 
-    void OnCreation() {
-        // ToDo clone the voro for it to be restored if edited during runtime
-        // clone this voro to act as a snapshot, allows this current voro to be safely
-        // modifiable, and can easily be reset
-    }
+    void OnCreation() { }
 
     // vor the voro to vork in vealtime, the voro vust vupdate
     public void Update() {
@@ -98,7 +90,7 @@ public class Voro {
 
         // now the points have gained a new position, the actual game objects need to change
         for (var i = 0; i < _cellObjects.Length; i++) {
-            _cellObjects[i].transform.position = _cells[i].position + _position;
+            _cellObjects[i].transform.position = _cells[i].position + _transform.position;
         }
     }
 
@@ -107,6 +99,7 @@ public class Voro {
     //     // 1) finalize check to ensure the requested configuration is valid
     //     // ie terrain slope+elevation is between a constant range, correcting errors if bad
     // }
+    // ToDo allow the Voro to be deleted from the game world, disconnecting it from anything else
     // OnDeletion() {
     //     // 1) invoke to declare this space is now empty, so anything still using it
     //     // has to stop what its doing (the voro exploded and died rip)

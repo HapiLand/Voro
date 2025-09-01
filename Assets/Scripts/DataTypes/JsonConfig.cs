@@ -8,6 +8,7 @@ namespace DataTypes {
 [Serializable]
 public class JsonConfig {
     public IConfig[] EffectData;
+
     public JsonConfig(string fileName) {
         // get 
         var root = JObject.Parse(ResourceHelper.LoadVoroConfig(fileName));
@@ -33,6 +34,7 @@ public class JsonConfig {
             // the json will hold any number of IConfig objects
             // each object needs to create one of the Cfg structs
             // to choose the right struct, look at the name each object uses
+            // ToDo replace this switch with the better design
             switch (prop.Name) {
             case "slope":
                 EffectData[i] = prop.Value.ToObject<SlopeCfg>();
@@ -42,6 +44,12 @@ public class JsonConfig {
                 break;
             case "terrace":
                 EffectData[i] = prop.Value.ToObject<TerraceCfg>();
+                break;
+            case "null":
+                EffectData[i] = prop.Value.ToObject<NullCfg>();
+                break;
+            case "setGroup":
+                EffectData[i] = prop.Value.ToObject<SetGroupCfg>();
                 break;
             }
             // doing it this way is probably not a bad approach

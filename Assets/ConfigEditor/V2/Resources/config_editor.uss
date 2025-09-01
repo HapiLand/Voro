@@ -1,0 +1,53 @@
+.inspector {
+    background-color: rgb(244, 17, 29);
+    width: 30%;
+}
+
+.world {
+    background-color: rgb(7, 72, 170);
+    flex-grow: 0;
+    height: 10%;
+}
+
+.toolbar {
+    background-color: rgb(246, 200, 55);
+    flex-grow: 0;
+    height: 50px;
+}
+
+.column-container {
+    background-color: rgb(80, 246, 55);
+    flex-direction: row;
+    flex-grow: 1;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.column {
+    background-color: rgb(219, 237, 255);
+    flex-grow: 0;
+    width: 250px;
+    height: 90%;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+.node {
+    background-color: rgb(117, 179, 223);
+    flex-grow: 0;
+    width: 90%;
+    height: 100px;
+    margin-top: 5px;
+}
+
+.label {
+    -unity-font-style: bold;
+    color: rgb(0, 0, 0);
+}
+
+.scroll {
+    flex-grow: 0;
+    width: 90%;
+    justify-content: space-evenly;
+    align-content: stretch;
+}

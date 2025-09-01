@@ -1,3 +1,4 @@
+using DataTypes;
 using UnityEngine;
 
 namespace Internal {
@@ -6,5 +7,6 @@ namespace Internal {
 /// </summary>
 public interface INode {
     float Solve(float height, Vector3 worldPoint);
+    void Solve(ref Cell cell, Vector3 worldPoint);
 }
 }

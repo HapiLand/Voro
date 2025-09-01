@@ -1,23 +1,30 @@
+using System;
+using DataTypes;
 using Internal;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace UnityComponents {
 public class VoroDemo : MonoBehaviour {
+
+    Voro _voro;
+    public Voro Voro {
+        get { return _voro; }
+    }
+    
     // makes the Voro Geometry use a single mesh which can better be instanced
     // for testing purposes, a Voro does not need its complex geometry 
     // currently broken
     [SerializeField] bool _useDebugMesh;
-
+    
     Material _mat;
     Mesh _mesh;
-
-    public Voro Voro { get; private set; }
 
     void Awake() {
         _mat = Resources.Load<Material>("FbxMat");
         _mesh = ResourceHelper.LoadResource<Mesh>("DebugMesh");
 
-        Voro = ResourceHelper.CreateVoro(transform.position);
+        _voro = ResourceHelper.CreateVoro(transform,"MyConfig");
     }
 
     void Start() {
@@ -26,11 +33,11 @@ public class VoroDemo : MonoBehaviour {
         // construct the voro
         // the voro is given the name of the config, this controls how the height is generated
         // also set the position for where the voro is created
-        Voro = new Voro(configName, transform.position);
+        _voro = new Voro(configName, transform);
     }
 
     void Update() {
-        Voro.Update();
+        //_voro.Update();
     }
 
     /*

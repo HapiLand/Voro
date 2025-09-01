@@ -19,17 +19,15 @@ public partial class NoiseElement : CustomElement {
     }
 
     protected override void OnInitializeControls() {
-        // add the properties that the noise element controls
-
-        _size = new Slider("Size", 0.1f, 3f);
-        _size.value = 1.25f;
+        _size = new Slider("Size", 0f, 5f);
+        _size.value = 0f;
         _size.name = "Slider";
         _size.AddToClassList("element-slider");
         Add(_size);
         Controls.Add(_size);
 
-        _scale = new Slider("Scale", 0.1f, 1f);
-        _scale.value = 0.59f;
+        _scale = new Slider("Scale", 0f, 1f);
+        _scale.value = 0f;
         _scale.name = "Slider";
         _scale.AddToClassList("element-slider");
         Add(_scale);

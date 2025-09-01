@@ -30,7 +30,7 @@ CustomElement Label {
 }
 
 .element-node_on {
-    background-color: rgb(115, 238, 117);
+    background-color: rgb(115, 158, 238);
     border-left-color: rgb(91, 91, 91);
     border-right-color: rgb(91, 91, 91);
     border-top-color: rgb(91, 91, 91);
