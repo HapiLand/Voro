@@ -7,70 +7,59 @@ namespace Internal {
 /// <summary>
 ///     computes the elevation of the voro terrain
 /// </summary>
-// ToDo correct language in library to remove confusion (ie Effect/Instruction)
 public class VoroHeight {
-    /// <summary>
-    ///     new version, height is solved on construction
-    /// </summary>
-    /// <param name="input">config.json, voro points</param>
-    /// <param name="origin">the bottom-left corner of a square</param>
-    /// <param name="outHeight">array of generated height value</param>
-    public VoroHeight((JsonConfig, Cell[]) input, Vector2 origin, out float[] outHeight) {
-        // the container of ui elements
+    public VoroHeight((JsonConfiguration, Cell[]) input, Vector2 origin, out float[] outElevation) {
+        // the configurations that are a result of the effects that the user
+        // selected in the GUI editor
         var configuration = input.Item1.EffectData;
 
         var voroPos = new Vector3(origin.x, 0f, origin.y);
 
-        // get the world position of every point
-        var voroPoints = input.Item2;
-        var points = new Vector3[input.Item2.Length];
-        for (var i = 0; i < points.Length; i++) {
-            points[i] = voroPoints[i].position;
-            points[i] += voroPos;
+        // get the world position of every cell
+        var cells = input.Item2;
+        var cellPositions = new Vector3[input.Item2.Length];
+        for (var i = 0; i < cellPositions.Length; i++) {
+            cellPositions[i] = cells[i].position;
+            cellPositions[i] += voroPos;
         }
 
-        // what computes the height
-        var solvers = new INode[configuration.Length];
-        // the resulting elevation
-        outHeight = new float[points.Length];
+        // each effect computes a different result
+        // most effects are used to alter the elevation of each cell
+        var effects = new IEffect[configuration.Length];
+        // the resulting elevation for every cell
+        outElevation = new float[cellPositions.Length];
 
-        // construct all the solvers that will produce the effect
-        for (var i = 0; i < solvers.Length; i++) {
-            solvers[i] = configuration[i] switch
+        // determine every effect that was selected in the GUI editor
+        for (var i = 0; i < effects.Length; i++) {
+            effects[i] = configuration[i] switch
             {
-                // each solver is constructed with the configuration
-                // pre-warm the solvers
                 SlopeCfg => new Slope(configuration[i]),
                 NoiseCfg => new Noise(configuration[i]),
                 TerraceCfg => new Terrace(configuration[i]),
                 NullCfg => new Null(configuration[i]),
                 SetGroupCfg => new SetGroup(configuration[i]),
-                _ => solvers[i]
+                _ => effects[i]
             };
         }
 
-        // solve the entire height map for the input
-        // the height is found for every point
-        for (var i = 0; i < points.Length; i++) {
-            var worldPoint = points[i];
+        // compute each effect to generate the final result
+        for (var i = 0; i < cellPositions.Length; i++) {
+            var worldPosition = cellPositions[i];
             var height = 0f;
 
-            // for every effect that is in the configuration
-            // solve the height at this world position
-            foreach (var effect in solvers) {
+            foreach (var effect in effects) {
                 if (effect is SetGroup setGroup) {
                     // ToDo allow the effect to work with a Cell
-                    // this is where the SetGroup effect should be used to write a value to the cell
+                    // this effect is used to set the GroupID for this cell
                     // setGroup.Solve(ref Cell)
-                    // the current design makes this impossible
                 }
                 else {
-                    // find the height at the world position
-                    height += effect.Solve(height, worldPoint);
+                    // this effect is used to find the elevation at this location
+                    height += effect.ComputeEffect(height, worldPosition);
                 }
             }
 
-            outHeight[i] = height;
+            outElevation[i] = height;
         }
     }
 }

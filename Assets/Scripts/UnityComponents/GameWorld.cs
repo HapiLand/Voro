@@ -6,7 +6,6 @@ namespace UnityComponents {
 [RequireComponent(typeof(PlayerLocation))]
 public class GameWorld : MonoBehaviour {
     [SerializeField] [Range(0f, 5f)] float _drawDistance;
-
     Tile[,] _tiles;
 
     Vector3 _playerPosition {

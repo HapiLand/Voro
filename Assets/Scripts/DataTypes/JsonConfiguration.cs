@@ -6,16 +6,16 @@ using Newtonsoft.Json.Linq;
 
 namespace DataTypes {
 [Serializable]
-public class JsonConfig {
-    public IConfig[] EffectData;
+public class JsonConfiguration {
+    public IConfiguration[] EffectData;
 
-    public JsonConfig(string fileName) {
+    public JsonConfiguration(string fileName) {
         // get 
         var root = JObject.Parse(ResourceHelper.LoadVoroConfig(fileName));
         var configArr = (JArray)root["config"];
 
         // the json contains the IConfig objects, json is converted to this array
-        EffectData = new IConfig[configArr.Count];
+        EffectData = new IConfiguration[configArr.Count];
 
         for (var i = 0; i < configArr.Count; i++) {
             // json stores the config objects in an array IConfig[]
@@ -34,14 +34,14 @@ public class JsonConfig {
             // the json will hold any number of IConfig objects
             // each object needs to create one of the Cfg structs
             // to choose the right struct, look at the name each object uses
-            
+
             EffectData[i] = prop.Name switch
             {
                 "slope" => prop.Value.ToObject<SlopeCfg>(),
                 "noise" => prop.Value.ToObject<NoiseCfg>(),
                 "terrace" => prop.Value.ToObject<TerraceCfg>(),
                 "null" => prop.Value.ToObject<NullCfg>(),
-                "setGroup" => prop.Value.ToObject<SetGroupCfg>(),
+                "setGroup" => prop.Value.ToObject<SetGroupCfg>()
             };
         }
     }

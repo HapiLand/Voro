@@ -1,13 +1,14 @@
+using System;
 using DataTypes;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
 namespace Internal.Instructions {
-public class Terrace : INode {
-    readonly IConfig config;
+public class Terrace : IEffect {
+    readonly IConfiguration _configuration;
 
-    public Terrace(IConfig config) {
-        this.config = config;
+    public Terrace(IConfiguration configuration) {
+        _configuration = configuration;
     }
 
     // something I dislike with other terrace functions is that those
@@ -18,25 +19,25 @@ public class Terrace : INode {
     // in this approach, it is designed to create steps with some randomness
     // the height of each step can vary between a min and max height
     // this allows terracing to appear far more natural
-    public float Solve(float height, Vector3 worldPoint) {
+    public float ComputeEffect(float height, Vector3 worldPoint) {
         // the iteration controls how much randomness occurs
         // at 0, the step size is regular
         // increasing the iteration causes the height to be moved
         // by a random amount for every step
-        var iterations = config.ConfigArr[0];
+        var iterations = _configuration.PropertiesArray[0];
         // the min and max value that the iteration will move the height
         // higher values causes the height to change by a lot
-        var min = config.ConfigArr[1];
-        var max = config.ConfigArr[2];
+        var min = _configuration.PropertiesArray[1];
+        var max = _configuration.PropertiesArray[2];
         // step scale is how large the width of the steps are
         // lower values produces steps that are very thin, so more exist
         // higher values causes the steps to be very wide, so there are less in total
-        var stepScale = config.ConfigArr[3];
+        var stepScale = _configuration.PropertiesArray[3];
         // this controls which direction the terrace is applied
         // ( see Slope.direction on how the direction works, both uses are the same )
         // it can allow the slope of terrain to move in one direction
         // and a terrace effect is then applied in another direction
-        var direction = config.ConfigArr[4];
+        var direction = _configuration.PropertiesArray[4];
         // in this demo, the slopes direction moves along the X axis
         // the json configuration has a direction rotated 41 degrees
         // the terrace ends up moving down along the slope
@@ -73,8 +74,8 @@ public class Terrace : INode {
         return level;
     }
 
-    public void Solve(ref Cell cell, Vector3 worldPoint) {
-        throw new System.NotImplementedException();
+    public void ComputeEffect(ref Cell cell, Vector3 worldPoint) {
+        throw new NotImplementedException();
     }
 }
 }

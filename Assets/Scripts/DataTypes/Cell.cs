@@ -21,7 +21,6 @@ public struct Cell {
         var variant = Random.Range(0, variants);
         var instance = fbxArray[variant];
 
-
         // set prefab color
         var mat = Resources.Load<Material>("FbxMat");
 

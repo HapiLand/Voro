@@ -34,11 +34,11 @@ public partial class NoiseElement : CustomElement {
         Controls.Add(_scale);
     }
 
-    public override IConfig ToConfig() {
+    public override IConfiguration ToConfig() {
         var cfg = new SlopeCfg();
-        cfg.ConfigArr = new float[2];
-        cfg.ConfigArr[0] = _scale.value;
-        cfg.ConfigArr[1] = _size.value;
+        cfg.PropertiesArray = new float[2];
+        cfg.PropertiesArray[0] = _scale.value;
+        cfg.PropertiesArray[1] = _size.value;
         return cfg;
     }
 }

@@ -35,11 +35,11 @@ public partial class SlopeElement : CustomElement {
         Controls.Add(_scale);
     }
 
-    public override IConfig ToConfig() {
+    public override IConfiguration ToConfig() {
         var cfg = new SlopeCfg();
-        cfg.ConfigArr = new float[2];
-        cfg.ConfigArr[0] = _direction.value;
-        cfg.ConfigArr[1] = _scale.value;
+        cfg.PropertiesArray = new float[2];
+        cfg.PropertiesArray[0] = _direction.value;
+        cfg.PropertiesArray[1] = _scale.value;
         return cfg;
     }
 }

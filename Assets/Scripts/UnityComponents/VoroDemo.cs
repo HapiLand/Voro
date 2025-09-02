@@ -1,8 +1,9 @@
-using Internal;
 using UnityEngine;
 
 namespace UnityComponents {
 public class VoroDemo : MonoBehaviour {
+    // ToDo remove this class
+
     // Voro _voro;
     // public Voro Voro {
     //     get { return _voro; }
@@ -16,25 +17,25 @@ public class VoroDemo : MonoBehaviour {
     Material _mat;
     Mesh _mesh;
 
-    void Awake() {
-        _mat = Resources.Load<Material>("FbxMat");
-        _mesh = ResourceHelper.LoadResource<Mesh>("DebugMesh");
-
-        // _voro = ResourceHelper.CreateVoro(transform,"MyConfig");
-    }
-
-    void Start() {
-        var configName = "MyConfig";
-
-        // construct the voro
-        // the voro is given the name of the config, this controls how the height is generated
-        // also set the position for where the voro is created
-        // _voro = new Voro(configName, transform);
-    }
-
-    void Update() {
-        //_voro.Update();
-    }
+    // void Awake() {
+    //     _mat = Resources.Load<Material>("FbxMat");
+    //     _mesh = ResourceHelper.LoadResource<Mesh>("DebugMesh");
+    //
+    //     // _voro = ResourceHelper.CreateVoro(transform,"MyConfig");
+    // }
+    //
+    // void Start() {
+    //     var configName = "MyConfig";
+    //
+    //     // construct the voro
+    //     // the voro is given the name of the config, this controls how the height is generated
+    //     // also set the position for where the voro is created
+    //     // _voro = new Voro(configName, transform);
+    // }
+    //
+    // void Update() {
+    //     //_voro.Update();
+    // }
 
     /*
     void Update() {

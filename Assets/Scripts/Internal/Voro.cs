@@ -7,7 +7,7 @@ namespace Internal {
 // ToDo implement method for adjacent Voros to blend together nicely
 public class Voro {
     readonly Cell[] _cells;
-    readonly JsonConfig _config;
+    readonly JsonConfiguration _configuration;
     readonly Vector2 _origin;
     GameObject[] _cellObjects;
 
@@ -19,22 +19,22 @@ public class Voro {
 
         // reconstruct the data from the configuration editor
         // this allows the height of the voro to be solved
-        _config = new JsonConfig("MyConfig");
+        _configuration = new JsonConfiguration("MyConfig");
 
         // set the height value for every cell in the voro
-        var voroHeight = new VoroHeight((_config, _cells), _origin, out var heightMap);
-        SolveCellElevation(heightMap);
+        var voroHeight = new VoroHeight((_configuration, _cells), _origin, out var outElevation);
+        SolveCellElevation(outElevation);
 
         OnCreation();
     }
 
-    void SolveCellElevation(float[] heightValues) {
-        for (var i = 0; i < heightValues.Length; i++) {
-            // get the position of each point
+    void SolveCellElevation(float[] elevations) {
+        for (var i = 0; i < elevations.Length; i++) {
+            // get the position of this cell
             var newPos = _cells[i].position;
-            // set the height value in the point
-            newPos.y = heightValues[i];
-            // set the new position of the point, applying the height value
+            // set the new y value
+            newPos.y = elevations[i];
+            // set the position of the cell so it gains the calculated elevation
             _cells[i].position = newPos;
         }
     }
@@ -54,21 +54,21 @@ public class Voro {
         return cellObjects;
     }
 
-    void InstanceGeometry() {
-        // instance all the unique geometry instances for the voro
-        // this is very expensive to do, but allows the Voro
-        // to resemble how it would in a game
-
-        _cellObjects = new GameObject[_cells.Length];
-
-        for (var i = 0; i < _cells.Length; i++) {
-            ResourceHelper.InstanceGeometry<GameObject>(_cells[i].GetFBX(), out var instance);
-            // instance.transform.position += _cells[i].position + _transform.position;
-            // instance.transform.SetParent(_transform);
-
-            _cellObjects[i] = instance;
-        }
-    }
+    // void InstanceGeometry() {
+    //     // instance all the unique geometry instances for the voro
+    //     // this is very expensive to do, but allows the Voro
+    //     // to resemble how it would in a game
+    //
+    //     _cellObjects = new GameObject[_cells.Length];
+    //
+    //     for (var i = 0; i < _cells.Length; i++) {
+    //         ResourceHelper.InstanceGeometry<GameObject>(_cells[i].GetFBX(), out var instance);
+    //         // instance.transform.position += _cells[i].position + _transform.position;
+    //         // instance.transform.SetParent(_transform);
+    //
+    //         _cellObjects[i] = instance;
+    //     }
+    // }
 
     void OnCreation() { }
 
