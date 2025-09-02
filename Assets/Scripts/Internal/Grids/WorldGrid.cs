@@ -1,14 +1,9 @@
 using UnityEngine;
 
-namespace Internal {
-// ToDo make game manager store the player position and a draw distance, for toggling
+namespace Internal.Grids {
 public static class WorldGrid {
-    // ToDo dimensions as 100x100, only visible Voros are drawn
-    public static readonly int[] Dimensions = { 5, 5 }; // width (x), height (z)
-    static readonly float[] Size = { 1f, 1f }; // cell width, cell height
-
+    public static readonly int[] Dimensions = { 10, 10 }; // width (x), height (z)
     public static readonly int[,] ID;
-    // ToDo bool to toggle each point, construct Voro when first set to true
 
     static WorldGrid() {
         ID = new int[Dimensions[0], Dimensions[1]];
@@ -26,9 +21,10 @@ public static class WorldGrid {
             return Vector2.zero;
         }
 
-        // return the bottom-left corner
-        var posX = x * Size[0] + Size[0] / 2f - x / 2f;
-        var posZ = z * Size[1] + Size[1] / 2f - z / 2f;
+        // returns the bottom-left corner for each tile
+        var posX = x;
+        var posZ = z;
+
         return new Vector2(posX, posZ);
     }
 }

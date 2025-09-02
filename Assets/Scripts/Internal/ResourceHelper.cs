@@ -10,9 +10,9 @@ public static class ResourceHelper {
         return Resources.Load<T>(path);
     }
 
-    public static Voro CreateVoro(Vector3 position, string configName = "MyConfig") {
-        return new Voro(configName, position);
-    }
+    // public static Voro CreateVoro(Vector3 position, string configName = "MyConfig") {
+    //     return new Voro(configName, position);
+    // }
 
     static TextAsset LoadVoroPoints() {
         var pathTo = "Points/DemoTable";

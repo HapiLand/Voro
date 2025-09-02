@@ -34,28 +34,15 @@ public class JsonConfig {
             // the json will hold any number of IConfig objects
             // each object needs to create one of the Cfg structs
             // to choose the right struct, look at the name each object uses
-            // ToDo replace this switch with the better design
-            switch (prop.Name) {
-            case "slope":
-                EffectData[i] = prop.Value.ToObject<SlopeCfg>();
-                break;
-            case "noise":
-                EffectData[i] = prop.Value.ToObject<NoiseCfg>();
-                break;
-            case "terrace":
-                EffectData[i] = prop.Value.ToObject<TerraceCfg>();
-                break;
-            case "null":
-                EffectData[i] = prop.Value.ToObject<NullCfg>();
-                break;
-            case "setGroup":
-                EffectData[i] = prop.Value.ToObject<SetGroupCfg>();
-                break;
-            }
-            // doing it this way is probably not a bad approach
-            // performance isnt a huge concern now as there arent many types of IConfig
-            // hypothetically if this library had 100 different IConfig structs
-            // then it might suck to maintain a gigantic wall of switch cases
+            
+            EffectData[i] = prop.Name switch
+            {
+                "slope" => prop.Value.ToObject<SlopeCfg>(),
+                "noise" => prop.Value.ToObject<NoiseCfg>(),
+                "terrace" => prop.Value.ToObject<TerraceCfg>(),
+                "null" => prop.Value.ToObject<NullCfg>(),
+                "setGroup" => prop.Value.ToObject<SetGroupCfg>(),
+            };
         }
     }
 }

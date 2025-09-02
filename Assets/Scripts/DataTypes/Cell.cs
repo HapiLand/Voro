@@ -20,7 +20,7 @@ public struct Cell {
         var variants = fbxArray.Length;
         var variant = Random.Range(0, variants);
         var instance = fbxArray[variant];
-        //prefab.transform.position no longer set here
+
 
         // set prefab color
         var mat = Resources.Load<Material>("FbxMat");
