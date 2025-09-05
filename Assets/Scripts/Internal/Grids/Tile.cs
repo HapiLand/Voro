@@ -26,20 +26,20 @@ public struct Tile {
     [CanBeNull]
     public Voro UpdateVisibility(Vector3 playerPosition, float drawDistance) {
         // tile is visible when within a radius of the player
-        
+
         // zero the Y value for both positions, as the visibility
         // is only calculated for a 2D plane
         playerPosition.y = 0f;
         var tilePos = CornerPosition;
         tilePos.y = 0f;
-        
+
         var distance = Vector3.Distance(tilePos, playerPosition);
         var visible = distance < drawDistance;
 
 
         // the first time the tile becomes visible, it is initialised
         // the Voro in the tile is constructed
-        Voro? voroInstance = null;
+        Voro voroInstance = null;
         if (!HasInitialised && visible) {
             Init();
             // the voro has been constructed, it shall be returned

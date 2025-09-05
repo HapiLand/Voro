@@ -12,16 +12,16 @@ public class JsonConfiguration {
     public JsonConfiguration(string fileName) {
         // get 
         var root = JObject.Parse(ResourceHelper.LoadVoroConfig(fileName));
-        var configArr = (JArray)root["config"];
+        var propertiesArray = (JArray)root["config"];
 
         // the json contains the IConfig objects, json is converted to this array
-        EffectData = new IConfiguration[configArr.Count];
+        EffectData = new IConfiguration[propertiesArray.Count];
 
-        for (var i = 0; i < configArr.Count; i++) {
+        for (var i = 0; i < propertiesArray.Count; i++) {
             // json stores the config objects in an array IConfig[]
             // these objects need to be extracted to be given to
             // the JsonConfig class
-            var obj = configArr[i] as JObject;
+            var obj = propertiesArray[i] as JObject;
 
             // the property is each IConfig object
             // these will configure the instructions for how

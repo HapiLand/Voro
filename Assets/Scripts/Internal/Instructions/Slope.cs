@@ -7,6 +7,7 @@ public class Slope : IEffect {
     readonly IConfiguration _configuration;
 
     public Slope(IConfiguration configuration) {
+        Debug.Log(configuration);
         _configuration = configuration;
     }
 
