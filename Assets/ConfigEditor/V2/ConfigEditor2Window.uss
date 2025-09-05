@@ -1,0 +1,4 @@
+.inspector {
+    background-color: rgb(192, 54, 60);
+    width: 100px;
+}
