@@ -31,7 +31,7 @@ public class ConfigurationEditor : MonoBehaviour {
         _editorUI = GetComponent<UIDocument>().rootVisualElement;
         _containerElement = _editorUI.Q<VisualElement>("Container");
         _effectElements = new List<CustomElement>();
-        _voro = ResourceHelper.CreateVoro(transform);
+        // _voro = ResourceHelper.CreateVoro(transform);
     }
 
     void Update() {

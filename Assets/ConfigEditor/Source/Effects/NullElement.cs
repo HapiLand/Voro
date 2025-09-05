@@ -15,9 +15,9 @@ public partial class NullElement : CustomElement {
 
     protected override void OnInitializeControls() { }
 
-    public override IConfig ToConfig() {
+    public override IConfiguration ToConfig() {
         var cfg = new NullCfg();
-        cfg.ConfigArr = new float[0];
+        cfg.PropertiesArray = new float[0];
         return cfg;
     }
 }

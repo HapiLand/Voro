@@ -59,14 +59,14 @@ public partial class TerraceElement : CustomElement {
         Controls.Add(_direction);
     }
 
-    public override IConfig ToConfig() {
+    public override IConfiguration ToConfig() {
         var cfg = new SlopeCfg();
-        cfg.ConfigArr = new float[5];
-        cfg.ConfigArr[0] = _iterations.value;
-        cfg.ConfigArr[1] = _min.value;
-        cfg.ConfigArr[2] = _max.value;
-        cfg.ConfigArr[3] = _stepScale.value;
-        cfg.ConfigArr[4] = _direction.value;
+        cfg.PropertiesArray = new float[5];
+        cfg.PropertiesArray[0] = _iterations.value;
+        cfg.PropertiesArray[1] = _min.value;
+        cfg.PropertiesArray[2] = _max.value;
+        cfg.PropertiesArray[3] = _stepScale.value;
+        cfg.PropertiesArray[4] = _direction.value;
         return cfg;
     }
 }

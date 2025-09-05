@@ -10,12 +10,13 @@ namespace ConfigEditor.Source.Effects {
 public partial class SetGroupElement : CustomElement {
     // these are what will drive the properties for the IConfig
     Slider _groupValue;
+
     public SetGroupElement() {
         Text = "Set Group Effect";
     }
 
     protected override void OnInitializeControls() {
-        _groupValue = new Slider("GroupValue", 0f, 10f);
+        _groupValue = new Slider("GroupValue");
         _groupValue.value = 0f;
         _groupValue.name = "Slider";
         _groupValue.AddToClassList("element-slider");
@@ -23,10 +24,10 @@ public partial class SetGroupElement : CustomElement {
         Controls.Add(_groupValue);
     }
 
-    public override IConfig ToConfig() {
+    public override IConfiguration ToConfig() {
         var cfg = new SetGroupCfg();
-        cfg.ConfigArr = new float[1];
-        cfg.ConfigArr[0] = _groupValue.value;
+        cfg.PropertiesArray = new float[1];
+        cfg.PropertiesArray[0] = _groupValue.value;
         return cfg;
     }
 }

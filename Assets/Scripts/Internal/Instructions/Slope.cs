@@ -1,19 +1,21 @@
+using System;
 using DataTypes;
 using UnityEngine;
 
 namespace Internal.Instructions {
-public class Slope : INode {
-    readonly IConfig config;
+public class Slope : IEffect {
+    readonly IConfiguration _configuration;
 
-    public Slope(IConfig config) {
-        this.config = config;
+    public Slope(IConfiguration configuration) {
+        Debug.Log(configuration);
+        _configuration = configuration;
     }
 
-    public float Solve(float height, Vector3 worldPos) {
+    public float ComputeEffect(float height, Vector3 worldPos) {
         // ToDo replace with a real solve method
 
-        var direction = config.ConfigArr[0];
-        var multiplier = config.ConfigArr[1];
+        var direction = _configuration.PropertiesArray[0];
+        var multiplier = _configuration.PropertiesArray[1];
         var radians = direction * Mathf.Deg2Rad;
         var axis = new Vector2(Mathf.Cos(radians), Mathf.Sin(radians));
 
@@ -24,8 +26,8 @@ public class Slope : INode {
         return slopeHeight;
     }
 
-    public void Solve(ref Cell cell, Vector3 worldPoint) {
-        throw new System.NotImplementedException();
+    public void ComputeEffect(ref Cell cell, Vector3 worldPoint) {
+        throw new NotImplementedException();
     }
 }
 }

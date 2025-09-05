@@ -11,7 +11,6 @@ namespace ConfigEditor.Source.Effects.Base {
 //  the process should be simplified, as 4 different files have to be created
 //  and several random lines need to also have the effect added to those
 
-
 // ToDo implement new effects related to game mechanics
 // groups -             rules that set a tag for points in certain positions
 //                      so that certain effects can only be applied to a certain tag
@@ -148,7 +147,7 @@ public partial class CustomElement : VisualElement {
 
     protected virtual void OnInitializeControls() { }
 
-    public virtual IConfig ToConfig() {
+    public virtual IConfiguration ToConfig() {
         throw new NotImplementedException();
     }
 

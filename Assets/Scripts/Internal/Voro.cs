@@ -7,92 +7,92 @@ namespace Internal {
 // ToDo implement method for adjacent Voros to blend together nicely
 public class Voro {
     readonly Cell[] _cells;
-
-    readonly Transform _transform;
+    readonly JsonConfiguration _configuration;
+    readonly Vector2 _origin;
     GameObject[] _cellObjects;
-    JsonConfig _config;
 
-    public Voro(string configName, Transform tform) {
-        // point data in json file is used to build the cells for this voro
+    public Voro(Vector2 origin) {
+        _origin = origin;
+
+        // construct the cells for this voro
         _cells = ResourceHelper.CreateCellArray();
-        //_pointArray = new PointArray(ResourceHelper.LoadVoroPoints());
-        //_geometryArray = new GeometryArray(_pointArray);
 
-        // read the configuration
-        // get the JsonConfig which contains the configuration objects for the voro height
-        _config = new JsonConfig(configName);
+        // reconstruct the data from the configuration editor
+        // this allows the height of the voro to be solved
+        _configuration = new JsonConfiguration("MyConfig");
 
-        _transform = tform;
-
-        // configure the height so the voro is built in its finished form
-        ConfigurePointHeight();
-
-        // instance the geometry that exists in this voro
-        InstanceGeometry();
+        // set the height value for every cell in the voro
+        var voroHeight = new VoroHeight((_configuration, _cells), _origin, out var outElevation);
+        SolveCellElevation(outElevation);
 
         OnCreation();
     }
 
-    bool ConfigurePointHeight() {
-        // this class uses a configuration json and can read the data inside it
-        // this configuration is to alter the height value of all the voro points
-        // the config holds a set of values which are used to form an instruction
-        // this instruction is designed to manipulate the height value in a way
-        // that allows the look of the terrain to be directed by the user
-        // multiple instructions can be stored in the configuration file
-        var voroHeight = new VoroHeight((_config, _cells), _transform.position, out var heightMap);
-
-        ApplyHeight(heightMap);
-
-        void ApplyHeight(float[] heightValues) {
-            for (var i = 0; i < heightValues.Length; i++) {
-                // get the position of each point
-                var newPos = _cells[i].position;
-                // set the height value in the point
-                newPos.y = heightValues[i];
-                // set the new position of the point, applying the height value
-                _cells[i].position = newPos;
-            }
+    void SolveCellElevation(float[] elevations) {
+        for (var i = 0; i < elevations.Length; i++) {
+            // get the position of this cell
+            var newPos = _cells[i].position;
+            // set the new y value
+            newPos.y = elevations[i];
+            // set the position of the cell so it gains the calculated elevation
+            _cells[i].position = newPos;
         }
-
-        return true;
     }
 
-    void InstanceGeometry() {
-        // instance all the unique geometry instances for the voro
-        // this is very expensive to do, but allows the Voro
-        // to resemble how it would in a game
-
-        _cellObjects = new GameObject[_cells.Length];
-
+    /// <summary>
+    ///     gets an array of all the fbx objects from the cells
+    /// </summary>
+    /// <returns></returns>
+    public (Cell, GameObject)[] CreateCellGameObjects() {
+        var cellObjects = new (Cell, GameObject)[_cells.Length];
         for (var i = 0; i < _cells.Length; i++) {
-            ResourceHelper.InstanceGeometry<GameObject>(_cells[i].GetFBX(), out var instance);
-            instance.transform.position += _cells[i].position + _transform.position;
-            instance.transform.SetParent(_transform);
-
-            _cellObjects[i] = instance;
+            // read the FBX mesh from this cell
+            var instance = _cells[i].GetFBX();
+            cellObjects[i] = (_cells[i], instance);
         }
+
+        return cellObjects;
     }
+
+    // void InstanceGeometry() {
+    //     // instance all the unique geometry instances for the voro
+    //     // this is very expensive to do, but allows the Voro
+    //     // to resemble how it would in a game
+    //
+    //     _cellObjects = new GameObject[_cells.Length];
+    //
+    //     for (var i = 0; i < _cells.Length; i++) {
+    //         ResourceHelper.InstanceGeometry<GameObject>(_cells[i].GetFBX(), out var instance);
+    //         // instance.transform.position += _cells[i].position + _transform.position;
+    //         // instance.transform.SetParent(_transform);
+    //
+    //         _cellObjects[i] = instance;
+    //     }
+    // }
 
     void OnCreation() { }
 
     // vor the voro to vork in vealtime, the voro vust vupdate
     public void Update() {
-        RefreshHeight();
+        // RefreshHeight();
     }
 
-    void RefreshHeight() {
-        // reload the config
-        _config = new JsonConfig("MyConfig");
-
-        // solve the height for the points
-        ConfigurePointHeight();
-
-        // now the points have gained a new position, the actual game objects need to change
-        for (var i = 0; i < _cellObjects.Length; i++) {
-            _cellObjects[i].transform.position = _cells[i].position + _transform.position;
-        }
+    public string ToString() {
+        return $"Voro @{_origin}";
     }
+
+    // void RefreshHeight() {
+    //     // reload the config
+    //     _config = new JsonConfig("MyConfig");
+    //
+    //     // solve the height for the points
+    //     SolveCellElevation();
+    //
+    //     // now the points have gained a new position, the actual game objects need to change
+    //     for (var i = 0; i < _cellObjects.Length; i++) {
+    //         // _cellObjects[i].transform.position = _cells[i].position + _transform.position;
+    //     }
+    // }
 
     // ToDo implement OnConfigured and the ability to make sure all heights are valid
     // OnConfigured() {

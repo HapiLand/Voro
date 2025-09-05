@@ -20,7 +20,6 @@ public struct Cell {
         var variants = fbxArray.Length;
         var variant = Random.Range(0, variants);
         var instance = fbxArray[variant];
-        //prefab.transform.position no longer set here
 
         // set prefab color
         var mat = Resources.Load<Material>("FbxMat");
@@ -38,8 +37,12 @@ public struct Cell {
         id = point.id;
         // ToDo fix DemoTable.json so it stores the position as XZ instead of currently as ZX
         position = new Vector3(point.p[1], 0, point.p[0]);
-        // ToDo allow color to have some randomness to it so its not always uniform
         color = new Color(point.col[0], point.col[1], point.col[2], 1.0f);
+        // subtract randomness to the color
+        var rand = Random.value * 0.5f;
+        color -= new Color(rand, rand, rand, 0.0f);
+
+
         //var t = Mathf.Abs(position.y) % 1;
         //return Color.Lerp(Color.cornflowerBlue, Color.crimson, t);
         GroupID = -1;

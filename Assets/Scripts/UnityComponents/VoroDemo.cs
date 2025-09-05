@@ -1,44 +1,41 @@
-using System;
-using DataTypes;
-using Internal;
 using UnityEngine;
-using Object = UnityEngine.Object;
 
 namespace UnityComponents {
 public class VoroDemo : MonoBehaviour {
+    // ToDo remove this class
 
-    Voro _voro;
-    public Voro Voro {
-        get { return _voro; }
-    }
-    
+    // Voro _voro;
+    // public Voro Voro {
+    //     get { return _voro; }
+    // }
+
     // makes the Voro Geometry use a single mesh which can better be instanced
     // for testing purposes, a Voro does not need its complex geometry 
     // currently broken
-    [SerializeField] bool _useDebugMesh;
-    
+    // [SerializeField] bool _useDebugMesh;
+
     Material _mat;
     Mesh _mesh;
 
-    void Awake() {
-        _mat = Resources.Load<Material>("FbxMat");
-        _mesh = ResourceHelper.LoadResource<Mesh>("DebugMesh");
-
-        _voro = ResourceHelper.CreateVoro(transform,"MyConfig");
-    }
-
-    void Start() {
-        var configName = "MyConfig";
-
-        // construct the voro
-        // the voro is given the name of the config, this controls how the height is generated
-        // also set the position for where the voro is created
-        _voro = new Voro(configName, transform);
-    }
-
-    void Update() {
-        //_voro.Update();
-    }
+    // void Awake() {
+    //     _mat = Resources.Load<Material>("FbxMat");
+    //     _mesh = ResourceHelper.LoadResource<Mesh>("DebugMesh");
+    //
+    //     // _voro = ResourceHelper.CreateVoro(transform,"MyConfig");
+    // }
+    //
+    // void Start() {
+    //     var configName = "MyConfig";
+    //
+    //     // construct the voro
+    //     // the voro is given the name of the config, this controls how the height is generated
+    //     // also set the position for where the voro is created
+    //     // _voro = new Voro(configName, transform);
+    // }
+    //
+    // void Update() {
+    //     //_voro.Update();
+    // }
 
     /*
     void Update() {

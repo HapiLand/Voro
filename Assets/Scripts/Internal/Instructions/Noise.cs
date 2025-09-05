@@ -1,15 +1,18 @@
+using System;
 using DataTypes;
 using UnityEngine;
 
 namespace Internal.Instructions {
-public class Noise : INode {
-    IConfig config;
-    public Noise(IConfig config) {
-        this.config = config;
+public class Noise : IEffect {
+    readonly IConfiguration _configuration;
+
+    public Noise(IConfiguration configuration) {
+        _configuration = configuration;
     }
-    public float Solve(float height, Vector3 worldPoint) {
-        var scale = this.config.ConfigArr[0];
-        var size = this.config.ConfigArr[1];
+
+    public float ComputeEffect(float height, Vector3 worldPoint) {
+        var scale = _configuration.PropertiesArray[0];
+        var size = _configuration.PropertiesArray[1];
         var perlin = new Perlin();
         double dx = Mathf.Abs(worldPoint.x * size);
         double dy = Mathf.Abs(worldPoint.y * size);
@@ -19,8 +22,8 @@ public class Noise : INode {
         return (float)noise;
     }
 
-    public void Solve(ref Cell cell, Vector3 worldPoint) {
-        throw new System.NotImplementedException();
+    public void ComputeEffect(ref Cell cell, Vector3 worldPoint) {
+        throw new NotImplementedException();
     }
 }
 }
