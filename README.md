@@ -4,9 +4,9 @@ Voro is a GUI tool for real-time 3D procedural terrain generation in Unity.
 
 Planned features -
 - GUI editor for designing preset patterns that generate different types of worlds. (in development)
-- Expand feature set of terrain generation, allowing generation to aid in implementing game mechanics.
-- Infinite world generation.
-- Improve ease-of-use and overall quality of GUI.
+- Expand feature set of terrain generation, allowing generation to aid in implementing game mechanics. (in development)
+- Infinite world generation. (in development)
+- Improve ease-of-use and overall quality of GUI. (in development)
 - Preset Layers.
 - Object scattering, eg trees and rocks.
 - Implement Mesh generation in the form of a grass layer.
