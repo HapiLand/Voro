@@ -4,8 +4,9 @@ using UnityEngine;
 
 namespace UnityComponents {
 [RequireComponent(typeof(PlayerLocation))]
+// ToDo the scale of the Voros must be larger, the current size of a 1x1 voro is too small
 public class GameWorld : MonoBehaviour {
-    [SerializeField] [Range(0f, 5f)] float _drawDistance;
+    [SerializeField] [Range(0.1f, 5f)] float _drawDistance;
     Tile[,] _tiles;
 
     Vector3 _playerPosition {

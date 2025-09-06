@@ -18,6 +18,7 @@ public struct Cell {
     public GameObject GetFBX() {
         // pick the mesh for this cell
         var variants = fbxArray.Length;
+        variants = 0;
         var variant = Random.Range(0, variants);
         var instance = fbxArray[variant];
 
@@ -35,12 +36,14 @@ public struct Cell {
 
     public Cell(JsonPoint point) {
         id = point.id;
-        // ToDo fix DemoTable.json so it stores the position as XZ instead of currently as ZX
-        position = new Vector3(point.p[1], 0, point.p[0]);
-        color = new Color(point.col[0], point.col[1], point.col[2], 1.0f);
+
+        position = new Vector3(point.p[0], 0, point.p[1]);
+
+        color = new Color(point.col[1], point.col[0], point.col[2], 1.0f);
+
         // subtract randomness to the color
-        var rand = Random.value * 0.5f;
-        color -= new Color(rand, rand, rand, 0.0f);
+        //var rand = Random.value * 0.5f;
+        //color -= new Color(rand, rand, rand, 0.0f);
 
 
         //var t = Mathf.Abs(position.y) % 1;
