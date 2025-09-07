@@ -1,3 +1,5 @@
+using UnityEngine;
+
 namespace Terrain {
 /// <summary>
 ///     utility to make creating diagrams easy
@@ -8,9 +10,19 @@ public class DiagramFactory {
     ///     this diagram will be populated with data for testing
     /// </summary>
     /// <returns></returns>
-    public Diagram CreatePlaceholder() {
-        var diagram = new Diagram();
-        // ToDo add data to diagram
+    public VoroDiagram CreatePlaceholder() {
+        var diagram = new VoroDiagram();
+
+        // populate diagram with data
+        diagram.PointMap = new int[1]
+        {
+            0
+        };
+        diagram.Points = new (Vector3, int)[1]
+        {
+            (new Vector3(0, 0, 0), 0)
+        };
+
         return diagram;
     }
 
@@ -18,8 +30,8 @@ public class DiagramFactory {
     ///     this creates a diagram to be used in Tile
     /// </summary>
     /// <returns></returns>
-    public Diagram Create() {
-        var diagram = new Diagram();
+    public VoroDiagram Create() {
+        var diagram = new VoroDiagram();
         return diagram;
     }
 }

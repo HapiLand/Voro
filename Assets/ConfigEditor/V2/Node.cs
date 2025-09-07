@@ -14,7 +14,7 @@ public class Node : VisualElement {
         // ToDo implement logic in Node that will execute an actual function for the nodes effect
         //  Node to be used like the IEffect interface in V1
         Effect = effect;
-        Debug.Log($"node created with: {Effect}");
+        // Debug.Log($"node created with: {Effect}");
 
         // GUI
         name = $"Node_{Effect.EffectName}";

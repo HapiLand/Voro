@@ -20,7 +20,6 @@ public class Diagram {
     /// </summary>
     Centroids[] _centroids;
 
-    // ToDo implement Diagram
     /// <summary>
     ///     this is data from DemoTable
     ///     the map of every point as to be provided to

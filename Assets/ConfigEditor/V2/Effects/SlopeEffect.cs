@@ -1,5 +1,6 @@
 using System;
 using ConfigEditor.V2.Effects.Internal;
+using Terrain;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -34,8 +35,29 @@ public class SlopeEffect : Effect<SlopeEffectData> {
         }
     }
 
-    public override void Compute() {
+    public override void Compute(ref VoroDiagram diagram) {
         Debug.Log($"Compute effect: {EffectName}");
+
+        // ToDo compute the diagram all at once, every Point processed together
+        // for testing, use a generic for loop over the diagram
+
+        // get index map for every point
+        for (var i = 0; i < diagram.PointMap.Length; i++) {
+            // find the index of the current point map point
+            // this index value is for a specific Point that the diagram contains
+            int index = diagram.PointMap[i];
+            // access the point at the index
+            var point = diagram.Points[index];
+            
+            // ToDo replace placeholder modification with what the effect actually does
+            // placeholder modification to verify things work
+            Vector3 pos = point.Item1; // read the points position
+            float yChange = 5f; // change the Y value by 5
+            pos.y += yChange; // modify value
+            
+            // write the value back into the diagram
+            diagram.Points[index] = (pos, point.Item2);
+        }
     }
 }
 
