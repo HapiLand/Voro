@@ -1,27 +1,31 @@
-using ConfigEditor.V2.Effects;
+using System;
 using ConfigEditor.V2.Effects.Internal;
 using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace ConfigEditor.V2 {
 public class Node : VisualElement {
+    static Node _selectedNode;
+
     public IEffect Effect;
     // ToDo inspector must read/write the effect data value
-    static Node _selectedNode;
-    
+
     Node(IEffect effect) {
         // ToDo implement logic in Node that will execute an actual function for the nodes effect
         //  Node to be used like the IEffect interface in V1
         Effect = effect;
         Debug.Log($"node created with: {Effect}");
-        
+
         // GUI
         name = $"Node_{Effect.EffectName}";
         AddToClassList("node");
         // create the layout of the node
         BuildUI();
     }
-    
+
+    public static event Action<Node> OnNodeSelectedEvent;
+    public static event Action OnNodeUnselectedEvent;
+
     public static Node CreateInstance(string effectName) {
         // data which is the configuration for this effect
         // the inspector will display/alter these values
@@ -38,7 +42,7 @@ public class Node : VisualElement {
         // horizontal container for the header of the node
         var header = new VisualElement();
         header.AddToClassList("node-row");
-        
+
         // display name of the node
         var label = new Label(Effect.EffectName);
         label.AddToClassList("node-label");
@@ -75,7 +79,7 @@ public class Node : VisualElement {
         buttonRow.Add(downBtn);
         Add(buttonRow);
     }
-    
+
     void OnToggleValueChanged(ChangeEvent<bool> evt) {
         if (evt.newValue) {
             Select();
@@ -83,6 +87,8 @@ public class Node : VisualElement {
         else if (_selectedNode == this) {
             _selectedNode = null;
             RemoveFromClassList("selected-node");
+            // unselection event so the inspector will no longer display this node
+            OnNodeUnselectedEvent?.Invoke();
         }
     }
 
@@ -93,12 +99,20 @@ public class Node : VisualElement {
         if (_selectedNode != null && _selectedNode != this) {
             _selectedNode.RemoveFromClassList("selected-node");
             var previousToggle = _selectedNode.Q<Toggle>();
-            if (previousToggle != null)
+            if (previousToggle != null) {
                 previousToggle.SetValueWithoutNotify(false);
+            }
+
+            // unselection event so the inspector will no longer display this node
+            // OnNodeUnselectedEvent?.Invoke();
         }
 
         _selectedNode = this;
         AddToClassList("selected-node");
+
+        Debug.Log($"node {_selectedNode.Effect.EffectName} was selected");
+        // notify inspector that it shall display this effect
+        OnNodeSelectedEvent?.Invoke(this);
     }
 
     /// <summary>
@@ -109,20 +123,21 @@ public class Node : VisualElement {
     void Move(int direction) {
         // get the parent of this node, which is a column
         var parent = this.parent;
-        if (parent == null) return;
+        if (parent == null) {
+            return;
+        }
 
         // find the current index and the new index that is in the desired direction
-        
+
         var index = parent.IndexOf(this);
         var newIndex = Mathf.Clamp(index + direction, 0, parent.childCount - 1);
-        if (index == newIndex) return;
-        
+        if (index == newIndex) {
+            return;
+        }
+
         // update order of nodes
         parent.Remove(this);
         parent.Insert(newIndex, this);
     }
-
-    
-
 }
 }

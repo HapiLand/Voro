@@ -35,7 +35,6 @@ public class ColumnManager {
         var scroll = new ScrollView(ScrollViewMode.Vertical);
         scroll.AddToClassList("scroll");
 
-
         // register the event on when the toolbar is selected by the user
         topRow.RegisterCallback<ClickEvent>(evt => {
             if (_selectedColumn == column) {
@@ -64,6 +63,9 @@ public class ColumnManager {
     /// <param name="column"></param>
     public void RemoveColumn(VisualElement column) {
         if (_selectedColumn == column) {
+            // if the column that is going to be removed
+            // is the currently selected column (as multiple may exist)
+            // set the selection to null as it will not exist after this method
             _selectedColumn = null;
         }
 

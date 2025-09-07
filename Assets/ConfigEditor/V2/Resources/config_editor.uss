@@ -141,3 +141,24 @@
     justify-content: space-evenly;
     align-content: stretch;
 }
+
+.display {
+    background-color: rgb(216, 49, 216);
+    flex-grow: 0;
+    height: 50px;
+    width: 50px;
+}
+
+.display-label {
+    -unity-font-style: bold;
+    color: rgb(0, 0, 0);
+}
+
+.effect-float-slider {
+}
+
+.effect-int-slider {
+}
+
+.effect-string-field {
+}

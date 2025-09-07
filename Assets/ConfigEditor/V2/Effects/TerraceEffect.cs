@@ -1,6 +1,7 @@
 using System;
 using ConfigEditor.V2.Effects.Internal;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 namespace ConfigEditor.V2.Effects {
 /// <summary>
@@ -10,23 +11,36 @@ namespace ConfigEditor.V2.Effects {
 ///     this effect is what will be executed when the editor processes a voro
 /// </summary>
 public class TerraceEffect : Effect<TerraceEffectData> {
+    VisualElement _inspectorDisplay;
     public TerraceEffect(TerraceEffectData data) : base("Terrace", data) { }
+
+    public override VisualElement InspectorDisplay {
+        get
+        {
+            if (_inspectorDisplay == null) {
+                Debug.Log($"Get Display {EffectName}");
+
+                // create the visual element that contains the elements in the display
+                _inspectorDisplay = UIHelper.CreateGenericDisplay("TerraceDisplay");
+
+                // create the effect data elements
+                _inspectorDisplay.Add(UIHelper.CreateEffectFloatSlider(nameof(Data.direction), 0f, 10f, 0f));
+                _inspectorDisplay.Add(UIHelper.CreateEffectIntSlider(nameof(Data.iterations), 0, 10, 0));
+                _inspectorDisplay.Add(UIHelper.CreateEffectFloatSlider(nameof(Data.minStepSize), 0f, 10f, 0f));
+                _inspectorDisplay.Add(UIHelper.CreateEffectFloatSlider(nameof(Data.maxStepSize), 0f, 10f, 0f));
+                _inspectorDisplay.Add(UIHelper.CreateEffectFloatSlider(nameof(Data.stepScale), 0f, 10f, 0f));
+                // ToDo sliders must update values in data
+            }
+
+            return _inspectorDisplay;
+        }
+    }
 
     public override void Compute() {
         Debug.Log($"Compute effect: {EffectName}");
     }
 }
 
-/// <summary>
-///     data structure to configure any effects which are a Terrace Effect
-///     -----
-///     Slope/Noise/Terrace alter height
-///     SetGroup is an effect that does not set height, only a group
-///     what this means is one category can use FooEffectData
-///     another category BarEffectData
-///     -----
-///     another option is bespoke one-of-a-kind effects can use their own GenericEffectData
-/// </summary>
 [Serializable]
 public class TerraceEffectData : IEffectData {
     public float direction;

@@ -1,3 +1,5 @@
+using UnityEngine.UIElements;
+
 namespace ConfigEditor.V2.Effects.Internal {
 /// <summary>
 ///     the contract for every effect
@@ -5,6 +7,7 @@ namespace ConfigEditor.V2.Effects.Internal {
 /// </summary>
 public interface IEffect {
     string EffectName { get; }
+    VisualElement InspectorDisplay { get; } // inspector display
     void Compute(); // execute the effect
 }
 }

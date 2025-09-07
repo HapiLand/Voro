@@ -1,3 +1,5 @@
+using UnityEngine.UIElements;
+
 namespace ConfigEditor.V2.Effects.Internal {
 /// <summary>
 ///     abstract generic base class for effects which use a specific type of data
@@ -6,6 +8,7 @@ namespace ConfigEditor.V2.Effects.Internal {
 /// <typeparam name="TEffectData"></typeparam>
 public abstract class Effect<TEffectData> : IEffect {
     protected TEffectData Data;
+
     public Effect(string name, TEffectData data) {
         EffectName = name;
         Data = data;
@@ -13,6 +16,7 @@ public abstract class Effect<TEffectData> : IEffect {
 
     public string EffectName { get; }
     public abstract void Compute();
+    public abstract VisualElement InspectorDisplay { get; }
 
     /// <summary>
     ///     when viewed by the inspector the data for this effect must be able to change
