@@ -38,14 +38,19 @@ public class GameWorld : MonoBehaviour {
     void Update() {
         for (var x = 0; x < Dimensions[0]; x++) {
             for (var z = 0; z < Dimensions[1]; z++) {
-                // determine if the tile is visible
-                var newConstructedVoro = _tiles[x, z].UpdateVisibility(_playerPosition, _drawDistance);
+                // check whether the tile is visible
+                var newDiagram = _tiles[x, z].UpdateVisibility(_playerPosition, _drawDistance);
+                // ToDo UpdateVisibility must return a VoroDiagram
+                // upon the tile becoming visible to the player for the first time, a diagram returns
 
-                // when the Tile first becomes visible, it returns the newly constructed Voro
-                if (newConstructedVoro != null) {
+                if (newDiagram != null) {
+                    // the diagram has been computed and contains data for the GameWorld
+                    // the contents of the diagram will be used to instantiate the FBX objects
+                    // ToDo build Unity Objects from a diagram
+                    
                     // instantiate the GameObjects for this Voro
                     // so that the Cell Geometry is a child of the Tile object
-                    InstanceNewVoro(newConstructedVoro, x, z);
+                    InstanceNewVoro(newDiagram, x, z);
                 }
 
                 var tileVisible = _tiles[x, z].IsVisible;

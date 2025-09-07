@@ -33,7 +33,7 @@ public class ColumnManager {
         // var selectToggle = new Toggle();
         var deleteButton = new Button(() => RemoveColumn(column)) { text = "X" };
         var scroll = new ScrollView(ScrollViewMode.Vertical);
-        scroll.name = $"NodeScrollView";
+        scroll.name = "NodeScrollView";
         scroll.AddToClassList("scroll");
 
         // register the event on when the toolbar is selected by the user
@@ -78,7 +78,6 @@ public class ColumnManager {
     /// </summary>
     /// <param name="column"></param>
     public void SelectColumn(VisualElement column) {
-        // ToDo repeat this with Nodes to deselect other nodes
         if (_selectedColumn != null && _selectedColumn != column) {
             _selectedColumn.Q<Toggle>()?.SetValueWithoutNotify(false);
             _selectedColumn.RemoveFromClassList("selected-column");

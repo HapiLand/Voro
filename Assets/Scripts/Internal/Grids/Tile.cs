@@ -4,6 +4,8 @@ using UnityEngine;
 
 namespace Internal.Grids {
 public struct Tile {
+    // ToDo add VoroDiagram
+
     /// <summary>
     ///     the corner position of this tile, the origin of it
     /// </summary>
@@ -65,6 +67,7 @@ public struct Tile {
     ///     called upon the tile becoming visible to the player for the first time
     /// </summary>
     void Init() {
+        // ToDo compute the diagram in the editor
         HasInitialised = true;
         // construct this tiles Voro
         VoroInstance = new Voro(_corner);
