@@ -1,6 +1,4 @@
 using ConfigEditor.V2;
-using ConfigEditor.V2.Effects;
-using ConfigEditor.V2.Effects.Internal;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -23,25 +21,22 @@ public class ConfigEditor2Window : EditorWindow {
         var effectNodeFactory = new NodeFactory();
         _columnManager = new ColumnManager(columnContainer, effectNodeFactory);
         _toolbarManager = new ToolbarManager(toolbarPanel, _columnManager, effectNodeFactory);
-
-        //EffectTest();
     }
 
-    void EffectTest() {
-        // data which is the configuration for this effect
-        // the inspector will display/alter these values
-        var defaultFooData = new FooEffectData
-        {
-            Foo = 1,
-            Bar = 2,
-            Pee = 3
-        };
-        // a new instance of the effect, which was cloned from the dictionary
-        // this is what the visual element Node shall use
-        var testEffect = new FooEffect(defaultFooData);
-        // runs the function of the effect, ie compute height
-        testEffect.Compute();
-    }
+    // void EffectTest() {
+    //     // data which is the configuration for this effect
+    // //     // the inspector will display/alter these values
+    // var defaultFooData = new NullEffectData
+    // {
+    //     Foo = 1,
+    //     Bar = 2,
+    // };
+    //     // a new instance of the effect, which was cloned from the dictionary
+    //     // this is what the visual element Node shall use
+    //     var testEffect = new NullEffect(defaultFooData);
+    //     // runs the function of the effect, ie compute height
+    //     testEffect.Compute();
+    // }
 
     [MenuItem("Voro/Editor")]
     public static void ShowExample() {

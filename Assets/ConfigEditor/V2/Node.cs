@@ -5,41 +5,124 @@ using UnityEngine.UIElements;
 
 namespace ConfigEditor.V2 {
 public class Node : VisualElement {
-    IEffect _effect;
+    public IEffect Effect;
+    // ToDo inspector must read/write the effect data value
+    static Node _selectedNode;
     
     Node(IEffect effect) {
         // ToDo implement logic in Node that will execute an actual function for the nodes effect
         //  Node to be used like the IEffect interface in V1
-        _effect = effect;
-        Debug.Log($"node created with: {_effect.ToString()}");
+        Effect = effect;
+        Debug.Log($"node created with: {Effect}");
+        
+        // GUI
+        name = $"Node_{Effect.EffectName}";
+        AddToClassList("node");
+        // create the layout of the node
+        BuildUI();
     }
-
+    
     public static Node CreateInstance(string effectName) {
-        // ToDo implement each IEffect
-        // create the new effect instance
         // data which is the configuration for this effect
         // the inspector will display/alter these values
-        var defaultFooData = new FooEffectData
-        {
-            Foo = 1,
-            Bar = 2,
-            Pee = 3
-        };
         // a new instance of the effect, which was cloned from the dictionary
         // this is what the visual element Node shall use
-        IEffect nodeEffect = effectName switch
-        {
-            "Slope" => new FooEffect(defaultFooData),
-            "Noise" => new FooEffect(defaultFooData),
-            "Terrace" => new FooEffect(defaultFooData),
-            "Null" => new FooEffect(defaultFooData),
-            "SetGroup" => new FooEffect(defaultFooData),
-            _ => null
-        };
+
         // construct the visual element
-        var node = new Node(nodeEffect);
-        
+        var node = new Node(EffectFactory.Create(effectName));
+
         return node;
     }
+
+    void BuildUI() {
+        // horizontal container for the header of the node
+        var header = new VisualElement();
+        header.AddToClassList("node-row");
+        
+        // display name of the node
+        var label = new Label(Effect.EffectName);
+        label.AddToClassList("node-label");
+
+        // toggle allows the node to be bypassed
+        var toggle = new Toggle();
+        toggle.AddToClassList("node-toggle");
+        // register when a node is selected, same idea as selecting a column
+        toggle.RegisterValueChangedCallback(OnToggleValueChanged);
+
+        // add to hierarchy
+        header.Add(toggle);
+        header.Add(label);
+        Add(header);
+
+        // horizontal container for the buttons
+        var buttonRow = new VisualElement();
+        buttonRow.AddToClassList("node-row");
+
+        // create the delete button so the node can be removed
+        // reset selections
+        var deleteBtn = new Button(() => RemoveFromHierarchy()) { text = "X" };
+        // create the up and down buttons that will change the order of this node in the container
+        var upBtn = new Button(() => Move(-1)) { text = "↑" };
+        var downBtn = new Button(() => Move(1)) { text = "↓" };
+
+        // add to hierarchy
+        foreach (var btn in new[] { deleteBtn, upBtn, downBtn }) {
+            btn.AddToClassList("node-button");
+        }
+
+        buttonRow.Add(deleteBtn);
+        buttonRow.Add(upBtn);
+        buttonRow.Add(downBtn);
+        Add(buttonRow);
+    }
+    
+    void OnToggleValueChanged(ChangeEvent<bool> evt) {
+        if (evt.newValue) {
+            Select();
+        }
+        else if (_selectedNode == this) {
+            _selectedNode = null;
+            RemoveFromClassList("selected-node");
+        }
+    }
+
+    /// <summary>
+    ///     allow a node to be selected via its toggle, same as Column
+    /// </summary>
+    void Select() {
+        if (_selectedNode != null && _selectedNode != this) {
+            _selectedNode.RemoveFromClassList("selected-node");
+            var previousToggle = _selectedNode.Q<Toggle>();
+            if (previousToggle != null)
+                previousToggle.SetValueWithoutNotify(false);
+        }
+
+        _selectedNode = this;
+        AddToClassList("selected-node");
+    }
+
+    /// <summary>
+    ///     changes the position of the node in a up/down direction
+    /// </summary>
+    /// <param name="node"></param>
+    /// <param name="direction"></param>
+    void Move(int direction) {
+        // get the parent of this node, which is a column
+        var parent = this.parent;
+        if (parent == null) return;
+
+        // find the current index and the new index that is in the desired direction
+        
+        var index = parent.IndexOf(this);
+        var newIndex = Mathf.Clamp(index + direction, 0, parent.childCount - 1);
+        if (index == newIndex) return;
+        
+        // update order of nodes
+        parent.Remove(this);
+        parent.Insert(newIndex, this);
+    }
+
+    
+
 }
 }

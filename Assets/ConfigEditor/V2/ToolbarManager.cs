@@ -42,7 +42,7 @@ public class ToolbarManager {
                 { "Fancy/Noise", ResourceHelper.LoadNode("Noise") },
                 { "Special/Terrace", ResourceHelper.LoadNode("Terrace") },
                 { "Special/Null", ResourceHelper.LoadNode("Null") },
-                { "Groups/SetGroup", ResourceHelper.LoadNode("SetGroup") }
+                { "Tags/SetTag", ResourceHelper.LoadNode("SetTag") }
             };
 
         // store the menu for each category
