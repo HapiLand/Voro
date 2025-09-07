@@ -10,8 +10,8 @@ public class NodeFactory {
     /// </summary>
     /// <param name="effectName">the name of the effect</param>
     /// <returns>the visual element of the node effect</returns>
-    public VisualElement Create(string effectName) {
-        var node = new VisualElement();
+    public Node Create(string effectName) {
+        var node = Node.CreateInstance(effectName);
         node.name = $"Node_{effectName}";
         node.AddToClassList("node");
 

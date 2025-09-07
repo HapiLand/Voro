@@ -19,32 +19,41 @@ public class ColumnManager {
     ///     on a toolbar callback, the new column is created and can store nodes
     /// </summary>
     public void AddColumn() {
+        // top row is where the label is displayed the column is set to be selected
+        var topRow = new VisualElement();
+        topRow.AddToClassList("column-top-row");
+
         // ToDo the column is written into MyConfig.json
-        var columnName = $"Column_{Random.Range(0, 9999)}";
+        var columnName = $"Column_{Random.Range(0, 999)}";
         var column = new VisualElement { name = columnName };
         column.AddToClassList("column");
 
         // the elements of the column
         var label = new Label(columnName);
-        var selectToggle = new Toggle("Select");
+        // var selectToggle = new Toggle();
         var deleteButton = new Button(() => RemoveColumn(column)) { text = "X" };
         var scroll = new ScrollView(ScrollViewMode.Vertical);
         scroll.AddToClassList("scroll");
 
+
         // register the event on when the toolbar is selected by the user
-        selectToggle.RegisterValueChangedCallback(evt => {
-            if (evt.newValue) {
-                SelectColumn(column);
-            }
-            else if (_selectedColumn == column) {
+        topRow.RegisterCallback<ClickEvent>(evt => {
+            if (_selectedColumn == column) {
                 _selectedColumn = null;
+                column.RemoveFromClassList("selected-column");
+            }
+            else {
+                SelectColumn(column);
             }
         });
 
         // add to hierarchy
-        column.Add(label);
-        column.Add(selectToggle);
-        column.Add(deleteButton);
+        column.Add(topRow);
+
+        // topRow.Add(selectToggle);
+        topRow.Add(label);
+        topRow.Add(deleteButton);
+
         column.Add(scroll);
         _columnContainer.Add(column);
     }
@@ -77,7 +86,9 @@ public class ColumnManager {
     }
 
     /// <summary>
-    ///     adds a new effect into the column
+    ///     the user selected an effect from the toolbar
+    ///     this effect is now being added to the selected column
+    ///     a new visual element for a node will be created
     /// </summary>
     /// <param name="effectName"></param>
     public void AddEffectToSelectedColumn(string effectName) {
