@@ -39,7 +39,6 @@ public partial class EffectMenuElement : VisualElement {
         // this will produce the collapsible menu elements
         ConfigureFromMenuData();
 
-        // ToDo register mouse clicking to enable menu visibility
         // _node.RegisterCallback<MouseDownEvent>(e => Value = !Value);
     }
 
@@ -129,7 +128,6 @@ public partial class EffectMenuElement : VisualElement {
         SetState(value);
     }
     void SetState(bool value) {
-        // ToDo toggle visibility of menu via style
         //_node.EnableInClassList("element-node_on", value);
     }*/
 }

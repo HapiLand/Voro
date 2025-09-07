@@ -5,7 +5,18 @@ using UnityEngine;
 namespace UnityComponents {
 [RequireComponent(typeof(PlayerLocation))]
 // ToDo the scale of the Voros must be larger, the current size of a 1x1 voro is too small
+
 public class GameWorld : MonoBehaviour {
+    // Todo 
+    // before the EditorCompute can be used as needed the proof needs to show that
+    // it is possible to process the entire Voro at once in VoroHeight
+    // refactor the voro usage in GameWorld to output the same result as it currently does
+    // just change the way Voro gets used, to match EditorCOmpute
+    // Voro Points are processed at once
+    // getting GameWorld to use Voro like the V2 Editor needs will make it easy
+    // to then move this logic through the editor
+    // MyConfig.json to be deprecated as a result of this
+    
     [SerializeField] [Range(0.1f, 5f)] float _drawDistance;
     Tile[,] _tiles;
 
@@ -40,7 +51,6 @@ public class GameWorld : MonoBehaviour {
             for (var z = 0; z < Dimensions[1]; z++) {
                 // check whether the tile is visible
                 var newDiagram = _tiles[x, z].UpdateVisibility(_playerPosition, _drawDistance);
-                // ToDo UpdateVisibility must return a VoroDiagram
                 // upon the tile becoming visible to the player for the first time, a diagram returns
 
                 if (newDiagram != null) {

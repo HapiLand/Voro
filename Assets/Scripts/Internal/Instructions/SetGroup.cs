@@ -16,7 +16,6 @@ public class SetGroup : IEffect {
     public void ComputeEffect(ref Cell cell, Vector3 worldPos) {
         // the group to set this cell as
         var groupValue = _configuration.PropertiesArray[0];
-        // ToDo effects are limited that they only store floats, when they need to be able to use other types
         cell.GroupID = (int)groupValue;
     }
 }

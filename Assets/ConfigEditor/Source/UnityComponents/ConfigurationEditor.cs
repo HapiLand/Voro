@@ -51,8 +51,6 @@ public class ConfigurationEditor : MonoBehaviour {
     }
 
     void ConstructAssetMenu() {
-        // ToDo element must float above everything else in the UI
-
         // load and instance the uxml for the effect menu
         var effectAsset = ResourceHelper.LoadEffectUXML("EffectMenu");
         var template = effectAsset.Instantiate();
@@ -175,7 +173,6 @@ public class ConfigurationEditor : MonoBehaviour {
     #region Move Selection
 
     void OnEffectRequestMove(CustomElement sender, int moveValue) {
-        // ToDo fix bug where this doesnt move the elements correctly
         // find current index of the sender
         var currentIndex = -1;
         VisualElement currentElement = null;
@@ -271,8 +268,6 @@ public class ConfigurationEditor : MonoBehaviour {
 
         return customElement;
     }
-
-    // ToDo when a move button is clicked, find what effect that belongs to, and the move value
 
     #endregion
 }

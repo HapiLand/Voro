@@ -49,7 +49,6 @@ public class VoroHeight {
 
             foreach (var effect in effects) {
                 if (effect is SetGroup setGroup) {
-                    // ToDo allow the effect to work with a Cell
                     // this effect is used to set the GroupID for this cell
                     // setGroup.Solve(ref Cell)
                 }

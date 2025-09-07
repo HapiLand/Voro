@@ -7,10 +7,6 @@ namespace ConfigEditor.Source.Effects.Base {
 ///     the base visual element, to be used by all custom effects
 /// </summary>
 [UxmlElement]
-// ToDo it is too inconvenient to create new effects
-//  the process should be simplified, as 4 different files have to be created
-//  and several random lines need to also have the effect added to those
-
 // ToDo implement new effects related to game mechanics
 // groups -             rules that set a tag for points in certain positions
 //                      so that certain effects can only be applied to a certain tag
@@ -92,7 +88,6 @@ public partial class CustomElement : VisualElement {
             CreateMoveButton(1, out _downBtn);
             _node.Add(_downBtn); // add to hierarchy
 
-            // ToDo delete button needs to remove element
             _deleteBtn = new Button(() => {
                 //MoveClicked?.Invoke(this, moveValue);
             });

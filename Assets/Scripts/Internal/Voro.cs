@@ -2,9 +2,9 @@ using DataTypes;
 using UnityEngine;
 
 namespace Internal {
-// ToDo reimplement TableSampling
-// ToDo reimplement MultiChunks + InfiniteGrid so that Voros can be generated around a player radius
-// ToDo implement method for adjacent Voros to blend together nicely
+// ToDo implement TableSample
+// ToDo implement MultiChunk
+// ToDo adjacency
 public class Voro {
     readonly Cell[] _cells;
     readonly JsonConfiguration _configuration;
@@ -24,6 +24,7 @@ public class Voro {
         // set the height value for every cell in the voro
         var voroHeight = new VoroHeight((_configuration, _cells), _origin, out var outElevation);
         SolveCellElevation(outElevation);
+        // ToDo EditorCompute does this
 
         OnCreation();
     }
@@ -94,15 +95,10 @@ public class Voro {
     //     }
     // }
 
-    // ToDo implement OnConfigured and the ability to make sure all heights are valid
+    // ToDo error detection and correction in generated terrain
     // OnConfigured() {
     //     // 1) finalize check to ensure the requested configuration is valid
     //     // ie terrain slope+elevation is between a constant range, correcting errors if bad
-    // }
-    // ToDo allow the Voro to be deleted from the game world, disconnecting it from anything else
-    // OnDeletion() {
-    //     // 1) invoke to declare this space is now empty, so anything still using it
-    //     // has to stop what its doing (the voro exploded and died rip)
     // }
 }
 }
