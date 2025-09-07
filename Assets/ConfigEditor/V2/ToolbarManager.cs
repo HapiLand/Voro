@@ -33,14 +33,17 @@ public class ToolbarManager {
 
     void SetupMenus(Toolbar toolbar) {
         // populate the toolbar menu with effects
-        var menuPaths = new Dictionary<string, VisualTreeAsset>
-        {
-            { "Basic/Slope", ResourceHelper.LoadEffectUXML("Slope") },
-            { "Fancy/Noise", ResourceHelper.LoadEffectUXML("Noise") },
-            { "Special/Terrace", ResourceHelper.LoadEffectUXML("Terrace") },
-            { "Special/Null", ResourceHelper.LoadEffectUXML("Null") },
-            { "Groups/SetGroup", ResourceHelper.LoadEffectUXML("SetGroup") }
-        };
+        var menuPaths = new Dictionary<string, string>
+            // ToDo replace <string,string> with <string,node> so that the dictionary
+            //  will contain actual node elements, in adding a new node to the column
+            //  just copy the value from the dictionary
+            {
+                { "Basic/Slope", ResourceHelper.LoadNode("Slope") },
+                { "Fancy/Noise", ResourceHelper.LoadNode("Noise") },
+                { "Special/Terrace", ResourceHelper.LoadNode("Terrace") },
+                { "Special/Null", ResourceHelper.LoadNode("Null") },
+                { "Tags/SetTag", ResourceHelper.LoadNode("SetTag") }
+            };
 
         // store the menu for each category
         var menus = new Dictionary<string, ToolbarMenu>();
@@ -50,8 +53,9 @@ public class ToolbarManager {
             var pathParts = kvp.Key.Split('/');
             var category = pathParts[0];
             var effect = pathParts[1];
-            // the uxml effect associated with this button
-            var vta = kvp.Value;
+
+            // the actual node associated with this button
+            var node = kvp.Value;
 
             // check if the menu already exists for this category
             if (!menus.TryGetValue(category, out var menu)) {
@@ -64,7 +68,7 @@ public class ToolbarManager {
             }
 
             // append the effects into the menu
-            menu.menu.AppendAction(effect, _ => _columnManager.AddEffectToSelectedColumn(effect));
+            menu.menu.AppendAction(effect, _ => _columnManager.AddEffectToSelectedColumn(node));
         }
     }
 }

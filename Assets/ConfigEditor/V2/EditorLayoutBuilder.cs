@@ -11,11 +11,12 @@ public class EditorLayoutBuilder {
         _root = rootElement;
     }
 
-    public void BuildLayout(out VisualElement columnContainer, out VisualElement toolbarPanel) {
+    public void BuildLayout(out VisualElement columnContainer, out VisualElement toolbarPanel,
+        out VisualElement inspectorPanel) {
         // create every panel that the GUI has
         var rootPanel = UIHelper.Create("Root", "root");
         var mainPanel = UIHelper.Create("Main", "main");
-        var inspectorPanel = UIHelper.Create("Inspector", "inspector"); // red
+        inspectorPanel = UIHelper.Create("Inspector", "inspector"); // red
         // ToDo add elements into inspector
         var worldPanel = UIHelper.Create("World", "world"); // orange
         // ToDo display a camera view in the world panel

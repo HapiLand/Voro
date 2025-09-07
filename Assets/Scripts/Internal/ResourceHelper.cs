@@ -42,6 +42,10 @@ public static class ResourceHelper {
         return LoadResource<VisualTreeAsset>(name);
     }
 
+    public static string LoadNode(string name) {
+        return name;
+    }
+
     public static void InstanceGeometry<T>(GameObject geo, out T instance) where T : Object {
         instance = Object.Instantiate(geo) as T;
     }
