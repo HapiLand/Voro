@@ -4,7 +4,7 @@ namespace ConfigEditor.V2.Effects.Internal {
 /// </summary>
 public static class EffectFactory {
     
-    public static IEffect Create(string name)
+    public static IEffect2 Create(string name)
     {
         return name switch
         {

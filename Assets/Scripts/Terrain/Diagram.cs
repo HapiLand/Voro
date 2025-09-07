@@ -13,7 +13,7 @@ namespace Terrain {
 /// </summary>
 public class Diagram {
     /// <summary>
-    ///     DemoTable
+    ///     this is data from DemoTable
     ///     the exact center point of each voronoi cell
     ///     this is a vertex in a graph, which allows
     ///     for adjacency look up is theoretically possible
@@ -22,14 +22,14 @@ public class Diagram {
 
     // ToDo implement Diagram
     /// <summary>
-    ///     DemoTable
+    ///     this is data from DemoTable
     ///     the map of every point as to be provided to
     ///     gpu buffer so the correct point can be selected
     /// </summary>
     Point[] _pointMap;
 
     /// <summary>
-    ///     DemoTable
+    ///     this is data from DemoTable
     ///     there is a global resource of fbx to pick from
     ///     all need be stored is a tuple to select the
     ///     correct instance later
@@ -37,7 +37,7 @@ public class Diagram {
     (int piece, int variant)[] _prefabMap;
 
     /// <summary>
-    ///     DemoTable
+    ///     this is data from DemoTable
     /// </summary>
     class Configuration {
         object[] _bar;

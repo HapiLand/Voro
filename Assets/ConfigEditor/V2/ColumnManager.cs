@@ -33,6 +33,7 @@ public class ColumnManager {
         // var selectToggle = new Toggle();
         var deleteButton = new Button(() => RemoveColumn(column)) { text = "X" };
         var scroll = new ScrollView(ScrollViewMode.Vertical);
+        scroll.name = $"NodeScrollView";
         scroll.AddToClassList("scroll");
 
         // register the event on when the toolbar is selected by the user
@@ -99,11 +100,13 @@ public class ColumnManager {
             return;
         }
 
+        // find the scroll view, this is the vertical section that the nodes exist inside
         var scroll = _selectedColumn.Q<ScrollView>();
         if (scroll == null) {
             return;
         }
 
+        // the node factory will create the node that is added to the column
         var node = _factory.Create(effectName);
         scroll.Add(node);
     }

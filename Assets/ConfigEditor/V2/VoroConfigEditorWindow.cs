@@ -45,11 +45,11 @@ public class VoroConfigEditorWindow : EditorWindow {
 
         // set up the managers for the editor
         var effectNodeFactory = new NodeFactory();
+        _editorCompute = new EditorCompute(columnContainer);
         _columnManager = new ColumnManager(columnContainer, effectNodeFactory);
-        _toolbarManager = new ToolbarManager(toolbarPanel, _columnManager, effectNodeFactory);
+        _toolbarManager = new ToolbarManager(toolbarPanel, _columnManager, effectNodeFactory, _editorCompute);
         _inspectorManager = new InspectorManager(inspectorPanel);
     }
-
 
     [MenuItem("Voro/Editor")]
     public static void ShowExample() {

@@ -6,7 +6,7 @@ namespace ConfigEditor.V2.Effects.Internal {
 ///     the foundation for different effect types that have their own configuration
 /// </summary>
 /// <typeparam name="TEffectData"></typeparam>
-public abstract class Effect<TEffectData> : IEffect {
+public abstract class Effect<TEffectData> : IEffect2 {
     protected TEffectData Data;
 
     public Effect(string name, TEffectData data) {

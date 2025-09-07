@@ -1,4 +1,5 @@
 using JetBrains.Annotations;
+using Terrain;
 using UnityEngine;
 
 namespace Internal.Grids {
@@ -21,6 +22,13 @@ public struct Tile {
     ///     are from the Voro can be stored in this
     /// </summary>
     public GameObject VoroContainer;
+
+    /// <summary>
+    ///     the diagram that belongs to the tile
+    ///     this is to be used for EditorCompute
+    /// </summary>
+    public Diagram VoroDiagram;
+    // ToDo Tile needs to construct VoroDiagram similar to how Voro is constructed
 
 
     [CanBeNull]

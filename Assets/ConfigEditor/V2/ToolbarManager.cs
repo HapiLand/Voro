@@ -9,6 +9,7 @@ namespace ConfigEditor.V2 {
 /// </summary>
 public class ToolbarManager {
     readonly ColumnManager _columnManager;
+    readonly EditorCompute _editorCompute;
     readonly NodeFactory _nodeFactory;
 
     /// <summary>
@@ -17,15 +18,25 @@ public class ToolbarManager {
     /// <param name="toolbarPanel"></param>
     /// <param name="manager"></param>
     /// <param name="factory"></param>
-    public ToolbarManager(VisualElement toolbarPanel, ColumnManager manager, NodeFactory factory) {
+    /// <param name="compute"></param>
+    public ToolbarManager(VisualElement toolbarPanel, ColumnManager manager, NodeFactory factory,
+        EditorCompute compute) {
         _columnManager = manager;
         _nodeFactory = factory;
+        _editorCompute = compute;
 
         var toolbar = new Toolbar();
+
+        // add button so a new column can be added into the editor
         var addColumnButton = new Button { text = "Add Column" };
         addColumnButton.clicked += () => _columnManager.AddColumn();
 
+        // add button to begin the EditorCompute
+        var doComputeButton = new Button { text = "Compute" };
+        doComputeButton.clicked += () => _editorCompute.DoCompute();
+
         toolbar.Add(addColumnButton);
+        toolbar.Add(doComputeButton);
         toolbarPanel.Add(toolbar);
 
         SetupMenus(toolbar);
