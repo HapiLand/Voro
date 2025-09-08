@@ -3,7 +3,6 @@ using UnityEngine.UIElements;
 
 namespace ConfigEditor.V2 {
 public static class UIHelper {
-    // ToDo all cases where a generic visual element is created must use this method
     public static VisualElement Create(string name, string className) {
         var ve = new VisualElement { name = name };
         ve.AddToClassList(className);
@@ -80,5 +79,12 @@ public static class UIHelper {
     public static StyleSheet LoadStyleSheet(string path) {
         return ResourceHelper.LoadResource<StyleSheet>(path);
     }
+
+    // instantiating the uxml puts it into a template container object, this stops that
+    // instantiate UXML designed in the UI Builder
+    // VisualElement labelFromUXML = m_VisualTreeAsset.Instantiate();
+    // while (labelFromUXML.childCount > 0) {
+    //     root.Add(labelFromUXML.ElementAt(0));
+    // }
 }
 }

@@ -95,6 +95,31 @@ public class VoroDiagram {
     /// </summary>
     GeometryBuilder _meshBuilder;
 
+    /// <summary>
+       ///     this is data from DemoTable
+       ///     the exact center point of each voronoi cell
+       ///     this is a vertex in a graph, which allows
+       ///     for adjacency look up is theoretically possible
+       /// </summary>
+       Centroids[] _centroids;
+
+    /// <summary>
+       ///     allows for the contents of Voro to be marked
+       ///     to produce a hard coded rules in generation
+       ///     eg for player spawn, death barrier, ocean
+       /// </summary>
+       class Tags { }
+
+           /// <summary>
+       ///     this is data from DemoTable
+       /// </summary>
+       class Configuration {
+           object[] _bar;
+           object[] _foo;
+           Color[] _pointColors;
+           Vector3[] _positions;
+       }
+
     public VoroDiagram(Configuration configuration) {
         // this configuration puts the voro into a default state
         // as if no height has been set, just an unset voro

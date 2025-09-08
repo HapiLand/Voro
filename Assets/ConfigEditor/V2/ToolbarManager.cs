@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Internal;
+using UnityEditor.SceneManagement;
 using UnityEditor.UIElements;
 using UnityEngine.UIElements;
 
@@ -27,6 +28,10 @@ public class ToolbarManager {
 
         var toolbar = new Toolbar();
 
+        // add button to begin the refresh the scene
+        var refreshSceneButton = new Button { text = "Refresh" };
+        refreshSceneButton.clicked += () => EditorSceneManager.OpenScene("Assets/ConfigEditor/V2/GameWorld.unity");
+
         // add button so a new column can be added into the editor
         var addColumnButton = new Button { text = "Add Column" };
         addColumnButton.clicked += () => _columnManager.AddColumn();
@@ -35,6 +40,7 @@ public class ToolbarManager {
         var doComputeButton = new Button { text = "Compute" };
         doComputeButton.clicked += () => _editorCompute.DoCompute();
 
+        toolbar.Add(refreshSceneButton);
         toolbar.Add(addColumnButton);
         toolbar.Add(doComputeButton);
         toolbarPanel.Add(toolbar);

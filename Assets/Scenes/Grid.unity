@@ -241,7 +241,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dfafbd96ece44856abb6877bb853a3d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UnityComponents.GameWorld
-  _drawDistance: 1.5
+  _drawDistance: 0.2
 --- !u!4 &1330620259
 Transform:
   m_ObjectHideFlags: 0
@@ -318,7 +318,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1348185154}
-  m_Enabled: 0
+  m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1

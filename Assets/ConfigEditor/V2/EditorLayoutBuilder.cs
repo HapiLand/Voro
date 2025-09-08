@@ -17,14 +17,11 @@ public class EditorLayoutBuilder {
         var rootPanel = UIHelper.Create("Root", "root");
         var mainPanel = UIHelper.Create("Main", "main");
         inspectorPanel = UIHelper.Create("Inspector", "inspector"); // red
-        // ToDo add elements into inspector
-        var worldPanel = UIHelper.Create("World", "world"); // orange
-        // ToDo display a camera view in the world panel
+        var worldPanel = UIHelper.Create("World", "world");
         var canvasPanel = UIHelper.Create("Canvas", "canvas");
 
         toolbarPanel = UIHelper.Create("Toolbar", "toolbar");
         columnContainer = UIHelper.Create("ColumnContainer", "column-container"); // yellow
-        // ToDo allow each column to write to MyConfig
 
         // add the panels into the GUI hierarchy
         _root.Add(rootPanel);

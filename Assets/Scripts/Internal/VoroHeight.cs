@@ -8,6 +8,7 @@ namespace Internal {
 ///     computes the elevation of the voro terrain
 /// </summary>
 public class VoroHeight {
+    // ToDo reproduce the usage of VoroHeight within V2 Editor to carry out the same result
     public VoroHeight((JsonConfiguration, Cell[]) input, Vector2 origin, out float[] outElevation) {
         // the configurations that are a result of the effects that the user
         // selected in the GUI editor

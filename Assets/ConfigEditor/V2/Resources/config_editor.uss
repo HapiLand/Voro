@@ -22,12 +22,13 @@
 .world {
     background-color: rgb(255, 154, 53);
     flex-grow: 0;
-    height: 10%;
+    height: 50%;
     transition: height 0.3s ease;
+    background-image: resource('main_cam');
 }
 
 .world-hover {
-    height: 50%;
+    height: 80%;
 }
 
 .toolbar {

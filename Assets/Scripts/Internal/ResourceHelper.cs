@@ -10,6 +10,10 @@ public static class ResourceHelper {
         return Resources.Load<T>(path);
     }
 
+    public static void LoadAndInstanceResource<T>(string path, out T instance) where T : Object {
+        instance = Object.Instantiate(Resources.Load<T>(path));
+    }
+
     // public static Voro CreateVoro(Vector3 position, string configName = "MyConfig") {
     //     return new Voro(configName, position);
     // }

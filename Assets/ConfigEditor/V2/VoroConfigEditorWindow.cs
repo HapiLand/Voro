@@ -35,6 +35,17 @@ public class VoroConfigEditorWindow : EditorWindow {
     /// </summary>
     ToolbarManager _toolbarManager;
 
+    /// <summary>
+    ///     allows for interaction between the editor and the game world
+    ///     this is in order for the editor to process all the diagrams in the world
+    /// </summary>
+    WorldManager _worldManager;
+
+    void Update() {
+        // ToDo GameWorld and the EditorWindow need to communicate
+        //  this is in order for the diagrams that exist in the world can be computed
+    }
+
     public void CreateGUI() {
         // load the style sheet
         rootVisualElement.styleSheets.Add(UIHelper.LoadStyleSheet("config_editor"));
@@ -49,6 +60,7 @@ public class VoroConfigEditorWindow : EditorWindow {
         _columnManager = new ColumnManager(columnContainer, effectNodeFactory);
         _toolbarManager = new ToolbarManager(toolbarPanel, _columnManager, effectNodeFactory, _editorCompute);
         _inspectorManager = new InspectorManager(inspectorPanel);
+        _worldManager = WorldManagerFactory.GetWorldManager();
     }
 
     [MenuItem("Voro/Editor")]
@@ -56,11 +68,5 @@ public class VoroConfigEditorWindow : EditorWindow {
         var wnd = GetWindow<VoroConfigEditorWindow>();
         wnd.titleContent = new GUIContent("Voro Config Editor");
     }
-
-    // instantiate UXML designed in the UI Builder
-    // VisualElement labelFromUXML = m_VisualTreeAsset.Instantiate();
-    // while (labelFromUXML.childCount > 0) {
-    //     root.Add(labelFromUXML.ElementAt(0));
-    // }
 }
 }
