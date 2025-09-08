@@ -18,7 +18,7 @@ public struct Cell {
     public GameObject GetFBX() {
         // pick the mesh for this cell
         var variants = fbxArray.Length;
-        // variants = 0;
+        variants = 0;
         var variant = Random.Range(0, variants);
         var instance = fbxArray[variant];
 

@@ -8,14 +8,8 @@ public struct Tile {
     ///     the corner position of this tile, the origin of it
     /// </summary>
     readonly Vector2 _corner;
-
     public Vector3 CornerPosition => new(_corner.x, 0f, _corner.y);
     public bool IsVisible;
-
-    /// <summary>
-    ///     the Voro that belongs to this tile
-    /// </summary>
-    public Voro VoroInstance;
 
     /// <summary>
     ///     the GameObject to represent the Tile, so that any GameObjects that
@@ -27,11 +21,10 @@ public struct Tile {
     ///     the diagram that belongs to the tile
     ///     this is to be used for EditorCompute
     /// </summary>
-    public Diagram VoroDiagram;
-
+    public VoroDiagram Diagram;
 
     [CanBeNull]
-    public Voro UpdateVisibility(Vector3 playerPosition, float drawDistance) {
+    public VoroDiagram UpdateVisibility(Vector3 playerPosition, float drawDistance) {
         // tile is visible when within a radius of the player
 
         // zero the Y value for both positions, as the visibility
@@ -45,17 +38,17 @@ public struct Tile {
 
 
         // the first time the tile becomes visible, it is initialised
-        // the Voro in the tile is constructed
-        Voro voroInstance = null;
+        // the voro diagram in the tile is constructed
+        VoroDiagram diagramInstance = null;
         if (!HasInitialised && visible) {
             Init();
-            // the voro has been constructed, it shall be returned
-            voroInstance = VoroInstance;
+            // the diagram has been constructed, it shall be returned
+            diagramInstance = Diagram;
         }
 
         IsVisible = visible;
 
-        return voroInstance;
+        return diagramInstance;
     }
 
     public bool HasInitialised;
@@ -65,14 +58,13 @@ public struct Tile {
     /// </summary>
     void Init() {
         HasInitialised = true;
-        // construct this tiles Voro
-        VoroInstance = new Voro(_corner);
-        // ToDo construct VoroDiagram
+        // construct this tiles diagram
+        var factory = new DiagramFactory();
+        Diagram = factory.Create(_corner);
 
-        // construct the container for this voro
+        // construct the container for the objects within the diagram
         VoroContainer = new GameObject($"Voro [{_corner.x:F1},{_corner.y:F1}]");
     }
-
 
     public Tile(Vector2 corner) : this() {
         _corner = corner;

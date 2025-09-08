@@ -4,6 +4,26 @@ using UnityEngine;
 namespace Terrain {
 public class VoroDiagram {
     /// <summary>
+    ///     the index of this array maps to a collection of fbx geo
+    ///     these are the piece ID values each point uses
+    /// </summary>
+    public int[] GeoMap;
+
+    /// <summary>
+    ///     the points within the diagram
+    ///     vector3 - position
+    ///     int - piece ID
+    /// </summary>
+    public GameObject[] Geometry;
+    // ToDo implement dictionary for geometry <GeoMap, Geometry[]> to allow for variants to be stored
+
+    /// <summary>
+    ///     the origin of the diagram, this is a leftover property
+    ///     from when VoroDiagram was used as the replacement of the Voro class
+    /// </summary>
+    public Vector2 Origin;
+
+    /// <summary>
     ///     the index of this array maps to a collection of Points
     /// </summary>
     public int[] PointMap;
@@ -14,6 +34,9 @@ public class VoroDiagram {
     ///     int - piece ID
     /// </summary>
     public (Vector3, int)[] Points;
+    // ToDo stop using tuple, as the int value is what is stored by GeoMap
+
+    // ToDo implement data properties for diagram like Color
 
     public override string ToString() {
         // build a string that will display the contents of this diagram
@@ -71,8 +94,6 @@ public class VoroDiagram {
     ///     to read the mesh data for instantiation
     /// </summary>
     GeometryBuilder _meshBuilder;
-
-
 
     public VoroDiagram(Configuration configuration) {
         // this configuration puts the voro into a default state

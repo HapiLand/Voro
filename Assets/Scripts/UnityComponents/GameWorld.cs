@@ -1,11 +1,11 @@
 using Internal;
 using Internal.Grids;
+using Terrain;
 using UnityEngine;
 
 namespace UnityComponents {
 [RequireComponent(typeof(PlayerLocation))]
 // ToDo the scale of the Voros must be larger, the current size of a 1x1 voro is too small
-
 public class GameWorld : MonoBehaviour {
     // Todo 
     // before the EditorCompute can be used as needed the proof needs to show that
@@ -16,7 +16,7 @@ public class GameWorld : MonoBehaviour {
     // getting GameWorld to use Voro like the V2 Editor needs will make it easy
     // to then move this logic through the editor
     // MyConfig.json to be deprecated as a result of this
-    
+
     [SerializeField] [Range(0.1f, 5f)] float _drawDistance;
     Tile[,] _tiles;
 
@@ -57,10 +57,10 @@ public class GameWorld : MonoBehaviour {
                     // the diagram has been computed and contains data for the GameWorld
                     // the contents of the diagram will be used to instantiate the FBX objects
                     // ToDo build Unity Objects from a diagram
-                    
+
                     // instantiate the GameObjects for this Voro
                     // so that the Cell Geometry is a child of the Tile object
-                    InstanceNewVoro(newDiagram, x, z);
+                    InstanceVoroDiagram(newDiagram, x, z);
                 }
 
                 var tileVisible = _tiles[x, z].IsVisible;
@@ -70,7 +70,8 @@ public class GameWorld : MonoBehaviour {
                 if (tileInitialised && tileVisible) {
                     // set the game object as active, they might have been invisible last frame
                     _tiles[x, z].VoroContainer.SetActive(true);
-                    _tiles[x, z].VoroInstance.Update();
+                    // _tiles[x, z].VoroInstance.Update();
+                    // ToDo diagram must be updated each frame
                 }
 
                 // the voro does exist, but the tile is no longer visible
@@ -102,24 +103,23 @@ public class GameWorld : MonoBehaviour {
         }
     }
 
-    void InstanceNewVoro(Voro voroInstance, int x, int z) {
-        // the newly constructed voro for this tile
-        // Debug.Log($"new Voro {voroInstance.ToString()}");
+    void InstanceVoroDiagram(VoroDiagram diagram, int x, int z) {
+        // the newly constructed diagram for this tile
 
+        // gameobjects created from the diagram can go into this parent as a container
         var geoContainer = _tiles[x, z].VoroContainer;
         geoContainer.transform.SetParent(gameObject.transform);
 
-        // the cellGeo must set as a child object of a new parent
-        // this stops all the objects from crowding the scene hierarchy
-
-        // instantiate the geometry from this voro
-        var cellGeo = voroInstance.CreateCellGameObjects();
-        foreach (var (cell, geo) in cellGeo) {
+        // instantiate the geometry from this diagram
+        var factory = new DiagramFactory();
+        var diagramGeo = factory.GetDiagramGeometry(diagram);
+        
+        foreach (var (position, geo) in diagramGeo) {
             ResourceHelper.InstanceGeometry<GameObject>(geo, out var geoInstance);
 
             // offset the position of the geometry
             geoInstance.transform.position += _tiles[x, z].CornerPosition;
-            geoInstance.transform.position += cell.position;
+            geoInstance.transform.position += position;
             geoInstance.transform.SetParent(geoContainer.transform);
         }
     }
