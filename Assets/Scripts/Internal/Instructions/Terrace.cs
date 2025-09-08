@@ -48,9 +48,7 @@ public class Terrace : IEffect {
         var axis = new Vector2(Mathf.Cos(radians), Mathf.Sin(radians));
         var terraceHeight = Vector2.Dot(new Vector2(worldPoint.x, worldPoint.z), axis);
 
-        var h = terraceHeight;
-
-        var div = h / stepScale;
+        var div = terraceHeight / stepScale;
         var flat = Mathf.Floor(div);
         var seed = 0;
         Random.InitState(Mathf.RoundToInt(flat) + seed);

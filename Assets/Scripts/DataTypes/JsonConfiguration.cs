@@ -41,7 +41,8 @@ public class JsonConfiguration {
                 "noise" => prop.Value.ToObject<NoiseCfg>(),
                 "terrace" => prop.Value.ToObject<TerraceCfg>(),
                 "null" => prop.Value.ToObject<NullCfg>(),
-                "setGroup" => prop.Value.ToObject<SetGroupCfg>()
+                "setGroup" => prop.Value.ToObject<SetGroupCfg>(),
+                _ => throw new ArgumentOutOfRangeException()
             };
         }
     }

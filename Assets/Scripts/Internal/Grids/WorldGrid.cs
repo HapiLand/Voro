@@ -22,10 +22,7 @@ public static class WorldGrid {
         }
 
         // returns the bottom-left corner for each tile
-        var posX = x;
-        var posZ = z;
-
-        return new Vector2(posX, posZ);
+        return new Vector2(x, z);
     }
 }
 }

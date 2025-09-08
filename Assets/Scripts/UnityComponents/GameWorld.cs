@@ -114,10 +114,7 @@ public class GameWorld : MonoBehaviour {
 
         // instantiate the geometry from this voro
         var cellGeo = voroInstance.CreateCellGameObjects();
-        foreach (var tuple in cellGeo) {
-            var cell = tuple.Item1;
-            var geo = tuple.Item2;
-
+        foreach (var (cell, geo) in cellGeo) {
             ResourceHelper.InstanceGeometry<GameObject>(geo, out var geoInstance);
 
             // offset the position of the geometry

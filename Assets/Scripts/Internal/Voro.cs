@@ -7,7 +7,6 @@ namespace Internal {
 // ToDo adjacency
 public class Voro {
     readonly Cell[] _cells;
-    readonly JsonConfiguration _configuration;
     readonly Vector2 _origin;
     GameObject[] _cellObjects;
 
@@ -19,10 +18,10 @@ public class Voro {
 
         // reconstruct the data from the configuration editor
         // this allows the height of the voro to be solved
-        _configuration = new JsonConfiguration("MyConfig");
+        var configuration = new JsonConfiguration("MyConfig");
 
         // set the height value for every cell in the voro
-        var voroHeight = new VoroHeight((_configuration, _cells), _origin, out var outElevation);
+        var voroHeight = new VoroHeight((configuration, _cells), _origin, out var outElevation);
         SolveCellElevation(outElevation);
         // ToDo EditorCompute does this
 

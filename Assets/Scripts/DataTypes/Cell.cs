@@ -18,15 +18,17 @@ public struct Cell {
     public GameObject GetFBX() {
         // pick the mesh for this cell
         var variants = fbxArray.Length;
-        variants = 0;
+        // variants = 0;
         var variant = Random.Range(0, variants);
         var instance = fbxArray[variant];
 
         // set prefab color
         var mat = Resources.Load<Material>("FbxMat");
 
-        var matClone = new Material(mat);
-        matClone.color = color;
+        var matClone = new Material(mat)
+        {
+            color = color
+        };
 
         var renderer = instance.GetComponent<MeshRenderer>();
         renderer.material = matClone;

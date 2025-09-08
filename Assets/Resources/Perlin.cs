@@ -1,16 +1,8 @@
 using System;
 
 public abstract class Perlin<GradientType> {
-    //The function we use to smooth the interpolation between the
-    //different corners of the cube. With a linear interpolation
-    //we'll get hard edges.
-    Func<double, double> SmoothingFunction;
-
-    //PermutationTable, shortened for readability
-    protected int[] PT;
-
     //the defaultPermutationTable is 512 ints long and an contains values 0..255
-    static int[] defaultPermutationTable =
+    static readonly int[] defaultPermutationTable =
     {
         151, 160, 137, 91, 90, 15,
         131, 13, 201, 95, 96, 53, 194, 233, 7, 225, 140, 36, 103, 30, 69, 142, 8, 99, 37, 240, 21, 10, 23,
@@ -40,11 +32,19 @@ public abstract class Perlin<GradientType> {
         138, 236, 205, 93, 222, 114, 67, 29, 24, 72, 243, 141, 128, 195, 78, 66, 215, 61, 156, 180
     };
 
-    GradientType[] gradients;
-
     //Function that performs the dot product (inner product) of two 3D vectors
     //where one of the vectors is stored in the GradientType type.
-    Func<GradientType, double, double, double, double> Dot;
+    readonly Func<GradientType, double, double, double, double> Dot;
+
+    readonly GradientType[] gradients;
+
+    //The function we use to smooth the interpolation between the
+    //different corners of the cube. With a linear interpolation
+    //we'll get hard edges.
+    readonly Func<double, double> SmoothingFunction;
+
+    //PermutationTable, shortened for readability
+    protected int[] PT;
 
     protected Perlin(GradientType[] gradients, Func<GradientType, double, double, double, double> dot,
         Func<double, double> smoothingFunction) {
@@ -220,7 +220,7 @@ public abstract class Perlin<GradientType> {
 }
 
 public class Perlin : Perlin<Perlin.Vector3> {
-    static Vector3[] gradients =
+    static readonly Vector3[] gradients =
     {
         new(1, 1, 0), new(-1, 1, -0),
         new(1, -1, 0), new(-1, -1, 0), new(1, 0, 1),

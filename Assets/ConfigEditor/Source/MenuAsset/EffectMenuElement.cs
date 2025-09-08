@@ -8,8 +8,6 @@ namespace ConfigEditor.Source.MenuAsset {
 [UxmlElement]
 public partial class EffectMenuElement : VisualElement {
     readonly VisualElement _categoryRoot; // contains all categories
-    readonly VisualElement _root; // the root element to contain the menu
-    readonly Label _rootLabel; // label that shows what this menu element is
 
     Dictionary<string, VisualTreeAsset> _uxmlEffectDictionary;
 
@@ -18,22 +16,22 @@ public partial class EffectMenuElement : VisualElement {
     public EffectMenuElement() {
         CreateMenuData();
 
-        _rootLabel = new Label("Effect Menu");
-        _rootLabel.name = "EffectMenu";
-        _rootLabel.AddToClassList("element-label");
+        var rootLabel = new Label("Effect Menu");
+        rootLabel.name = "EffectMenu";
+        rootLabel.AddToClassList("element-label");
 
         // the container for all items in the menu
-        _root = new VisualElement();
-        _root.name = "Root";
-        _root.AddToClassList("element-root");
+        var root = new VisualElement();
+        root.name = "Root";
+        root.AddToClassList("element-root");
 
         _categoryRoot = new VisualElement();
         _categoryRoot.name = "Category";
         _categoryRoot.AddToClassList("element-category-root");
 
-        _root.Add(_rootLabel);
-        _root.Add(_categoryRoot);
-        Add(_root);
+        root.Add(rootLabel);
+        root.Add(_categoryRoot);
+        Add(root);
 
         // configure EffectMenuElement from MenuData
         // this will produce the collapsible menu elements
