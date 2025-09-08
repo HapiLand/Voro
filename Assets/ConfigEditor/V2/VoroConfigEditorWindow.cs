@@ -61,6 +61,17 @@ public class VoroConfigEditorWindow : EditorWindow {
         _toolbarManager = new ToolbarManager(toolbarPanel, _columnManager, effectNodeFactory, _editorCompute);
         _inspectorManager = new InspectorManager(inspectorPanel);
         _worldManager = WorldManagerFactory.GetWorldManager();
+
+        // add default content to the editor
+        SetDefaults();
+    }
+
+    /// <summary>
+    ///     set default elements in the GUI, so that it begins with a column already added
+    /// </summary>
+    void SetDefaults() {
+        // add the column and select it right away
+        _columnManager.AddColumn(true);
     }
 
     [MenuItem("Voro/Editor")]

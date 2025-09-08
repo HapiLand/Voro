@@ -2,6 +2,7 @@ using System;
 using ConfigEditor.V2.Effects.Internal;
 using UnityEngine;
 using UnityEngine.UIElements;
+using Random = UnityEngine.Random;
 
 namespace ConfigEditor.V2.Effects {
 /// <summary>
@@ -50,27 +51,39 @@ public class TerraceEffect : Effect<TerraceEffectData> {
     }
 
     public override void Compute(ref VoroDiagram voroDiagram) {
-        Debug.Log($"Compute effect: {EffectName}");
-
-        // ToDo compute the diagram all at once, every Point processed together
-        // for testing, use a generic for loop over the diagram
-
-        // get index map for every point
+        // for every point in the diagram compute some value
         for (var i = 0; i < voroDiagram.PointMap.Length; i++) {
-            // find the index of the current point map point
-            // this index value is for a specific Point that the diagram contains
             var index = voroDiagram.PointMap[i];
-            // access the point at the index
-            var point = voroDiagram.Points[index];
+            var pointPosition = voroDiagram.Points[index];
 
-            // ToDo replace placeholder modification with what the effect actually does
-            // placeholder modification to verify things work
-            var pos = point; // read the points position
-            var yChange = 5f; // change the Y value by 5
-            pos.y += yChange; // modify value
+            // do compute
+            var radians = Data.direction * Mathf.Deg2Rad;
+            var axis = new Vector2(Mathf.Cos(radians), Mathf.Sin(radians));
+            var terraceHeight = Vector2.Dot(new Vector2(pointPosition.x, pointPosition.z), axis);
 
-            // write the value back into the diagram
-            voroDiagram.Points[index] = pos;
+            var div = terraceHeight / Data.stepScale;
+            var flat = Mathf.Floor(div);
+            var seed = 0;
+            Random.InitState(Mathf.RoundToInt(flat) + seed);
+            var val = Random.value;
+            val = remap(val, Data.minStepSize, Data.maxStepSize) * Data.iterations;
+
+            float remap(float value, float newMin, float newMax) {
+                // remap a value from an old range of [0,1] into a new range [min,max]
+                // val = 0.5 | newMin = 10 | newMax = 20
+                // result = 15
+                // Debug.Log(fit01(0.5f, 10f, 20f));
+                return value * (newMax - newMin) + newMin;
+            }
+
+            // find the final value of the terrace
+            var level = (flat + val) * Data.stepScale;
+
+            level /= 2f;
+            pointPosition.y += level;
+
+            // write new value back to the diagram
+            voroDiagram.AppendComputeToDiagram(index, pointPosition);
         }
     }
 }
@@ -82,10 +95,5 @@ public class TerraceEffectData : IEffectData {
     public float minStepSize;
     public float maxStepSize;
     public float stepScale;
-
-    public override string ToString() {
-        return
-            $"TerraceEffectData {nameof(direction)}: {direction}, {nameof(iterations)}: {iterations}, {nameof(minStepSize)}: {minStepSize}, {nameof(maxStepSize)}: {maxStepSize}, {nameof(stepScale)}: {stepScale}";
-    }
 }
 }

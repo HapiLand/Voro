@@ -39,29 +39,30 @@ public class SlopeEffect : Effect<SlopeEffectData> {
     }
 
     public override void Compute(ref VoroDiagram voroDiagram) {
-        Debug.Log($"Compute effect: {EffectName}");
-
-        Debug.Log($"{Data.slopeDirection:F2} {Data.slopeScale:F2}");
-
-        // ToDo compute the diagram all at once, every Point processed together
-        // for testing, use a generic for loop over the diagram
-
-        // get index map for every point
+        // ToDo replace compute method to use an iterative one
+        //  for all points marked as active, copy their elevation
+        //  on to all points which are forwards of the active points
+        //  (so now they have a matching height)
+        //  also add an additional amount
+        //  (so now those points are raise up)
+        //  set only these points as active
+        //  repeat while any points are still waiting to be computed
+        
+        // for every point in the diagram compute some value
         for (var i = 0; i < voroDiagram.PointMap.Length; i++) {
-            // find the index of the current point map point
-            // this index value is for a specific Point that the diagram contains
             var index = voroDiagram.PointMap[i];
-            // access the point at the index
-            var point = voroDiagram.Points[index];
+            var pointPosition = voroDiagram.Points[index];
 
-            // ToDo replace placeholder modification with what the effect actually does
-            // placeholder modification to verify things work
-            var pos = point; // read the points position
-            var yChange = Data.slopeDirection; // change the Y value by 5
-            pos.y += yChange; // modify value
+            // do compute
+            var radians = Data.slopeDirection * Mathf.Deg2Rad;
+            var axis = new Vector2(Mathf.Cos(radians), Mathf.Sin(radians));
+            // ToDo direction value over 180 causes slope to be negative
+            var slopeHeight = Vector2.Dot(new Vector2(pointPosition.x, pointPosition.z), axis);
+            slopeHeight *= Data.slopeScale;
+            pointPosition.y += slopeHeight;
 
-            // write the value back into the diagram
-            voroDiagram.AppendComputeToDiagram(index, pos);
+            // write new value back to the diagram
+            voroDiagram.AppendComputeToDiagram(index, pointPosition);
         }
     }
 }

@@ -18,7 +18,7 @@ public class ColumnManager {
     /// <summary>
     ///     on a toolbar callback, the new column is created and can store nodes
     /// </summary>
-    public void AddColumn() {
+    public void AddColumn(bool autoSelect = false) {
         // top row is where the label is displayed the column is set to be selected
         var topRow = new VisualElement();
         topRow.AddToClassList("column-top-row");
@@ -37,15 +37,7 @@ public class ColumnManager {
         scroll.AddToClassList("scroll");
 
         // register the event on when the toolbar is selected by the user
-        topRow.RegisterCallback<ClickEvent>(evt => {
-            if (_selectedColumn == column) {
-                _selectedColumn = null;
-                column.RemoveFromClassList("selected-column");
-            }
-            else {
-                SelectColumn(column);
-            }
-        });
+        topRow.RegisterCallback<ClickEvent>(evt => { ColumnSelectEvent(); });
 
         // add to hierarchy
         column.Add(topRow);
@@ -56,7 +48,25 @@ public class ColumnManager {
 
         column.Add(scroll);
         _columnContainer.Add(column);
+
+        // automatically select this column
+        if (autoSelect) {
+            ColumnSelectEvent();
+        }
+
+        return;
+
+        void ColumnSelectEvent() {
+            if (_selectedColumn == column) {
+                _selectedColumn = null;
+                column.RemoveFromClassList("selected-column");
+            }
+            else {
+                SelectColumn(column);
+            }
+        }
     }
+
 
     /// <summary>
     ///     removes the column from the GUI hierarchy

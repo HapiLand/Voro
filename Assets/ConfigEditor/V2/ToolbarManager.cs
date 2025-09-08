@@ -51,16 +51,33 @@ public class ToolbarManager {
     void SetupMenus(Toolbar toolbar) {
         // populate the toolbar menu with effects
         var menuPaths = new Dictionary<string, string>
-            // ToDo replace <string,string> with <string,node> so that the dictionary
-            //  will contain actual node elements, in adding a new node to the column
-            //  just copy the value from the dictionary
-            {
-                { "Basic/Slope", ResourceHelper.LoadNode("Slope") },
-                { "Fancy/Noise", ResourceHelper.LoadNode("Noise") },
-                { "Special/Terrace", ResourceHelper.LoadNode("Terrace") },
-                { "Special/Null", ResourceHelper.LoadNode("Null") },
-                { "Tags/SetTag", ResourceHelper.LoadNode("SetTag") }
-            };
+        {
+            #region Generation
+
+            { "Generation/Slope", ResourceHelper.LoadNode("Slope") },
+            { "Generation/SetHeight", ResourceHelper.LoadNode("SetHeight") },
+            { "Generation/Noise", ResourceHelper.LoadNode("Noise") },
+
+            #endregion
+
+            #region Manipulate
+
+            { "Manipulate/Terrace", ResourceHelper.LoadNode("Terrace") },
+
+            #endregion
+
+            #region Tags
+
+            { "Tags/SetTag", ResourceHelper.LoadNode("SetTag") },
+
+            #endregion
+
+            #region Other
+
+            { "Other/Null", ResourceHelper.LoadNode("Null") },
+
+            #endregion
+        };
 
         // store the menu for each category
         var menus = new Dictionary<string, ToolbarMenu>();

@@ -12,14 +12,7 @@ public class Slope : IEffect {
     }
 
     public float ComputeEffect(float height, Vector3 worldPos) {
-        // ToDo replace compute method to use an iterative one
-        //  for all points marked as active, copy their elevation
-        //  on to all points which are forwards of the active points
-        //  (so now they have a matching height)
-        //  also add an additional amount
-        //  (so now those points are raise up)
-        //  set only these points as active
-        //  repeat while any points are still waiting to be computed
+
 
         var direction = _configuration.PropertiesArray[0];
         var multiplier = _configuration.PropertiesArray[1];

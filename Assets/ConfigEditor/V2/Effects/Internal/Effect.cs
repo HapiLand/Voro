@@ -15,7 +15,10 @@ public abstract class Effect<TEffectData> : IEffect2 {
     }
 
     public string EffectName { get; }
+
     public abstract void Compute(ref VoroDiagram voroDiagram);
+    // ToDo compute the diagram all at once, every Point processed together
+
     public abstract VisualElement InspectorDisplay { get; }
 
     /// <summary>

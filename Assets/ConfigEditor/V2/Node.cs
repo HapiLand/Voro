@@ -126,6 +126,9 @@ public class Node : VisualElement {
         if (parent == null) {
             return;
         }
+        
+        // update the world as the order of nodes changed
+        WorldManager.Instance.UpdateWorld();
 
         // find the current index and the new index that is in the desired direction
 

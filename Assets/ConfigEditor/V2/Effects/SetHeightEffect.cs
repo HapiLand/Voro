@@ -4,9 +4,13 @@ using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace ConfigEditor.V2.Effects {
-public class NoiseEffect : Effect<NoiseEffectData> {
+/// <summary>
+///     sets the height of the terrain to a constant value to flatten it
+/// </summary>
+public class SetHeightEffect : Effect<SetHeightEffectData> {
     VisualElement _inspectorDisplay;
-    public NoiseEffect(NoiseEffectData data) : base("Noise", data) { }
+
+    public SetHeightEffect(SetHeightEffectData data) : base("SetHeight", data) { }
 
     public override VisualElement InspectorDisplay {
         get
@@ -15,15 +19,12 @@ public class NoiseEffect : Effect<NoiseEffectData> {
                 Debug.Log($"Get Display {EffectName}");
 
                 // create the visual element that contains the elements in the display
-                _inspectorDisplay = UIHelper.CreateGenericDisplay("NoiseDisplay");
+                _inspectorDisplay = UIHelper.CreateGenericDisplay("SetHeightDisplay");
 
                 // create the effect data elements
                 _inspectorDisplay.Add(UIHelper.CreateEffectFloatSlider(
-                    nameof(Data.noiseScale), 0f, 10f, 0f,
-                    newValue => { Data.noiseScale = newValue; }));
-                _inspectorDisplay.Add(UIHelper.CreateEffectFloatSlider(
-                    nameof(Data.noiseSize), 0f, 10f, 0f,
-                    newValue => { Data.noiseScale = newValue; }));
+                    nameof(Data.heightValue), 0f, 10f, 0f,
+                    newValue => { Data.heightValue = newValue; }));
             }
 
             return _inspectorDisplay;
@@ -37,14 +38,7 @@ public class NoiseEffect : Effect<NoiseEffectData> {
             var pointPosition = voroDiagram.Points[index];
 
             // do compute
-            var perlin = new Perlin();
-            double dx = Mathf.Abs(pointPosition.x * Data.noiseSize);
-            double dy = Mathf.Abs(pointPosition.y * Data.noiseSize);
-            double dz = Mathf.Abs(pointPosition.z * Data.noiseSize);
-            var noise = perlin.Noise(dx, dy, dz);
-            noise *= Data.noiseScale;
-            pointPosition.y += (float)noise;
-            // ToDo implement way to choose whether to add or subtract
+            pointPosition.y = Data.heightValue;
 
             // write new value back to the diagram
             voroDiagram.AppendComputeToDiagram(index, pointPosition);
@@ -52,10 +46,8 @@ public class NoiseEffect : Effect<NoiseEffectData> {
     }
 }
 
-
 [Serializable]
-public class NoiseEffectData : IEffectData {
-    public float noiseScale;
-    public float noiseSize;
+public class SetHeightEffectData : IEffectData {
+    public float heightValue;
 }
 }
