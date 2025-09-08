@@ -9,6 +9,6 @@ namespace ConfigEditor.V2.Effects.Internal {
 public interface IEffect2 {
     string EffectName { get; }
     VisualElement InspectorDisplay { get; } // inspector display
-    void Compute(ref VoroDiagram diagram); // execute the effect
+    void Compute(ref Diagram diagram); // execute the effect
 }
 }

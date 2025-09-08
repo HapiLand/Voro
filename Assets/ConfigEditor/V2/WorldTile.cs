@@ -24,6 +24,10 @@ public class WorldTile {
         VisibleFirstTime();
     }
 
+    public override string ToString() {
+        return $"WorldTile [{_origin.x},{_origin.z}]";
+    }
+
     /// <summary>
     ///     called when the tile becomes visible for the first time
     /// </summary>

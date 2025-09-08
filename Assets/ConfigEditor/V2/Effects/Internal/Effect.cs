@@ -1,4 +1,3 @@
-using Terrain;
 using UnityEngine.UIElements;
 
 namespace ConfigEditor.V2.Effects.Internal {
@@ -16,7 +15,7 @@ public abstract class Effect<TEffectData> : IEffect2 {
     }
 
     public string EffectName { get; }
-    public abstract void Compute(ref VoroDiagram diagram);
+    public abstract void Compute(ref Diagram diagram);
     public abstract VisualElement InspectorDisplay { get; }
 
     /// <summary>

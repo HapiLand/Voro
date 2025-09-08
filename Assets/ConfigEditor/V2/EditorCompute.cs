@@ -1,4 +1,3 @@
-using Terrain;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -13,27 +12,21 @@ namespace ConfigEditor.V2 {
 public class EditorCompute {
     readonly VisualElement _columnContainer;
 
-    /// <summary>
-    ///     temporary diagram for testing
-    /// </summary>
-    VoroDiagram _placeholderDiagram;
-    // 1) a tile found within UnityComponents.GameWorld is input to EditorCompute
-    // the diagram within the tile, a type similar to Voro, its Points are to have the elevation set
-    // ToDo use the Diagrams that originate from UnityComponents.GameWorld
-
     public EditorCompute(VisualElement columnContainer) {
         // the container with the columns that each will be computed
         _columnContainer = columnContainer;
 
-        // create the placeholder diagram
-        var factory = new DiagramFactory();
-        _placeholderDiagram = factory.CreatePlaceholder();
-        // view the contents of the diagram
-        Debug.Log($"{_placeholderDiagram}");
+        // create as singleton instance
+        if (Instance != null) {
+            return;
+        }
+
+        Instance = this;
     }
 
+    public static EditorCompute Instance { get; private set; }
 
-    public void DoCompute() {
+    public void DoCompute(ref WorldTile tile) {
         // check if any columns exist
         var columnCount = _columnContainer.childCount;
         if (columnCount == 0) {
@@ -50,10 +43,10 @@ public class EditorCompute {
             // Debug.Log($"running compute on column [{columnIndex}] {column.name}");
 
             // compute the nodes within this column
-            ComputeColumn(column, ref _placeholderDiagram);
+            ComputeColumn(column, ref tile.VoroDiagram);
             continue;
 
-            void ComputeColumn(VisualElement nodeColumn, ref VoroDiagram diagram) {
+            void ComputeColumn(VisualElement nodeColumn, ref Diagram diagram) {
                 // get the element which contains the nodes, these are within a ScrollView
                 // this is the vertical list of elements, providing all effects that exist
 
@@ -79,9 +72,6 @@ public class EditorCompute {
 
         // all computing is complete, the diagram is prepared for Unity to perform its Object Instantiation
         Debug.Log("DoCompute completed");
-
-        // print the diagram to verify it was computed
-        Debug.Log($"{_placeholderDiagram}");
     }
 
     /// <summary>
@@ -89,7 +79,7 @@ public class EditorCompute {
     /// </summary>
     /// <param name="effect">the effect found within the node</param>
     /// <param name="diagram">the diagram that is being computed</param>
-    void ComputeEffect(Node node, ref VoroDiagram diagram) {
+    void ComputeEffect(Node node, ref Diagram diagram) {
         // get the Effect that the node contains
         var nodeEffect = node.Effect;
         Debug.Log($"Computing {nodeEffect.EffectName} for Diagram {diagram}");

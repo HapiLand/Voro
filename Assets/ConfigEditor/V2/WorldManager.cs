@@ -1,4 +1,3 @@
-using Internal;
 using UnityEngine;
 
 namespace ConfigEditor.V2 {
@@ -7,6 +6,7 @@ namespace ConfigEditor.V2 {
 /// </summary>
 [ExecuteAlways]
 public class WorldManager : MonoBehaviour {
+    GameObjectFactory _gameObjectFactory;
     WorldTile[,] _tiles;
 
     /// <summary>
@@ -15,8 +15,7 @@ public class WorldManager : MonoBehaviour {
     int[] _dimensions => new[] { 3, 3 };
 
     public static WorldManager Instance { get; private set; }
-    GameObjectFactory _gameObjectFactory;
-    
+
     void Awake() {
         // create as singleton instance
         if (Instance != null) {
@@ -35,15 +34,13 @@ public class WorldManager : MonoBehaviour {
                 // ToDo generate GameObjects for the diagram data in the tile
             }
         }
-        
+
         // create the GameObjects out of the WorldTiles
         _gameObjectFactory = new GameObjectFactory();
         foreach (var tile in _tiles) {
             _gameObjectFactory.CreateFromDiagram(tile.VoroDiagram, out var geo);
             geo.transform.SetParent(gameObject.transform);
         }
-        
-        
     }
 
     void Update() {
@@ -62,6 +59,26 @@ public class WorldManager : MonoBehaviour {
 
                 Gizmos.DrawWireSphere(new Vector3(x, 0, z), 0.1f);
             }
+        }
+    }
+
+    /// <summary>
+    ///     EditorCompute used with this
+    /// </summary>
+    public void ComputeWorldTiles() {
+        // compute every world tile via EditorCompute
+        for (var x = 0; x < _dimensions[0]; x++) {
+            for (var z = 0; z < _dimensions[1]; z++) {
+                EditorCompute.Instance.DoCompute(ref _tiles[x, z]);
+                
+            }
+        }
+        
+         // ToDo update position of the game objects after computing
+        _gameObjectFactory = new GameObjectFactory();
+        foreach (var tile in _tiles) {
+            _gameObjectFactory.CreateFromDiagram(tile.VoroDiagram, out var geo);
+            geo.transform.SetParent(gameObject.transform);
         }
     }
 }

@@ -29,7 +29,7 @@ public class ToolbarManager {
         var toolbar = new Toolbar();
 
         // add button to begin the refresh the scene
-        var refreshSceneButton = new Button { text = "Refresh" };
+        var refreshSceneButton = new Button { text = "Refresh Scene" };
         refreshSceneButton.clicked += () => EditorSceneManager.OpenScene("Assets/ConfigEditor/V2/GameWorld.unity");
 
         // add button so a new column can be added into the editor
@@ -38,7 +38,7 @@ public class ToolbarManager {
 
         // add button to begin the EditorCompute
         var doComputeButton = new Button { text = "Compute" };
-        doComputeButton.clicked += () => _editorCompute.DoCompute();
+        doComputeButton.clicked += () => WorldManager.Instance.ComputeWorldTiles();
 
         toolbar.Add(refreshSceneButton);
         toolbar.Add(addColumnButton);

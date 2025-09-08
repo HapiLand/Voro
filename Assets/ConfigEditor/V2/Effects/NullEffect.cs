@@ -29,7 +29,7 @@ public class NullEffect : Effect<NullEffectData> {
         }
     }
 
-    public override void Compute(ref VoroDiagram diagram) {
+    public override void Compute(ref Diagram diagram) {
         Debug.Log($"Compute effect: {EffectName}");
         
         // ToDo compute the diagram all at once, every Point processed together
@@ -45,12 +45,12 @@ public class NullEffect : Effect<NullEffectData> {
             
             // ToDo replace placeholder modification with what the effect actually does
             // placeholder modification to verify things work
-            Vector3 pos = point.Item1; // read the points position
+            Vector3 pos = point; // read the points position
             float yChange = 5f; // change the Y value by 5
             pos.y += yChange; // modify value
             
             // write the value back into the diagram
-            diagram.Points[index] = (pos, point.Item2);
+            diagram.Points[index] = pos;
         }
     }
 }
