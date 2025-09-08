@@ -43,10 +43,10 @@ public class EditorCompute {
             // Debug.Log($"running compute on column [{columnIndex}] {column.name}");
 
             // compute the nodes within this column
-            ComputeColumn(column, ref tile.VoroDiagram);
+            ComputeColumn(column, ref tile.Diagram);
             continue;
 
-            void ComputeColumn(VisualElement nodeColumn, ref Diagram diagram) {
+            void ComputeColumn(VisualElement nodeColumn, ref VoroDiagram voroDiagram) {
                 // get the element which contains the nodes, these are within a ScrollView
                 // this is the vertical list of elements, providing all effects that exist
 
@@ -65,7 +65,7 @@ public class EditorCompute {
                 // access each individual node within this column, so the diagram can be computed
                 foreach (var nodeChild in nodes) {
                     // do the compute for the node to alter the diagram
-                    ComputeEffect(nodeChild, ref diagram);
+                    ComputeEffect(nodeChild, ref voroDiagram);
                 }
             }
         }
@@ -77,12 +77,12 @@ public class EditorCompute {
     /// <summary>
     ///     executes the IEffect2 in order to update the value within the diagram
     /// </summary>
-    /// <param name="effect">the effect found within the node</param>
-    /// <param name="diagram">the diagram that is being computed</param>
-    void ComputeEffect(Node node, ref Diagram diagram) {
+    /// <param name="node">the node which contains an effect</param>
+    /// <param name="voroDiagram">the diagram that is being computed</param>
+    void ComputeEffect(Node node, ref VoroDiagram voroDiagram) {
         // get the Effect that the node contains
         var nodeEffect = node.Effect;
-        Debug.Log($"Computing {nodeEffect.EffectName} for Diagram {diagram}");
+        Debug.Log($"Computing {nodeEffect.EffectName} for Diagram {voroDiagram}");
 
         // placeholder code, to prove that they are capable of running and altering the diagram
         // while the diagram is a placeholder, the actual IEffect2 functions will be 
@@ -90,7 +90,7 @@ public class EditorCompute {
         // ToDo compute on the GPU
 
         // compute the effect which will modify the diagram
-        nodeEffect.Compute(ref diagram);
+        nodeEffect.Compute(ref voroDiagram);
     }
 }
 }

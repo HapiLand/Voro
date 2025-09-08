@@ -3,13 +3,17 @@ using UnityEngine;
 
 namespace ConfigEditor.V2 {
 /// <summary>
-/// utility so Unity GameObjects can easily be created by WorldManager
+///     utility so Unity GameObjects can easily be created by WorldManager
 /// </summary>
 public class GameObjectFactory {
-    public void CreateFromDiagram(Diagram diagram, out GameObject container) {
+    public void CreateFromWorldTile(WorldTile tile, out GameObject container) {
         // container will contain the fbx pieces within the diagram
-        container = new GameObject($"Voro [{diagram.Origin.x},{diagram.Origin.z}]");
-        
+        container = tile.TileContainer;
+
+        return;
+
+        var diagram = tile.Diagram;
+
         // use the diagram maps to get the position and mesh for each piece
         var geoPieces = new (Vector3, GameObject)[diagram.PointMap.Length];
         for (var i = 0; i < diagram.PointMap.Length; i++) {
@@ -19,7 +23,7 @@ public class GameObjectFactory {
             var position = diagram.Points[pointIndex];
             geoPieces[i] = (position, instance);
         }
-        
+
         // instantiate each piece of geometry
         foreach (var (position, geo) in geoPieces) {
             ResourceHelper.InstanceGeometry<GameObject>(geo, out var geoInstance);
@@ -29,9 +33,6 @@ public class GameObjectFactory {
             geoInstance.transform.position += new Vector3(diagram.Origin.x, 0f, diagram.Origin.z);
             // offset to the local position the point has in the diagram
             geoInstance.transform.position += position;
-            
-            // set the parent of the geometry inside the container
-            geoInstance.transform.SetParent(container.transform);
         }
     }
 }

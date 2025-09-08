@@ -15,7 +15,7 @@ public abstract class Effect<TEffectData> : IEffect2 {
     }
 
     public string EffectName { get; }
-    public abstract void Compute(ref Diagram diagram);
+    public abstract void Compute(ref VoroDiagram voroDiagram);
     public abstract VisualElement InspectorDisplay { get; }
 
     /// <summary>

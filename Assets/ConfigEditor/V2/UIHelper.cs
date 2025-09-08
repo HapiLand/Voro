@@ -1,3 +1,4 @@
+using System;
 using Internal;
 using UnityEngine.UIElements;
 
@@ -48,13 +49,23 @@ public static class UIHelper {
     /// <param name="max">maximum value of slider</param>
     /// <param name="defaultValue">initial value of slider</param>
     /// <returns>a slider to set a float value</returns>
-    public static VisualElement CreateEffectFloatSlider(string name, float min, float max, float defaultValue) {
+    public static VisualElement CreateEffectFloatSlider(string name, float min, float max, float defaultValue,
+        Action<float> onValueChanged) {
         // ToDo implement a UXML for float slider
         // ToDo option for the slider to use a logarithmic scale
         var ve = new Slider($"{name}", min, max);
         ve.name = name;
         ve.value = defaultValue;
         ve.AddToClassList("effect-float-slider");
+
+        // register callback when the slider changes
+        ve.RegisterValueChangedCallback(evt => {
+            onValueChanged?.Invoke(evt.newValue);
+            
+            // notify the world scene of the change
+            WorldManager.Instance.UpdateWorld();
+        });
+
         return ve;
     }
 
@@ -66,13 +77,23 @@ public static class UIHelper {
     /// <param name="max">maximum value of slider</param>
     /// <param name="defaultValue">initial value of slider</param>
     /// <returns>a slider to set an integer value</returns>
-    public static VisualElement CreateEffectIntSlider(string name, int min, int max, int defaultValue) {
+    public static VisualElement CreateEffectIntSlider(string name, int min, int max, int defaultValue,
+        Action<int> onValueChanged) {
         // ToDo implement a UXML for int slider
         // ToDo option for the slider to use a logarithmic scale
         var ve = new Slider($"{name}", min, max);
         ve.name = name;
         ve.value = defaultValue;
         ve.AddToClassList("effect-int-slider");
+
+        // register callback when the slider changes
+        ve.RegisterValueChangedCallback(evt => {
+            onValueChanged?.Invoke((int)evt.newValue);
+            
+            // notify the world scene of the change
+            WorldManager.Instance.UpdateWorld();
+        });
+        
         return ve;
     }
 

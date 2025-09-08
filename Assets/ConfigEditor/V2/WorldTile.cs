@@ -4,6 +4,11 @@ using UnityEngine;
 namespace ConfigEditor.V2 {
 public class WorldTile {
     readonly (int x, int z) _origin;
+
+    /// <summary>
+    ///     the voro diagram with the point data that represents this tile
+    /// </summary>
+    public VoroDiagram Diagram;
     // Todo check if the WorldTile is visible to the scene camera
     // ToDo initialise the WorldTile once when it becomes visible
 
@@ -11,15 +16,21 @@ public class WorldTile {
     public bool IsVisible;
 
     /// <summary>
-    ///     the voro diagram with the point data that represents this tile
+    ///     this is the GameObject that will contain all the geometry for the diagram
     /// </summary>
-    public Diagram VoroDiagram;
-    // ToDo rename Diagram to VoroDiagram
+    public GameObject TileContainer;
 
     public WorldTile(int x, int z) {
+        Debug.Log($"Creating tile {x},{z}");
         _origin = (x, z);
+        Diagram = new VoroDiagram(_origin);
+
         IsVisible = true;
         HasInitialised = false;
+
+        // container object for the geometry
+        TileContainer = new GameObject($"WorldTile [{x},{z}]");
+
 
         VisibleFirstTime();
     }
@@ -37,34 +48,42 @@ public class WorldTile {
     }
 
     void ConstructDiagram() {
-        //Debug.Log($"Create VoroDiagram [{_origin.x}, {_origin.z}]");
-        VoroDiagram = new Diagram(_origin);
-
         var cells = ResourceHelper.CreateCellArray();
-        VoroDiagram.PointMap = new int[cells.Length];
-        VoroDiagram.Points = new Vector3[cells.Length];
-        VoroDiagram.GeoMap = new int[cells.Length];
-        VoroDiagram.Geometry = new GameObject[cells.Length];
+        Diagram.PointMap = new int[cells.Length];
+        Diagram.Points = new Vector3[cells.Length];
+        Diagram.GeoMap = new int[cells.Length];
+        Diagram.Geometry = new GameObject[cells.Length];
         for (var i = 0; i < cells.Length; i++) {
             var cell = cells[i];
-            VoroDiagram.PointMap[i] = i;
-            VoroDiagram.Points[i] = cell.position;
-            // ToDo set point color
-            VoroDiagram.GeoMap[i] = cell.id;
-            VoroDiagram.Geometry[i] = Resources.Load<GameObject>($"FBX/{i}_0");
+            Diagram.PointMap[i] = i;
+
+            // set the position of the point
+            // cell.position is the local coordinate of the point
+            // the cell position comes from a PointTable.json which has positions in a UV space
+            Diagram.Points[i] = cell.position;
+            // origin is the world position of the tile
+            Diagram.Points[i] += new Vector3(_origin.x, 0f, _origin.z);
+            // ToDo set point color from data
+            Diagram.GeoMap[i] = cell.id;
+
+            // add instances of the geometry to the diagram
+            ResourceHelper.LoadAndInstanceResource($"FBX/{i}_0", out Diagram.Geometry[i]);
+            Diagram.Geometry[i].name = $"[{i}  0]";
             var mat = Resources.Load<Material>("FbxMat");
             var matClone = new Material(mat)
             {
-                color = new Color(1, 1, 1, 1)
+                color = Color.ghostWhite
             };
-            var renderer = VoroDiagram.Geometry[i].GetComponent<MeshRenderer>();
+            var renderer = Diagram.Geometry[i].GetComponent<MeshRenderer>();
             renderer.material = matClone;
+            // set the position of the geometry to match the point
+            Diagram.Geometry[i].transform.position += Diagram.Points[i];
+
+            // set the parent of the geometry inside the container
+            Diagram.Geometry[i].transform.SetParent(TileContainer.transform);
         }
 
-        Debug.Log(VoroDiagram.ToString());
-
-        // diagram has been constructed, EditorCompute must execute to set the true position
-        // ToDo run EditorCompute on the newly constructed VoroDiagram
+        Debug.Log(Diagram.ToString());
     }
 }
 }

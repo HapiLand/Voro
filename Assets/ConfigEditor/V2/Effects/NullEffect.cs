@@ -1,6 +1,5 @@
 using System;
 using ConfigEditor.V2.Effects.Internal;
-using Terrain;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -29,28 +28,28 @@ public class NullEffect : Effect<NullEffectData> {
         }
     }
 
-    public override void Compute(ref Diagram diagram) {
+    public override void Compute(ref VoroDiagram voroDiagram) {
         Debug.Log($"Compute effect: {EffectName}");
-        
+
         // ToDo compute the diagram all at once, every Point processed together
         // for testing, use a generic for loop over the diagram
 
         // get index map for every point
-        for (var i = 0; i < diagram.PointMap.Length; i++) {
+        for (var i = 0; i < voroDiagram.PointMap.Length; i++) {
             // find the index of the current point map point
             // this index value is for a specific Point that the diagram contains
-            int index = diagram.PointMap[i];
+            var index = voroDiagram.PointMap[i];
             // access the point at the index
-            var point = diagram.Points[index];
-            
+            var point = voroDiagram.Points[index];
+
             // ToDo replace placeholder modification with what the effect actually does
             // placeholder modification to verify things work
-            Vector3 pos = point; // read the points position
-            float yChange = 5f; // change the Y value by 5
+            var pos = point; // read the points position
+            var yChange = 5f; // change the Y value by 5
             pos.y += yChange; // modify value
-            
+
             // write the value back into the diagram
-            diagram.Points[index] = pos;
+            voroDiagram.Points[index] = pos;
         }
     }
 }

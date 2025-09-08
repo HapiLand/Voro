@@ -2,7 +2,7 @@ using System.Text;
 using UnityEngine;
 
 namespace ConfigEditor.V2 {
-public class Diagram {
+public class VoroDiagram {
     /// <summary>
     ///     the index of this array maps to a collection of fbx geo
     ///     these are the piece ID values each point uses
@@ -15,6 +15,7 @@ public class Diagram {
     ///     int - piece ID
     /// </summary>
     public GameObject[] Geometry;
+    // ToDo these objects should be instantiated into the GameWorld
 
     /// <summary>
     ///     the origin of the world tile the diagram is part of
@@ -34,8 +35,16 @@ public class Diagram {
     public Vector3[] Points;
 
     // ToDo implement data properties for diagram like Color
-    public Diagram((int x, int z) origin) {
+    public VoroDiagram((int x, int z) origin) {
         Origin = origin;
+    }
+
+    /// <summary>
+    ///     write the computed value to the diagram
+    /// </summary>
+    public void AppendComputeToDiagram(int index, Vector3 position) {
+        Points[index] = position;
+        Geometry[index].transform.position = Points[index];
     }
 
     public override string ToString() {

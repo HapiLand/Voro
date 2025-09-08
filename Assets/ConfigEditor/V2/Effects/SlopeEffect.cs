@@ -1,6 +1,5 @@
 using System;
 using ConfigEditor.V2.Effects.Internal;
-using Terrain;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -26,37 +25,43 @@ public class SlopeEffect : Effect<SlopeEffectData> {
                 _inspectorDisplay = UIHelper.CreateGenericDisplay("SlopeDisplay");
 
                 // create the effect data elements
-                _inspectorDisplay.Add(UIHelper.CreateEffectFloatSlider(nameof(Data.slopeDirection), 0f, 10f, 0f));
-                _inspectorDisplay.Add(UIHelper.CreateEffectFloatSlider(nameof(Data.slopeScale), 0f, 10f, 0f));
-                // ToDo sliders must update values in data
+                _inspectorDisplay.Add(UIHelper.CreateEffectFloatSlider(
+                    nameof(Data.slopeDirection), 0f, 10f, 0f,
+                    newValue => { Data.slopeDirection = newValue; }));
+
+                _inspectorDisplay.Add(UIHelper.CreateEffectFloatSlider(
+                    nameof(Data.slopeScale), 0f, 10f, 0f,
+                    newValue => { Data.slopeScale = newValue; }));
             }
 
             return _inspectorDisplay;
         }
     }
 
-    public override void Compute(ref Diagram diagram) {
+    public override void Compute(ref VoroDiagram voroDiagram) {
         Debug.Log($"Compute effect: {EffectName}");
+
+        Debug.Log($"{Data.slopeDirection:F2} {Data.slopeScale:F2}");
 
         // ToDo compute the diagram all at once, every Point processed together
         // for testing, use a generic for loop over the diagram
 
         // get index map for every point
-        for (var i = 0; i < diagram.PointMap.Length; i++) {
+        for (var i = 0; i < voroDiagram.PointMap.Length; i++) {
             // find the index of the current point map point
             // this index value is for a specific Point that the diagram contains
-            int index = diagram.PointMap[i];
+            var index = voroDiagram.PointMap[i];
             // access the point at the index
-            var point = diagram.Points[index];
-            
+            var point = voroDiagram.Points[index];
+
             // ToDo replace placeholder modification with what the effect actually does
             // placeholder modification to verify things work
-            Vector3 pos = point; // read the points position
-            float yChange = 5f; // change the Y value by 5
+            var pos = point; // read the points position
+            var yChange = Data.slopeDirection; // change the Y value by 5
             pos.y += yChange; // modify value
-            
+
             // write the value back into the diagram
-            diagram.Points[index] = pos;
+            voroDiagram.AppendComputeToDiagram(index, pos);
         }
     }
 }

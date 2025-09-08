@@ -8,78 +8,52 @@ namespace ConfigEditor.V2 {
 public class WorldManager : MonoBehaviour {
     GameObjectFactory _gameObjectFactory;
     WorldTile[,] _tiles;
+    public static WorldManager Instance { get; private set; }
 
     /// <summary>
     ///     the size of the worlds map
     /// </summary>
-    int[] _dimensions => new[] { 3, 3 };
+    int[] _dimensions => new[] { 1, 1 };
 
-    public static WorldManager Instance { get; private set; }
 
     void Awake() {
         // create as singleton instance
         if (Instance != null) {
             DestroyImmediate(this);
-            return;
         }
 
         Instance = this;
 
         // construct the tiles for the world
+
         _tiles = new WorldTile[_dimensions[0], _dimensions[1]];
         for (var x = 0; x < _dimensions[0]; x++) {
             for (var z = 0; z < _dimensions[1]; z++) {
                 // create a new tile at this position in the world
                 _tiles[x, z] = new WorldTile(x, z);
-                // ToDo generate GameObjects for the diagram data in the tile
+                _tiles[x, z].TileContainer.transform.SetParent(gameObject.transform);
             }
-        }
-
-        // create the GameObjects out of the WorldTiles
-        _gameObjectFactory = new GameObjectFactory();
-        foreach (var tile in _tiles) {
-            _gameObjectFactory.CreateFromDiagram(tile.VoroDiagram, out var geo);
-            geo.transform.SetParent(gameObject.transform);
         }
     }
 
+    public void UpdateWorld() {
+        ComputeWorldTiles();
+    }
+    
     void Update() {
         // ToDo update the tiles so they are computed through the editor every frame
-    }
-
-    void OnDrawGizmos() {
-        Gizmos.color = Color.white;
-
-        for (var x = 0; x < _dimensions[0]; x++) {
-            for (var z = 0; z < _dimensions[1]; z++) {
-                var tile = _tiles[x, z];
-
-                Gizmos.color = tile.IsVisible ? Color.green : Color.red;
-                Gizmos.color = tile.HasInitialised ? Gizmos.color : Color.cornflowerBlue;
-
-                Gizmos.DrawWireSphere(new Vector3(x, 0, z), 0.1f);
-            }
-        }
     }
 
     /// <summary>
     ///     EditorCompute used with this
     /// </summary>
     public void ComputeWorldTiles() {
-        // compute every world tile via EditorCompute
         for (var x = 0; x < _dimensions[0]; x++) {
             for (var z = 0; z < _dimensions[1]; z++) {
                 EditorCompute.Instance.DoCompute(ref _tiles[x, z]);
-                
             }
         }
-        
-         // ToDo update position of the game objects after computing
-        _gameObjectFactory = new GameObjectFactory();
-        foreach (var tile in _tiles) {
-            _gameObjectFactory.CreateFromDiagram(tile.VoroDiagram, out var geo);
-            geo.transform.SetParent(gameObject.transform);
-        }
+        // ToDo update position of the game objects after computing
     }
 }
 }
