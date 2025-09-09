@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using UnityEngine.UIElements;
+using VoroEditor.Effects.Internal.enums;
 using VoroEditor.Elements;
 using Display = VoroEditor.Elements.Display;
 
@@ -28,6 +29,15 @@ public static class UIHelper {
         };
         slider.Bind(getter, setter);
         return slider;
+    }
+
+    public static TypeDropdown CreateTypeDropdown(string name, Func<ComputeTypes> getter, Action<ComputeTypes> setter) {
+        var dropdown = new TypeDropdown
+        {
+            DisplayName = name
+        };
+        dropdown.Bind(getter, setter);
+        return dropdown;
     }
 
     public static Display CreateDisplay(string name) {

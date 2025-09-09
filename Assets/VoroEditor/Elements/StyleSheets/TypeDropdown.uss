@@ -1,0 +1,10 @@
+:root {
+    flex-direction: row;
+    align-items: center;
+}
+
+#Label {
+}
+
+#Dropdown {
+}

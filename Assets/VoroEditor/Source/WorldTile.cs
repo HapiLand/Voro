@@ -21,7 +21,7 @@ public class WorldTile {
     public GameObject TileContainer;
 
     public WorldTile(int x, int z) {
-        Debug.Log($"Creating tile {x},{z}");
+        // Debug.Log($"Creating tile {x},{z}");
         _origin = (x, z);
         Diagram = new VoroDiagram(_origin);
 

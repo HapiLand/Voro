@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using VoroEditor.Effects.Internal;
+using VoroEditor.Effects.Internal.enums;
 using VoroEditor.Source;
 using VoroEditor.Utility;
 using Display = VoroEditor.Elements.Display;
@@ -15,8 +16,7 @@ namespace VoroEditor.Effects {
 public class SlopeEffect : Effect<SlopeEffectData> {
     Display _display;
 
-    public SlopeEffect(SlopeEffectData data) : base("Slope",
-        data) { }
+    public SlopeEffect(SlopeEffectData data) : base("Slope", data) { }
 
     public override Display Display {
         get
@@ -25,6 +25,11 @@ public class SlopeEffect : Effect<SlopeEffectData> {
                 _display = UIHelper.CreateDisplay("SlopeDisplay");
 
                 // create the effect data elements
+                _display.AddToDisplay(CreateTypeDropdown(
+                    "Type",
+                    () => Data.computeType,
+                    val => Data.computeType = val
+                ));
                 _display.AddToDisplay(CreateFloatSlider(
                     "Direction",
                     () => Data.slopeDirection,
@@ -68,17 +73,25 @@ public class SlopeEffect : Effect<SlopeEffectData> {
                     pointPosition.z),
                 axis);
             slopeHeight *= Data.slopeScale;
-            pointPosition.y += slopeHeight;
+
+            switch (Data.computeType) {
+            case ComputeTypes.Addition:
+                pointPosition.y += slopeHeight;
+                break;
+            case ComputeTypes.Subtraction:
+                pointPosition.y -= slopeHeight;
+                break;
+            }
 
             // write new value back to the diagram
-            voroDiagram.AppendComputeToDiagram(index,
-                pointPosition);
+            voroDiagram.AppendComputeToDiagram(index, pointPosition);
         }
     }
 }
 
 [Serializable]
 public class SlopeEffectData : IEffectData {
+    public ComputeTypes computeType;
     public float slopeDirection;
     public float slopeScale;
 }

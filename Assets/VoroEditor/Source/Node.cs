@@ -9,11 +9,8 @@ public class Node : VisualElement {
     static Node _selectedNode;
 
     public IEffect Effect;
-    // ToDo inspector must read/write the effect data value
 
     Node(IEffect effect) {
-        // ToDo implement logic in Node that will execute an actual function for the nodes effect
-        //  Node to be used like the IEffect interface in V1
         Effect = effect;
         // Debug.Log($"node created with: {Effect}");
 

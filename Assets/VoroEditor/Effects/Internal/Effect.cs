@@ -1,4 +1,5 @@
 using System;
+using VoroEditor.Effects.Internal.enums;
 using VoroEditor.Elements;
 using VoroEditor.Source;
 using VoroEditor.Utility;
@@ -10,7 +11,7 @@ namespace VoroEditor.Effects.Internal {
 ///     the foundation for different effect types that have their own configuration
 /// </summary>
 /// <typeparam name="TEffectData"></typeparam>
-public abstract class Effect<TEffectData> : IEffect {
+public abstract class Effect<TEffectData> : EffectBase, IEffect {
     protected TEffectData Data;
 
     public Effect(string name, TEffectData data) {
@@ -24,13 +25,6 @@ public abstract class Effect<TEffectData> : IEffect {
     public abstract Display Display { get; }
 
     public abstract void Compute(ref VoroDiagram voroDiagram);
-    public event Action<Effect<TEffectData>> OnDataChanged;
-
-    protected void NotifyDataChanged() {
-        // the editor shall be notified that the data has changed
-        // altering a value in the inspector calls this, to recompute the diagrams
-        OnDataChanged?.Invoke(this);
-    }
 
     protected FloatSlider CreateFloatSlider(string label, Func<float> getter, Action<float> setter,
         (float min, float max) range) {
@@ -39,7 +33,7 @@ public abstract class Effect<TEffectData> : IEffect {
             getter,
             value => {
                 setter(value);
-                NotifyDataChanged(); // recompute
+                NotifyDataChanged(this); // recompute
             },
             range
         );
@@ -52,9 +46,20 @@ public abstract class Effect<TEffectData> : IEffect {
             getter,
             value => {
                 setter(value);
-                NotifyDataChanged(); // recompute
+                NotifyDataChanged(this); // recompute
             },
             range
+        );
+    }
+
+    protected TypeDropdown CreateTypeDropdown(string label, Func<ComputeTypes> getter, Action<ComputeTypes> setter) {
+        return UIHelper.CreateTypeDropdown(
+            label,
+            getter,
+            value => {
+                setter(value);
+                NotifyDataChanged(this); // recompute
+            }
         );
     }
 

@@ -1,4 +1,5 @@
 using UnityEngine;
+using VoroEditor.Effects.Internal;
 using VoroEditor.Source;
 
 namespace VoroEditor.Utility {
@@ -24,10 +25,12 @@ public class WorldManager : MonoBehaviour {
             DestroyImmediate(this);
         }
 
+        // ToDo WorldManager must never begin in awake with children already existing
+        //  as unity stays in editor mode, if there are tiles as children and the scene is saved
+        //  then those tile instances are baked into the scene file itself
+
         Instance = this;
-
         // construct the tiles for the world
-
         _tiles = new WorldTile[_dimensions[0], _dimensions[1]];
         for (var x = 0; x < _dimensions[0]; x++) {
             for (var z = 0; z < _dimensions[1]; z++) {
@@ -36,10 +39,13 @@ public class WorldManager : MonoBehaviour {
                 _tiles[x, z].TileContainer.transform.SetParent(gameObject.transform);
             }
         }
+
+        EffectBase.OnAnyEffectChanged += OnEffectChanged;
     }
 
-    void Update() {
-        // ToDo update the tiles so they are computed through the editor every frame
+    void OnEffectChanged(IEffect effect) {
+        // Debug.Log($"Effect changed {effect.EffectName}");
+        ComputeWorldTiles();
     }
 
     public void UpdateWorld() {

@@ -23,7 +23,6 @@ public class ColumnManager {
         var topRow = new VisualElement();
         topRow.AddToClassList("column-top-row");
 
-        // ToDo the column is written into MyConfig.json
         var columnName = $"Column_{Random.Range(0, 999)}";
         var column = new VisualElement { name = columnName };
         column.AddToClassList("column");

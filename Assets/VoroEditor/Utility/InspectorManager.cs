@@ -59,7 +59,6 @@ public class InspectorManager {
 
         // get the display element from the Node
         // this display contains the elements for the user to interact with
-        // ToDo display the value of the sliders within the display to indicate the actual slider value
         _display = selectedNode.Effect.Display;
 
         // add to hierarchy

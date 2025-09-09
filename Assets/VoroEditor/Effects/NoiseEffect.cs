@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using VoroEditor.Effects.Internal;
+using VoroEditor.Effects.Internal.enums;
 using VoroEditor.Source;
 using VoroEditor.Utility;
 using Display = VoroEditor.Elements.Display;
@@ -17,6 +18,11 @@ public class NoiseEffect : Effect<NoiseEffectData> {
                 _display = UIHelper.CreateDisplay("NoiseDisplay");
 
                 // create the effect data elements
+                _display.AddToDisplay(CreateTypeDropdown(
+                    "Type",
+                    () => Data.computeType,
+                    val => Data.computeType = val
+                ));
                 _display.AddToDisplay(CreateFloatSlider(
                     "Scale",
                     () => Data.noiseScale,
@@ -48,8 +54,15 @@ public class NoiseEffect : Effect<NoiseEffectData> {
             double dz = Mathf.Abs(pointPosition.z * Data.noiseSize);
             var noise = perlin.Noise(dx, dy, dz);
             noise *= Data.noiseScale;
-            pointPosition.y += (float)noise;
-            // ToDo implement way to choose whether to add or subtract
+
+            switch (Data.computeType) {
+            case ComputeTypes.Addition:
+                pointPosition.y += (float)noise;
+                break;
+            case ComputeTypes.Subtraction:
+                pointPosition.y -= (float)noise;
+                break;
+            }
 
             // write new value back to the diagram
             voroDiagram.AppendComputeToDiagram(index, pointPosition);
@@ -60,6 +73,7 @@ public class NoiseEffect : Effect<NoiseEffectData> {
 
 [Serializable]
 public class NoiseEffectData : IEffectData {
+    public ComputeTypes computeType;
     public float noiseScale;
     public float noiseSize;
 }
