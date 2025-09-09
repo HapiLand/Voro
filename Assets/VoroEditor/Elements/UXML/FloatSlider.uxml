@@ -1,5 +1,5 @@
 <ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
-    <Style src="project://database/Assets/ConfigEditor/Source/Resources/UI/USS/FloatSlider.uss?fileID=7433441132597879392&amp;guid=4c0efb74a24d777c89e394b8e51d97c7&amp;type=3#FloatSlider" />
+    <Style src="project://database/Assets/VoroEditor/Elements/StyleSheets/FloatSlider.uss?fileID=7433441132597879392&amp;guid=4c0efb74a24d777c89e394b8e51d97c7&amp;type=3#FloatSlider" />
     <ui:Label text="Label" name="Label" style="-unity-text-align: upper-right;" />
     <ui:FloatField value="42.2" name="Field" />
     <ui:Slider value="50" high-value="100" name="Slider" />

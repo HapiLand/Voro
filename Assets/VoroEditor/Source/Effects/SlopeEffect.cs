@@ -32,6 +32,8 @@ public class SlopeEffect : Effect<SlopeEffectData> {
                 _inspectorDisplay.Add(UIHelper.CreateEffectFloatSlider(
                     nameof(Data.slopeScale), 0f, 1f, 1f,
                     newValue => { Data.slopeScale = newValue; }));
+
+
                 // ToDo slider does use default value to drive the effect when first added to column
             }
 
