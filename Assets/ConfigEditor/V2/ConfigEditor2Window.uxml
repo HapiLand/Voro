@@ -1,3 +1,0 @@
-<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
-    <Style src="project://database/Assets/ConfigEditor/V2/Resources/config_editor.uss?fileID=7433441132597879392&amp;guid=3d5cd023fb1649848a7e29f4c065f289&amp;type=3#config_editor" />
-</ui:UXML>

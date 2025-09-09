@@ -6,7 +6,7 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/ConfigEditor/V2/GameWorld.unity
+    path: Assets/Scenes/GameWorld.unity
     guid: b67a0cdf40c1bf6c0a9b66bd921d442b
   m_configObjects: {}
   m_UseUCBPForAssetBundles: 0
