@@ -1,32 +1,37 @@
 using System;
 using UnityEngine;
-using UnityEngine.UIElements;
-using VoroEditor.Source.Effects.Internal;
+using VoroEditor.Effects.Internal;
+using VoroEditor.Source;
+using VoroEditor.Utility;
+using Display = VoroEditor.Elements.Display;
 
-namespace VoroEditor.Source.Effects {
+namespace VoroEditor.Effects {
 public class NoiseEffect : Effect<NoiseEffectData> {
-    VisualElement _inspectorDisplay;
+    Display _display;
     public NoiseEffect(NoiseEffectData data) : base("Noise", data) { }
 
-    public override VisualElement InspectorDisplay {
+    public override Display Display {
         get
         {
-            if (_inspectorDisplay == null) {
-                Debug.Log($"Get Display {EffectName}");
-
-                // create the visual element that contains the elements in the display
-                _inspectorDisplay = UIHelper.CreateGenericDisplay("NoiseDisplay");
+            if (_display == null) {
+                _display = UIHelper.CreateDisplay("NoiseDisplay");
 
                 // create the effect data elements
-                _inspectorDisplay.Add(UIHelper.CreateEffectFloatSlider(
-                    nameof(Data.noiseScale), 0f, 10f, 0f,
-                    newValue => { Data.noiseScale = newValue; }));
-                _inspectorDisplay.Add(UIHelper.CreateEffectFloatSlider(
-                    nameof(Data.noiseSize), 0f, 10f, 0f,
-                    newValue => { Data.noiseScale = newValue; }));
+                _display.AddToDisplay(CreateFloatSlider(
+                    "Scale",
+                    () => Data.noiseScale,
+                    val => Data.noiseScale = val,
+                    (0f, 1f)
+                ));
+                _display.AddToDisplay(CreateFloatSlider(
+                    "Size",
+                    () => Data.noiseSize,
+                    val => Data.noiseSize = val,
+                    (0f, 1f)
+                ));
             }
 
-            return _inspectorDisplay;
+            return _display;
         }
     }
 

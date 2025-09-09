@@ -1,10 +1,12 @@
 using System;
 using UnityEngine;
-using UnityEngine.UIElements;
-using VoroEditor.Source.Effects.Internal;
+using VoroEditor.Effects.Internal;
+using VoroEditor.Source;
+using VoroEditor.Utility;
 using Random = UnityEngine.Random;
+using Display = VoroEditor.Elements.Display;
 
-namespace VoroEditor.Source.Effects {
+namespace VoroEditor.Effects {
 /// <summary>
 ///     concrete implementation of a foo-effect
 ///     uses FooEffectData to define the configuration for the effect
@@ -12,41 +14,49 @@ namespace VoroEditor.Source.Effects {
 ///     this effect is what will be executed when the editor processes a voro
 /// </summary>
 public class TerraceEffect : Effect<TerraceEffectData> {
-    VisualElement _inspectorDisplay;
+    Display _display;
     public TerraceEffect(TerraceEffectData data) : base("Terrace", data) { }
 
-    public override VisualElement InspectorDisplay {
+    public override Display Display {
         get
         {
-            if (_inspectorDisplay == null) {
-                Debug.Log($"Get Display {EffectName}");
-
-                // create the visual element that contains the elements in the display
-                _inspectorDisplay = UIHelper.CreateGenericDisplay("TerraceDisplay");
+            if (_display == null) {
+                _display = UIHelper.CreateDisplay("TerraceDisplay");
 
                 // create the effect data elements
-                _inspectorDisplay.Add(UIHelper.CreateEffectFloatSlider(
-                    nameof(Data.direction), 0f, 10f, 0f,
-                    newValue => { Data.direction = newValue; }));
-
-                _inspectorDisplay.Add(UIHelper.CreateEffectIntSlider(
-                    nameof(Data.iterations), 0, 10, 0,
-                    newValue => { Data.iterations = newValue; }));
-
-                _inspectorDisplay.Add(UIHelper.CreateEffectFloatSlider(
-                    nameof(Data.minStepSize), 0f, 10f, 0f,
-                    newValue => { Data.minStepSize = newValue; }));
-
-                _inspectorDisplay.Add(UIHelper.CreateEffectFloatSlider(
-                    nameof(Data.maxStepSize), 0f, 10f, 0f,
-                    newValue => { Data.maxStepSize = newValue; }));
-
-                _inspectorDisplay.Add(UIHelper.CreateEffectFloatSlider(
-                    nameof(Data.stepScale), 0f, 10f, 0f,
-                    newValue => { Data.stepScale = newValue; }));
+                _display.AddToDisplay(CreateFloatSlider(
+                    "Direction",
+                    () => Data.direction,
+                    val => Data.direction = val,
+                    (0f, 1f)
+                ));
+                _display.AddToDisplay(CreateIntSlider(
+                    "Iterations",
+                    () => Data.iterations,
+                    val => Data.iterations = val,
+                    (0, 1)
+                ));
+                _display.AddToDisplay(CreateFloatSlider(
+                    "Min Step",
+                    () => Data.minStepSize,
+                    val => Data.minStepSize = val,
+                    (0f, 1f)
+                ));
+                _display.AddToDisplay(CreateFloatSlider(
+                    "Max Step",
+                    () => Data.maxStepSize,
+                    val => Data.maxStepSize = val,
+                    (0f, 1f)
+                ));
+                _display.AddToDisplay(CreateFloatSlider(
+                    "Step Scale",
+                    () => Data.stepScale,
+                    val => Data.stepScale = val,
+                    (0f, 1f)
+                ));
             }
 
-            return _inspectorDisplay;
+            return _display;
         }
     }
 

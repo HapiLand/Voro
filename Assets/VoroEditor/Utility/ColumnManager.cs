@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace VoroEditor.Source {
+namespace VoroEditor.Utility {
 /// <summary>
 ///     creates/removes and tracks every column in the editor
 /// </summary>

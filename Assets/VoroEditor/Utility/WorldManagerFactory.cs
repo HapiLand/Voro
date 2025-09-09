@@ -1,4 +1,4 @@
-namespace VoroEditor.Source {
+namespace VoroEditor.Utility {
 /// <summary>
 ///     utility to help creating a world manager for the game world
 /// </summary>

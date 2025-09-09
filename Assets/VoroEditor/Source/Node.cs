@@ -1,7 +1,8 @@
 using System;
 using UnityEngine;
 using UnityEngine.UIElements;
-using VoroEditor.Source.Effects.Internal;
+using VoroEditor.Effects.Internal;
+using VoroEditor.Utility;
 
 namespace VoroEditor.Source {
 public class Node : VisualElement {

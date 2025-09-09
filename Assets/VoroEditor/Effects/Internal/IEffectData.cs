@@ -1,4 +1,4 @@
-namespace VoroEditor.Source.Effects.Internal {
+namespace VoroEditor.Effects.Internal {
 /// <summary>
 ///     data structure to configure any effects which are a certain Effect
 ///     -----

@@ -1,6 +1,7 @@
 using UnityEngine;
+using VoroEditor.Source;
 
-namespace VoroEditor.Source {
+namespace VoroEditor.Utility {
 /// <summary>
 ///     utility so Unity GameObjects can easily be created by WorldManager
 /// </summary>

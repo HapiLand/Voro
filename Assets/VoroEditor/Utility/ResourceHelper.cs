@@ -2,8 +2,9 @@ using System.IO;
 using Newtonsoft.Json.Linq;
 using UnityEngine;
 using UnityEngine.UIElements;
+using VoroEditor.Source;
 
-namespace VoroEditor.Source {
+namespace VoroEditor.Utility {
 public static class ResourceHelper {
     public static T LoadResource<T>(string path) where T : Object {
         return Resources.Load<T>(path);

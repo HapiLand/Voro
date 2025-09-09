@@ -1,9 +1,10 @@
 using System;
-using UnityEngine;
-using UnityEngine.UIElements;
-using VoroEditor.Source.Effects.Internal;
+using VoroEditor.Effects.Internal;
+using VoroEditor.Source;
+using VoroEditor.Utility;
+using Display = VoroEditor.Elements.Display;
 
-namespace VoroEditor.Source.Effects {
+namespace VoroEditor.Effects {
 /// <summary>
 ///     concrete implementation of a foo-effect
 ///     uses FooEffectData to define the configuration for the effect
@@ -11,20 +12,17 @@ namespace VoroEditor.Source.Effects {
 ///     this effect is what will be executed when the editor processes a voro
 /// </summary>
 public class NullEffect : Effect<NullEffectData> {
-    VisualElement _inspectorDisplay;
+    Display _display;
     public NullEffect(NullEffectData data) : base("Null", data) { }
 
-    public override VisualElement InspectorDisplay {
+    public override Display Display {
         get
         {
-            if (_inspectorDisplay == null) {
-                Debug.Log($"Get Display {EffectName}");
-
-                // create the visual element that contains the elements in the display
-                _inspectorDisplay = UIHelper.CreateGenericDisplay("NullDisplay");
+            if (_display == null) {
+                _display = UIHelper.CreateDisplay("NullDisplay");
             }
 
-            return _inspectorDisplay;
+            return _display;
         }
     }
 

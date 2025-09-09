@@ -1,6 +1,6 @@
 using UnityEngine.UIElements;
 
-namespace VoroEditor.Source {
+namespace VoroEditor.Utility {
 /// <summary>
 ///     creates all the panels that the GUI has
 /// </summary>

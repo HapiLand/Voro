@@ -1,13 +1,14 @@
-using UnityEngine.UIElements;
+using VoroEditor.Elements;
+using VoroEditor.Source;
 
-namespace VoroEditor.Source.Effects.Internal {
+namespace VoroEditor.Effects.Internal {
 /// <summary>
 ///     the contract for every effect
 ///     as they all require a name and the method to run the effect
 /// </summary>
 public interface IEffect {
     string EffectName { get; }
-    VisualElement InspectorDisplay { get; } // inspector display
+    Display Display { get; } // inspector display
     void Compute(ref VoroDiagram voroDiagram); // execute the effect
 }
 }

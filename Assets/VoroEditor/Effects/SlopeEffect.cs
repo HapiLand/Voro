@@ -1,9 +1,11 @@
 using System;
 using UnityEngine;
-using UnityEngine.UIElements;
-using VoroEditor.Source.Effects.Internal;
+using VoroEditor.Effects.Internal;
+using VoroEditor.Source;
+using VoroEditor.Utility;
+using Display = VoroEditor.Elements.Display;
 
-namespace VoroEditor.Source.Effects {
+namespace VoroEditor.Effects {
 /// <summary>
 ///     concrete implementation of a foo-effect
 ///     uses FooEffectData to define the configuration for the effect
@@ -11,35 +13,36 @@ namespace VoroEditor.Source.Effects {
 ///     this effect is what will be executed when the editor processes a voro
 /// </summary>
 public class SlopeEffect : Effect<SlopeEffectData> {
-    VisualElement _inspectorDisplay;
+    Display _display;
 
-    public SlopeEffect(SlopeEffectData data) : base("Slope", data) { }
+    public SlopeEffect(SlopeEffectData data) : base("Slope",
+        data) { }
 
-    public override VisualElement InspectorDisplay {
+    public override Display Display {
         get
         {
-            if (_inspectorDisplay == null) {
-                Debug.Log($"Get Display {EffectName}");
-
-                // create the visual element that contains the elements in the display
-                _inspectorDisplay = UIHelper.CreateGenericDisplay("SlopeDisplay");
+            if (_display == null) {
+                _display = UIHelper.CreateDisplay("SlopeDisplay");
 
                 // create the effect data elements
-                _inspectorDisplay.Add(UIHelper.CreateEffectFloatSlider(
-                    nameof(Data.slopeDirection), 0f, 10f, 0f,
-                    newValue => { Data.slopeDirection = newValue; }));
-
-                _inspectorDisplay.Add(UIHelper.CreateEffectFloatSlider(
-                    nameof(Data.slopeScale), 0f, 1f, 1f,
-                    newValue => { Data.slopeScale = newValue; }));
-
-
-                // ToDo slider does use default value to drive the effect when first added to column
+                _display.AddToDisplay(CreateFloatSlider(
+                    "Direction",
+                    () => Data.slopeDirection,
+                    val => Data.slopeDirection = val,
+                    (0f, 1f)
+                ));
+                _display.AddToDisplay(CreateFloatSlider(
+                    "Scale",
+                    () => Data.slopeScale,
+                    val => Data.slopeScale = val,
+                    (0f, 1f)
+                ));
             }
 
-            return _inspectorDisplay;
+            return _display;
         }
     }
+
 
     public override void Compute(ref VoroDiagram voroDiagram) {
         // ToDo replace compute method to use an iterative one
@@ -58,14 +61,18 @@ public class SlopeEffect : Effect<SlopeEffectData> {
 
             // do compute
             var radians = Data.slopeDirection * Mathf.Deg2Rad;
-            var axis = new Vector2(Mathf.Cos(radians), Mathf.Sin(radians));
+            var axis = new Vector2(Mathf.Cos(radians),
+                Mathf.Sin(radians));
             // ToDo direction value over 180 causes slope to be negative
-            var slopeHeight = Vector2.Dot(new Vector2(pointPosition.x, pointPosition.z), axis);
+            var slopeHeight = Vector2.Dot(new Vector2(pointPosition.x,
+                    pointPosition.z),
+                axis);
             slopeHeight *= Data.slopeScale;
             pointPosition.y += slopeHeight;
 
             // write new value back to the diagram
-            voroDiagram.AppendComputeToDiagram(index, pointPosition);
+            voroDiagram.AppendComputeToDiagram(index,
+                pointPosition);
         }
     }
 }
@@ -74,9 +81,5 @@ public class SlopeEffect : Effect<SlopeEffectData> {
 public class SlopeEffectData : IEffectData {
     public float slopeDirection;
     public float slopeScale;
-
-    public override string ToString() {
-        return $"SlopeEffectData {nameof(slopeDirection)}: {slopeDirection}, {nameof(slopeScale)}: {slopeScale}";
-    }
 }
 }

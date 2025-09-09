@@ -1,6 +1,7 @@
 using UnityEngine.UIElements;
+using VoroEditor.Source;
 
-namespace VoroEditor.Source {
+namespace VoroEditor.Utility {
 /// <summary>
 ///     utility for constructing a node
 /// </summary>

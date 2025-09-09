@@ -1,6 +1,7 @@
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
+using VoroEditor.Utility;
 
 namespace VoroEditor.Source {
 public class VoroConfigEditorWindow : EditorWindow {

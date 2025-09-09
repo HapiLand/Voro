@@ -1,33 +1,34 @@
 using System;
-using UnityEngine;
-using UnityEngine.UIElements;
-using VoroEditor.Source.Effects.Internal;
+using VoroEditor.Effects.Internal;
+using VoroEditor.Source;
+using VoroEditor.Utility;
+using Display = VoroEditor.Elements.Display;
 
-namespace VoroEditor.Source.Effects {
+namespace VoroEditor.Effects {
 /// <summary>
 ///     sets the height of the terrain to a constant value to flatten it
 /// </summary>
 public class SetHeightEffect : Effect<SetHeightEffectData> {
-    VisualElement _inspectorDisplay;
+    Display _display;
 
     public SetHeightEffect(SetHeightEffectData data) : base("SetHeight", data) { }
 
-    public override VisualElement InspectorDisplay {
+    public override Display Display {
         get
         {
-            if (_inspectorDisplay == null) {
-                Debug.Log($"Get Display {EffectName}");
-
-                // create the visual element that contains the elements in the display
-                _inspectorDisplay = UIHelper.CreateGenericDisplay("SetHeightDisplay");
+            if (_display == null) {
+                _display = UIHelper.CreateDisplay("SetHeightDisplay");
 
                 // create the effect data elements
-                _inspectorDisplay.Add(UIHelper.CreateEffectFloatSlider(
-                    nameof(Data.heightValue), 0f, 10f, 0f,
-                    newValue => { Data.heightValue = newValue; }));
+                _display.AddToDisplay(CreateFloatSlider(
+                    "Height",
+                    () => Data.heightValue,
+                    val => Data.heightValue = val,
+                    (0f, 1f)
+                ));
             }
 
-            return _inspectorDisplay;
+            return _display;
         }
     }
 

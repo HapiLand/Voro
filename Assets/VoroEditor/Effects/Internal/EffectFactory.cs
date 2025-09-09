@@ -1,4 +1,4 @@
-namespace VoroEditor.Source.Effects.Internal {
+namespace VoroEditor.Effects.Internal {
 /// <summary>
 ///     utility class for accessing and creating effect instances
 /// </summary>

@@ -2,8 +2,9 @@ using System.Collections.Generic;
 using UnityEditor.SceneManagement;
 using UnityEditor.UIElements;
 using UnityEngine.UIElements;
+using VoroEditor.Source;
 
-namespace VoroEditor.Source {
+namespace VoroEditor.Utility {
 /// <summary>
 ///     creates the toolbar menu and callbacks
 /// </summary>

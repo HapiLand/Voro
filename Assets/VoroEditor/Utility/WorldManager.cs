@@ -1,6 +1,7 @@
 using UnityEngine;
+using VoroEditor.Source;
 
-namespace VoroEditor.Source {
+namespace VoroEditor.Utility {
 /// <summary>
 ///     for the editor to interact with the game world scene
 /// </summary>
@@ -16,7 +17,6 @@ public class WorldManager : MonoBehaviour {
     ///     the size of the worlds map
     /// </summary>
     int[] _dimensions => new[] { 5, 1 };
-
 
     void Awake() {
         // create as singleton instance
