@@ -14,7 +14,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: Unity.Addressables.Editor::UnityEditor.AddressableAssets.Settings.AddressableAssetGroup
   m_GroupName: GUI
   m_GUID: 4898fe68987fd1be0bec3ecb2ac10a8b
-  m_SerializeEntries: []
+  m_SerializeEntries:
+  - m_GUID: 1c8b27757764bade88c588998779ca4b
+    m_Address: Assets/VoroEditor/GUI/Elements/Layer.uxml
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 9a4224cf5bcb4002fa9964bb4b095368
+    m_Address: Assets/VoroEditor/GUI/Panels/Main.uxml
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 8c5c42487adc74773ad7911225a56283, type: 2}
   m_SchemaSet:

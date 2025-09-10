@@ -1,0 +1,13 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
+    <Style src="project://database/Assets/VoroEditor/GUI/Styles/Main.uss?fileID=7433441132597879392&amp;guid=65e2f5e8b8687e14c909dedbc622310b&amp;type=3#Main" />
+    <ui:VisualElement name="EditorPanel" style="flex-grow: 1;">
+        <ui:IMGUIContainer name="Toolbar" />
+        <ui:VisualElement name="Workspace" style="flex-grow: 1; flex-direction: row;">
+            <ui:IMGUIContainer name="Canvas">
+                <ui:ScrollView name="Layers" mode="Horizontal" />
+            </ui:IMGUIContainer>
+            <ui:IMGUIContainer name="Inspector" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+    <ui:IMGUIContainer name="Preview" />
+</ui:UXML>

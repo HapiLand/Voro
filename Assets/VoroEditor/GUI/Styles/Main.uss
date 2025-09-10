@@ -1,0 +1,26 @@
+:root {
+    flex-grow: 1;
+    flex-direction: row;
+}
+
+#Preview {
+    background-color: rgb(81, 84, 255);
+    flex-grow: 1;
+}
+
+#Toolbar {
+    flex-grow: 0;
+}
+
+#Canvas {
+    background-color: rgb(255, 240, 129);
+    flex-grow: 1;
+}
+
+#Inspector {
+    background-color: rgb(245, 79, 79);
+    flex-grow: 1;
+}
+
+#Layers {
+}

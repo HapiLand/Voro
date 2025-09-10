@@ -11,6 +11,17 @@ public class EditorLayoutBuilder {
         _root = rootElement;
     }
 
+    public void BuildIMGUILayout(out IMGUIContainer layersContainer, out IMGUIContainer toolbarContainer,
+        out IMGUIContainer inspectorContainer) {
+        var vt = UIHelper.LoadUxml("Window");
+        VisualElement ve = vt.Instantiate();
+        ve.style.flexGrow = 1;
+        _root.Add(ve);
+        layersContainer = _root.Q<IMGUIContainer>("Layers");
+        toolbarContainer = _root.Q<IMGUIContainer>("Toolbar");
+        inspectorContainer = _root.Q<IMGUIContainer>("Inspector");
+    }
+
     public void BuildLayout(out VisualElement columnContainer, out VisualElement toolbarPanel,
         out VisualElement inspectorPanel) {
         // create every panel that the GUI has

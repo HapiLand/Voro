@@ -48,19 +48,21 @@ public class VoroConfigEditorWindow : EditorWindow {
     }
 
     public void CreateGUI() {
+        rootVisualElement.name = "VoroWindowRoot";
+
         // load the style sheet
-        rootVisualElement.styleSheets.Add(UIHelper.LoadStyleSheet("config_editor"));
+        //rootVisualElement.styleSheets.Add(UIHelper.LoadStyleSheet("Window"));
 
         // build the layout of the GUI
         var layoutBuilder = new EditorLayoutBuilder(rootVisualElement);
-        layoutBuilder.BuildLayout(out var columnContainer, out var toolbarPanel, out var inspectorPanel);
+        layoutBuilder.BuildLayout(out var layersContainer, out var toolbarContainer, out var inspectorContainer);
 
         // set up the managers for the editor
         var effectNodeFactory = new NodeFactory();
-        _editorCompute = new EditorCompute(columnContainer);
-        _columnManager = new ColumnManager(columnContainer, effectNodeFactory);
-        _toolbarManager = new ToolbarManager(toolbarPanel, _columnManager, effectNodeFactory, _editorCompute);
-        _inspectorManager = new InspectorManager(inspectorPanel);
+        _editorCompute = new EditorCompute(layersContainer);
+        _columnManager = new ColumnManager(layersContainer, effectNodeFactory);
+        _toolbarManager = new ToolbarManager(toolbarContainer, _columnManager, effectNodeFactory, _editorCompute);
+        _inspectorManager = new InspectorManager(inspectorContainer);
         _worldManager = WorldManagerFactory.GetWorldManager();
 
         // add default content to the editor
@@ -75,7 +77,7 @@ public class VoroConfigEditorWindow : EditorWindow {
         _columnManager.AddColumn(true);
     }
 
-    [MenuItem("Voro/Editor")]
+    [MenuItem("Voro/Editor OLD")]
     public static void ShowExample() {
         var wnd = GetWindow<VoroConfigEditorWindow>();
         wnd.titleContent = new GUIContent("Voro Config Editor");
