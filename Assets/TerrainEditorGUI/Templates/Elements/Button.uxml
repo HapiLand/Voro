@@ -1,0 +1,6 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/TerrainEditorGUI/GlobalStyle.uss?fileID=7433441132597879392&amp;guid=29a743b3d16d0b1c18d529c353b14c87&amp;type=3#GlobalStyle" />
+    <ui:VisualElement name="Body" class="bodyElement">
+        <ui:Label text="Button" name="ButtonText" class="buttonText" />
+    </ui:VisualElement>
+</ui:UXML>
