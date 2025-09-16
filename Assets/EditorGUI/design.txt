@@ -1,0 +1,11 @@
+UnityEditorWindow
+    EditorWindow -                output for VoroCompute
+        Layer[] -                 function selection
+            Effect[] -            terrain function
+        Layers : EditorCanvas -   display LayerElement[]
+        Nodes : EditorCanvas -    display NodeElement[]
+            InspectorLayout -               inspect contents of effect
+                LabelledControlField[] -    interactive element
+                    EffectData -            params for effect data
+        OUT->
+            class { IEffect[]; TEffectData[]; }

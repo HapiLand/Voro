@@ -2,9 +2,12 @@ using EditorGUI.Panels;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
+using EditorWindow = UnityEditor.EditorWindow;
 
 namespace EditorGUI {
-public class VoroEditorWindow : EditorWindow {
+/// <summary>
+/// </summary>
+public class UnityEditorWindow : EditorWindow {
     public void CreateGUI() {
         var root = rootVisualElement;
         root.style.flexDirection = FlexDirection.Row;
@@ -28,8 +31,8 @@ public class VoroEditorWindow : EditorWindow {
 
     [MenuItem("VoroEditorWindow/Show Editor")]
     public static void ShowExample() {
-        var wnd = GetWindow<VoroEditorWindow>();
-        wnd.titleContent = new GUIContent("Terrain Generation Editor");
+        var wnd = GetWindow<UnityEditorWindow>();
+        wnd.titleContent = new GUIContent("Voro Editor v0.3");
     }
 }
 }
