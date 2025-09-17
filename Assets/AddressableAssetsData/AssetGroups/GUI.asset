@@ -60,6 +60,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d8ee929056b952d819020c2586052d09
+    m_Address: Assets/EditorGUI/Source/Voro/TableData/Table0.json
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: ff80f56f5d4445e38a0a77bf60d51087
     m_Address: Assets/EditorGUI/Styles/Preview.uss
     m_ReadOnly: 0
