@@ -5,15 +5,17 @@ public class EditorWindow : VisualElement {
     public void CreateGui() {
         // create components
         var layers = new LayersTab();
-        var effects = new EffectsTab();
+        var effects = new EffectsTab(layers);
         var cam = new CameraTab();
         // left vertical layout
         var ve = new VisualElement();
-        ve.Add(layers as VisualElement);
-        ve.Add(effects as VisualElement);
+        ve.Add(layers);
+        ve.Add(effects);
         // full layout
         Add(ve);
-        Add(cam as VisualElement);
+        Add(cam);
     }
 }
+
+public class CameraTab : VisualElement { }
 }
