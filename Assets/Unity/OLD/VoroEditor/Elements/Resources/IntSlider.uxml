@@ -1,7 +1,0 @@
-<ui:UXML xmlns:ui="UnityEngine.UIElements" noNamespaceSchemaLocation="../../../../../UIElementsSchema/UIElements.xsd"
-         editor-extension-mode="False">
-    <Style src="project://database/Assets/VoroEditor/Elements/StyleSheets/IntSlider.uss?fileID=7433441132597879392&amp;guid=211ec78820b0436a9d18a3ac0de819d8&amp;type=3#IntSlider"/>
-    <ui:Label name="Label" style="-unity-text-align: upper-right;"/>
-    <ui:IntegerField value="0" name="Field"/>
-    <ui:SliderInt value="0" high-value="0" name="Slider"/>
-</ui:UXML>

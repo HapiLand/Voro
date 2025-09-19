@@ -1,9 +1,0 @@
-:root {
-    background-color: rgb(33, 67, 69);
-    margin-right: 5px;
-    margin-left: 5px;
-}
-
-.layer-active {
-    background-color: rgb(73, 255, 7);
-}

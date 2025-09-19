@@ -1,8 +1,0 @@
-<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
-    <Style src="project://database/Assets/VoroEditor/GUI/Styles/Layer.uss?fileID=7433441132597879392&amp;guid=a81463930f4cda61b82b8dd4ead40eb6&amp;type=3#Layer" />
-    <ui:VisualElement name="Header" style="flex-grow: 1;">
-        <ui:Label text="Label" name="Label" />
-        <ui:Toggle name="Toggle" />
-    </ui:VisualElement>
-    <ui:ScrollView name="Effects" />
-</ui:UXML>

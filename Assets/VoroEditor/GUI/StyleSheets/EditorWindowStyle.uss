@@ -1,9 +1,0 @@
-.background {
-    /*-- fill --*/
-    background-color: rgb(103, 102, 94);
-
-    /*-- spacing and size --*/
-    padding: 5px;
-    margin: 5px;
-    flex-grow: 1;
-}

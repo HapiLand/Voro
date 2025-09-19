@@ -1,10 +1,8 @@
+using System;
+using System.Collections.Generic;
+using VoroWorld.Grids;
+
 namespace VoroUI {
-public abstract class EffectBase { }
-
-public interface IEffect {
-    string Name { get; }
-}
-
 public abstract class Effect<TEffectData> : EffectBase, IEffect {
     protected TEffectData Data;
 
@@ -13,14 +11,83 @@ public abstract class Effect<TEffectData> : EffectBase, IEffect {
         Data = data;
     }
 
+    public abstract void Compute(ref WorldTile tile);
+    public abstract List<ControlElementBase> Controls { get; }
     public string Name { get; }
+
+    protected void CreateFloatSlider(
+        string name,
+        Func<float> dataGet,
+        Action<float> dataSet,
+        float sliderMin,
+        float sliderMax,
+        float sliderDefault
+    ) {
+        var element = new FloatSliderElement
+        {
+            DisplayName = name,
+            MinValue = sliderMin,
+            MaxValue = sliderMax,
+            Value = sliderDefault
+        };
+
+        element.BindToData(dataGet, value => {
+            dataSet(value);
+            OnValueChanged(this, value); // recompute
+        });
+
+        Controls.Add(element);
+    }
+
+    protected void CreateLogFloatSlider(
+        string name,
+        Func<float> dataGet,
+        Action<float> dataSet,
+        float sliderMin,
+        float sliderMax,
+        float sliderDefault
+    ) {
+        if (sliderMin <= 0f) {
+            sliderMin = 0.0001f; // avoid log(0)
+        }
+
+        var element = new FloatSliderElement
+        {
+            DisplayName = name,
+            MinValue = sliderMin,
+            MaxValue = sliderMax,
+            Value = sliderDefault,
+            IsLogScale = true
+        };
+
+        element.BindToData(dataGet, value => {
+            dataSet(value);
+            OnValueChanged(this, value); // recompute
+        });
+
+        Controls.Add(element);
+    }
+
+    protected void CreateIntSlider(
+        string name,
+        Func<int> dataGet,
+        Action<int> dataSet,
+        int sliderMin,
+        int sliderMax,
+        int sliderDefault
+    ) {
+        var element = new IntSliderElement
+        {
+            DisplayName = name,
+            MinValue = sliderMin,
+            MaxValue = sliderMax,
+            Value = sliderDefault
+        };
+        element.BindToData(dataGet, value => {
+            dataSet(value);
+            OnValueChanged(this, value); // recompute
+        });
+        Controls.Add(element);
+    }
 }
-
-public class DefaultEffect : Effect<DefaultEffectData> {
-    public DefaultEffect() : base("Default", new DefaultEffectData()) { }
-}
-
-public interface IEffectData { }
-
-public class DefaultEffectData : IEffectData { }
 }

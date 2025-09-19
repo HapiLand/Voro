@@ -1,4 +1,6 @@
 using System;
+using System.Linq;
+using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace VoroUI {
@@ -9,7 +11,8 @@ public class EffectsTab : VisualElement {
     public EffectsTab(LayersTab layers) {
         // in order to find the active layer
         _layers = layers;
-        style.flexDirection = FlexDirection.Column;
+        style.flexDirection = FlexDirection.Column; // vertical layout
+        style.flexGrow = 1; // full size
         // heading
         Add(new Label("Effects"));
         // collection of effect elements
@@ -19,61 +22,129 @@ public class EffectsTab : VisualElement {
         var newEffectBtn = new Button();
         newEffectBtn.text = "New Effect";
         Add(newEffectBtn);
-        // todo hide button when no layer is selected
+        // hide button when no layers are active
+        newEffectBtn.style.display = DisplayStyle.None;
+        LayersTab.AnyLayersActive += isActive => {
+            newEffectBtn.style.display = isActive ? DisplayStyle.Flex : DisplayStyle.None;
+        };
 
-        // assuming this button is only clicked
-        // when a layer is currently active
+        // to refresh the effects UI
+        LayersTab.OnLayerSelectionChanged += RefreshEffectsUI;
+
         newEffectBtn.clicked += () => {
-            var fail = !_layers.TryGetActiveLayer(out var layer);
-            if (fail) {
-                // nothing selected
+            if (!_layers.CheckForAnyActive()) {
+                // this is a redundant check, the button is only visible and clickable
+                // when the layer is active, theres no real need to check again that
+                // a layer is selected
                 return;
             }
 
-            // create a new effect and add it to the layer
-            // todo pick the desired effect within UI
-            var effect = new DefaultEffect();
-            // callback so the effect can be added to the layer
-            OnEffectCreated?.Invoke(effect);
+            // create new effect
+            // todo pick the desired effect from a dropdown menu
+            var effect = new DefaultEffect(); // IEffect
+
             // create new element to store the effect
             var element = new EffectElement(effect);
+            OnEffectElementCreated?.Invoke(element);
+
             // the element is selected when clicked
-            element.Clicked += () => { Select(element); };
+            element.Clicked += () => {
+                Select(element);
+                AnyEffectsActive?.Invoke(CheckForAnyActive());
+            };
+
             // add Effect to vertical list
             _collection.Add(element);
         };
-        LayersTab.OnLayerSelectionChanged += ClearEffects;
+
+        // when a layer is clicked, to select it, the effects that are shown
+        // should be cleared
+        LayersTab.OnLayerSelectionChanged += RefreshEffectsUI;
+        
+        CameraTab.OnSceneReloaded += OnSceneReloaded;
     }
 
-    /// <summary>
-    /// </summary>
-    public static event Action OnEffectSelectionChanged;
+    void OnSceneReloaded() {
+        // clear the child content
+        _collection.Clear();
+    }
+    
+    public static event Action<bool> AnyEffectsActive;
 
-    public bool TryGetActiveEffect(out Effect? activeEffect) {
-        // todo complete method
-        //  find the LayerElement that is Active=true
-        //  return element.Layer
-        activeLayer = null;
+    public bool CheckForAnyActive() {
+        var result = TryGetActiveElement(out var effectElement);
+        if (result) {
+            return true;
+        }
+
+        // no layers are active
+        Debug.LogWarning("no active effects found");
         return false;
     }
 
-    void Select(LayerElement element) {
-        // todo selectable elements, toggle
-        // todo deslect other elements
-        throw new NotImplementedException();
+    /// <summary>
+    /// </summary>
+    public static event Action<EffectElement> OnEffectSelectionChanged;
+
+    public bool TryGetActiveElement(out EffectElement? activeEffect) {
+        var effectElements = _collection.Children().OfType<EffectElement>();
+
+        foreach (var element in effectElements) {
+            if (element.Active) {
+                activeEffect = element;
+                return true;
+            }
+        }
+
+        // no effects are active
+        activeEffect = null;
+        return false;
+    }
+
+    void Select(EffectElement clickedElement) {
+        var nothingSelected = !TryGetActiveElement(out var activeElement);
+        if (nothingSelected) {
+            // no effect is currently selected, so this element is the new selection
+
+            // when the selection changes to a different element than the previous selection
+            clickedElement.SetActive();
+            OnEffectSelectionChanged?.Invoke(clickedElement); // the active value in an element has been changed
+            return;
+        }
+
+        // an element is already selected
+        if (activeElement == clickedElement) {
+            // the element which is already active, as clicked
+            // this deselects it, like a toggle
+            clickedElement.SetInactive();
+            OnEffectSelectionChanged?.Invoke(clickedElement); // the active value in an element has been changed
+            return;
+        }
+
+        // a different element was clicked than the already active elemnet
+        // this changes the selection
+        activeElement.SetInactive(); // old element is inactive
+        clickedElement.SetActive(); // new element is active
+        OnEffectSelectionChanged?.Invoke(clickedElement); // the active value in an element has been changed
     }
 
     /// <summary>
-    ///     clears the visible effect elements as the active layer
-    ///     has changed
+    ///     when the layer selection changes, the effects from the new layer must be displayed
     /// </summary>
-    void ClearEffects() {
+    void RefreshEffectsUI(LayerElement layerElement) {
+        // clear any existing elements
         _collection.Clear();
+        // display the new effects within the layer
+        foreach (var effectElement in layerElement.Layer.EffectElements) {
+            _collection.Add(effectElement);
+        }
     }
 
     /// <summary>
-    ///     the effect is added to the layer
+    ///     when a new effect button is clicked, IEffect is created and then
+    ///     stored inside an EffectElement
+    ///     the element will be given to the active Layer
     /// </summary>
-    public static event Action<IEffect> OnEffectCreated;
+    public static event Action<EffectElement> OnEffectElementCreated;
 }
 }

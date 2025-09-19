@@ -1,5 +1,0 @@
-<ui:UXML xmlns:ui="UnityEngine.UIElements" noNamespaceSchemaLocation="../../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
-    <Style src="project://database/Assets/VoroEditor/Elements/StyleSheets/TypeDropdown.uss?fileID=7433441132597879392&amp;guid=f7c078b50dc148848600344ad8606f20&amp;type=3#TypeDropdown" />
-    <ui:Label name="Label" style="-unity-text-align: upper-right;" />
-    <ui:DropdownField name="Dropdown" />
-</ui:UXML>

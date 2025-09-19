@@ -1,0 +1,40 @@
+using UnityEngine.UIElements;
+
+namespace VoroUI {
+public class ControlElementBase : VisualElement { }
+
+public abstract class ControlElement<TValue> : ControlElementBase {
+    readonly Label _label;
+    public VisualElement ControlContainer;
+    public VisualElement FieldContainer;
+
+    public ControlElement() {
+        style.flexDirection = FlexDirection.Row; // horizontal layout
+        style.flexGrow = 1; // full size
+
+        // element to store the label 
+        var labelContainer = new VisualElement();
+        labelContainer.style.flexGrow = 0;
+        // labelContainer.style.width = new Length(100, LengthUnit.Pixel); // fixed width
+        _label = new Label();
+        labelContainer.Add(_label);
+        Add(labelContainer);
+
+        // element to store the field 
+        FieldContainer = new VisualElement();
+        FieldContainer.style.width = new Length(50, LengthUnit.Pixel); // fixed width
+        Add(FieldContainer);
+
+        // element to store the controls 
+        ControlContainer = new VisualElement();
+        ControlContainer.style.width = new Length(100, LengthUnit.Pixel); // fixed width
+        Add(ControlContainer);
+    }
+
+    [UxmlAttribute]
+    public string DisplayName {
+        get => _label?.text ?? "";
+        set => _label.text = value;
+    }
+}
+}

@@ -1,4 +1,0 @@
-#WindowRoot {
-    flex-direction: row;
-    flex-grow: 1;
-}

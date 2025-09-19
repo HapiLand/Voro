@@ -3,24 +3,33 @@ using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace VoroUI {
-public class LayerElement : VisualElement {
+public class EffectElement : VisualElement {
     readonly Label _label;
+
+    /// <summary>
+    ///     element to contain the field controls
+    /// </summary>
+    readonly VisualElement _controlContainer;
 
     /// <summary>
     ///     this is the current selection
     /// </summary>
     public bool Active;
 
-    public Layer Layer;
+    public IEffect Effect;
+    // todo display FieldControlElements from the effect
 
     // todo move element in collection
     // todo remove element from collection
-    public LayerElement(Layer layer) {
-        Layer = layer;
+    public EffectElement(IEffect effect) {
+        Effect = effect;
         // label
         _label = new Label();
-        DisplayName = Layer.Name;
+        DisplayName = effect.Name;
         Add(_label);
+        // container to store the IEffect controls
+        _controlContainer = new VisualElement();
+        Add(_controlContainer);
         // make element selectable
         var clickable = new Clickable(OnClicked);
         this.AddManipulator(clickable);
@@ -38,11 +47,18 @@ public class LayerElement : VisualElement {
     public void SetActive() {
         _label.style.color = Color.aquamarine;
         Active = true;
+
+        // display the field controls within IEffect
+        foreach (var control in Effect.Controls) {
+            _controlContainer.Add(control);
+        }
     }
 
     public void SetInactive() {
         _label.style.color = Color.softRed;
         Active = false;
+
+        _controlContainer.Clear(); // remove any controls as the element isnt displaying them anymore
     }
 
     void OnClicked() {
