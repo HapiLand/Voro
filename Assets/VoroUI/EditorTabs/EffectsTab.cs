@@ -2,15 +2,14 @@ using System;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UIElements;
+using VoroUI.Effects;
+using VoroUI.Elements;
 
-namespace VoroUI {
+namespace VoroUI.EditorTabs {
 public class EffectsTab : VisualElement {
     readonly VisualElement _collection;
-    readonly LayersTab _layers;
 
-    public EffectsTab(LayersTab layers) {
-        // in order to find the active layer
-        _layers = layers;
+    public EffectsTab() {
         style.flexDirection = FlexDirection.Column; // vertical layout
         style.flexGrow = 1; // full size
         // heading
@@ -32,7 +31,7 @@ public class EffectsTab : VisualElement {
         LayersTab.OnLayerSelectionChanged += RefreshEffectsUI;
 
         newEffectBtn.clicked += () => {
-            if (!_layers.CheckForAnyActive()) {
+            if (!LayersTab.CheckAnyActive()) {
                 // this is a redundant check, the button is only visible and clickable
                 // when the layer is active, theres no real need to check again that
                 // a layer is selected
@@ -44,7 +43,7 @@ public class EffectsTab : VisualElement {
             var effect = new DefaultEffect(); // IEffect
 
             // create new element to store the effect
-            var element = new EffectElement(effect);
+            var element = new Node(effect);
             OnEffectElementCreated?.Invoke(element);
 
             // the element is selected when clicked
@@ -60,7 +59,7 @@ public class EffectsTab : VisualElement {
         // when a layer is clicked, to select it, the effects that are shown
         // should be cleared
         LayersTab.OnLayerSelectionChanged += RefreshEffectsUI;
-        
+
         CameraTab.OnSceneReloaded += OnSceneReloaded;
     }
 
@@ -68,7 +67,7 @@ public class EffectsTab : VisualElement {
         // clear the child content
         _collection.Clear();
     }
-    
+
     public static event Action<bool> AnyEffectsActive;
 
     public bool CheckForAnyActive() {
@@ -84,10 +83,10 @@ public class EffectsTab : VisualElement {
 
     /// <summary>
     /// </summary>
-    public static event Action<EffectElement> OnEffectSelectionChanged;
+    public static event Action<Node> OnEffectSelectionChanged;
 
-    public bool TryGetActiveElement(out EffectElement? activeEffect) {
-        var effectElements = _collection.Children().OfType<EffectElement>();
+    public bool TryGetActiveElement(out Node? activeEffect) {
+        var effectElements = _collection.Children().OfType<Node>();
 
         foreach (var element in effectElements) {
             if (element.Active) {
@@ -101,7 +100,7 @@ public class EffectsTab : VisualElement {
         return false;
     }
 
-    void Select(EffectElement clickedElement) {
+    void Select(Node clickedElement) {
         var nothingSelected = !TryGetActiveElement(out var activeElement);
         if (nothingSelected) {
             // no effect is currently selected, so this element is the new selection
@@ -131,11 +130,11 @@ public class EffectsTab : VisualElement {
     /// <summary>
     ///     when the layer selection changes, the effects from the new layer must be displayed
     /// </summary>
-    void RefreshEffectsUI(LayerElement layerElement) {
+    void RefreshEffectsUI(Layer layer) {
         // clear any existing elements
         _collection.Clear();
         // display the new effects within the layer
-        foreach (var effectElement in layerElement.Layer.EffectElements) {
+        foreach (var effectElement in layer.EditorDiagram.EffectElements) {
             _collection.Add(effectElement);
         }
     }
@@ -145,6 +144,6 @@ public class EffectsTab : VisualElement {
     ///     stored inside an EffectElement
     ///     the element will be given to the active Layer
     /// </summary>
-    public static event Action<EffectElement> OnEffectElementCreated;
+    public static event Action<Node> OnEffectElementCreated;
 }
 }

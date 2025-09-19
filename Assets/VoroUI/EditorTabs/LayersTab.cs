@@ -2,10 +2,11 @@ using System;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UIElements;
+using VoroUI.Elements;
 
-namespace VoroUI {
+namespace VoroUI.EditorTabs {
 public class LayersTab : VisualElement {
-    public readonly VisualElement Collection;
+    public static VisualElement Collection;
 
     public LayersTab() {
         style.flexDirection = FlexDirection.Column; // vertical layout
@@ -34,28 +35,33 @@ public class LayersTab : VisualElement {
 
         // set defaults
         SetInitialLayer();
-        
+
         CameraTab.OnSceneReloaded += OnSceneReloaded;
+    }
+
+    public static bool CheckAnyActive() {
+        var layerElements = Collection.Query<Layer>().ToList();
+        return layerElements.Any(e => e.Active);
     }
 
     void OnSceneReloaded() {
         // clear the child content
         Collection.Clear();
     }
-    
-    
+
+
     /// <summary>
     ///     UI button to create a new Layer+LayerElement
     /// </summary>
     /// <param name="layerName"></param>
     /// <returns></returns>
-    LayerElement ClickedNewLayerButton(string layerName) {
+    Layer ClickedNewLayerButton(string layerName) {
         // create new layer
-        var layer = new Layer(layerName);
+        var layer = new EditorDiagram(layerName);
         OnLayerCreated?.Invoke(layer);
 
         // create new element to store the layer
-        var element = new LayerElement(layer);
+        var element = new Layer(layer);
 
         // the element is selected when clicked
         element.Clicked += () => {
@@ -76,9 +82,10 @@ public class LayersTab : VisualElement {
         Collection.Add(element);
     }
 
-    public static event Action<LayerElement> OnLayerSelectionChanged;
 
-    void AddEffectToActiveLayer(EffectElement effectElement) {
+    public static event Action<Layer> OnLayerSelectionChanged;
+
+    void AddEffectToActiveLayer(Node node) {
         var fail = !TryGetActiveElement(out var layerElement);
         if (fail) {
             // nothing selected
@@ -87,11 +94,11 @@ public class LayersTab : VisualElement {
 
         // Debug.Log($"Add Effect to Active Layer : {effect.Name}");
         // add the effect to the layer
-        layerElement.Layer.AddEffectElement(effectElement);
+        layerElement.EditorDiagram.AddEffectElement(node);
     }
 
-    public bool TryGetActiveElement(out LayerElement? activeLayer) {
-        var layerElements = Collection.Children().OfType<LayerElement>();
+    public bool TryGetActiveElement(out Layer? activeLayer) {
+        var layerElements = Collection.Children().OfType<Layer>();
 
         foreach (var element in layerElements) {
             if (element.Active) {
@@ -126,13 +133,13 @@ public class LayersTab : VisualElement {
     /// </summary>
     public static event Action<bool> AnyLayersActive;
 
-    public static event Action<Layer> OnLayerCreated;
+    public static event Action<EditorDiagram> OnLayerCreated;
 
     /// <summary>
     ///     this element was clicked to set this as the active element
     /// </summary>
     /// <param name="element"></param>
-    void Select(LayerElement element) {
+    void Select(Layer element) {
         var nothingSelected = !TryGetActiveElement(out var layerElement);
         if (nothingSelected) {
             Debug.Log("Select - no existing layers already selected");

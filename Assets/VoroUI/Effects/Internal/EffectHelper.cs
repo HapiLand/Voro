@@ -1,6 +1,4 @@
-using VoroUI;
-
-namespace VoroWorld.Utility {
+namespace VoroUI.Effects.Internal {
 /// <summary>
 ///     helper class for dealing with Effects
 /// </summary>

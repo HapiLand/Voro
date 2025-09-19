@@ -3,7 +3,7 @@ using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace VoroUI {
+namespace VoroUI.EditorTabs {
 public class CameraTab : VisualElement {
     /// <summary>
     ///     element that shows the camera output

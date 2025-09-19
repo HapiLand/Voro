@@ -1,5 +1,4 @@
-using UnityEngine;
-using VoroUI;
+using VoroUI.Effects;
 using VoroWorld.Grids;
 
 namespace VoroWorld {

@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using VoroUI;
+using VoroUI.Effects;
 using VoroWorld.Grids;
 
 namespace VoroWorld {
@@ -40,7 +41,7 @@ public class GameWorldManager : MonoBehaviour {
         return _tileGrid?.GetTile(x, z);
     }
 
-    public void ExecuteComputeWorld(Dictionary<Layer, List<IEffect>> editorContent) {
+    public void ExecuteComputeWorld(Dictionary<EditorDiagram, List<IEffect>> editorContent) {
         // Debug.Log("Executing VoroCompute on all tiles within TileGrid");
 
         // in every layer, for each effect within the layer
@@ -57,8 +58,6 @@ public class GameWorldManager : MonoBehaviour {
                 }
             }
         }
-        
-
     }
 }
 }

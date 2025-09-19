@@ -1,19 +1,22 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using UnityEngine;
 using UnityEngine.UIElements;
+using VoroUI.EditorTabs;
+using VoroUI.Effects;
+using VoroUI.Effects.Base;
+using VoroUI.Elements;
 
 namespace VoroUI {
 public class EditorWindow : VisualElement {
-    LayersTab _layersTab;
-    EffectsTab _effectsTab;
-    
+    readonly EffectsTab _effectsTab;
+    readonly LayersTab _layersTab;
+
     public EditorWindow() {
         // create components
         _layersTab = new LayersTab();
-        _effectsTab = new EffectsTab(_layersTab);
+        _effectsTab = new EffectsTab();
         var cam = new CameraTab();
         // left vertical layout
         var ve = new VisualElement();
@@ -42,7 +45,7 @@ public class EditorWindow : VisualElement {
     //     _layersTab = new LayersTab();
     //     _effectsTab = new EffectsTab(_layersTab);
     // }
-    
+
     /// <summary>
     ///     this method is called before the terrain generation system recomputes the result
     ///     any time the control UI changes a data value, VoroCompute needs the terrain to
@@ -57,13 +60,13 @@ public class EditorWindow : VisualElement {
         // the object is provided to VoroCompute, the result of the object produces the full terrain
 
         // turn the content of the editor into a dictionary which VoroCompute needs to generate terrain
-        Dictionary<Layer, List<IEffect>> editorContent = new();
+        Dictionary<EditorDiagram, List<IEffect>> editorContent = new();
 
         // create the keys as the Layers found in the editor
-        var layerElements = _layersTab.Query<LayerElement>().ToList();
+        var layerElements = _layersTab.Query<Layer>().ToList();
         foreach (var layerElement in layerElements) {
             // store this layer and get the effect elements inside it
-            var layer = layerElement.Layer;
+            var layer = layerElement.EditorDiagram;
             editorContent[layer] = new List<IEffect>();
             // store every effect within this layer
             foreach (var effectElement in layer.EffectElements) {
@@ -76,7 +79,7 @@ public class EditorWindow : VisualElement {
 
         OnEditorOutputToCompute?.Invoke(editorContent);
 
-        void LogDictionary(Dictionary<Layer, List<IEffect>> dict) {
+        void LogDictionary(Dictionary<EditorDiagram, List<IEffect>> dict) {
             Debug.Log("EditorWindow constructed the EditorContent dictionary");
             var sb = new StringBuilder();
             sb.AppendLine("EditorContent Dictionary:");
@@ -99,6 +102,6 @@ public class EditorWindow : VisualElement {
         }
     }
 
-    public static event Action<Dictionary<Layer, List<IEffect>>> OnEditorOutputToCompute;
+    public static event Action<Dictionary<EditorDiagram, List<IEffect>>> OnEditorOutputToCompute;
 }
 }

@@ -1,6 +1,6 @@
 using UnityEngine.UIElements;
 
-namespace VoroUI {
+namespace VoroUI.Elements.Base {
 public class ControlElementBase : VisualElement { }
 
 public abstract class ControlElement<TValue> : ControlElementBase {

@@ -1,8 +1,11 @@
 using System.Collections.Generic;
 using UnityEngine;
+using VoroUI.Effects.Base;
+using VoroUI.Effects.Internal;
+using VoroUI.Elements.Base;
 using VoroWorld.Grids;
 
-namespace VoroUI {
+namespace VoroUI.Effects {
 public class DefaultEffectData : IEffectData {
     public float Float;
     public int Int;
@@ -58,19 +61,19 @@ public class DefaultEffect : Effect<DefaultEffectData> {
 
     public override void Compute(ref WorldTile tile) {
         Debug.Log($"Compute Effect.{Name} on Tile.{tile}");
-        
+
         var cellPoints = tile.Diagram.CellPoints;
         var tileOrigin = tile.Origin;
-        
+
         // update diagram data
         for (var i = 0; i < cellPoints.Length; i++) {
             var point = cellPoints[i];
             point.Position = new Vector3(point.Position.x, 2f, point.Position.z);
             cellPoints[i] = point;
         }
-        
+
         tile.Diagram.CellPoints = cellPoints;
-        
+
         // update gameobjects
         for (var i = 0; i < tile.TileContainer.transform.childCount; i++) {
             var cellObject = tile.TileContainer.transform.GetChild(i);
