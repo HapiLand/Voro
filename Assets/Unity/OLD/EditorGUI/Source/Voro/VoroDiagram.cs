@@ -1,60 +1,75 @@
-using System.Text;
+using System;
+using EditorGUI.Source.Utility;
+using EditorGUI.Source.Voro.TableData;
+using Newtonsoft.Json.Linq;
 using UnityEngine;
 
 namespace EditorGUI.Source.Voro {
+/// <summary>
+///     the primary data object for the voro system
+///     - has a point table to serve as the location for each cell (used to set GameObject positions)
+///     - stores constant configuration, these define the base properties of the diagram
+///     the constant configuration originates from the PointTable.json
+/// </summary>
 public class VoroDiagram {
     /// <summary>
-    ///     the index of this array maps to a collection of fbx geo
-    ///     these are the piece ID values each point uses
+    ///     CellPoints are stored locally to the Diagram, which exists in its own UV space
+    ///     {0,1} {1,1}
+    ///     {0,0} {1,0}
+    ///     when used by a WorldTile, the actual world position of each CellPoint can be found
     /// </summary>
-    public int[] GeoMap;
+    public Point[] CellPoints;
 
-    /// <summary>
-    ///     the points within the diagram
-    ///     vector3 - position
-    ///     int - piece ID
-    /// </summary>
-    public GameObject[] Geometry;
-    // ToDo these objects should be instantiated into the GameWorld
+    public Config Configuration;
 
-    /// <summary>
-    ///     the origin of the world tile the diagram is part of
-    /// </summary>
-    public (int x, int z) Origin;
-
-    // ToDo implement dictionary for geometry <GeoMap, Geometry[]> to allow for variants to be stored
-    /// <summary>
-    ///     the index of this array maps to a collection of Points
-    /// </summary>
-    public int[] PointMap;
-
-    /// <summary>
-    ///     the points within the diagram
-    ///     vector3 - position
-    /// </summary>
-    public Vector3[] Points;
-
-    // ToDo implement data properties for diagram like Color
-    public VoroDiagram((int x, int z) origin) {
-        Origin = origin;
+    public VoroDiagram(int tableIndex = 0, Action<VoroDiagram> onLoaded = null) {
+        LoadFromAddressable(tableIndex, onLoaded);
     }
 
-    /// <summary>
-    ///     write the computed value to the diagram
-    /// </summary>
-    public void AppendComputeToDiagram(int index, Vector3 position) {
-        Points[index] = position;
-        Geometry[index].transform.position = Points[index];
+    public bool IsLoaded { get; private set; }
+
+    void LoadFromAddressable(int tableIndex, Action<VoroDiagram> onLoaded) {
+        AssetHelper.LoadAssetPath<TextAsset>($"Assets/EditorGUI/Source/Voro/TableData/Table{tableIndex}.json",
+            OnTableLoaded);
+
+        void OnTableLoaded(TextAsset table) {
+            if (table != null) {
+                var tableData = JObject.Parse(table.text)["Points"].ToObject<TablePoint[]>();
+                ConstructDiagram(tableData);
+
+                IsLoaded = true;
+                Debug.Log($"VoroDiagram created with {CellPoints.Length} points");
+                onLoaded?.Invoke(this);
+            }
+            else {
+                Debug.LogError($"VoroDiagram failed to load Table{tableIndex}.json");
+            }
+        }
     }
 
-    public override string ToString() {
-        // build a string that will display the contents of this diagram
+    void ConstructDiagram(TablePoint[] data) {
+        CellPoints = new Point[data.Length];
+        Configuration = new Config
+        {
+            PointColors = new Color[data.Length]
+        };
 
-        var sb = new StringBuilder();
-        sb.AppendLine($"VoroDiagram: [{Origin.x},{Origin.z}]");
-        sb.AppendLine("  PointMap:");
-        sb.AppendLine(PointMap != null ? $"    has {PointMap.Length} points" : "    (null)");
-        return sb.ToString();
+        for (var i = 0; i < data.Length; i++) {
+            var tablePoint = data[i];
+
+            // convert the table into CellPoints
+            var position = new Vector3(tablePoint.Pos[0], 0, tablePoint.Pos[1]);
+            CellPoints[i] = new Point(position, tablePoint.Id);
+
+            // write the configuration for the Diagram
+            var color = tablePoint.Col;
+            Configuration.PointColors[i] = new Color(color[0], color[1], color[2], 1.0f);
+        }
+    }
+
+
+    public struct Config {
+        public Color[] PointColors;
     }
 }
 }

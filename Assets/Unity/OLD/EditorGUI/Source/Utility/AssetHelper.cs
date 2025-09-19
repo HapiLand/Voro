@@ -18,13 +18,25 @@ public static class AssetHelper {
             { EffectMaster.SetTag, new KeyValuePair<string, string>("Tags/SetTag", "SetTag") }
         };
 
+    public static void LoadAllAssetsInGroupName<T>(string groupLabel, Action<IList<T>> onLoaded) where T : Object {
+        Addressables.LoadAssetsAsync<T>(groupLabel).Completed += handle => {
+            if (handle.Status == AsyncOperationStatus.Succeeded) {
+                onLoaded?.Invoke(handle.Result);
+            }
+            else {
+                Debug.LogError($"Failed to load assets with label: {groupLabel}");
+                onLoaded?.Invoke(null);
+            }
+        };
+    }
+
     public static void LoadAssetPath<T>(string pathTo, Action<T> onLoaded) where T : Object {
         Addressables.LoadAssetAsync<T>(pathTo).Completed += handle => {
             if (handle.Status == AsyncOperationStatus.Succeeded) {
                 onLoaded?.Invoke(handle.Result);
             }
             else {
-                Debug.LogError($"[AssetHelper] failed to load asset at path: {pathTo}");
+                Debug.LogError($"AssetHelper failed to load asset at path: {pathTo}");
                 onLoaded?.Invoke(null);
             }
         };

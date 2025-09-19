@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: StyleSheets
+  m_EditorClassIdentifier: Unity.Addressables.Editor::UnityEditor.AddressableAssets.Settings.AddressableAssetGroup
+  m_GroupName: StyleSheets
+  m_GUID: ddfde5cc2d2a29e1187edbda7c6b9876
+  m_SerializeEntries:
+  - m_GUID: 5f08e9c36178414bb580bc8cabf23181
+    m_Address: Assets/VoroEditor/GUI/StyleSheets/CanvasStyle.uss
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: bbe1cdb90f8f483a9ad46eef24acfaa4
+    m_Address: Assets/VoroEditor/GUI/StyleSheets/EditorWindowStyle.uss
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: 8c5c42487adc74773ad7911225a56283, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: eb26eb731af95cbf4ae24f415fdd8959, type: 2}
+    - {fileID: 11400000, guid: 198f0feae6fe50e02bb8bc727786caf1, type: 2}

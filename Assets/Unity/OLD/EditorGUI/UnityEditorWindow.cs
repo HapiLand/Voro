@@ -2,12 +2,11 @@ using EditorGUI.Panels;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
-using EditorWindow = UnityEditor.EditorWindow;
 
 namespace EditorGUI {
 /// <summary>
 /// </summary>
-public class UnityEditorWindow : EditorWindow {
+public class UnityEditorWindow : UnityEditor.EditorWindow {
     public void CreateGUI() {
         var root = rootVisualElement;
         root.style.flexDirection = FlexDirection.Row;
@@ -22,9 +21,9 @@ public class UnityEditorWindow : EditorWindow {
         editorCanvas.style.flexDirection = FlexDirection.Row;
         editorCanvas.style.flexGrow = 1;
         editorContents.Add(editorCanvas);
-        editorCanvas.Add(new DiagramCollection { name = "DiagramManager" });
-        editorCanvas.Add(new NodeCollection { name = "NodeManager" });
-        editorCanvas.Add(new Inspector { name = "InspectorManager" });
+        // editorCanvas.Add(new DiagramCollection { name = "DiagramManager" });
+        // editorCanvas.Add(new NodeCollection { name = "NodeManager" });
+        // editorCanvas.Add(new Inspector { name = "InspectorManager" });
 
         root.Add(new Preview { DisplayName = "Preview" });
     }

@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace EditorGUI.Panels {
+namespace OLD.EditorGUI.Panels {
 /// <summary>
 ///     the core elements of GUI: layers,effects,etc
 ///     all share the same structure and logic that

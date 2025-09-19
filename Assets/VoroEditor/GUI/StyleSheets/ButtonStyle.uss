@@ -1,0 +1,17 @@
+.background {
+    /*-- fill --*/
+    background-color: rgb(238, 241, 227);
+
+    /*-- spacing and size --*/
+    padding: 5px;
+    margin: 5px;
+    flex-grow: 1;
+}
+
+.text {
+    font-size: 24px;
+    color: black;
+    -unity-text-align: middle-left;
+    padding: 0;
+    margin: 0;
+}

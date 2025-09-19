@@ -1,6 +1,7 @@
 using System;
 using EditorGUI.Elements;
 using EditorGUI.Source.Utility;
+using EditorGUI.Source.Voro.Grids;
 
 namespace EditorGUI.Source.Effects.Base {
 public abstract class Effect<TEffectData> : EffectBase, IEffect {
@@ -25,7 +26,7 @@ public abstract class Effect<TEffectData> : EffectBase, IEffect {
     ///     computes the function this effect has on the provided Diagram
     /// </summary>
     /// <param name="diagram"></param>
-    public abstract void Compute(ref DiagramElement diagram);
+    public abstract void Compute(ref WorldTile tile);
 
     /// <summary>
     ///     create a new instance of controls that the effect will display in the inspector

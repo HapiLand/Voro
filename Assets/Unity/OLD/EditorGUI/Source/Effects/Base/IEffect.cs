@@ -1,4 +1,5 @@
 using EditorGUI.Elements;
+using EditorGUI.Source.Voro.Grids;
 
 namespace EditorGUI.Source.Effects.Base {
 public interface IEffect {
@@ -16,6 +17,6 @@ public interface IEffect {
     ///     executes the effect
     /// </summary>
     /// <param name="diagram"></param>
-    void Compute(ref DiagramElement diagram);
+    void Compute(ref WorldTile tile);
 }
 }

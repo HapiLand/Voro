@@ -8,17 +8,18 @@ namespace EditorGUI.Source.Voro {
 /// </summary>
 [ExecuteAlways]
 public class GameWorldManager : MonoBehaviour {
-    [SerializeField] int width = 1;
-    [SerializeField] int height = 1;
-
     TileGrid _tileGrid;
+    int width => 5;
+    int height => 1;
     public static GameWorldManager Instance { get; private set; }
 
     void Awake() {
         if (Instance != null && Instance != this) {
             DestroyImmediate(this);
+            return;
         }
 
+        // clear any pre-existing children
         var numChildren = transform.childCount;
         for (var i = numChildren - 1; i >= 0; i--) {
             DestroyImmediate(transform.GetChild(i).gameObject);
@@ -27,7 +28,6 @@ public class GameWorldManager : MonoBehaviour {
         Instance = this;
 
         EffectBase.OnEffectChanged += OnEffectChanged;
-        Debug.Log("GameWorldManager.Awake - called after the subscription");
         InitializeWorldGrid();
     }
 
@@ -37,29 +37,23 @@ public class GameWorldManager : MonoBehaviour {
     }
 
     void InitializeWorldGrid() {
-        // Debug.Log("initailise world grid");
         _tileGrid = new TileGrid(width, height, transform);
     }
 
-    public Grids.WorldTile GetTile(int x, int z) {
+    public WorldTile GetTile(int x, int z) {
         return _tileGrid?.GetTile(x, z);
-    }
-
-    public (int width, int height) GetGridDimensions() {
-        return _tileGrid?.Dimensions ?? (0, 0);
     }
 
     public void ExecuteComputeWorld() {
         Debug.Log("ExecuteComputeWorld");
-        //     // Debug.Log($"compute: Diagram.{diagram.DisplayName}");
-        //     // Debug.Log($"Diagram contains [{diagram.NodeInstances}] Effect(s)");
-        //     for (var x = 0; x < _dimensions[0]; x++) {
-        //         for (var z = 0; z < _dimensions[1]; z++) {
-        //             Debug.Log("Execute Compute World");
-        //             Debug.Log($"Tile ({x},{z})");
-        //             // EditorCompute.Instance.DoCompute(ref _tiles[x, z]);
-        //         }
-        //     }
+        var vc = VoroCompute.Instance;
+        //vc.VerifyEditorDiagrams(); // prints the editor contents to a string
+
+        for (var x = 0; x < width; x++) {
+            for (var z = 0; z < height; z++) {
+                vc.Compute(ref _tileGrid.Tiles[x, z]);
+            }
+        }
     }
 }
 }

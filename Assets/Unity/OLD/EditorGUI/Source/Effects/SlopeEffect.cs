@@ -1,6 +1,7 @@
 using EditorGUI.Elements;
 using EditorGUI.Source.Effects.Base;
 using EditorGUI.Source.Effects.EffectData;
+using EditorGUI.Source.Voro.Grids;
 using UnityEngine;
 
 namespace EditorGUI.Source.Effects {
@@ -25,8 +26,8 @@ public class SlopeEffect : Effect<SlopeEffectData> {
     public override InspectorElement InspectorControls { get; }
 
 
-    public override void Compute(ref DiagramElement diagram) {
-        Debug.Log($"Compute Effect.{Name} on Diagram.{diagram.DisplayName}");
+    public override void Compute(ref WorldTile tile) {
+        Debug.Log($"Compute Effect.{Name} on Tile.{tile}");
         Debug.Log($"Data: direction {Data.direction}  scale {Data.scale}");
     }
 }

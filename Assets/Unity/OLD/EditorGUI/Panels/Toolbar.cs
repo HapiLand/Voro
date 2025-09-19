@@ -36,7 +36,7 @@ public partial class Toolbar : VisualElement {
 
         var manager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameWorldManager>();
         Debug.Log($"GameManager instance found by my GUI code: {manager}");
-        
+
         // inside constructor
         var computeButton = new Button { DisplayName = "Compute World" };
         computeButton.clicked += () => manager.ExecuteComputeWorld();
@@ -47,7 +47,7 @@ public partial class Toolbar : VisualElement {
         AddToolbarButton("Settings");
 
         AssetHelper.LoadAssetPath<StyleSheet>("Assets/EditorGUI/Styles/Toolbar.uss", OnStyleLoaded);
-        
+
         DisplayName = "Toolbar";
 
         return;
@@ -65,7 +65,7 @@ public partial class Toolbar : VisualElement {
         set => _headerText.text = value;
     }
 
-    public static event Action<DiagramElement> OnCompute;
+    public static event Action<LayerElement> OnCompute;
 
     void Refresh() {
         Debug.Log("WorldManager.Refresh - reload the scene");
@@ -76,12 +76,12 @@ public partial class Toolbar : VisualElement {
     void Compute() {
         Debug.Log("WorldManager.Compute - process all diagrams");
 
-        if (DiagramElement.SelectedDiagram == null) {
+        if (LayerElement.ActiveLayer == null) {
             Debug.LogError("Cannot compute when there are no diagrams");
             return;
         }
 
-        OnCompute?.Invoke(DiagramElement.SelectedDiagram);
+        OnCompute?.Invoke(LayerElement.ActiveLayer);
         // OnNodeSelectedEvent?.Invoke(EffectInstance);
     }
 
