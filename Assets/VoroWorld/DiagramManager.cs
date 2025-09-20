@@ -12,16 +12,30 @@ public class DiagramManager {
     public DiagramManager() {
         // set the initial VoroDiagram Map
         _map = new VoroDiagram[_mapSize.width, _mapSize.length];
-
-        // call when the WorldManager is ready for the diagrams to be constructed
-        WorldManager.OnWorldManagerAwake += CreateDiagramMap;
     }
 
     (int width, int length) _mapSize => (2, 2);
-    public static event Action OnMapConstructed;
 
+    public VoroDiagram[,] GetDiagramMapArray() {
+        return _map;
+    }
+    // public static event Action OnMapConstructed;
 
-    void CreateDiagramMap() {
+    /// <summary>
+    ///     called once every VoroDiagram has been created
+    /// </summary>
+    public event Action DiagramMapConstructed;
+
+    public void InstanceDiagramObjects(Transform parent) {
+        // for each diagram, instance its GameObjects that it contains
+        for (var x = 0; x < _mapSize.width; x++) {
+            for (var z = 0; z < _mapSize.length; z++) {
+                _map[x, z].WorldManagerOnOnCreatedAllDiagrams(parent);
+            }
+        }
+    }
+
+    public void CreateDiagramMap() {
         // Debug.Log("create diagram map");
         for (var x = 0; x < _mapSize.width; x++) {
             for (var z = 0; z < _mapSize.length; z++) {
@@ -55,7 +69,8 @@ public class DiagramManager {
                     _pendingCount--;
                     if (_pendingCount == 0) {
                         // Debug.Log("All diagrams initialized");
-                        OnMapConstructed?.Invoke();
+                        // OnMapConstructed?.Invoke();
+                        DiagramMapConstructed?.Invoke();
                     }
                 }
             );

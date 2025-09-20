@@ -9,29 +9,25 @@ namespace VoroWorld {
 ///     VoroDiagram is what gets used in VoroCompute
 /// </summary>
 public class VoroDiagram {
-    Point[] _cellPoints;
     Config _configuration;
-    Tile _tile;
-
-    public VoroDiagram() {
-        WorldManager.OnCreatedAllDiagrams += WorldManagerOnOnCreatedAllDiagrams;
-    }
+    public Point[] CellPoints;
+    public Tile Tile;
 
     /// <summary>
     ///     all VoroDiagrams in the world have been created
     ///     instantiation of the GameObjects will happen now
     /// </summary>
     /// <param name="container"></param>
-    void WorldManagerOnOnCreatedAllDiagrams(Transform container) {
+    public void WorldManagerOnOnCreatedAllDiagrams(Transform container) {
         // set the parent of the tile game object
-        _tile.Container.transform.SetParent(container);
+        Tile.Container.transform.SetParent(container);
 
         // create the Mesh instances
-        for (var i = 0; i < _cellPoints.Length; i++) {
+        for (var i = 0; i < CellPoints.Length; i++) {
             // get the point and its position in the world
-            var point = _cellPoints[i];
+            var point = CellPoints[i];
             var localPosition = point.Position; // Point.Position is in a local UV space
-            var worldPosition = localPosition + _tile.Position; // Tile.Position is in global World space
+            var worldPosition = localPosition + Tile.Position; // Tile.Position is in global World space
 
             // create the GameObject to hold the mesh
             var pointID = point.ID;
@@ -60,7 +56,7 @@ public class VoroDiagram {
 
             // set world position of the mesh object
             cellObjectInstance.transform.position = worldPosition;
-            cellObjectInstance.transform.SetParent(_tile.Container.transform);
+            cellObjectInstance.transform.SetParent(Tile.Container.transform);
         }
     }
 
@@ -71,7 +67,7 @@ public class VoroDiagram {
     /// <param name="z">world position z</param>
     public void CreateTile(int x, int z) {
         var pos = new Vector3(x, 0f, z);
-        _tile = new Tile(pos);
+        Tile = new Tile(pos);
     }
 
     public void SetCellPoints(TablePoint[] tablePoints) {
@@ -80,12 +76,12 @@ public class VoroDiagram {
             PointColors = new Color[tablePoints.Length]
         };
 
-        _cellPoints = new Point[tablePoints.Length];
+        CellPoints = new Point[tablePoints.Length];
         for (var i = 0; i < tablePoints.Length; i++) {
             var point = tablePoints[i];
             // set the local position of the point
             var position = new Vector3(point.Pos[0], 0, point.Pos[1]);
-            _cellPoints[i] = new Point(position, point.Id);
+            CellPoints[i] = new Point(position, point.Id);
 
             var color = point.Col;
             _configuration.PointColors[i] = new Color(color[0], color[1], color[2], 1.0f);

@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 namespace VoroWorld {
@@ -25,26 +24,17 @@ public class WorldManager : MonoBehaviour {
 
         _diagramManager = new DiagramManager();
         // called once the VoroDiagram map has been fully created
-        DiagramManager.OnMapConstructed += OnConstructedAllDiagrams;
+        // DiagramManager.OnMapConstructed += OnConstructedAllDiagrams;
+        _diagramManager.DiagramMapConstructed += () => {
+            Debug.Log("All VoroDiagrams have been constructed");
+            // instantiate the Mesh GameObjects within the all the diagrams
+            _diagramManager.InstanceDiagramObjects(_tileContainer);
+        };
 
-        _voroCompute = new VoroCompute();
+        _voroCompute = new VoroCompute(_diagramManager);
 
         // notify listeners that the WorldManager is ready
-        OnWorldManagerAwake?.Invoke();
+        _diagramManager.CreateDiagramMap();
     }
-
-    void OnDestroy() {
-        OnWorldManagerAwake = null;
-    }
-
-    void OnConstructedAllDiagrams() {
-        // Debug.Log("VoroDiagram Map Constructed");
-
-        // create the tiles for the world scene
-        OnCreatedAllDiagrams?.Invoke(_tileContainer);
-    }
-
-    public static event Action<Transform> OnCreatedAllDiagrams;
-    public static event Action OnWorldManagerAwake;
 }
 }

@@ -3,6 +3,7 @@ using UnityEngine;
 using VoroUI.Effects.Base;
 using VoroUI.Effects.Internal;
 using VoroUI.Elements.Base;
+using VoroWorld;
 
 namespace VoroUI.Effects {
 public class DefaultEffectData : IEffectData {
@@ -58,27 +59,27 @@ public class DefaultEffect : Effect<DefaultEffectData> {
         }
     }
 
-    public override void Compute() {
-        Debug.Log($"Compute Effect.{Name}");
+    public override void Compute(ref VoroDiagram diagram) {
+        // Debug.Log("Effect.Compute ");
 
-        // var cellPoints = tile.Diagram.CellPoints;
-        // var tileOrigin = tile.Origin;
-        //
-        // // update diagram data
-        // for (var i = 0; i < cellPoints.Length; i++) {
-        //     var point = cellPoints[i];
-        //     point.Position = new Vector3(point.Position.x, 2f, point.Position.z);
-        //     cellPoints[i] = point;
-        // }
-        //
-        // tile.Diagram.CellPoints = cellPoints;
-        //
-        // // update gameobjects
-        // for (var i = 0; i < tile.TileContainer.transform.childCount; i++) {
-        //     var cellObject = tile.TileContainer.transform.GetChild(i);
-        //     var pos = tile.Diagram.CellPoints[i].Position;
-        //     cellObject.position = new Vector3(pos.x + tileOrigin.x, pos.y, pos.z + tileOrigin.z);
-        // }
+        var cellPoints = diagram.CellPoints;
+        var tileOrigin = diagram.Tile.Position;
+
+        // update diagram data
+        for (var i = 0; i < cellPoints.Length; i++) {
+            var point = cellPoints[i];
+            point.Position = new Vector3(point.Position.x, Data.Float, point.Position.z);
+            cellPoints[i] = point;
+        }
+        
+        diagram.CellPoints = cellPoints;
+        
+        // update gameobjects
+        for (var i = 0; i < diagram.Tile.Container.transform.childCount; i++) {
+        var cellObject = diagram.Tile.Container.transform.GetChild(i);
+        var pos = diagram.CellPoints[i].Position;
+        cellObject.position = new Vector3(pos.x + tileOrigin.x, pos.y, pos.z + tileOrigin.z);
+        }
     }
 }
 }

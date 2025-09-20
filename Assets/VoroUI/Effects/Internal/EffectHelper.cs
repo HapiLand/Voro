@@ -1,3 +1,5 @@
+using VoroUI.Effects.Base;
+
 namespace VoroUI.Effects.Internal {
 /// <summary>
 ///     helper class for dealing with Effects

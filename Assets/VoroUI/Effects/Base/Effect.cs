@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using VoroUI.Elements.Base;
 using VoroUI.Elements.Controls;
+using VoroWorld;
 
 namespace VoroUI.Effects.Base {
 public abstract class Effect<TEffectData> : EffectBase, IEffect {
@@ -14,7 +15,7 @@ public abstract class Effect<TEffectData> : EffectBase, IEffect {
 
     public abstract List<ControlElementBase> Controls { get; }
 
-    public abstract void Compute();
+    public abstract void Compute(ref VoroDiagram diagram);
     public string Name { get; }
 
     protected void CreateFloatSlider(

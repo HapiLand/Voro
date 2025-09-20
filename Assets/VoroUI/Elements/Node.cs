@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 using UnityEngine.UIElements;
-using VoroUI.Effects;
+using VoroUI.Effects.Base;
 
 namespace VoroUI.Elements {
 public class Node : VisualElement {
