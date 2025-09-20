@@ -3,7 +3,8 @@ using VoroUI.Elements;
 
 namespace VoroUI {
 /// <summary>
-///     related to VoroDiagram as this is what is used for it to be computed
+///     EditorDiagram stores a collection of Nodes, this diagram is for choosing the functions to be used
+///     as part of the world generation
 /// </summary>
 public class EditorDiagram {
     /// <summary>

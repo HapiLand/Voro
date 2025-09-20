@@ -15,8 +15,8 @@ MonoBehaviour:
   m_GroupName: Tables
   m_GUID: 4898fe68987fd1be0bec3ecb2ac10a8b
   m_SerializeEntries:
-  - m_GUID: d8ee929056b952d819020c2586052d09
-    m_Address: Assets/VoroWorld/TableData/Table0.json
+  - m_GUID: c2804aa59c1d45e5bfa631133e785a0f
+    m_Address: Assets/VoroWorld/PointDataLibrary/Table0.json
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

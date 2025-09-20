@@ -4,7 +4,7 @@ using UnityEditor;
 using UnityEditor.AddressableAssets;
 using UnityEngine;
 
-namespace VoroWorld.Utility {
+namespace Source.Utility {
 /// <summary>
 ///     utility class for accessing the MeshLibrary for use with a WorldTile.VoroDiagram.CellPoint
 /// </summary>
@@ -13,7 +13,7 @@ public class MeshLibraryHelper {
     readonly Dictionary<int, Mesh[]> _meshMap;
 
     MeshLibraryHelper() {
-        Debug.Log("MeshLibraryHelper creating now");
+        // Debug.Log("MeshLibraryHelper creating now");
         _meshMap = new Dictionary<int, Mesh[]>();
 
         // 
@@ -41,7 +41,7 @@ public class MeshLibraryHelper {
                     }
                 }
 
-                Debug.Log($"Loaded {loadedAssets.Count} assets from MeshLibrary.");
+                // Debug.Log($"Loaded {loadedAssets.Count} assets from MeshLibrary.");
                 return loadedAssets;
             }
 

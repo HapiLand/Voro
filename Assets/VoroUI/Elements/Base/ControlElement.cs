@@ -1,3 +1,4 @@
+using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace VoroUI.Elements.Base {
@@ -17,6 +18,7 @@ public abstract class ControlElement<TValue> : ControlElementBase {
         labelContainer.style.flexGrow = 0;
         // labelContainer.style.width = new Length(100, LengthUnit.Pixel); // fixed width
         _label = new Label();
+        _label.style.color = Color.black;
         labelContainer.Add(_label);
         Add(labelContainer);
 
