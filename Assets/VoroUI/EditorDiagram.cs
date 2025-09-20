@@ -3,6 +3,7 @@ using VoroUI.Elements;
 
 namespace VoroUI {
 /// <summary>
+///     formerly LayerDiagram
 ///     EditorDiagram stores a collection of Nodes, this diagram is for choosing the functions to be used
 ///     as part of the world generation
 /// </summary>

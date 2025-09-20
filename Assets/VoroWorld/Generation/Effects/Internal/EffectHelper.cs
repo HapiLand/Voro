@@ -1,4 +1,6 @@
-namespace VoroUI.Effects.Internal {
+using VoroWorld.Generation.Effects.Base;
+
+namespace VoroWorld.Generation.Effects.Internal {
 /// <summary>
 ///     helper class for dealing with Effects
 /// </summary>

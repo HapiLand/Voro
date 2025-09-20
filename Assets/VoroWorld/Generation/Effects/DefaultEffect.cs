@@ -1,10 +1,10 @@
 using System.Collections.Generic;
 using UnityEngine;
-using VoroUI.Effects.Base;
-using VoroUI.Effects.Internal;
 using VoroUI.Elements.Base;
+using VoroWorld.Generation.Effects.Base;
+using VoroWorld.Generation.Effects.Internal;
 
-namespace VoroUI.Effects {
+namespace VoroWorld.Generation.Effects {
 public class DefaultEffectData : IEffectData {
     public float Float;
     public int Int;

@@ -2,8 +2,8 @@ using System;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UIElements;
-using VoroUI.Effects;
 using VoroUI.Elements;
+using VoroWorld.Generation.Effects;
 
 namespace VoroUI.EditorTabs {
 public class EffectsTab : VisualElement {

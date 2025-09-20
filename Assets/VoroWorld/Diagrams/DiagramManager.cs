@@ -2,9 +2,8 @@ using System;
 using Newtonsoft.Json.Linq;
 using Source.Utility;
 using UnityEngine;
-using VoroWorld.PointDataLibrary;
 
-namespace VoroWorld {
+namespace VoroWorld.Diagrams {
 public class DiagramManager {
     readonly VoroDiagram[,] _map;
     int _pendingCount;

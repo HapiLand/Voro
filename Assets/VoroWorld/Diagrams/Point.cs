@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace VoroWorld {
+namespace VoroWorld.Diagrams {
 public struct Point {
     public Vector3 Position;
     public int ID;

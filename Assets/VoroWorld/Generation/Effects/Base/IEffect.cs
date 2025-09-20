@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using VoroUI.Elements.Base;
 
-namespace VoroUI.Effects {
+namespace VoroWorld.Generation.Effects.Base {
 public interface IEffect {
     string Name { get; }
     List<ControlElementBase> Controls { get; }

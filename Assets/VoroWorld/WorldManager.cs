@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using VoroWorld.Diagrams;
 
 namespace VoroWorld {
 [ExecuteAlways]
@@ -14,11 +15,6 @@ public class WorldManager : MonoBehaviour {
     /// </summary>
     Transform _tileContainer;
 
-    /// <summary>
-    ///     to run the generation system
-    /// </summary>
-    VoroCompute _voroCompute;
-
     void Awake() {
         _tileContainer = new GameObject("Tile Container").transform;
         _tileContainer.SetParent(gameObject.transform);
@@ -26,8 +22,6 @@ public class WorldManager : MonoBehaviour {
         _diagramManager = new DiagramManager();
         // called once the VoroDiagram map has been fully created
         DiagramManager.OnMapConstructed += OnConstructedAllDiagrams;
-
-        _voroCompute = new VoroCompute();
 
         // notify listeners that the WorldManager is ready
         OnWorldManagerAwake?.Invoke();
