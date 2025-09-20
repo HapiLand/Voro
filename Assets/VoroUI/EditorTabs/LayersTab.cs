@@ -36,7 +36,7 @@ public class LayersTab : VisualElement {
         // set defaults
         SetInitialLayer();
 
-        CameraTab.OnSceneReloaded += OnSceneReloaded;
+        EditorEvents.OnSceneReloaded += OnSceneReloaded;
     }
 
     public static bool CheckAnyActive() {

@@ -30,11 +30,9 @@ public class CameraTab : VisualElement {
         reloadButton.text = "Reload Scene";
         Add(reloadButton);
         reloadButton.clicked += () => {
-            EditorSceneManager.OpenScene("Assets/Unity/Scenes/GameWorld.unity", OpenSceneMode.Single);
-            OnSceneReloaded?.Invoke();
+            EditorEvents.ReloadGameWorldScene();
         };
     }
     
-    public static event Action OnSceneReloaded;
 }
 }

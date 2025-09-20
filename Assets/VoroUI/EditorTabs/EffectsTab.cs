@@ -60,7 +60,7 @@ public class EffectsTab : VisualElement {
         // should be cleared
         LayersTab.OnLayerSelectionChanged += RefreshEffectsUI;
 
-        CameraTab.OnSceneReloaded += OnSceneReloaded;
+        EditorEvents.OnSceneReloaded += OnSceneReloaded;
     }
 
     void OnSceneReloaded() {
