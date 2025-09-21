@@ -2,22 +2,24 @@ using System;
 using System.Collections.Generic;
 using VoroUI.Elements.Base;
 using VoroUI.Elements.Controls;
-using VoroWorld.Diagrams;
 
 namespace VoroUI.EffectsUI.Base {
 /// <summary>
-/// the UI Effects only have data and control elements, not the actual effect function part
-/// of the effect
+///     the UI Effects only have data and control elements, not the actual effect function part
+///     of the effect
 /// </summary>
 /// <typeparam name="TEffectData"></typeparam>
 public abstract class Effect<TEffectData> : EffectBase, IEffect {
     protected TEffectData Data;
+
     public Effect(string name, TEffectData data) {
         Name = name;
         Data = data;
     }
+
     public abstract List<ControlElementBase> Controls { get; }
     public string Name { get; }
+
     protected void CreateFloatSlider(
         string name,
         Func<float> dataGet,
@@ -36,7 +38,8 @@ public abstract class Effect<TEffectData> : EffectBase, IEffect {
 
         element.BindToData(dataGet, value => {
             dataSet(value);
-            OnValueChanged(this, value); // recompute
+            //OnValueChanged(this, value); // recompute
+            // todo recompute
         });
 
         Controls.Add(element);
@@ -65,7 +68,8 @@ public abstract class Effect<TEffectData> : EffectBase, IEffect {
 
         element.BindToData(dataGet, value => {
             dataSet(value);
-            OnValueChanged(this, value); // recompute
+            //OnValueChanged(this, value); // recompute
+            // todo recompute
         });
 
         Controls.Add(element);
@@ -88,7 +92,8 @@ public abstract class Effect<TEffectData> : EffectBase, IEffect {
         };
         element.BindToData(dataGet, value => {
             dataSet(value);
-            OnValueChanged(this, value); // recompute
+            // OnValueChanged(this, value); // recompute
+            // todo recompute
         });
         Controls.Add(element);
     }

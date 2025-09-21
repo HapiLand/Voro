@@ -5,6 +5,7 @@ using UnityEditor.SceneManagement;
 namespace VoroUI {
 public static class EditorEvents {
     public static event Action OnSceneReloaded;
+    // todo add events to this class
 
     [MenuItem("VoroVoroVoroVoro/Reload Scene")]
     public static void ReloadGameWorldScene() {
