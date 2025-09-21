@@ -4,14 +4,25 @@ using UnityEngine.UIElements;
 
 namespace VoroUI.EditorTabs.Nodes {
 public class NodeElement : VisualElement {
+    readonly NodeInfo _info;
     bool _active;
+
+    /// <summary>
+    ///     ControlElements are stored in this element
+    /// </summary>
+    VisualElement _controls;
+
     Label _label;
 
     public NodeElement(NodeInfo info) {
+        _info = info;
+
         CreateElements();
         SetStyle();
-        DisplayName = info.Name;
+
+        DisplayName = info.Name.ToString();
         Active = info.Active;
+
         var clickable = new Clickable(OnClicked);
         this.AddManipulator(clickable);
         return;
@@ -28,6 +39,17 @@ public class NodeElement : VisualElement {
         void CreateElements() {
             _label = new Label();
             Add(_label);
+
+            // create element that will display the controls
+            _controls = new VisualElement();
+            Add(_controls);
+            // set initial visibility of the controls
+            _controls.style.display = Active ? DisplayStyle.Flex : DisplayStyle.None;
+
+            // add the controls to the element
+            foreach (var control in _info.DataControl.Controls) {
+                _controls.Add(control);
+            }
         }
     }
 
@@ -43,6 +65,10 @@ public class NodeElement : VisualElement {
         set
         {
             _active = value;
+
+            // display the controls for the element only when active=true
+            _controls.style.display = _active ? DisplayStyle.Flex : DisplayStyle.None;
+
             if (_active) {
                 SetActive();
             }

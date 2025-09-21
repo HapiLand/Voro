@@ -1,10 +1,9 @@
-using System;
-using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.UIElements;
+using VoroUI.EditorTabs.Base;
 
 namespace VoroUI.EditorTabs {
-public class CameraTab : Tab {
+public class CameraTab : WindowTab {
     /// <summary>
     ///     element that shows the camera output
     /// </summary>
@@ -14,7 +13,8 @@ public class CameraTab : Tab {
         style.flexDirection = FlexDirection.Column; // vertical layout
         style.flexGrow = 1; // full size
         // heading
-        Add(new Label("Camera View"));
+        TabHeading = new Label("Camera View");
+        Add(TabHeading);
 
         // create the display element to view the camera
         _cameraDisplay = new VisualElement();
@@ -25,14 +25,9 @@ public class CameraTab : Tab {
             _cameraDisplay.style.backgroundImage = new StyleBackground(Background.FromRenderTexture(texture));
             _cameraDisplay.style.flexGrow = 1;
         }
-        
-        var reloadButton = new Button();
-        reloadButton.text = "Reload Scene";
-        Add(reloadButton);
-        reloadButton.clicked += () => {
-            EditorEvents.ReloadGameWorldScene();
-        };
+        else {
+            Debug.Log("main_cam texture not found");
+        }
     }
-    
 }
 }

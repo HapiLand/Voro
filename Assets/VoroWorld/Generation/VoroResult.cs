@@ -1,4 +1,3 @@
-using Unity.Mathematics;
 using UnityEngine;
 
 namespace VoroWorld.Generation {
@@ -9,11 +8,13 @@ namespace VoroWorld.Generation {
 ///     be used by the Unity Engine
 /// </summary>
 public struct VoroResult {
-    CellPoint[] Points;
+    public CellPoint[] Points;
 }
+
 public struct CellPoint {
     public Vector3 Position;
     public int ID;
     public Color Color;
+    public Vector3 Origin; // in order to convert between local and world space
 }
 }

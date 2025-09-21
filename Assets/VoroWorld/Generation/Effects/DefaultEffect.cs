@@ -1,6 +1,4 @@
-using System.Collections.Generic;
 using UnityEngine;
-using VoroUI.Elements.Base;
 using VoroWorld.Diagrams;
 using VoroWorld.Generation.Effects.Base;
 using VoroWorld.Generation.Effects.Internal;
@@ -11,8 +9,10 @@ public class DefaultEffectData : IEffectData {
     public int Int;
     public float LogFloat;
 }
+
 public class DefaultEffect : Effect<DefaultEffectData> {
-    public DefaultEffect() : base(nameof(EffectNames.DefaultFX), new DefaultEffectData()) { }
+    public DefaultEffect() : base(nameof(EffectNames.DefaultEffect), new DefaultEffectData()) { }
+
     public override void Compute(ref VoroDiagram diagram) {
         Debug.Log($"Compute Effect.{Name}");
 

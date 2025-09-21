@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace VoroUI.Elements.Base {
+namespace VoroUI.EditorTabs.Nodes.Controls.Base {
 public class ControlElementBase : VisualElement { }
 
 public abstract class ControlElement<TValue> : ControlElementBase {

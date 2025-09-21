@@ -5,12 +5,16 @@ using VoroUI.EditorTabs.Nodes;
 
 namespace VoroUI {
 public class EditorWindow : VisualElement {
+    readonly LayersNodesController _controller;
     readonly LayersTab _layersTab;
-    NodesTab _nodesTab;
+    readonly NodesTab _nodesTab;
 
     public EditorWindow() {
         // create components
-        _layersTab = new LayersTab(out var _nodesTab);
+        _layersTab = new LayersTab();
+        _nodesTab = new NodesTab();
+        _controller = new LayersNodesController(_layersTab, _nodesTab);
+
 
         var cam = new CameraTab();
         // left vertical layout

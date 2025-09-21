@@ -8,8 +8,8 @@ namespace VoroWorld.Diagrams {
 ///     VoroDiagram is what gets used in VoroCompute
 /// </summary>
 public class VoroDiagram {
-    Config _configuration;
     public Point[] CellPoints;
+    public Config Configuration;
     public Tile Tile;
 
     /// <summary>
@@ -49,7 +49,7 @@ public class VoroDiagram {
             var matClone = new Material(mat)
             {
                 // read configuration for the color of this point
-                color = _configuration.PointColors[i]
+                color = Configuration.PointColors[i]
             };
             mr.material = matClone;
 
@@ -70,7 +70,7 @@ public class VoroDiagram {
     }
 
     public void SetCellPoints(TablePoint[] tablePoints) {
-        _configuration = new Config
+        Configuration = new Config
         {
             PointColors = new Color[tablePoints.Length]
         };
@@ -83,7 +83,7 @@ public class VoroDiagram {
             CellPoints[i] = new Point(position, point.Id);
 
             var color = point.Col;
-            _configuration.PointColors[i] = new Color(color[0], color[1], color[2], 1.0f);
+            Configuration.PointColors[i] = new Color(color[0], color[1], color[2], 1.0f);
         }
     }
 

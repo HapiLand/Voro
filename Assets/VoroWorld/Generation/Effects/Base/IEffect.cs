@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-using VoroUI.Elements.Base;
 using VoroWorld.Diagrams;
 
 namespace VoroWorld.Generation.Effects.Base {

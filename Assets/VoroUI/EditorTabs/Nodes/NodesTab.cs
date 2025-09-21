@@ -1,8 +1,8 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine.UIElements;
 using VoroUI.EditorTabs.Base;
-using VoroUI.EditorTabs.Layers;
-using Random = UnityEngine.Random;
+using VoroWorld.Generation.Effects.Internal;
 
 namespace VoroUI.EditorTabs.Nodes {
 public class NodesTab : WindowTab {
@@ -20,9 +20,10 @@ public class NodesTab : WindowTab {
         // handle event to produce a new NodeInfo
         _newNodeInfoButton.clicked += () => {
             // create a new NodeInfo
-            OnCreateNewNodeInfo();
+            var info = new NodeInfo(EffectNames.DefaultEffect);
+            info.OnActive += () => OnNodeSelected?.Invoke(info);
+            OnNodeCreated?.Invoke(info);
         };
-
         return;
 
         void SetTabStyle() {
@@ -35,42 +36,25 @@ public class NodesTab : WindowTab {
             TabHeading = new Label("Nodes");
             Add(TabHeading);
 
-            // collection of NodeInfo elements
+            // collection of LayerInfo elements
             _collection = new VisualElement();
             Add(_collection);
 
-            // button to create a new NodeInfo entry
+            // button to create a new LayerInfo entry
             _newNodeInfoButton = new Button();
             _newNodeInfoButton.text = "New Node";
             Add(_newNodeInfoButton);
         }
     }
 
-    void OnCreateNewNodeInfo() {
-        // create a new NodeInfo
-        var nodeName = $"Node #{Random.Range(0, 999)}";
-        var info = new NodeInfo(nodeName);
-        // add to dictionary
-        OnCreateNodeInfo?.Invoke(info);
+    public event Action<NodeInfo> OnNodeCreated;
+    public event Action<NodeInfo> OnNodeSelected;
 
-        // handle event when the NodeInfo is selected
-        info.OnActive += () => { OnNodeInfoActive?.Invoke(info); };
-    }
-
-    public event Action<NodeInfo> OnCreateNodeInfo;
-    public event Action<NodeInfo> OnNodeInfoActive;
-
-    public void ClearElements() {
-        // clear existing elements
+    public void Refresh(IEnumerable<NodeInfo> nodes) {
         _collection.Clear();
-    }
-
-    /// <summary>
-    /// adds the node element to the collection to display it
-    /// </summary>
-    /// <param name="element"></param>
-    public void AddElement(NodeElement element) {
-        _collection.Add(element);
+        foreach (var node in nodes) {
+            _collection.Add(node.Element);
+        }
     }
 }
 }

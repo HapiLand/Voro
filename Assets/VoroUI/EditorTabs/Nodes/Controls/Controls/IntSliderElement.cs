@@ -1,9 +1,9 @@
 using System;
 using UnityEngine;
 using UnityEngine.UIElements;
-using VoroUI.Elements.Base;
+using VoroUI.EditorTabs.Nodes.Controls.Base;
 
-namespace VoroUI.Elements.Controls {
+namespace VoroUI.EditorTabs.Nodes.Controls.Controls {
 /// <summary>
 ///     a float slider control
 /// </summary>

@@ -1,24 +1,20 @@
 using System;
 using System.Collections.Generic;
-using VoroUI.Elements.Base;
-using VoroUI.Elements.Controls;
+using VoroUI.EditorTabs.Nodes.Controls.Base;
+using VoroUI.EditorTabs.Nodes.Controls.Controls;
+using VoroWorld.Generation.Effects.Internal;
 
-namespace VoroUI.EffectsUI.Base {
-/// <summary>
-///     the UI Effects only have data and control elements, not the actual effect function part
-///     of the effect
-/// </summary>
-/// <typeparam name="TEffectData"></typeparam>
-public abstract class Effect<TEffectData> : EffectBase, IEffect {
-    protected TEffectData Data;
+namespace VoroUI.EditorTabs.Nodes {
+public abstract class Node<TControlData> : NodeBase, INode {
+    protected TControlData Data;
 
-    public Effect(string name, TEffectData data) {
+    public Node(EffectNames name, TControlData data) {
         Name = name;
         Data = data;
     }
 
     public abstract List<ControlElementBase> Controls { get; }
-    public string Name { get; }
+    public EffectNames Name { get; }
 
     protected void CreateFloatSlider(
         string name,
@@ -38,8 +34,7 @@ public abstract class Effect<TEffectData> : EffectBase, IEffect {
 
         element.BindToData(dataGet, value => {
             dataSet(value);
-            //OnValueChanged(this, value); // recompute
-            // todo recompute
+            OnValueChanged(); // recompute
         });
 
         Controls.Add(element);
@@ -68,8 +63,7 @@ public abstract class Effect<TEffectData> : EffectBase, IEffect {
 
         element.BindToData(dataGet, value => {
             dataSet(value);
-            //OnValueChanged(this, value); // recompute
-            // todo recompute
+            OnValueChanged(); // recompute
         });
 
         Controls.Add(element);
@@ -92,8 +86,7 @@ public abstract class Effect<TEffectData> : EffectBase, IEffect {
         };
         element.BindToData(dataGet, value => {
             dataSet(value);
-            // OnValueChanged(this, value); // recompute
-            // todo recompute
+            OnValueChanged(); // recompute
         });
         Controls.Add(element);
     }
