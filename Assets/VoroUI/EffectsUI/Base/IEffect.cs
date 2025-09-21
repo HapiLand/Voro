@@ -2,9 +2,9 @@ using System.Collections.Generic;
 using VoroUI.Elements.Base;
 using VoroWorld.Diagrams;
 
-namespace VoroWorld.Generation.Effects.Base {
+namespace VoroUI.EffectsUI.Base {
 public interface IEffect {
     string Name { get; }
-    void Compute(ref VoroDiagram diagram);
+    List<ControlElementBase> Controls { get; }
 }
 }

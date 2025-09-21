@@ -1,8 +1,8 @@
 using System;
 using UnityEngine;
 using UnityEngine.UIElements;
-using VoroWorld.Generation.Effects.Base;
-using VoroWorld.Generation.Effects.Internal;
+using VoroUI.EffectsUI.Base;
+using VoroUI.EffectsUI.Internal;
 
 namespace VoroUI.Elements {
 public class Node : VisualElement {
@@ -18,12 +18,11 @@ public class Node : VisualElement {
     /// </summary>
     public bool Active;
 
-    public EffectNames Effect;
-    // todo display FieldControlElements from the effect
+    public IEffect Effect;
 
     // todo move element in collection
     // todo remove element from collection
-    public Node(EffectNames effect) {
+    public Node(IEffect effect) {
         style.paddingTop = new Length(10, LengthUnit.Pixel); // element top size increase
         style.paddingBottom = new Length(10, LengthUnit.Pixel); // element bottom size increase
         style.marginTop = new Length(5, LengthUnit.Pixel); // top gap
@@ -58,6 +57,8 @@ public class Node : VisualElement {
         Active = true;
 
         // display the field controls within IEffect
+        
+        
         // todo derive class from Node to store the control configurations
         //  this is in order to seperate this from IEffect
         //  the Node Element will only store data and a name of the effect

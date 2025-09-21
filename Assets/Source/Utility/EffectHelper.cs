@@ -1,6 +1,10 @@
+using System.Collections.Generic;
+using VoroUI.Elements.Base;
+using VoroWorld.Generation.Effects;
 using VoroWorld.Generation.Effects.Base;
+using VoroWorld.Generation.Effects.Internal;
 
-namespace VoroWorld.Generation.Effects.Internal {
+namespace Source.Utility {
 /// <summary>
 ///     helper class for dealing with Effects
 /// </summary>
@@ -17,5 +21,6 @@ public static class EffectHelper {
             _ => new DefaultEffect()
         };
     }
+
 }
 }
