@@ -1,9 +1,10 @@
 using System;
 using UnityEngine;
 using UnityEngine.UIElements;
+using VoroUI.Elements;
 
 namespace VoroUI.EditorTabs.Layers {
-public class LayerElement : VisualElement {
+public class LayerElement : MenuEntry {
     bool _active;
     Label _label;
 

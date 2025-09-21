@@ -1,9 +1,10 @@
 using System;
 using UnityEngine;
 using UnityEngine.UIElements;
+using VoroUI.Elements;
 
 namespace VoroUI.EditorTabs.Nodes {
-public class NodeElement : VisualElement {
+public class NodeElement : MenuEntry {
     readonly NodeInfo _info;
     bool _active;
 

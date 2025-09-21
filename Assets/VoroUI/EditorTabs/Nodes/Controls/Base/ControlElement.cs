@@ -1,8 +1,9 @@
 using UnityEngine;
 using UnityEngine.UIElements;
+using VoroUI.Elements.Base;
 
 namespace VoroUI.EditorTabs.Nodes.Controls.Base {
-public class ControlElementBase : VisualElement { }
+public class ControlElementBase : Element { }
 
 public abstract class ControlElement<TValue> : ControlElementBase {
     readonly Label _label;

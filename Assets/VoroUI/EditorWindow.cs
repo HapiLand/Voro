@@ -2,9 +2,10 @@ using UnityEngine.UIElements;
 using VoroUI.EditorTabs;
 using VoroUI.EditorTabs.Layers;
 using VoroUI.EditorTabs.Nodes;
+using VoroUI.Elements.Base;
 
 namespace VoroUI {
-public class EditorWindow : VisualElement {
+public class EditorWindow : Element {
     readonly LayersNodesController _controller;
     readonly LayersTab _layersTab;
     readonly NodesTab _nodesTab;
