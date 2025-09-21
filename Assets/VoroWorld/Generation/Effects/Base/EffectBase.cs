@@ -1,6 +1,6 @@
 using System;
 
-namespace VoroUI.Effects.Base {
+namespace VoroWorld.Generation.Effects.Base {
 public abstract class EffectBase {
     /// <summary>
     ///     callback to any listeners that do something when the control UI for an effect is changed

@@ -4,9 +4,8 @@ using System.Text;
 using UnityEngine;
 using UnityEngine.UIElements;
 using VoroUI.EditorTabs;
-using VoroUI.Effects;
-using VoroUI.Effects.Base;
 using VoroUI.Elements;
+using VoroWorld.Generation.Effects.Base;
 
 namespace VoroUI {
 public class EditorWindow : VisualElement {

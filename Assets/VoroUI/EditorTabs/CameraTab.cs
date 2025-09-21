@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace VoroUI.EditorTabs {
-public class CameraTab : VisualElement {
+public class CameraTab : Tab {
     /// <summary>
     ///     element that shows the camera output
     /// </summary>

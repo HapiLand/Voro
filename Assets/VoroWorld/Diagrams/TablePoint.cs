@@ -1,6 +1,6 @@
 using System;
 
-namespace VoroWorld.PointDataLibrary {
+namespace VoroWorld.Diagrams {
 /// <summary>
 ///     the data format for a point that matches the format of the point within Table.json
 /// </summary>

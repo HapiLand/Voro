@@ -2,11 +2,12 @@ using System;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UIElements;
-using VoroUI.Effects;
 using VoroUI.Elements;
+using VoroWorld.Generation.Effects;
+using VoroWorld.Generation.Effects.Internal;
 
 namespace VoroUI.EditorTabs {
-public class EffectsTab : VisualElement {
+public class EffectsTab : Tab {
     readonly VisualElement _collection;
 
     public EffectsTab() {
@@ -40,7 +41,7 @@ public class EffectsTab : VisualElement {
 
             // create new effect
             // todo pick the desired effect from a dropdown menu
-            var effect = new DefaultEffect(); // IEffect
+            var effect = EffectNames.DefaultFX; // IEffect
 
             // create new element to store the effect
             var element = new Node(effect);

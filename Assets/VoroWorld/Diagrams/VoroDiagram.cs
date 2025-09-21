@@ -1,9 +1,8 @@
 using Source.Utility;
 using UnityEngine;
-using VoroWorld.PointDataLibrary;
-using VoroWorld.Tiles;
+using VoroWorld.Grids;
 
-namespace VoroWorld {
+namespace VoroWorld.Diagrams {
 /// <summary>
 ///     contains the Tile instance and a collection of Voro Points
 ///     VoroDiagram is what gets used in VoroCompute

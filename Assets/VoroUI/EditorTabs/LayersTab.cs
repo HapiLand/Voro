@@ -5,7 +5,7 @@ using UnityEngine.UIElements;
 using VoroUI.Elements;
 
 namespace VoroUI.EditorTabs {
-public class LayersTab : VisualElement {
+public class LayersTab : Tab {
     public static VisualElement Collection;
 
     public LayersTab() {

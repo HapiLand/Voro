@@ -1,7 +1,8 @@
 using System;
 using UnityEngine;
 using UnityEngine.UIElements;
-using VoroUI.Effects.Base;
+using VoroWorld.Generation.Effects.Base;
+using VoroWorld.Generation.Effects.Internal;
 
 namespace VoroUI.Elements {
 public class Node : VisualElement {
@@ -17,12 +18,12 @@ public class Node : VisualElement {
     /// </summary>
     public bool Active;
 
-    public IEffect Effect;
+    public EffectNames Effect;
     // todo display FieldControlElements from the effect
 
     // todo move element in collection
     // todo remove element from collection
-    public Node(IEffect effect) {
+    public Node(EffectNames effect) {
         style.paddingTop = new Length(10, LengthUnit.Pixel); // element top size increase
         style.paddingBottom = new Length(10, LengthUnit.Pixel); // element bottom size increase
         style.marginTop = new Length(5, LengthUnit.Pixel); // top gap
@@ -32,7 +33,7 @@ public class Node : VisualElement {
         Effect = effect;
         // label
         _label = new Label();
-        DisplayName = effect.Name;
+        DisplayName = effect.ToString();
         Add(_label);
         // container to store the IEffect controls
         _controlContainer = new VisualElement();
@@ -57,6 +58,10 @@ public class Node : VisualElement {
         Active = true;
 
         // display the field controls within IEffect
+        // todo derive class from Node to store the control configurations
+        //  this is in order to seperate this from IEffect
+        //  the Node Element will only store data and a name of the effect
+        //  the actual IEffect that enum points to is handled by the compute class
         foreach (var control in Effect.Controls) {
             _controlContainer.Add(control);
         }

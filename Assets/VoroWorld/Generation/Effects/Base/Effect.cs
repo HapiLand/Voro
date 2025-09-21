@@ -4,7 +4,7 @@ using VoroUI.Elements.Base;
 using VoroUI.Elements.Controls;
 using VoroWorld;
 
-namespace VoroUI.Effects.Base {
+namespace VoroWorld.Generation.Effects.Base {
 public abstract class Effect<TEffectData> : EffectBase, IEffect {
     protected TEffectData Data;
 

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace VoroWorld.Tiles {
+namespace VoroWorld.Grids {
 /// <summary>
 ///     a tile object for the game world
 /// </summary>
