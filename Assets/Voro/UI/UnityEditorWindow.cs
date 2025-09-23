@@ -4,10 +4,10 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
 
-namespace Voro {
+namespace Voro.UI {
 public class UnityEditorWindow : EditorWindow {
     [SerializeField] VisualTreeAsset m_VisualTreeAsset;
-
+    
     /// <summary>
     ///     encapsulates generation data
     /// </summary>
