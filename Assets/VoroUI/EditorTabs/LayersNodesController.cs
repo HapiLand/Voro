@@ -2,8 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Source.Utility;
+using UnityEngine;
 using VoroUI.EditorTabs.Layers;
 using VoroUI.EditorTabs.Nodes;
+using VoroWorld.Generation.Effects;
 using VoroWorld.Generation.Effects.Base;
 
 namespace VoroUI.EditorTabs {
@@ -83,9 +85,20 @@ public class LayersNodesController {
 
             if (kvp.Value.Count > 0) {
                 foreach (var node in kvp.Value) {
-                    effectDictionary[layerName].Add(EffectHelper.CreateIEffectFromName(node.Name));
-                    // todo Node<TControlData> must be written into Effect<TEffectData>
-                    //  this is how the Control Element data is passed to VoroCompute
+                    // get the data values out of the node info
+                    var inode = node.DataControl;
+                    if (inode is DefaultNode defaultNode) {
+                        // INode to IEffect
+                        var ieffect = EffectHelper.CreateIEffectFromName(defaultNode.Name);
+                        if (ieffect is DefaultEffect defaultEffect) {
+                            // write the INode Data to IEffect Data
+                            defaultEffect.Data.Height = defaultNode.Data.Height;
+
+                            Debug.Log(
+                                $"Adding {defaultEffect.Name} into dictionary with data {defaultEffect.Data.Height}");
+                            effectDictionary[layerName].Add(defaultEffect);
+                        }
+                    }
                 }
             }
         }
