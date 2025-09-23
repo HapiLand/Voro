@@ -2,7 +2,7 @@ using System;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 
-namespace Voro {
+namespace Voro.Utility {
 public static class EditorEvents {
     public static event Action OnSceneReloaded;
 

@@ -1,6 +1,6 @@
 using System;
 
-namespace Voro {
+namespace Voro.Grids {
 /// <summary>
 ///     - Stores positional data for all Chunks.
 ///     - Serves as the environment map to be placed into the VoroWorld

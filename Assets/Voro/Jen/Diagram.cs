@@ -1,7 +1,9 @@
 using UnityEngine;
+using Voro.Grids;
+using Voro.UI;
 using Voro.World;
 
-namespace Voro {
+namespace Voro.Jen {
 /// <summary>
 ///     - Core structure storing terrain layout.
 ///     - Receives cell point array from Chunk.

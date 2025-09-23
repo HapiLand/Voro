@@ -1,4 +1,4 @@
-namespace Voro {
+namespace Voro.Grids {
 public class Tile {
     TileMap.Coordinate _coordinate;
     TileData _metadata;

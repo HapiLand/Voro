@@ -3,6 +3,9 @@ using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
+using Voro.Grids;
+using Voro.Jen;
+using Voro.World;
 
 namespace Voro.UI {
 public class UnityEditorWindow : EditorWindow {

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Voro {
+namespace Voro.Jen {
 /// <summary>
 ///     - Executes terrain generation.
 ///     - Generates the actual results based on Diagram instructions.

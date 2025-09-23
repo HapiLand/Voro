@@ -1,7 +1,7 @@
 using System;
 using UnityEngine.UIElements;
 
-namespace Voro {
+namespace Voro.UI {
 /// <summary>
 ///     - This is what the user interacts with.
 ///     - Produces instructions for terrain generation

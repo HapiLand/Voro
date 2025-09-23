@@ -1,6 +1,8 @@
 using UnityEngine;
+using Voro.UI;
+using Voro.World;
 
-namespace Voro {
+namespace Voro.Jen {
 /// <summary>
 ///     - Oversees the entire terrain generation process.
 ///     - Acts as the central control class of the system.
