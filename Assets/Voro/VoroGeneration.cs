@@ -29,7 +29,7 @@ public class VoroGeneration {
 
     void ComputeInitial() {
         // compute the initial terrain in order for VoroWorld to start with terrain content
-        Debug.Log($"initial compute: {_compute._diagram._chunk._points.Length}");
+        Debug.Log($"initial compute: {_compute._diagram._chunk.Points.Length}");
     }
 
     public void Dispose() {

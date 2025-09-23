@@ -43,4 +43,50 @@ public class Doc {
 
   ================================================================================
   */
+    /*
+     * public class BookList
+       {
+         public string Author { get; set; }
+         public string Title { get; set; }
+       }
+
+       class MyTest
+       {
+         private void Test(List<Book> books)
+         {
+           var bookList = from book in books select new BookList
+               {Author = book.Author, Title = book.Title};
+         }
+       }
+
+       class MyNewTest
+       {
+         private void Foo(List<Book> library)
+         {
+           var bookCatalog = from item in library select new BookList
+               {Author = item.Author, Title = item.Title};
+         }
+       }
+     */
+    /*
+     * class TestBookLibrary
+       {
+         Book[] _books;
+
+         Book this[int index]
+         {
+           get { return _books[index]; }
+         }
+
+         void Insert(int index, Book book)
+         {
+           _books[index] = book;
+         }
+
+         void Copy(int copy, int to)
+         {
+           Insert(to, this[copy]);
+         }
+       }
+     */
 }
