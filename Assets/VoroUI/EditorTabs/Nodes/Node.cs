@@ -6,7 +6,7 @@ using VoroWorld.Generation.Effects.Internal;
 
 namespace VoroUI.EditorTabs.Nodes {
 public abstract class Node<TControlData> : NodeBase, INode {
-    protected TControlData Data;
+    public TControlData Data;
 
     public Node(EffectNames name, TControlData data) {
         Name = name;

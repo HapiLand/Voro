@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using VoroWorld.Diagrams;
+using VoroWorld.Generation.Effects;
 using VoroWorld.Generation.Effects.Base;
 
 namespace VoroWorld.Generation {
@@ -77,29 +78,32 @@ public class VoroCompute {
         // todo compute every effect, not just the first one
         var effectToCompute = effects.First();
 
+        var worldSpaceDiagrams = new VoroResult[diagrams.GetLength(0), diagrams.GetLength(1)];
+
         // test to show that the control element slider data value is written to the effect
         // and that the data value does correctly apply a new height value to the terrain
-        var dataValue = 0f; // todo read the data value from the effect
-        var fakeCompute = new Vector3(0f, dataValue, 0f);
+        if (effectToCompute is DefaultEffect effect) {
+            var dataValue = effect.Data.Height; // todo read the data value from the effect
+            var fakeCompute = new Vector3(0f, dataValue, 0f);
 
-        // computing will produce a result with the locations in world space
-        // manually do this process here to ensure DiagramManager can rebuild correctly
-        var worldSpaceDiagrams = new VoroResult[diagrams.GetLength(0), diagrams.GetLength(1)];
-        for (var x = 0; x < diagrams.GetLength(0); x++) {
-            for (var z = 0; z < diagrams.GetLength(1); z++) {
-                var d = diagrams[x, z];
-                // copy the diagram values to the result
-                worldSpaceDiagrams[x, z] = new VoroResult();
-                worldSpaceDiagrams[x, z].Points = new CellPoint[d.Points.Length];
-                for (var i = 0; i < d.Points.Length; i++) {
-                    worldSpaceDiagrams[x, z].Points[i] = new CellPoint
-                    {
-                        // convert local space to world space
-                        Position = d.Points[i].Position + d.Points[i].Origin + fakeCompute,
-                        Origin = d.Points[i].Origin,
-                        ID = d.Points[i].ID,
-                        Color = d.Points[i].Color
-                    };
+            // computing will produce a result with the locations in world space
+            // manually do this process here to ensure DiagramManager can rebuild correctly
+            for (var x = 0; x < diagrams.GetLength(0); x++) {
+                for (var z = 0; z < diagrams.GetLength(1); z++) {
+                    var d = diagrams[x, z];
+                    // copy the diagram values to the result
+                    worldSpaceDiagrams[x, z] = new VoroResult();
+                    worldSpaceDiagrams[x, z].Points = new CellPoint[d.Points.Length];
+                    for (var i = 0; i < d.Points.Length; i++) {
+                        worldSpaceDiagrams[x, z].Points[i] = new CellPoint
+                        {
+                            // convert local space to world space
+                            Position = d.Points[i].Position + d.Points[i].Origin + fakeCompute,
+                            Origin = d.Points[i].Origin,
+                            ID = d.Points[i].ID,
+                            Color = d.Points[i].Color
+                        };
+                    }
                 }
             }
         }

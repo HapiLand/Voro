@@ -1,9 +1,5 @@
-using VoroUI.EditorTabs.Layers;
-using VoroUI.EditorTabs.Nodes;
-using VoroWorld.Diagrams;
-using VoroWorld.Generation;
-using VoroWorld.Generation.Effects.Base;
-using VoroWorld.Grids;
+using UnityEngine;
+using VoroTileMap;
 
 namespace VoroGeneration {
 /// <summary>
@@ -11,10 +7,46 @@ namespace VoroGeneration {
 /// </summary>
 public class Diagram {
     /// <summary>
-    ///     voronoi point data for a tile
+    ///     holds the game world map of tiles
     /// </summary>
-    readonly VoroDiagram _chunk;
+    readonly TileMap _tileMap;
 
+    /// <summary>
+    ///     so objects can be added to the scene
+    /// </summary>
+    readonly WorldMapController _worldMapController;
+
+    public Diagram(WorldMapController worldMapController, TileMap tileMap) {
+        Debug.Log("Creating Diagram");
+        _worldMapController = worldMapController;
+        _tileMap = tileMap;
+        
+        
+        
+        /*
+         * the Diagram has all the tiles, now generate the Chunks
+         * Chunk =  the parsed PointTable.json data that exists for each Tile
+         */
+
+        /*
+         * 1) create tiles
+         * 2) then make diagram
+         * ^ DONE ^
+         *
+         * 3) diagram creates point table
+         * 4) run initial compute
+         *      this uses default effect with no provided data, so height set to 0
+         *      compute returns its result to the diagram
+         *      use result to instantiate mesh assets
+         *
+         * the outcome of this shows a flat 0 height scene with GameObjects for each FBX
+         *
+         * repeat this later when the Diagram can access the UI Editors data
+         */
+    }
+
+
+    /*
     /// <summary>
     ///     the output from the shader
     /// </summary>
@@ -50,18 +82,6 @@ public class Diagram {
     ///     a game object entity that represents the tile
     /// </summary>
     readonly Tile _tile;
-
-    public Diagram(VoroDiagram chunk, VoroResult computeReturn, LayerInfo computeThreadData,
-        IControlData controlElementData, INode generatorDataRequirements, IEffect generatorFunction,
-        DiagramManager manager, Tile tile) {
-        _chunk = chunk;
-        _computeReturn = computeReturn;
-        _computeThreadData = computeThreadData;
-        _controlElementData = controlElementData;
-        _generatorDataRequirements = generatorDataRequirements;
-        _generatorFunction = generatorFunction;
-        _manager = manager;
-        _tile = tile;
-    }
+    */
 }
 }

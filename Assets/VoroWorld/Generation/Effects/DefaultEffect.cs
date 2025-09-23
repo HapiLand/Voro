@@ -5,9 +5,7 @@ using VoroWorld.Generation.Effects.Internal;
 
 namespace VoroWorld.Generation.Effects {
 public class DefaultEffectData : IEffectData {
-    public float Float;
-    public int Int;
-    public float LogFloat;
+    public float Height;
 }
 
 public class DefaultEffect : Effect<DefaultEffectData> {

@@ -10,7 +10,7 @@ namespace VoroWorld.Diagrams {
 public class VoroDiagram {
     public Point[] CellPoints;
     public Config Configuration;
-    public Tile Tile;
+    public Tile Tile; // todo decouple from Tile
 
     /// <summary>
     ///     all VoroDiagrams in the world have been created
