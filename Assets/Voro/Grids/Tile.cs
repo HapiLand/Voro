@@ -1,13 +1,13 @@
+using Voro.Grids.Internal;
+
 namespace Voro.Grids {
 public class Tile {
-    TileMap.Coordinate _coordinate;
-    TileData _metadata;
+    readonly TileData _metadata;
 
-    public Tile(TileMap.Coordinate coord) {
-        _coordinate = coord;
-        _metadata = new TileData();
+    public Tile(Coordinate coord) {
+        _metadata = TileData.CreateInstance(coord);
     }
 
-    struct TileData { }
+    public Coordinate Coordinate => _metadata.Coordinate;
 }
 }

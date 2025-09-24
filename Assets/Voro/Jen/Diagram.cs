@@ -11,21 +11,21 @@ namespace Voro.Jen {
 ///     - Outputs positional+mesh data for all Tiles.
 /// </summary>
 public class Diagram {
-    public readonly Chunk _chunk;
-    readonly TileMap _tileMap;
     readonly VoroUI _userInterface;
+    public readonly Chunk Chunk;
+    public readonly TileMap Map;
 
     /// <summary>
     /// </summary>
-    /// <param name="tileMap">world map position array</param>
+    /// <param name="map">world map position array</param>
     /// <param name="voroUI">generation instructions</param>
-    public Diagram(TileMap tileMap, VoroUI voroUI) {
+    public Diagram(TileMap map, VoroUI voroUI) {
         // TileMap
-        _tileMap = tileMap;
-        _tileMap.GenerateMap();
+        Map = map;
+        Map.GenerateMap();
 
         // Chunk
-        _chunk = new Chunk();
+        Chunk = new Chunk();
 
         // User Interface
         _userInterface = voroUI;

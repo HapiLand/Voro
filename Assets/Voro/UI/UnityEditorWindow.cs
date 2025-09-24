@@ -10,7 +10,7 @@ using Voro.World;
 namespace Voro.UI {
 public class UnityEditorWindow : EditorWindow {
     [SerializeField] VisualTreeAsset m_VisualTreeAsset;
-    
+
     /// <summary>
     ///     encapsulates generation data
     /// </summary>
@@ -82,8 +82,9 @@ public class UnityEditorWindow : EditorWindow {
 
         // Generator
         _voroWorld = new GameObject("VoroWorld").AddComponent<VoroWorld>();
-        _voroCompute = new VoroCompute(_diagram);
-        _voroGeneration = new VoroGeneration(_voroWorld, _voroCompute, _voroUI);
+        _voroCompute = new VoroCompute();
+        // VoroGeneration last as it completes the world setup
+        _voroGeneration = new VoroGeneration(_voroWorld, _voroCompute, _voroUI, _diagram);
     }
 
 

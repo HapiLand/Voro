@@ -18,36 +18,28 @@ public class TileMap {
         for (var x = 0; x < _mapSize.XSize; x++) {
             for (var z = 0; z < _mapSize.ZSize; z++) {
                 var coord = new Coordinate(x, z);
-                var tile = new Tile(coord);
-                _map[x, z] = tile;
-                OnTileCreated?.Invoke(tile);
+                var tile = CreateTile(coord);
+                SetTile(x, z, tile);
             }
         }
 
         OnMapGenerated?.Invoke();
     }
 
+    Tile CreateTile(Coordinate coord) {
+        var tile = new Tile(coord);
+        return tile;
+    }
+
+    void SetTile(int x, int z, Tile tile) {
+        _map[x, z] = tile;
+        OnTileSet?.Invoke(tile);
+    }
+
+
     public event Action OnMapGenerated;
-    public event Action<Tile> OnTileCreated;
+    public event Action<Tile> OnTileSet;
 
-    public struct Coordinate {
-        public readonly int X;
-        public readonly int Z;
 
-        public Coordinate(int x, int z) {
-            X = x;
-            Z = z;
-        }
-    }
-
-    struct Dimensions {
-        public readonly int XSize;
-        public readonly int ZSize;
-
-        public Dimensions(int x, int z) {
-            XSize = x;
-            ZSize = z;
-        }
-    }
 }
 }

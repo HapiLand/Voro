@@ -12,6 +12,5 @@ public class ChunkConfiguration {
         _config = new Configuration();
     }
 
-    struct Configuration { }
 }
 }
