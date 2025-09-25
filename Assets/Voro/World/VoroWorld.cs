@@ -3,7 +3,7 @@ using Voro.Jen;
 
 namespace Voro.World {
 [ExecuteAlways]
-public class World : MonoBehaviour {
+public class VoroWorld : MonoBehaviour {
     /// <summary>
     ///     this is the parent object to store the GameObjects for every Tile
     /// </summary>

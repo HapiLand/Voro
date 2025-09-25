@@ -7,8 +7,7 @@ namespace Voro.UI {
 public class UnityEditorWindow : EditorWindow {
     [SerializeField] VisualTreeAsset m_VisualTreeAsset;
 
-    void OnEnable() {
-    }
+    void OnEnable() { }
 
     public void CreateGUI() {
         var root = rootVisualElement;
@@ -18,8 +17,8 @@ public class UnityEditorWindow : EditorWindow {
 
     [MenuItem("Voro/Create World")]
     public static void CreateWorld() {
-        if (FindFirstObjectByType<VoroWorldMaster>() == null) {
-            new GameObject("VoroWorld").AddComponent<VoroWorldMaster>();
+        if (FindFirstObjectByType<VoroWorld>() == null) {
+            new GameObject("VoroWorld").AddComponent<VoroWorld>();
         }
         else {
             Debug.LogWarning("A VoroWorldMaster already exists.");
