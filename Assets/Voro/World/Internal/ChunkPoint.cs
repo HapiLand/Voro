@@ -9,12 +9,12 @@ public struct ChunkPoint {
             new Color(parsedPoint.Col[0], parsedPoint.Col[1], parsedPoint.Col[2], 1.0f));
     }
 
-    public Vector3 LocalPosition;
+    public Vector3 Position;
     public int ID;
     public Color Color;
 
-    ChunkPoint(Vector3 localPosition, int id, Color color) {
-        LocalPosition = localPosition;
+    ChunkPoint(Vector3 position, int id, Color color) {
+        Position = position;
         ID = id;
         Color = color;
     }

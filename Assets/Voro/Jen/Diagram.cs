@@ -31,6 +31,7 @@ public class Diagram {
         _userInterface = voroUI;
     }
 
+
     public void Dispose() { }
 
     void OnMapGenerated() {

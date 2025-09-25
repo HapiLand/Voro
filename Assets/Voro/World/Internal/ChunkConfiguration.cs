@@ -11,6 +11,5 @@ public class ChunkConfiguration {
     void ToConfiguration() {
         _config = new Configuration();
     }
-
 }
 }

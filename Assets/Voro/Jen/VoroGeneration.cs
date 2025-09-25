@@ -1,4 +1,5 @@
 using UnityEngine;
+using Voro.Jen.Compute;
 using Voro.UI;
 using Voro.World;
 
@@ -9,9 +10,9 @@ namespace Voro.Jen {
 /// </summary>
 public class VoroGeneration {
     readonly VoroCompute _compute;
+    readonly Diagram _diagram;
     readonly VoroUI _userInterface;
     readonly VoroWorld _world;
-    readonly Diagram _diagram;
 
     /// <summary>
     /// </summary>
@@ -33,8 +34,15 @@ public class VoroGeneration {
 
     public void ComputeInitial() {
         // compute the initial terrain in order for VoroWorld to start with terrain content
-        Debug.Log("initial compute");
-        _compute.Execute(_diagram, out var result);
+        // each result produced is for a differnt tile in the map
+        foreach (var result in _compute.ExecuteInitiate(_diagram)) {
+            // for the computed result, generate a mesh object for every chunk point
+            foreach (var point in result.GetPointList()) {
+                // result -> VoroWorld
+                // for each result point, look up the fbx mesh there, instantiate this object in VoroWorld
+                _world.AddToWorld(point.GetMeshObject());
+            }
+        }
     }
 
     public void Dispose() {

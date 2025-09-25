@@ -16,6 +16,10 @@ public class VoroWorld : MonoBehaviour {
         Dispose();
     }
 
+    public void AddToWorld(GameObject asset) {
+        asset.transform.SetParent(transform);
+    }
+
     public void GetComputeResult(string result) {
         Debug.Log($"Received Result: {result}");
         // instantiate result to scene

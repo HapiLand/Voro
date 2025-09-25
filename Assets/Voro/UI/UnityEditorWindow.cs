@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
 using Voro.Grids;
 using Voro.Jen;
+using Voro.Jen.Compute;
 using Voro.World;
 
 namespace Voro.UI {
@@ -76,7 +77,7 @@ public class UnityEditorWindow : EditorWindow {
         _voroGeneration?.Dispose();
 
         // create Diagram & dependencies
-        _tileMap = new TileMap();
+        _tileMap = new TileMap(3, 1);
         _voroUI ??= new VoroUI();
         _diagram = new Diagram(_tileMap, _voroUI);
 
