@@ -18,8 +18,8 @@ public class UnityEditorWindow : EditorWindow {
 
     [MenuItem("Voro/Create World")]
     public static void CreateWorld() {
-        if (FindFirstObjectByType<World.World>() == null) {
-            new GameObject("VoroWorld").AddComponent<World.World>();
+        if (FindFirstObjectByType<VoroWorldMaster>() == null) {
+            new GameObject("VoroWorld").AddComponent<VoroWorldMaster>();
         }
         else {
             Debug.LogWarning("A VoroWorldMaster already exists.");
