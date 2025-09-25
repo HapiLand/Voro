@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5834b5087d578d24c926ce20cd31e6d6, type: 3}
-  m_Name: MeshLibrary_ContentUpdateGroupSchema
+  m_Name: Packed Assets_ContentUpdateGroupSchema
   m_EditorClassIdentifier: Unity.Addressables.Editor::UnityEditor.AddressableAssets.Settings.GroupSchemas.ContentUpdateGroupSchema
-  m_Group: {fileID: 11400000, guid: 585c9fc97806c8eaa957d6bff78ece4c, type: 2}
+  m_Group: {fileID: 11400000, guid: 9f61fa18f64df81a09bff9cf3dd1a20c, type: 2}
   m_StaticContent: 0

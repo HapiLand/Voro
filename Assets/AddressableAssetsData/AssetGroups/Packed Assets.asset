@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
-  m_Name: Tables
+  m_Name: Packed Assets
   m_EditorClassIdentifier: Unity.Addressables.Editor::UnityEditor.AddressableAssets.Settings.AddressableAssetGroup
-  m_GroupName: Tables
-  m_GUID: 4898fe68987fd1be0bec3ecb2ac10a8b
+  m_GroupName: Packed Assets
+  m_GUID: 56c473256823d1bd3b87ad1e3ecf4d06
   m_SerializeEntries:
   - m_GUID: c2804aa59c1d45e5bfa631133e785a0f
     m_Address: Assets/VoroWorld/PointDataLibrary/Table0.json
@@ -21,8 +21,8 @@ MonoBehaviour:
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
-  m_Settings: {fileID: 11400000, guid: 8c5c42487adc74773ad7911225a56283, type: 2}
+  m_Settings: {fileID: 11400000, guid: 18368b5a253581a62af6b6791aed039c, type: 2}
   m_SchemaSet:
     m_Schemas:
-    - {fileID: 11400000, guid: 5278a55b861bc53a6a8e35e33f48b0f6, type: 2}
-    - {fileID: 11400000, guid: 0507f6cb138da5ab6a3835e43575ed25, type: 2}
+    - {fileID: 11400000, guid: d7780a9437b10bc73b3e091b6b9b44fc, type: 2}
+    - {fileID: 11400000, guid: c5b0b77c9d26deb6b941fdc6a17e2a33, type: 2}

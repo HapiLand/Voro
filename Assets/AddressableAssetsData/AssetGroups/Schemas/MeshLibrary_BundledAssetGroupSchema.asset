@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e5d17a21594effb4e9591490b009e7aa, type: 3}
-  m_Name: Tables_BundledAssetGroupSchema
+  m_Name: MeshLibrary_BundledAssetGroupSchema
   m_EditorClassIdentifier: Unity.Addressables.Editor::UnityEditor.AddressableAssets.Settings.GroupSchemas.BundledAssetGroupSchema
-  m_Group: {fileID: 11400000, guid: 435bae6dc9bcfa071bc6b52dca6c9a22, type: 2}
+  m_Group: {fileID: 11400000, guid: 7a601b5ac6d67e6d7b1d6c198ae03ab0, type: 2}
   m_InternalBundleIdMode: 1
   m_Compression: 1
   m_IncludeAddressInCatalog: 1
@@ -35,9 +35,9 @@ MonoBehaviour:
   m_RedirectLimit: -1
   m_RetryCount: 0
   m_BuildPath:
-    m_Id: b3f931a7b042b2173808be7335d59f06
+    m_Id: 6cc02e79f7c5307c1ac4b02a05b8843e
   m_LoadPath:
-    m_Id: 03cf5f6899b96dea89bf055c42539ef6
+    m_Id: 3cf2b4461976679ba9852e14d794756e
   m_BundleMode: 0
   m_AssetBundleProviderType:
     m_AssemblyName: Unity.ResourceManager, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
