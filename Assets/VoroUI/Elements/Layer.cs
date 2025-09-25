@@ -11,21 +11,21 @@ public class Layer : VisualElement {
     /// </summary>
     public bool Active;
 
-    public EditorDiagram EditorDiagram;
+    public EditorResult EditorResukt;
 
     // todo move element in collection
     // todo remove element from collection
-    public Layer(EditorDiagram editorDiagram) {
+    public Layer(EditorResult editorResukt) {
         style.paddingTop = new Length(10, LengthUnit.Pixel); // element top size increase
         style.paddingBottom = new Length(10, LengthUnit.Pixel); // element bottom size increase
         style.marginTop = new Length(5, LengthUnit.Pixel); // top gap
         style.marginBottom = new Length(5, LengthUnit.Pixel); // bottom gap
         style.backgroundColor = Color.aliceBlue;
 
-        EditorDiagram = editorDiagram;
+        EditorResukt = editorResukt;
         // label
         _label = new Label();
-        DisplayName = EditorDiagram.Name;
+        DisplayName = EditorResukt.Name;
         Add(_label);
         // make element selectable
         var clickable = new Clickable(OnClicked);

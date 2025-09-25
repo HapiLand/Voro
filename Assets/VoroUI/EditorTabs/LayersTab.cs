@@ -31,7 +31,7 @@ public class LayersTab : VisualElement {
             // add Layer to vertical list
             Collection.Add(element);
         };
-        EffectsTab.OnEffectElementCreated += AddEffectToActiveLayer;
+        NodesTab.OnEffectElementCreated += AddEffectToActiveLayer;
 
         // set defaults
         SetInitialLayer();
@@ -57,7 +57,7 @@ public class LayersTab : VisualElement {
     /// <returns></returns>
     Layer ClickedNewLayerButton(string layerName) {
         // create new layer
-        var layer = new EditorDiagram(layerName);
+        var layer = new EditorResult(layerName);
         OnLayerCreated?.Invoke(layer);
 
         // create new element to store the layer
@@ -94,7 +94,7 @@ public class LayersTab : VisualElement {
 
         // Debug.Log($"Add Effect to Active Layer : {effect.Name}");
         // add the effect to the layer
-        layerElement.EditorDiagram.AddEffectElement(node);
+        layerElement.EditorResukt.AddEffectElement(node);
     }
 
     public bool TryGetActiveElement(out Layer? activeLayer) {
@@ -133,7 +133,7 @@ public class LayersTab : VisualElement {
     /// </summary>
     public static event Action<bool> AnyLayersActive;
 
-    public static event Action<EditorDiagram> OnLayerCreated;
+    public static event Action<EditorResult> OnLayerCreated;
 
     /// <summary>
     ///     this element was clicked to set this as the active element

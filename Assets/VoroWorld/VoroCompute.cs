@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using VoroUI;
+using VoroUI.EditorTabs;
 using VoroUI.Effects.Base;
 
 namespace VoroWorld {
@@ -10,14 +11,14 @@ namespace VoroWorld {
 ///     VoroCompute will gather the UI data into a format that the generation needs
 /// </summary>
 public class VoroCompute {
-    readonly DiagramManager _diagramManager;
+    readonly TileMap _tileMap;
 
-    public VoroCompute(DiagramManager diagramManager) {
-        _diagramManager = diagramManager;
-        EditorWindow.OnEditorOutputToCompute += EditorControlValueChanged;
+    public VoroCompute(TileMap tileMap) {
+        _tileMap = tileMap;
+        EditorTab.OnEditorOutputToCompute += EditorControlValueChanged;
     }
 
-    void EditorControlValueChanged(Dictionary<EditorDiagram, List<IEffect>> content) {
+    void EditorControlValueChanged(Dictionary<EditorResult, List<IEffect>> content) {
         // a EffectData value inside the editor was changed, VoroCompute must regenerate the terrain
         // to show the generation with the new value
         // Debug.Log("VoroCompute registered Editor change - Recompute");
@@ -34,7 +35,7 @@ public class VoroCompute {
 
         void ComputeEffectOnVoroDiagrams(IEffect effect) {
             // access the VoroDiagrams
-            var diagrams = _diagramManager.GetDiagramMapArray();
+            var diagrams = _tileMap.GetDiagramMapArray();
 
             for (var x = 0; x < diagrams.GetLength(0); x++) {
                 for (var z = 0; z < diagrams.GetLength(1); z++) {

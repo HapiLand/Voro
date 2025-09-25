@@ -1,5 +1,5 @@
 namespace VoroUI.Effects.Internal {
-public enum EffectNames {
+public enum EffectName {
     DefaultFX
 }
 }

@@ -6,7 +6,7 @@ namespace VoroUI {
 ///     EditorDiagram stores a collection of Nodes, this diagram is for choosing the functions to be used
 ///     as part of the world generation
 /// </summary>
-public class EditorDiagram {
+public class EditorResult {
     /// <summary>
     ///     the layer stores all the EffectElements inside of it
     ///     each EffectElement contains an IEffect
@@ -15,7 +15,7 @@ public class EditorDiagram {
 
     public readonly string Name;
 
-    public EditorDiagram(string s) {
+    public EditorResult(string s) {
         Name = s;
     }
 

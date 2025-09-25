@@ -4,12 +4,12 @@ using UnityEngine.UIElements;
 namespace VoroUI.Elements.Base {
 public class ControlElementBase : VisualElement { }
 
-public abstract class ControlElement<TValue> : ControlElementBase {
+public abstract class Control<TValue> : ControlElementBase {
     readonly Label _label;
     public VisualElement ControlContainer;
     public VisualElement FieldContainer;
 
-    public ControlElement() {
+    public Control() {
         style.flexDirection = FlexDirection.Row; // horizontal layout
         style.flexGrow = 1; // full size
 

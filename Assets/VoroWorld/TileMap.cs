@@ -5,18 +5,18 @@ using UnityEngine;
 using VoroWorld.PointDataLibrary;
 
 namespace VoroWorld {
-public class DiagramManager {
-    readonly VoroDiagram[,] _map;
+public class TileMap {
+    readonly Chunk[,] _map;
     int _pendingCount;
 
-    public DiagramManager() {
+    public TileMap() {
         // set the initial VoroDiagram Map
-        _map = new VoroDiagram[_mapSize.width, _mapSize.length];
+        _map = new Chunk[_mapSize.width, _mapSize.length];
     }
 
     (int width, int length) _mapSize => (2, 2);
 
-    public VoroDiagram[,] GetDiagramMapArray() {
+    public Chunk[,] GetDiagramMapArray() {
         return _map;
     }
     // public static event Action OnMapConstructed;
@@ -39,7 +39,7 @@ public class DiagramManager {
         // Debug.Log("create diagram map");
         for (var x = 0; x < _mapSize.width; x++) {
             for (var z = 0; z < _mapSize.length; z++) {
-                _map[x, z] = new VoroDiagram();
+                _map[x, z] = new Chunk();
                 // create the tile in the diagram
                 _map[x, z].CreateTile(x, z);
             }
@@ -57,12 +57,12 @@ public class DiagramManager {
 
         return;
 
-        void LoadPointsIntoDiagram(VoroDiagram diagram) {
-            AssetUtil.LoadAssetPath<TextAsset>(
+        void LoadPointsIntoDiagram(Chunk diagram) {
+            AssetExtensions.LoadAssetPath<TextAsset>(
                 "Assets/VoroWorld/PointDataLibrary/Table0.json",
                 table => {
                     if (table != null) {
-                        var tablePoints = JObject.Parse(table.text)["Points"].ToObject<TablePoint[]>();
+                        var tablePoints = JObject.Parse(table.text)["Points"].ToObject<TableArrPoint[]>();
                         diagram.SetCellPoints(tablePoints);
                     }
 

@@ -6,10 +6,10 @@ using VoroUI.Effects;
 using VoroUI.Elements;
 
 namespace VoroUI.EditorTabs {
-public class EffectsTab : VisualElement {
+public class NodesTab : VisualElement {
     readonly VisualElement _collection;
 
-    public EffectsTab() {
+    public NodesTab() {
         style.flexDirection = FlexDirection.Column; // vertical layout
         style.flexGrow = 1; // full size
         // heading
@@ -40,7 +40,7 @@ public class EffectsTab : VisualElement {
 
             // create new effect
             // todo pick the desired effect from a dropdown menu
-            var effect = new DefaultEffect(); // IEffect
+            var effect = new DefaultFX(); // IEffect
 
             // create new element to store the effect
             var element = new Node(effect);
@@ -134,7 +134,7 @@ public class EffectsTab : VisualElement {
         // clear any existing elements
         _collection.Clear();
         // display the new effects within the layer
-        foreach (var effectElement in layer.EditorDiagram.EffectElements) {
+        foreach (var effectElement in layer.EditorResukt.EffectElements) {
             _collection.Add(effectElement);
         }
     }

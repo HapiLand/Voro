@@ -1,11 +1,11 @@
 using UnityEngine;
 
 namespace VoroWorld {
-public struct Point {
+public struct ChunkPoint {
     public Vector3 Position;
     public int ID;
 
-    public Point(Vector3 position, int id) {
+    public ChunkPoint(Vector3 position, int id) {
         Position = position;
         ID = id;
     }

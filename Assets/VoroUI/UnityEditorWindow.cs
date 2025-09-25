@@ -2,6 +2,7 @@ using System;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
+using VoroUI.EditorTabs;
 
 namespace VoroUI {
 public class UnityEditorWindow : UnityEditor.EditorWindow {
@@ -10,7 +11,7 @@ public class UnityEditorWindow : UnityEditor.EditorWindow {
     public void CreateGUI() {
         var root = rootVisualElement;
         root.style.flexDirection = FlexDirection.Row;
-        root.Add(new EditorWindow());
+        root.Add(new EditorTab());
     }
 
     [MenuItem("VoroVoroVoroVoro/Show Editor")]

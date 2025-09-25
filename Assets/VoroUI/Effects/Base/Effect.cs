@@ -15,7 +15,7 @@ public abstract class Effect<TEffectData> : EffectBase, IEffect {
 
     public abstract List<ControlElementBase> Controls { get; }
 
-    public abstract void Compute(ref VoroDiagram diagram);
+    public abstract void Compute(ref Chunk diagram);
     public string Name { get; }
 
     protected void CreateFloatSlider(
@@ -26,7 +26,7 @@ public abstract class Effect<TEffectData> : EffectBase, IEffect {
         float sliderMax,
         float sliderDefault
     ) {
-        var element = new FloatSliderElement
+        var element = new FloatSlider
         {
             DisplayName = name,
             MinValue = sliderMin,
@@ -54,7 +54,7 @@ public abstract class Effect<TEffectData> : EffectBase, IEffect {
             sliderMin = 0.0001f; // avoid log(0)
         }
 
-        var element = new FloatSliderElement
+        var element = new FloatSlider
         {
             DisplayName = name,
             MinValue = sliderMin,
@@ -79,7 +79,7 @@ public abstract class Effect<TEffectData> : EffectBase, IEffect {
         int sliderMax,
         int sliderDefault
     ) {
-        var element = new IntSliderElement
+        var element = new IntSlider
         {
             DisplayName = name,
             MinValue = sliderMin,

@@ -8,11 +8,11 @@ namespace Source.Utility {
 /// <summary>
 ///     utility class for accessing the MeshLibrary for use with a WorldTile.VoroDiagram.CellPoint
 /// </summary>
-public class MeshLibraryHelper {
-    static readonly Lazy<MeshLibraryHelper> _lazyInstance = new(() => new MeshLibraryHelper());
+public class MeshExtensions {
+    static readonly Lazy<MeshExtensions> _lazyInstance = new(() => new MeshExtensions());
     readonly Dictionary<int, Mesh[]> _meshMap;
 
-    MeshLibraryHelper() {
+    MeshExtensions() {
         // Debug.Log("MeshLibraryHelper creating now");
         _meshMap = new Dictionary<int, Mesh[]>();
 
@@ -75,7 +75,7 @@ public class MeshLibraryHelper {
         }
     }
 
-    public static MeshLibraryHelper Instance => _lazyInstance.Value;
+    public static MeshExtensions Instance => _lazyInstance.Value;
 
     public Mesh[] GetMeshArray(int id) {
         return _meshMap[id];

@@ -7,7 +7,7 @@ namespace VoroUI.Elements.Controls {
 /// <summary>
 ///     a float slider control
 /// </summary>
-public class FloatSliderElement : ControlElement<float> {
+public class FloatSlider : Control<float> {
     readonly FloatField _field;
     readonly Slider _slider;
     Func<float> _dataGet;
@@ -20,7 +20,7 @@ public class FloatSliderElement : ControlElement<float> {
     /// </summary>
     public bool IsLogScale = false;
 
-    public FloatSliderElement() {
+    public FloatSlider() {
         style.flexDirection = FlexDirection.Row; // horizontal row
         // field to display value
         _field = new FloatField();

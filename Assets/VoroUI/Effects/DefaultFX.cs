@@ -12,13 +12,13 @@ public class DefaultEffectData : IEffectData {
     public float LogFloat;
 }
 
-public class DefaultEffect : Effect<DefaultEffectData> {
+public class DefaultFX : Effect<DefaultEffectData> {
     /// <summary>
     ///     stores the field controls for the effect
     /// </summary>
     List<ControlElementBase> _controls;
 
-    public DefaultEffect() : base(nameof(EffectNames.DefaultFX), new DefaultEffectData()) { }
+    public DefaultFX() : base(nameof(EffectName.DefaultFX), new DefaultEffectData()) { }
 
     public override List<ControlElementBase> Controls {
         get
@@ -59,7 +59,7 @@ public class DefaultEffect : Effect<DefaultEffectData> {
         }
     }
 
-    public override void Compute(ref VoroDiagram diagram) {
+    public override void Compute(ref Chunk diagram) {
         // Debug.Log("Effect.Compute ");
 
         var cellPoints = diagram.CellPoints;

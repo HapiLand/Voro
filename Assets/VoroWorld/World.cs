@@ -2,11 +2,11 @@ using UnityEngine;
 
 namespace VoroWorld {
 [ExecuteAlways]
-public class WorldManager : MonoBehaviour {
+public class World : MonoBehaviour {
     /// <summary>
     ///     manages the tile diagrams for the world
     /// </summary>
-    DiagramManager _diagramManager;
+    TileMap _tileMap;
 
     /// <summary>
     ///     this is the parent object to store the GameObjects for every Tile
@@ -22,19 +22,19 @@ public class WorldManager : MonoBehaviour {
         _tileContainer = new GameObject("Tile Container").transform;
         _tileContainer.SetParent(gameObject.transform);
 
-        _diagramManager = new DiagramManager();
+        _tileMap = new TileMap();
         // called once the VoroDiagram map has been fully created
         // DiagramManager.OnMapConstructed += OnConstructedAllDiagrams;
-        _diagramManager.DiagramMapConstructed += () => {
+        _tileMap.DiagramMapConstructed += () => {
             Debug.Log("All VoroDiagrams have been constructed");
             // instantiate the Mesh GameObjects within the all the diagrams
-            _diagramManager.InstanceDiagramObjects(_tileContainer);
+            _tileMap.InstanceDiagramObjects(_tileContainer);
         };
 
-        _voroCompute = new VoroCompute(_diagramManager);
+        _voroCompute = new VoroCompute(_tileMap);
 
         // notify listeners that the WorldManager is ready
-        _diagramManager.CreateDiagramMap();
+        _tileMap.CreateDiagramMap();
     }
 }
 }

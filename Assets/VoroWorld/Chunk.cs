@@ -8,9 +8,9 @@ namespace VoroWorld {
 ///     contains the Tile instance and a collection of Voro Points
 ///     VoroDiagram is what gets used in VoroCompute
 /// </summary>
-public class VoroDiagram {
+public class Chunk {
     Config _configuration;
-    public Point[] CellPoints;
+    public ChunkPoint[] CellPoints;
     public Tile Tile;
 
     /// <summary>
@@ -36,7 +36,7 @@ public class VoroDiagram {
             var mr = cellObjectInstance.AddComponent<MeshRenderer>();
 
             // instance the mesh
-            var helper = MeshLibraryHelper.Instance;
+            var helper = MeshExtensions.Instance;
             var meshes = helper.GetMeshArray(pointID);
             // Debug.Log($"CellPoint {localCellPoint.ID} loaded {meshes.Length} meshes");
 
@@ -70,18 +70,18 @@ public class VoroDiagram {
         Tile = new Tile(pos);
     }
 
-    public void SetCellPoints(TablePoint[] tablePoints) {
+    public void SetCellPoints(TableArrPoint[] tablePoints) {
         _configuration = new Config
         {
             PointColors = new Color[tablePoints.Length]
         };
 
-        CellPoints = new Point[tablePoints.Length];
+        CellPoints = new ChunkPoint[tablePoints.Length];
         for (var i = 0; i < tablePoints.Length; i++) {
             var point = tablePoints[i];
             // set the local position of the point
             var position = new Vector3(point.Pos[0], 0, point.Pos[1]);
-            CellPoints[i] = new Point(position, point.Id);
+            CellPoints[i] = new ChunkPoint(position, point.Id);
 
             var color = point.Col;
             _configuration.PointColors[i] = new Color(color[0], color[1], color[2], 1.0f);

@@ -7,7 +7,7 @@ namespace VoroUI.Elements.Controls {
 /// <summary>
 ///     a float slider control
 /// </summary>
-public class IntSliderElement : ControlElement<int> {
+public class IntSlider : Control<int> {
     readonly IntegerField _field;
 
     /// <summary>
@@ -19,7 +19,7 @@ public class IntSliderElement : ControlElement<int> {
     Func<int> _dataGet;
     Action<int> _dataSet;
 
-    public IntSliderElement() {
+    public IntSlider() {
         style.flexDirection = FlexDirection.Row; // horizontal row
 
         // field to display value
