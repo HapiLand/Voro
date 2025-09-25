@@ -1,0 +1,38 @@
+#include "EffectFunctions.hlsl"
+
+
+#pragma kernel CSMain
+
+RWStructuredBuffer<PointData> _Points;
+uint _PointCount;
+
+cbuffer EffectParams
+{
+    uint _EffectType; // drive the switch to select the function
+    float _EffectData;
+}
+
+[numthreads(64,1,1)]
+void CSMain(uint3 id : SV_DispatchThreadID)
+{
+    uint index = id.y * 8 + id.x;
+    if (index >= _PointCount)
+    {
+        return;
+    }
+
+    PointData pnt = _Points[index];
+    float height = pnt.P[1]; // read existing point height
+
+    switch (_EffectType)
+    {
+    case 0: height = ConstantHeight(_EffectData);
+        break;
+
+    case 1: height += Noise(pnt, _EffectData);
+        break;
+    }
+
+    pnt.P.y = height;
+    _Points[index] = pnt;
+}
