@@ -1,0 +1,13 @@
+using UnityEngine;
+
+namespace Voro.World {
+public struct ChunkPoint {
+    public Vector3 Position;
+    public int ID;
+
+    public ChunkPoint(Vector3 position, int id) {
+        Position = position;
+        ID = id;
+    }
+}
+}
