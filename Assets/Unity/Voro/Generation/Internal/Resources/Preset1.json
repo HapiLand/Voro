@@ -1,0 +1,33 @@
+{
+  "Layers": [
+    {
+      "LayerName": "Foo",
+      "Effects": [
+        {
+          "Name": "Slope",
+          "Values": [
+            0.0,
+            1.0,
+            2.0
+          ]
+        },
+        {
+          "Name": "Noise",
+          "Values": [
+            0.0,
+            1.0,
+            2.0
+          ]
+        },
+        {
+          "Name": "Terrace",
+          "Values": [
+            0.0,
+            1.0,
+            2.0
+          ]
+        }
+      ]
+    }
+  ]
+}
