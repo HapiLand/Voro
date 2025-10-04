@@ -6,7 +6,7 @@ using UnityEngine;
 using Debug = UnityEngine.Debug;
 
 namespace VoroSystem {
-class TileMap {
+public class TileMap {
     Tile[,] _map;
 
     /// <summary>
@@ -57,19 +57,24 @@ class TileMap {
     ///     get every Chunk.Cell position for the entire TileMap
     /// </summary>
     /// <returns></returns>
-    public IEnumerable<Vector3> AsPoints() {
-        var instances =
-            from tile in AsEnumerable()
-            let pos = GetTilePosition(tile)
-            select new { tile, pos };
-        foreach (var item in instances) {
-            foreach (var cell in item.tile.Chunk.Points) {
-                var cellPosition = cell.Position;
-                var pos = item.pos + cellPosition;
-                yield return pos;
+    public IEnumerable<(Vector3 Position, int Id, Vector3 Color)> AsPoints() {
+        foreach (var tile in AsEnumerable()) {
+            if (!tile.Visible) {
+                // dont use the tile if it isnt visible
+                continue;
+            }
+
+            var tilePosition = GetTilePosition(tile);
+            foreach (var cell in tile.Chunk.Points) {
+                yield return (
+                    tilePosition + cell.Position,
+                    cell.ID,
+                    new Vector3(cell.Color.r, cell.Color.g, cell.Color.b)
+                );
             }
         }
     }
+
 
     /// <summary>
     ///     set visibility for tiles in view of the camera
@@ -93,8 +98,11 @@ class TileMap {
 
         // set visibility based on whether the camera can see the Tile
         foreach (var item in instances) {
-            item.tile.Visible = true;
-            // todo implement visibility check
+            var viewportPos = cam.WorldToViewportPoint(item.pos);
+            var visible = viewportPos.z > 0f
+                          && viewportPos.x >= 0f && viewportPos.x <= 1f
+                          && viewportPos.y >= 0f && viewportPos.y <= 1f;
+            item.tile.Visible = visible;
         }
 
         sw.Stop();

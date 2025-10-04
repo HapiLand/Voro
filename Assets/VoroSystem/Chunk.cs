@@ -13,7 +13,6 @@ public class Chunk {
 
     public Chunk() {
         Debug.Log("creating a new Chunk");
-
         var sw = new Stopwatch();
         sw.Start();
 

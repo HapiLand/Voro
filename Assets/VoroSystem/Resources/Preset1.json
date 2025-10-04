@@ -1,0 +1,18 @@
+{
+  "Layers": [
+    {
+      "Name": "Flat",
+      "Nodes": [
+        {
+          "Name": "SetElevation",
+          "Controls": [
+            {
+              "Name": "Amount",
+              "Value": 0.0
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -45,5 +45,9 @@ public static class AssetLoader {
         sw.Stop();
         Debug.Log($"took {sw.ElapsedMilliseconds}ms to load file");
     }
+
+    public static Mesh GetMeshPiece(int vtxID, int variant = 0) {
+        return UnityEngine.Resources.Load<Mesh>($"Mesh/{vtxID}_{variant}");
+    }
 }
 }

@@ -1,0 +1,31 @@
+#pragma kernel Effect
+
+struct point_data
+{
+    float3 p;
+    int id;
+    float3 col;
+};
+
+RWStructuredBuffer<point_data> points;
+uint point_count;
+
+cbuffer Params
+{
+    float amount;
+}
+
+[numthreads(64,1,1)]
+void Effect(uint3 id : SV_DispatchThreadID)
+{
+    uint index = id.y * 8 + id.x;
+    if (index >= point_count)
+    {
+        return;
+    }
+
+    point_data pnt = points[index]; // read point
+    float height = amount; // read data value - this is the resulting height
+    pnt.p.y = height; // apply height to point
+    points[index] = pnt; // write point to buffer
+}
