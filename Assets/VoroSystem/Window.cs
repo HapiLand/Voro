@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEditor;
 using UnityEngine;
 
@@ -36,16 +37,21 @@ class Window : EditorWindow {
             EditorGUILayout.LabelField(layer.Name, layer.Active ? EditorStyles.boldLabel : EditorStyles.label);
             layer.Active = EditorGUILayout.Toggle("", layer.Active);
 
-            if (GUILayout.Button("↑") && layerIndex > 0) {
+            if (GUILayout.Button("↑")) {
+                layer.MoveUp();
+            /*if (GUILayout.Button("↑") && layerIndex > 0) {
                 var temp = editor.LayerContent[layerIndex - 1];
                 editor.LayerContent[layerIndex - 1] = layer;
                 editor.LayerContent[layerIndex] = temp;
+            }*/
             }
-
-            if (GUILayout.Button("↓") && layerIndex < editor.LayerContent.Count - 1) {
+            if (GUILayout.Button("↓")) {
+                layer.MoveDown();
+            /*if (GUILayout.Button("↓") && layerIndex < editor.LayerContent.Count - 1) {
                 var temp = editor.LayerContent[layerIndex + 1];
                 editor.LayerContent[layerIndex + 1] = layer;
                 editor.LayerContent[layerIndex] = temp;
+            }*/
             }
 
             if (GUILayout.Button("🗑")) {
@@ -58,7 +64,7 @@ class Window : EditorWindow {
             EditorGUILayout.EndHorizontal();
 
             if (layer.Active) {
-                DrawNodes(layer.Nodes);
+                DrawNodes(layer.Content.ToList());
 
                 if (GUILayout.Button("+ Node +")) {
                     Debug.Log("Add Node");
@@ -70,7 +76,7 @@ class Window : EditorWindow {
             return true;
         }
 
-        void DrawNodes(List<LayerData.Node> nodes) {
+        void DrawNodes(List<Node> nodes) {
             EditorGUILayout.BeginVertical("box");
             EditorGUILayout.LabelField("Nodes");
             EditorGUI.indentLevel++;
@@ -86,24 +92,31 @@ class Window : EditorWindow {
             EditorGUILayout.EndVertical();
         }
 
-        bool DrawNode(LayerData.Node fx, List<LayerData.Node> nodes, int nodeIndex) {
+        bool DrawNode(Node node, List<Node> nodes, int nodeIndex) {
             EditorGUILayout.BeginVertical("box");
 
             EditorGUILayout.BeginHorizontal();
-            EditorGUILayout.LabelField(fx.Name, fx.Active ? EditorStyles.boldLabel : EditorStyles.label);
-            fx.Active = EditorGUILayout.Toggle("", fx.Active);
+            EditorGUILayout.LabelField(node.Name, node.Active ? EditorStyles.boldLabel : EditorStyles.label);
+            node.Active = EditorGUILayout.Toggle("", node.Active);
 
-            if (GUILayout.Button("↑") && nodeIndex > 0) {
-                var temp = nodes[nodeIndex - 1];
-                nodes[nodeIndex - 1] = fx;
-                nodes[nodeIndex] = temp;
+            if (GUILayout.Button("↑")) {
+                node.MoveUp();
+                /*if (GUILayout.Button("↑") && nodeIndex > 0) {
+                       var temp = nodes[nodeIndex - 1];
+                       nodes[nodeIndex - 1] = fx;
+                       nodes[nodeIndex] = temp;
+                   }*/
             }
-
-            if (GUILayout.Button("↓") && nodeIndex < nodes.Count - 1) {
-                var temp = nodes[nodeIndex + 1];
-                nodes[nodeIndex + 1] = fx;
-                nodes[nodeIndex] = temp;
+            if (GUILayout.Button("↓")) {
+                node.MoveDown();
+                /*if (GUILayout.Button("↓") && nodeIndex < nodes.Count - 1) {
+                       var temp = nodes[nodeIndex + 1];
+                       nodes[nodeIndex + 1] = fx;
+                       nodes[nodeIndex] = temp;
+                   }*/
             }
+            
+            
 
             if (GUILayout.Button("🗑")) {
                 nodes.RemoveAt(nodeIndex);
@@ -114,23 +127,23 @@ class Window : EditorWindow {
 
             EditorGUILayout.EndHorizontal();
 
-            if (fx.Active) {
-                DrawNodeControls(fx.Controls);
+            if (node.Active) {
+                DrawNodeControls(node.Controls);
             }
 
             EditorGUILayout.EndVertical();
             return true; // node still exists
         }
 
-        void DrawNodeControls(LayerData.Node.Control[] controls) {
+        void DrawNodeControls(Control[] controls) {
             EditorGUILayout.BeginVertical("box");
             EditorGUILayout.LabelField("Controls");
             EditorGUI.indentLevel++;
 
-            for (var i = 0; i < controls.Length; i++) {
+            foreach (var control in controls) {
                 EditorGUILayout.BeginHorizontal("box");
-                EditorGUILayout.LabelField(controls[i].Name);
-                controls[i].Value = EditorGUILayout.FloatField(controls[i].Value);
+                EditorGUILayout.LabelField(control.Name);
+                control.Value = EditorGUILayout.FloatField(control.Value);
                 EditorGUILayout.EndHorizontal();
             }
 

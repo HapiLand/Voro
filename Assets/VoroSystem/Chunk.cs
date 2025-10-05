@@ -1,15 +1,24 @@
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using Newtonsoft.Json.Linq;
 using UnityEngine;
+using VoroSystem.Interface;
 using Debug = UnityEngine.Debug;
 
 namespace VoroSystem {
-public class Chunk {
+public class Chunk : IChunk<Cell> {
     /// <summary>
     ///     parsed data for the chunk
     /// </summary>
-    readonly Cell[] _points;
+    Cell[] _points;
+    public Cell[] Content => _points;
+    public IEnumerable<Cell> AsEnumerable() {
+        var length = Content.Length;
+        for (var i = 0; i < length; i++) {
+            yield return Content[i];
+        }
+    }
 
     public Chunk() {
         Debug.Log("creating a new Chunk");
@@ -17,8 +26,9 @@ public class Chunk {
         sw.Start();
 
         AssetLoader.LoadTable(0, out var assetText); // load the text within the .json
-        ParseCells(assetText, out _points); // parse the text to produce the cells
-
+        ParseCells(assetText, out var content); // parse the text to produce the cells
+        SetContent(content);
+        
         sw.Stop();
         Debug.Log($"took {sw.ElapsedMilliseconds}ms to generate the Chunk");
         return;
@@ -52,18 +62,10 @@ public class Chunk {
         }
     }
 
-    public Cell[] Points => _points;
-
-    public struct Cell {
-        public Vector3 Position;
-        public int ID;
-        public Color Color;
-
-        public Cell(Vector3 position, int id, Color color) {
-            Position = position;
-            ID = id;
-            Color = color;
-        }
+    public int ID { get; }
+    public void SetContent(Cell[] data) {
+        _points = data;
     }
+    
 }
 }

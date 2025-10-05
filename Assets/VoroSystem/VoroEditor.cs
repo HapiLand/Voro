@@ -10,11 +10,6 @@ public class VoroEditor {
     static readonly object padlock = new();
 
     /// <summary>
-    ///     indicate if new content exists in the editor
-    /// </summary>
-    public bool Dirty;
-
-    /// <summary>
     ///     parsed data from a preset.json that has the diagrams content
     /// </summary>
     public List<LayerData> LayerContent;
@@ -65,24 +60,24 @@ public class VoroEditor {
             foreach (var token in configArray) {
                 var layerName = token["Name"]?.ToObject<string>();
                 var nodeArray = token["Nodes"] as JArray;
-                var nodes = new List<LayerData.Node>();
+                var nodes = new List<Node>();
 
                 var st = $"Parsed Layer: {layerName} ";
                 if (nodeArray != null) {
                     foreach (var nodeToken in nodeArray) {
                         var nodeName = nodeToken["Name"]?.ToObject<string>();
                         var controlsArray = nodeToken["Controls"] as JArray;
-                        var controls = new List<LayerData.Node.Control>();
+                        var controls = new List<Control>();
 
                         if (controlsArray != null) {
                             foreach (var controlToken in controlsArray) {
                                 var controlName = controlToken["Name"]?.ToObject<string>();
                                 var controlValue = controlToken["Value"]?.ToObject<float>() ?? 0f;
-                                controls.Add(new LayerData.Node.Control(controlName, controlValue));
+                                controls.Add(new Control(controlName, controlValue));
                             }
                         }
 
-                        nodes.Add(new LayerData.Node(nodeName, controls.ToArray()));
+                        nodes.Add(new Node(nodeName, controls.ToArray()));
                     }
                 }
 

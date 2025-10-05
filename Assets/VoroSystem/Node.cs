@@ -1,29 +1,22 @@
-using System.Collections.Generic;
-using System.Linq;
 using VoroSystem.Interface;
 
 namespace VoroSystem {
-public class LayerData : IElement<Node[]> {
-    public Node[] Content { get; set; }
+public class Node : IElement<Control[]> {
+    public Control[] Controls;
 
-    public LayerData(string name, Node[] nodes) {
+    public Node(string name, Control[] controls) {
         Name = name;
+        SetContent(controls);
         Active = false;
-        SetContent(nodes);
     }
+
 
     public bool Active { get; set; }
     public string Name { get; }
-
-    /// <summary>
-    /// index determines where the layer is, in relation to the items in the GUI
-    /// </summary>
     public int Index { get; private set; }
-
     public void SetIndex(int index) {
         throw new System.NotImplementedException();
     }
-
     public void MoveUp() {
         if (Index <= 0) {
             return;
@@ -38,15 +31,15 @@ public class LayerData : IElement<Node[]> {
     public void MoveDown() {
         Index += 1;
         SetIndex(0);
-    /*public void MoveDown(List<LayerData> layers, int index) {
-        if (index >= layers.Count - 1) { return; }
-        (layers[index + 1], layers[index]) = (layers[index], layers[index + 1]);
-    }*/
+        /*public void MoveDown(List<LayerData> layers, int index) {
+            if (index >= layers.Count - 1) { return; }
+            (layers[index + 1], layers[index]) = (layers[index], layers[index + 1]);
+        }*/
     }
     
-    
-    public void SetContent(Node[] data) {
-        Content = data;
+    public Control[] Content { get; set; }
+    public void SetContent(Control[] data) {
+        Controls = data;
     }
 }
 }
