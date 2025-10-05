@@ -1,12 +1,13 @@
 using System.Collections.Generic;
 using UnityEngine;
+using VoroSystem.UserInterface;
 
 namespace VoroSystem {
 public class Graph {
     public List<EffectBase> Effects;
     public string Name;
 
-    public Graph(LayerData layer) {
+    public Graph(Layer layer) {
         Debug.Log("Creating new Graph instance");
         Name = layer.Name;
 
@@ -14,8 +15,8 @@ public class Graph {
         foreach (var node in layer.Content) {
             switch (node.Name) {
             case "SetElevation":
-                Effects.Add(new SetElevation(node.Controls));
-                Debug.Log("Added Effect.SetElevation to graph");
+                // Effects.Add(new SetElevation());
+                // Debug.Log("Added Effect.SetElevation to graph");
                 break;
             }
         }

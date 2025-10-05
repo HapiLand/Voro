@@ -1,5 +1,7 @@
 using System.Diagnostics;
 using UnityEngine;
+using VoroSystem.GridSystem;
+using VoroSystem.UserInterface;
 using Debug = UnityEngine.Debug;
 
 namespace VoroSystem {
@@ -10,43 +12,41 @@ public class WorldController : MonoBehaviour {
     /// </summary>
     Transform _container;
 
-    Chunk chunk;
-    VoroEditor editor;
-    TileMap tileMap;
 
     public void GenerateWorldMap() {
-        Debug.Log("generating world map");
-        var sw = new Stopwatch();
-        sw.Start();
+        var sw = Stopwatch.StartNew();
 
-        // set up the world - copy Chunk points to the TileMap
-        tileMap = new TileMap();
-        tileMap.SetSize(new Vector2Int(2,5)); // fixed map size, produce Tile[,]
-        tileMap.UpdateVisibility(); // update visibility
+        _tileMap = new TileMap();
+        _gridSystem = new GridSystemMediator(_tileMap);
+        var size = new Vector2Int(2, 5);
+        _gridSystem.Initialize(size);
         _container = new GameObject("Container").transform;
 
-        chunk = new Chunk();
-        AssetLoader.BeginLoadingAssets(chunk); // routine to load asset library
-        tileMap.Blit(chunk); // copy multi chunks to each visible tile position
-
         sw.Stop();
-        Debug.Log($"world map took {sw.ElapsedMilliseconds}ms to generate");
+        LogConstructionTime(sw.ElapsedMilliseconds);
+        return;
+
+        void LogConstructionTime(long elapsedMilliseconds) {
+            Debug.Log($"World Map generated in {elapsedMilliseconds} ms");
+        }
     }
 
     public void LaunchEditor() {
-        Debug.Log("launching editor");
-        var sw = new Stopwatch();
-        sw.Start();
+        var sw = Stopwatch.StartNew();
 
-        // set up the editor - load the initial preset template
-        editor = VoroEditor.Instance;
-        editor.RunDemoCamera(0.2f); // auto fly around the world, 20% speed
-        // loading a preset populates the editor with its layer+node content
-        editor.LoadPreset(1); // default preset no.1
-        editor.ShowWindow(); // open the editor window to display the preset
+        _editor = new VoroEditor();
+        _userInterface = new UserInterfaceMediator(_editor);
+        var preset = 1;
+        _userInterface.Initialize(preset);
+        _userInterface.OpenWindow();
 
         sw.Stop();
-        Debug.Log($"took {sw.ElapsedMilliseconds}ms to launch the editor");
+        LogConstructionTime(sw.ElapsedMilliseconds);
+        return;
+
+        void LogConstructionTime(long elapsedMilliseconds) {
+            Debug.Log($"Editor launched in {elapsedMilliseconds} ms");
+        }
     }
 
     public void RunLifeCycleOnce() {
@@ -56,7 +56,7 @@ public class WorldController : MonoBehaviour {
 
         #region Editor
 
-        editor.CreateDiagram(out var dg); // turn the layers into the compute type
+        _editor.CreateDiagram(out var dg); // turn the layers into the compute type
 
         #endregion
 
@@ -64,7 +64,7 @@ public class WorldController : MonoBehaviour {
 
         // compute the default terrain
         var compute = new VoroCompute();
-        compute.ComputeDiagramMap(tileMap, dg, out var result); // dispatch
+        compute.ComputeDiagramMap(_tileMap, dg, out var result); // dispatch
 
         #endregion
 
@@ -86,5 +86,19 @@ public class WorldController : MonoBehaviour {
         sw.Stop();
         Debug.Log($"took {sw.ElapsedMilliseconds}ms to run");
     }
+
+    #region Grid System
+
+    GridSystemMediator _gridSystem;
+    TileMap _tileMap;
+
+    #endregion
+
+    #region User Interface
+
+    UserInterfaceMediator _userInterface;
+    VoroEditor _editor;
+
+    #endregion
 }
 }

@@ -1,6 +1,7 @@
 using System.Diagnostics;
 using System.Linq;
 using UnityEngine;
+using VoroSystem.GridSystem;
 using Debug = UnityEngine.Debug;
 
 namespace VoroSystem {
@@ -45,7 +46,7 @@ public class VoroCompute {
         return;
 
         (ComputeBuffer cb, int size) ToComputeBuffer() {
-            var data = tileMap.AsPoints()
+            var data = tileMap.GetPoints()
                 .Select(pt => new PointData { p = pt.Position, id = pt.Id, col = pt.Color })
                 .ToArray();
             var stride = sizeof(float) * 3 + sizeof(int) + sizeof(float) * 3;
@@ -54,6 +55,5 @@ public class VoroCompute {
             return (buffer, data.Length);
         }
     }
-
 }
 }

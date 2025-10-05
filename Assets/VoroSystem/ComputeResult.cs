@@ -1,5 +1,6 @@
 using UnityEngine;
 using VoroSystem.Extensions;
+using VoroSystem.GridSystem;
 
 namespace VoroSystem {
 /// <summary>
@@ -18,7 +19,6 @@ public class ComputeResult {
         for (var i = 0; i < bufferPoints.Length; ++i) {
             var data = bufferPoints[i];
             Points[i] = data.ToCell();
-
         }
     }
 }

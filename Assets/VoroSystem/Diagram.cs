@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using System.Diagnostics;
-using VoroSystem.Interface;
+using VoroSystem.UserInterface;
 using Debug = UnityEngine.Debug;
 
 namespace VoroSystem {
@@ -11,7 +11,7 @@ public class Diagram {
     /// </summary>
     public readonly List<Graph> Graphs;
 
-    public Diagram(List<LayerData> layerContent) {
+    public Diagram(List<Layer> layerContent) {
         Debug.Log("Creating Diagram");
         var sw = new Stopwatch();
         sw.Start();
