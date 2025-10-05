@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace VoroSystem {
+namespace VoroSystem.Terrain {
 /// <summary>
 ///     base class for an effect, which is a terrain generation function
 /// </summary>

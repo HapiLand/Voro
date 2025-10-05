@@ -3,7 +3,7 @@ using System.Diagnostics;
 using VoroSystem.UserInterface;
 using Debug = UnityEngine.Debug;
 
-namespace VoroSystem {
+namespace VoroSystem.Terrain {
 public class Diagram {
     /// <summary>
     ///     each graph contains a collection of effects

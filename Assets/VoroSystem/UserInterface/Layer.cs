@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using VoroSystem.UserInterface.Interface;
 
 namespace VoroSystem.UserInterface {
@@ -10,6 +11,10 @@ public class Layer : IContainer<Node>, IOrderedItem, ISelectable {
     public string Name { get; }
 
     public Node[] Container { get; set; }
+
+    public IEnumerable<Node> GetItems() {
+        throw new NotImplementedException();
+    }
 
     public void AddToContainer(Node data) {
         throw new NotImplementedException();

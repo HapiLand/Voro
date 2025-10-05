@@ -4,7 +4,7 @@ using UnityEngine;
 using VoroSystem.GridSystem;
 using Debug = UnityEngine.Debug;
 
-namespace VoroSystem {
+namespace VoroSystem.Terrain {
 public class VoroCompute {
     /// <summary>
     ///     carries out the voro compute to produce data to generate terrain
@@ -12,7 +12,7 @@ public class VoroCompute {
     /// <param name="tileMap">all the point data for the world to find height at</param>
     /// <param name="dg">diagram which contains all the layers and effects</param>
     /// <param name="result">computed output</param>
-    public void ComputeDiagramMap(TileMap tileMap, Diagram dg, out ComputeResult result) {
+    public static void ComputeDiagramMap(TileMap tileMap, Diagram dg, out ComputeResult result) {
         #region ComputeShader Dispatching
 
         Debug.Log("Computing Diagram Map");
@@ -24,8 +24,7 @@ public class VoroCompute {
 
         // each graph is a layer of terrain generation, storing a collection of effects
         foreach (var graph in dg.Graphs) {
-            for (var i = 0; i < graph.Effects.Count; i++) {
-                var effect = graph.Effects[i];
+            foreach (var effect in graph.Effects) {
                 // dispatch the effect for every point
                 effect.Dispatch(tuple.cb, tuple.size);
             }
@@ -49,11 +48,15 @@ public class VoroCompute {
             var data = tileMap.GetPoints()
                 .Select(pt => new PointData { p = pt.Position, id = pt.Id, col = pt.Color })
                 .ToArray();
-            var stride = sizeof(float) * 3 + sizeof(int) + sizeof(float) * 3;
+            var stride = CalculateStride();
             var buffer = new ComputeBuffer(data.Length, stride);
             buffer.SetData(data);
             return (buffer, data.Length);
         }
+    }
+
+    int CalculateStride() {
+        return sizeof(float) * 3 + sizeof(int) + sizeof(float) * 3;
     }
 }
 }

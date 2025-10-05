@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using VoroSystem.UserInterface;
 
-namespace VoroSystem {
+namespace VoroSystem.Terrain {
 public class Graph {
     public List<EffectBase> Effects;
     public string Name;
@@ -12,7 +12,7 @@ public class Graph {
         Name = layer.Name;
 
         Effects = new List<EffectBase>();
-        foreach (var node in layer.Content) {
+        foreach (var node in layer.GetItems()) {
             switch (node.Name) {
             case "SetElevation":
                 // Effects.Add(new SetElevation());

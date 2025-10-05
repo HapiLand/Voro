@@ -1,7 +1,7 @@
 using System.Diagnostics;
 using Debug = UnityEngine.Debug;
 
-namespace VoroSystem {
+namespace VoroSystem.Terrain {
 public static class MeshBuilder {
     /// <summary>
     ///     produce Vertex data out of the computed data

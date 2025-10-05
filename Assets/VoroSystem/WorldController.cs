@@ -1,6 +1,7 @@
 using System.Diagnostics;
 using UnityEngine;
 using VoroSystem.GridSystem;
+using VoroSystem.Terrain;
 using VoroSystem.UserInterface;
 using Debug = UnityEngine.Debug;
 
@@ -79,7 +80,7 @@ public class WorldController : MonoBehaviour {
         #region Scene
 
         // the mesh data is used to create GameObjects
-        WorldBuilder.GenerateWorldMap(_container, meshData); // instances the geometry where it should be
+        _container.GenerateWorldMap(meshData); // instances the geometry where it should be
 
         #endregion
 

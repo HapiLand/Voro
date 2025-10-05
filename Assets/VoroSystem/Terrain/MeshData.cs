@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace VoroSystem {
+namespace VoroSystem.Terrain {
 public class MeshData {
     public (Mesh mesh, Vector3 pos, Color col)[] Data;
 
@@ -8,7 +8,7 @@ public class MeshData {
         Data = new (Mesh, Vector3, Color)[vtxInfo.Vertices.Length];
         // for every vertex, load the .fbx instance that matches its ID
         for (var i = 0; i < Data.Length; i++) {
-            var mesh = AssetLoader.GetMeshPiece(vtxInfo.IDs[i]);
+            var mesh = AssetLoader.GetMeshPiece(vtxInfo.Pieces[i]);
             var pos = vtxInfo.Vertices[i];
             var col = vtxInfo.Colors[i];
             Data[i] = (mesh, pos, col);

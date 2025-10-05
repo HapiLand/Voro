@@ -4,17 +4,17 @@ using UnityEngine;
 using VoroSystem.UserInterface;
 using Debug = UnityEngine.Debug;
 
-namespace VoroSystem {
+namespace VoroSystem.Terrain {
 /// <summary>
 ///     sets height to a constant value, a flat plane
 /// </summary>
 public class SetElevation : EffectBase {
-    readonly float Amount;
-    readonly EffectShaderWrapper ShaderWrapper;
+    readonly float _amount;
+    readonly EffectShaderWrapper _shaderWrapper;
 
     public SetElevation(Control[] data) {
-        Amount = data[0].Value; // set the data value for the effect
-        ShaderWrapper = new EffectShaderWrapper("SetElevation"); // gets the compute shader for the effect
+        _amount = data[0].Value; // set the data value for the effect
+        _shaderWrapper = new EffectShaderWrapper("SetElevation"); // gets the compute shader for the effect
         Debug.Log("Created new SetElevation Effect");
     }
 
@@ -27,13 +27,13 @@ public class SetElevation : EffectBase {
         {
             { "points", buffer }, // compute buffer stores points from the diagram map
             { "point_count", bufferSize }, // number of points in the map
-            { "amount", Amount } // the parameter for the function to do its thing todo as cbuffer
+            { "amount", _amount } // the parameter for the function to do its thing todo as cbuffer
         };
 
         Debug.Log("Dispatching SetElevation");
         var sw = new Stopwatch();
         sw.Start();
-        ShaderWrapper.Dispatch(parameters, bufferSize);
+        _shaderWrapper.Dispatch(parameters, bufferSize);
         sw.Stop();
         Debug.Log($"took {sw.ElapsedMilliseconds}ms to dispatch");
     }

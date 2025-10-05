@@ -2,7 +2,7 @@ using UnityEngine;
 using VoroSystem.Extensions;
 using VoroSystem.GridSystem;
 
-namespace VoroSystem {
+namespace VoroSystem.Terrain {
 /// <summary>
 ///     dispatching the shader to compute the diagram map produces this object
 /// </summary>
