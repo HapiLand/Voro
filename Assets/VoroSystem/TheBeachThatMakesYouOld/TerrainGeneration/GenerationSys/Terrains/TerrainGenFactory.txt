@@ -1,0 +1,9 @@
+using VoroSystem.TerrainGeneration.GenerationSys.Diagrams;
+
+namespace VoroSystem.TerrainGeneration.GenerationSys.Terrains {
+public static class TerrainGenFactory {
+    public static TerrainGen CreateTerrainGen(Diagram dg) {
+        return new TerrainGen(dg);
+    }
+}
+}

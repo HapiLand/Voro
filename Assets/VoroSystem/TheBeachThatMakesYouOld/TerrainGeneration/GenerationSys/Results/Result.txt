@@ -1,0 +1,85 @@
+using System.Runtime.InteropServices;
+using UnityEngine;
+using VoroSystem.WorldGrid;
+
+namespace VoroSystem.TerrainGeneration.GenerationSys.Results {
+/// <summary>
+///     each Chunk initializes a new Result so the Points which are to be Computed can be made into a Buffer
+/// </summary>
+public class Result : IResult {
+    ITile _tile;
+    Vertex[] _vertices;
+    public ComputeBuffer PointBuffer { get; set; }
+
+    public void WriteToTile() {
+        for (var i = 0; i < _vertices.Length; i++) {
+            var vertex = _vertices[i];
+            var height = vertex.Position.y;
+
+            // get the point inside the Chunk
+            var chunkPoint = _tile.Chunk.Cells[i];
+            var newPosition = chunkPoint.WorldPosition;
+            // apply the new height value
+            newPosition.y = height;
+
+            // write the value back to the Chunk
+            Debug.Break();
+            // chunkPoint.Position = newPosition;
+        }
+    }
+
+    /// <summary>
+    ///     initializes the Result to store values of the Chunk
+    /// </summary>
+    public void Initialize(ITile tile) {
+        _tile = tile;
+
+        // copy the Points into the Result
+        // this is so a PointBuffer can be created
+        _vertices = new Vertex[tile.Chunk.Cells.Count];
+        for (var i = 0; i < _vertices.Length; ++i) {
+            var chunkPoint = tile.Chunk.Cells[i];
+
+            // set the position of the vertex to be the location the Chunk Point is in the world
+            var vertexPosition = chunkPoint.WorldPosition;
+            _vertices[i] = new Vertex(vertexPosition);
+        }
+
+        // create the PointBuffer by writing all the vertices to it
+        GenerateBuffer();
+    }
+
+    public void GenerateBuffer() {
+        // calculate the size of the Vertex struct
+        var stride = GetStride<Vertex>();
+
+        int GetStride<T>() {
+            return Marshal.SizeOf(typeof(T));
+        }
+
+        // create and set the ComputeBuffer to store the vertices
+        PointBuffer = new ComputeBuffer(_vertices.Length, stride);
+        PointBuffer.SetData(_vertices);
+    }
+
+    /// <summary>
+    ///     read the buffer so its contents can be written into the Result
+    /// </summary>
+    public void ReadBuffer() {
+        var resultVertices = new Vertex[_vertices.Length];
+        PointBuffer.GetData(resultVertices);
+
+        // overwrite the vertices with the computed value
+        _vertices = resultVertices;
+    }
+
+
+    struct Vertex {
+        public readonly Vector3 Position;
+
+        public Vertex(Vector3 position) {
+            Position = position;
+        }
+    }
+}
+}

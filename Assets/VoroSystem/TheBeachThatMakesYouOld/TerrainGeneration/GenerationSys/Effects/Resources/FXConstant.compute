@@ -1,0 +1,39 @@
+#pragma kernel Effect
+
+struct point_data
+{
+    float3 p;
+};
+
+RWStructuredBuffer<point_data> points;
+uint point_count;
+
+cbuffer FXParameters
+{
+    bool overwrite_existing;
+    float amount;
+}
+
+[numthreads(64,1,1)]
+void Effect(uint3 id : SV_DispatchThreadID)
+{
+    uint index = id.y * 8 + id.x;
+    if (index >= point_count)
+    {
+        return;
+    }
+
+    // read this point to find its current height
+    point_data pnt = points[index];
+    float current_height = pnt.p.y;
+
+    // use the parameters to control how the effect behaves
+    // a constant height is computed, the same height will be set for all points
+    // if overwrite existing, the result will flatten the terrain
+    // else, the value is added to the current height so it is raised
+    float height = overwrite_existing ? amount : current_height + amount;
+
+    // write the calculated value to the point to complete the function
+    pnt.p.y = height;
+    points[index] = pnt;
+}

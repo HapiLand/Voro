@@ -1,0 +1,10 @@
+namespace VoroSystem.TerrainGeneration.GenerationSys {
+public interface IGenerationSystem {
+    /// <summary>
+    ///     every Effect is used on every Tile to create a Result
+    ///     the Result is used to instance objects in the scene
+    ///     the object that gets added to the scene that has the 3D geometry is the landscape
+    /// </summary>
+    void GenerateDiagramAndComputeResult();
+}
+}

@@ -1,0 +1,13 @@
+using System.Collections.Generic;
+using VoroSystem.TerrainGeneration.GenerationSys.Diagrams;
+using VoroSystem.TerrainGeneration.GenerationSys.Results;
+
+namespace VoroSystem.TerrainGeneration.GenerationSys.Terrains {
+/// <summary>
+///     interface for the terrain generation system
+/// </summary>
+public interface ITerrainGen {
+    Diagram Diagram { get; set; }
+    List<Result> Generate();
+}
+}

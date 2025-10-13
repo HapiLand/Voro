@@ -1,0 +1,30 @@
+using System.Collections.Generic;
+using UnityEngine;
+using VoroSystem.TerrainGeneration.GenerationSys.Diagrams;
+using VoroSystem.TerrainGeneration.GenerationSys.Results;
+
+namespace VoroSystem.TerrainGeneration.GenerationSys.Terrains {
+public class TerrainGen : ITerrainGen {
+    public TerrainGen(Diagram diagram) {
+        Diagram = diagram;
+    }
+
+    public Diagram Diagram { get; set; }
+
+    public List<Result> Generate() {
+        Debug.Log("called TerrainGeneration.Generate");
+
+        // compute the Diagram by providing it with all the Graphs and all the Chunks
+        // every Chunk contains the Points that shall be computed to find their elevation
+        // every Effect within each Graph carries out its function for every Chunk
+        var computedResults = Diagram.Compute(
+            Diagram.GetGraphs(),
+            Diagram.GetTiles()
+        );
+
+        // the computed Results must be reconstructed as instantiated objects
+        // this represents the results as a 3D landscape
+        return computedResults;
+    }
+}
+}

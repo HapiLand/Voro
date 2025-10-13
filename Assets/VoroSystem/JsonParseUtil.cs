@@ -8,10 +8,10 @@ public static class JsonParseUtil {
     /// <summary>
     ///     convert JArray to array of type T
     /// </summary>
-    /// <param name="array"></param>
-    /// <param name="factory"></param>
-    /// <typeparam name="T"></typeparam>
-    /// <returns></returns>
+    /// <param name="array"> </param>
+    /// <param name="factory"> </param>
+    /// <typeparam name="T"> </typeparam>
+    /// <returns> </returns>
     public static T[] ParseArray<T>([CanBeNull] JArray array, Func<JToken, T> factory) {
         if (array == null || array.Count == 0) {
             Debug.LogError("Array is empty");
@@ -29,11 +29,11 @@ public static class JsonParseUtil {
     /// <summary>
     ///     retrieves a property from the JToken, convert it to a value
     /// </summary>
-    /// <param name="token"></param>
-    /// <param name="propertyName"></param>
-    /// <param name="defaultValue"></param>
-    /// <typeparam name="TValue"></typeparam>
-    /// <returns></returns>
+    /// <param name="token"> </param>
+    /// <param name="propertyName"> </param>
+    /// <param name="defaultValue"> </param>
+    /// <typeparam name="TValue"> </typeparam>
+    /// <returns> </returns>
     public static TValue GetValue<TValue>(JToken token, string propertyName, TValue defaultValue = default!) {
         var propertyToken = token[propertyName];
         if (propertyToken == null) {

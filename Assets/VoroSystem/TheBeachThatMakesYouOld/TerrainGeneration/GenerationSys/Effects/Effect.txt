@@ -1,0 +1,154 @@
+using System.Collections.Generic;
+using UnityEngine;
+using VoroSystem.TerrainGeneration.GenerationSys.Results;
+
+namespace VoroSystem.TerrainGeneration.GenerationSys.Effects {
+public class ConstantEffect : EffectBase {
+    float _amount;
+    bool _overwriteExisting;
+
+    public ConstantEffect(ControlContainer controls) : base(controls) {
+        // set the EffectCompute to use the shader for this Effect
+        ShaderCompute = new EffectCompute("FXConstant");
+
+        // set the parameters
+        SetShaderParameters();
+    }
+
+    public override NodeType Type => NodeType.Constant;
+
+    public override void SetShaderParameters() {
+        _overwriteExisting = (bool)Controls.GetControl("Overwrite Existing").Value;
+        _amount = (float)Controls.GetControl("Amount").Value;
+    }
+
+    public override void Dispatch(Result result) {
+        // set the PointBuffer in the shader
+        base.Dispatch(result);
+
+        // set parameters for the shader
+        var parameters = new Dictionary<string, object>
+        {
+            { "overwrite_existing", _overwriteExisting },
+            { "amount", _amount }
+        };
+
+        // execute the Shader to perform the generation function
+        ShaderCompute.Dispatch(parameters, result.PointBuffer.count);
+        Debug.Log("dispatch success");
+    }
+}
+
+public class SlopeEffect : EffectBase {
+    float _direction;
+    float _steepness;
+
+    public SlopeEffect(ControlContainer controls) : base(controls) {
+        // set the EffectCompute to use the shader for this Effect
+        ShaderCompute = new EffectCompute("FXSlope");
+
+        // set the parameters
+        SetShaderParameters();
+    }
+
+    public override NodeType Type => NodeType.Slope;
+
+    public override void SetShaderParameters() {
+        _direction = (float)Controls.GetControl("Direction").Value;
+        _steepness = (float)Controls.GetControl("Steepness").Value;
+    }
+
+    public override void Dispatch(Result result) {
+        // set the PointBuffer in the shader
+        base.Dispatch(result);
+
+        // set parameters for the shader
+        var parameters = new Dictionary<string, object>
+        {
+            { "direction", _direction },
+            { "steepness", _steepness }
+        };
+
+        // execute the Shader to perform the generation function
+        ShaderCompute.Dispatch(parameters, result.PointBuffer.count);
+        Debug.Log("dispatch success");
+    }
+}
+
+public class NoiseEffect : EffectBase {
+    float _size;
+    float _steepness;
+    int _style; // "Jaggy", "Smooth", "Cells", "Wavy"
+
+    public NoiseEffect(ControlContainer controls) : base(controls) {
+        // set the EffectCompute to use the shader for this Effect
+        ShaderCompute = new EffectCompute("FXNoise");
+
+        // set the parameters
+        SetShaderParameters();
+    }
+
+    public override NodeType Type => NodeType.Noise;
+
+    public override void SetShaderParameters() {
+        _size = (float)Controls.GetControl("Size").Value;
+        _steepness = (float)Controls.GetControl("Steepness").Value;
+
+        var tuple = ((int, string[]))Controls.GetControl("Style").Value;
+        _style = tuple.Item1;
+    }
+
+    public override void Dispatch(Result result) {
+        // set the PointBuffer in the shader
+        base.Dispatch(result);
+
+        // set parameters for the shader
+        var parameters = new Dictionary<string, object>
+        {
+            { "size", _size },
+            { "steepness", _steepness },
+            { "style", _style }
+        };
+
+        // execute the Shader to perform the generation function
+        ShaderCompute.Dispatch(parameters, result.PointBuffer.count);
+        Debug.Log("dispatch success");
+    }
+}
+
+public class TerraceEffect : EffectBase {
+    float _randomness;
+    float _stepSize;
+
+    public TerraceEffect(ControlContainer controls) : base(controls) {
+        // set the EffectCompute to use the shader for this Effect
+        ShaderCompute = new EffectCompute("FXTerrace");
+
+        // set the parameters
+        SetShaderParameters();
+    }
+
+    public override NodeType Type => NodeType.Terrace;
+
+    public override void SetShaderParameters() {
+        _randomness = (float)Controls.GetControl("Randomness").Value;
+        _stepSize = (float)Controls.GetControl("Step Size").Value;
+    }
+
+    public override void Dispatch(Result result) {
+        // set the PointBuffer in the shader
+        base.Dispatch(result);
+
+        // set parameters for the shader
+        var parameters = new Dictionary<string, object>
+        {
+            { "randomness", _randomness },
+            { "step_size", _stepSize }
+        };
+
+        // execute the Shader to perform the generation function
+        ShaderCompute.Dispatch(parameters, result.PointBuffer.count);
+        Debug.Log("dispatch success");
+    }
+}
+}

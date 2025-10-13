@@ -1,0 +1,20 @@
+using VoroSystem.EditorGraph.GraphSys.Nodes;
+
+namespace VoroSystem.TerrainGeneration.GenerationSys.Effects {
+public static class EffectFactory {
+    /// <summary>
+    ///     converts a Node into the Effect.
+    ///     Effect contains the same data value as the Node
+    /// </summary>
+    public static EffectBase CreateEffect(Node node) {
+        return node.Type switch
+        {
+            NodeType.Constant => new ConstantEffect(node.Controls),
+            NodeType.Slope => new SlopeEffect(node.Controls),
+            NodeType.Terrace => new TerraceEffect(node.Controls),
+            NodeType.Noise => new NoiseEffect(node.Controls),
+            _ => null
+        };
+    }
+}
+}

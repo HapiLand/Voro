@@ -1,0 +1,13 @@
+using UnityEngine;
+using VoroSystem.WorldGrid;
+
+namespace VoroSystem.TerrainGeneration.GenerationSys.Results {
+public static class ResultFactory {
+    public static Result PrepareNewResult(ITile tile) {
+        Debug.Log($"creating a new Result from Chunk '{tile}'");
+        var rs = new Result();
+        rs.Initialize(tile);
+        return rs;
+    }
+}
+}

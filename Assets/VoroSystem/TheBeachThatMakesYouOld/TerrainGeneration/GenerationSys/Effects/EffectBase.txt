@@ -1,0 +1,56 @@
+using System.Collections.Generic;
+using UnityEngine;
+using VoroSystem.TerrainGeneration.GenerationSys.Results;
+
+namespace VoroSystem.TerrainGeneration.GenerationSys.Effects {
+/// <summary>
+///     foundation class for every Effect
+/// </summary>
+public abstract class EffectBase {
+    public bool BufferSet;
+
+    /// <summary>
+    ///     control data to set shader parameters
+    /// </summary>
+    protected ControlContainer Controls;
+
+    protected EffectCompute ShaderCompute;
+
+    protected EffectBase(ControlContainer controls) {
+        Controls = controls;
+        OnCreated();
+    }
+
+    /// <summary>
+    ///     type of the Effect
+    /// </summary>
+    public abstract NodeType Type { get; }
+
+    public virtual void SetShaderParameters() { }
+    public virtual void Dispatch(Result result) { }
+
+    void OnCreated() {
+        Debug.Log($"        new Effect '{Type}' with {Controls.Items.Count} parameters");
+        // ControlData.ForEach(ctrl => Debug.Log($"                '{ctrl.Name}' = {ctrl.Value}"));
+    }
+
+    /// <summary>
+    ///     dispatches ShaderCompute on the Result
+    /// </summary>
+    /// <param name="result"> </param>
+    public virtual void SetPointBuffer(Result result) {
+        if (BufferSet) {
+            // dont set the buffer twice
+            return;
+        }
+
+        // set the PointBuffer for the Result
+        ShaderCompute.SetPointBuffer(new Dictionary<string, object>
+        {
+            { "points", result.PointBuffer },
+            { "point_count", result.PointBuffer.count }
+        });
+        BufferSet = true;
+    }
+}
+}

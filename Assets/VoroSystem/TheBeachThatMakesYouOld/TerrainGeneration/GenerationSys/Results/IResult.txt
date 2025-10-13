@@ -1,0 +1,12 @@
+using UnityEngine;
+using VoroSystem.WorldGrid;
+
+namespace VoroSystem.TerrainGeneration.GenerationSys.Results {
+public interface IResult {
+    ComputeBuffer PointBuffer { get; set; }
+    void Initialize(ITile tile);
+    void GenerateBuffer();
+    void ReadBuffer();
+    void WriteToTile();
+}
+}

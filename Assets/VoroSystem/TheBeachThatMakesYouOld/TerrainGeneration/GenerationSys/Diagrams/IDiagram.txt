@@ -1,0 +1,18 @@
+using System;
+using System.Collections.Generic;
+using VoroSystem.EditorGraph.GraphSys.Graphs;
+using VoroSystem.TerrainGeneration.GenerationSys.Results;
+using VoroSystem.WorldGrid;
+
+namespace VoroSystem.TerrainGeneration.GenerationSys.Diagrams {
+/// <summary>
+///     used in VoroCompute to generate a result
+/// </summary>
+public interface IDiagram : GraphEditor.IContainer<Graph> {
+    IWorld Map { get; set; }
+    Func<List<Graph>, List<ITile>, List<Result>> Compute { get; set; }
+    List<Graph> GetGraphs();
+    List<ITile> GetTiles();
+    void ForEachTile(Action<ITile> action);
+}
+}
