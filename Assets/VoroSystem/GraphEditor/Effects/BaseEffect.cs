@@ -54,6 +54,7 @@ public abstract class BaseEffect : IEffect {
             Debug.Log("Dispatching Shader");
         }
 
+        return null;
         Debug.Log($"Effect '{Name}' generated a new Result");
         return Result.CreateTileResult(tile);
     }
