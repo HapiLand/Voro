@@ -1,14 +1,13 @@
 using UnityEngine;
 using VoroSystem.GraphEditor;
-using VoroSystem.GraphEditor.UserInterface;
+using VoroSystem.Terrain.Overseer;
 using VoroSystem.WorldGrid;
 
 namespace VoroSystem {
 [ExecuteAlways]
 public class VoroSystemMediator : MonoBehaviour {
     IDesigner _graphDesigner;
-
-    // ITerrainGenSystem _terrainDesigner;
+    IWorldGenerationOverseer _terrainWorldGenerationOverseer;
     IWorld _worldMap;
 
     public void InitializeMapDesigner() {
@@ -29,19 +28,18 @@ public class VoroSystemMediator : MonoBehaviour {
         _graphDesigner = gameObject.AddComponent<GraphDesigner>();
     }
 
-    /*
-    public void InitializeTerrainDesigner() {
+    public void InitializeTerrainGenerator() {
         if (!GetComponent<WorldMap>() || !GetComponent<GraphDesigner>()) {
-            Debug.LogError("MapDesigner or GraphDesigner not found");
+            Debug.LogError("WorldMap or GraphDesigner not found");
             return;
         }
 
-        if (GetComponent<TerrainDesigner>()) {
-            Debug.Log("TerrainDesigner component already exists");
+        if (GetComponent<WorldGenerationOverseer>()) {
+            Debug.Log("Generator component already exists");
             return;
         }
 
-        _terrainDesigner = gameObject.AddComponent<TerrainDesigner>();
-    }*/
+        _terrainWorldGenerationOverseer = gameObject.AddComponent<WorldGenerationOverseer>();
+    }
 }
 }

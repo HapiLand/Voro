@@ -1,27 +1,14 @@
 using System;
 using UnityEngine;
+using VoroSystem.WorldGrid.Grids;
 
 namespace VoroSystem.WorldGrid {
-public interface IMap<T> where T : ITile {
-    T this[int x, int y] { get; set; }
-    T this[int index] { get; }
-    Vector2Int Size { get; }
-    void ForEach(Action<T> action);
-}
-
-public interface IWorld : IMap<ITile> {
-    bool HasMap { get; set; }
-    void GenerateMapArray();
-    void SetMapSize(int x, int y);
-    void InstantiateMap();
-}
-
 [ExecuteAlways]
 public class WorldMap : MonoBehaviour, IWorld {
-    #region Map Size
-
     [SerializeField] int _sizeX = 1;
     [SerializeField] int _sizeY = 1;
+
+    ITile[,] _tiles;
 
     int WorldMapSizeX {
         get => _sizeX;
@@ -34,13 +21,6 @@ public class WorldMap : MonoBehaviour, IWorld {
     }
 
     public Vector2Int Size => new(WorldMapSizeX, WorldMapSizeY);
-
-    #endregion
-
-
-    #region Tiles
-
-    ITile[,] _tiles;
 
     public ITile this[int x, int y] {
         get => _tiles[x, y];
@@ -79,7 +59,8 @@ public class WorldMap : MonoBehaviour, IWorld {
 
                 var worldPosition = new Vector3(x, 0, y);
                 Debug.LogWarning($"Creating new WorldMap.Tile at '{worldPosition.x:F2} x {worldPosition.y:F2}'");
-                this[x, y] = new Tile(worldPosition);
+                var newChunk = new ITile.TileChunk(0);
+                this[x, y] = new Tile(x, y, worldPosition,newChunk);
                 HasMap = true;
             }
         }
@@ -116,7 +97,5 @@ public class WorldMap : MonoBehaviour, IWorld {
     }
 
     public bool HasMap { get; set; }
-
-    #endregion
 }
 }

@@ -18,10 +18,10 @@ public class VoroSystemMediatorUnityEditor : UnityEditor.Editor {
         if (GUILayout.Button("New Graph Designer")) {
             _mediator.InitializeGraphDesigner();
         }
-        //
-        // if (GUILayout.Button("New Terrain Designer")) {
-        //     _mediator.InitializeTerrainDesigner();
-        // }
+
+        if (GUILayout.Button("New Terrain Generator")) {
+            _mediator.InitializeTerrainGenerator();
+        }
     }
 }
 }

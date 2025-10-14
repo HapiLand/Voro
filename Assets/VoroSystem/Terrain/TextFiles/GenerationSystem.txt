@@ -1,0 +1,33 @@
+using VoroSystem.GraphEditor;
+using VoroSystem.TerrainGeneration.GenerationSys.Diagrams;
+using VoroSystem.TerrainGeneration.GenerationSys.Terrains;
+using VoroSystem.WorldGrid;
+
+namespace VoroSystem.TerrainGeneration.GenerationSys {
+/// <summary>
+///     handle the generation of the terrian, Graph and Chunk used to generate
+/// </summary>
+public class GenerationSystem : IGenerationSystem {
+    readonly IGraphEditorSystem _graphSys;
+    readonly IWorld _world;
+
+    public GenerationSystem(IGraphEditorSystem graphSystem, IWorld world) {
+        _graphSys = graphSystem;
+        _world = world;
+    }
+
+    /// <summary>
+    ///     every Effect is used on every Tile to create a Result
+    ///     the Result is used to instance objects in the scene
+    ///     the object that gets added to the scene that has the 3D geometry is the landscape
+    /// </summary>
+    public void GenerateDiagramAndComputeResult() {
+        // execute the TerrainGeneration to make a Result
+        var terrainGen = TerrainGenFactory.CreateTerrainGen(diagram);
+        var result = terrainGen.Generate();
+
+        // convert each computed Result back into the Chunk that it originally was
+        result.ForEach(r => r.WriteToTile());
+    }
+}
+}
