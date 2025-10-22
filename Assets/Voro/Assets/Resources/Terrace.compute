@@ -1,0 +1,119 @@
+#pragma kernel Effect
+
+struct vertex
+{
+    float2 position;
+    float height;
+};
+
+RWStructuredBuffer<vertex> vertex_buffer;
+uint vertex_count;
+
+cbuffer fx_params
+{
+    float stepsize;
+    float randomness;
+    int operation; // Set, Subtract, Add, Multiply
+}
+
+float Solve(float2 p)
+{
+    float direction = 0.0;
+    float rad = radians(direction);
+    float2 d = float2(cos(rad), sin(rad));
+    float result = dot(p, d);
+
+    float div = result / stepsize;
+    float flat = floor(div);
+    uint seed = 0;
+    // Random.InitState(Mathf.RoundToInt(flat) + seed);
+    float val = 0.0; // var val = Random.value;
+    // val = remap(val, Data.minStepSize, Data.maxStepSize) * Data.iterations;
+    float min_step = 0.0;
+    float max_step = 1.0;
+    uint iterations = 1;
+    val = (val * (max_step - min_step) + min_step) * iterations;
+
+    // find the final value of the terrace
+    float level = (flat + val) * stepsize;
+
+    // level /= 2.0;
+    return level;
+    /*
+    var index = voroDiagram.PointMap[i];
+            var pointPosition = voroDiagram.Points[index];
+
+            // do compute
+            var radians = Data.direction * Mathf.Deg2Rad;
+            var axis = new Vector2(Mathf.Cos(radians), Mathf.Sin(radians));
+            var terraceHeight = Vector2.Dot(new Vector2(pointPosition.x, pointPosition.z), axis);
+
+            var div = terraceHeight / Data.stepScale;
+            var flat = Mathf.Floor(div);
+            var seed = 0;
+            Random.InitState(Mathf.RoundToInt(flat) + seed);
+            var val = Random.value;
+            val = remap(val, Data.minStepSize, Data.maxStepSize) * Data.iterations;
+
+            float remap(float value, float newMin, float newMax) {
+                // remap a value from an old range of [0,1] into a new range [min,max]
+                // val = 0.5 | newMin = 10 | newMax = 20
+                // result = 15
+                // Debug.Log(fit01(0.5f, 10f, 20f));
+                return value * (newMax - newMin) + newMin;
+            }
+
+            // find the final value of the terrace
+            var level = (flat + val) * Data.stepScale;
+
+            level /= 2f;
+            pointPosition.y += level;
+
+            // write new value back to the diagram
+            voroDiagram.AppendComputeToDiagram(index, pointPosition);
+     */
+}
+
+vertex ApplyOperation(vertex vtx, float solved)
+{
+    switch (operation)
+    {
+    case 0:
+        // Set - Overwrites any existing height
+        vtx.height = solved;
+        break;
+
+    case 1:
+        // Subtract - Reduces existing height by solved
+        vtx.height -= solved;
+        break;
+
+    case 2:
+        // Add - Increases existing height by solved
+        vtx.height += solved;
+        break;
+
+    case 3:
+        // Multiply - Scales existing height by solved
+        vtx.height *= solved;
+        break;
+
+    default: return vtx;
+    }
+    return vtx;
+}
+
+[numthreads(64,1,1)]
+void Effect(uint3 id : SV_DispatchThreadID)
+{
+    uint index = id.y * 8 + id.x;
+    if (index >= vertex_count)
+    {
+        return;
+    }
+    vertex vtx = vertex_buffer[index];
+
+    float solved_height = Solve(vtx.position); // calculate height at this position
+    vtx = ApplyOperation(vtx, solved_height);
+    vertex_buffer[index] = vtx; // return
+}
