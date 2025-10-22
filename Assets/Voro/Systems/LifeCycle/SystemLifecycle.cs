@@ -1,4 +1,4 @@
-namespace Voro.VoroSystem.Template.Internal {
+namespace Voro.Systems.LifeCycle {
 public abstract class SystemLifecycle {
     public void Run() {
         Initialize();

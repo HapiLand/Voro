@@ -6,13 +6,13 @@ namespace Voro.Core.VoroSystem {
 class VoroSystem {
     Environment _environment;
 
-    public void CreateEnvironment(Transform parent) {
+    /*public void CreateEnvironment(Transform parent) {
         _environment = new Environment(parent);
-    }
+    }*/
 
-    public void CreateWorld() {
+    /*public void CreateWorld() {
         _environment.CreateWorld();
-    }
+    }*/
 
     public void LoadConfiguration() {
         _environment.CreateTerrainBuilder();
