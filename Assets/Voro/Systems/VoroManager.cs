@@ -6,8 +6,8 @@ using Voro.Systems.LifeCycle;
 namespace Voro.Systems {
 class VoroManager : SystemLifecycle {
     readonly Transform _root;
-    VoroSystem _system;
     LandscapeSystem _landscapeSystem;
+    VoroSystem _system;
 
     public VoroManager(Transform root) {
         _root = root;
@@ -19,8 +19,6 @@ class VoroManager : SystemLifecycle {
         _system = new VoroSystem();
         Debug.Log("[Voro System] Creating Landscape System");
         _landscapeSystem = new LandscapeSystem();
-        // _system.CreateEnvironment(_root);
-        // _system.CreateWorld();
         // Debug.Log("[Voro System] Loading Configuration");
         // _system.LoadConfiguration();
     }

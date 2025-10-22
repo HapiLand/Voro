@@ -7,8 +7,8 @@ namespace Voro.Core.VoroSystem {
 public class VoroUnityComponent : MonoBehaviour {
     VoroManager _lifecycle;
     public static VoroUnityComponent Instance { get; private set; }
-    
-    
+
+
     void Awake() {
         if (Instance != null) {
             Destroy(gameObject);

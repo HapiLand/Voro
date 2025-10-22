@@ -1,7 +1,9 @@
 using UnityEngine;
 
 namespace Voro.Core.World {
-/// <summary> Top-Level class which contains the full hierarchy of terrain system </summary>
+/// <summary>
+/// Bounding Box for the Landscape
+/// </summary>
 class Environment {
     /// <summary> The parent Transform where this Environment is found within the Unity scene </summary>
     readonly Transform _parent;
