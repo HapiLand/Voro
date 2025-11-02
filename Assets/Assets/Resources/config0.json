@@ -1,0 +1,81 @@
+{
+  "configName" : "Sisyphus Hill",
+  "layers" : [
+    {
+      "layerName" : "Hill",
+      "sortOrder" : 0,
+      "effects" : [
+        {
+          "effectName" : "Flat",
+          "operation" : "Set",
+          "fields" : [
+            {
+              "fieldName" : "Height",
+              "fieldType" : "FloatField",
+              "defaultValue" : 0
+            }
+          ]
+        },
+        {
+          "effectName" : "Slope",
+          "operation" : "Subtract",
+          "fields" : [
+            {
+              "fieldName" : "Direction",
+              "fieldType" : "Radial",
+              "defaultValue" : 0
+            },
+            {
+              "fieldName" : "Steepness",
+              "fieldType" : "FloatSlider",
+              "defaultValue" : 1
+            },
+            {
+              "fieldName" : "Reverse",
+              "fieldType" : "Toggle",
+              "defaultValue" : false
+            }
+          ]
+        },
+        {
+          "effectName" : "Noise",
+          "operation" : "Add",
+          "fields" : [
+            {
+              "fieldName" : "Size",
+              "fieldType" : "FloatSlider",
+              "defaultValue" : 1
+            },
+            {
+              "fieldName" : "Steepness",
+              "fieldType" : "FloatSlider",
+              "defaultValue" : 0.5
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "layerName" : "Steps",
+      "sortOrder" : 1,
+      "effects" : [
+        {
+          "effectName" : "Terrace",
+          "operation" : "Multiply",
+          "fields" : [
+            {
+              "fieldName" : "StepSize",
+              "fieldType" : "FloatSlider",
+              "defaultValue" : 0.5
+            },
+            {
+              "fieldName" : "Randomness",
+              "fieldType" : "FloatSlider",
+              "defaultValue" : 0
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

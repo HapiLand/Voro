@@ -1,5 +1,6 @@
 using System;
 
+namespace Unity.Resources {
 public abstract class Perlin<GradientType> {
     //the defaultPermutationTable is 512 ints long and an contains values 0..255
     static readonly int[] defaultPermutationTable =
@@ -57,9 +58,9 @@ public abstract class Perlin<GradientType> {
     //Standard Perlin Noise function, returns smooth noise in the range (-1,1)
     public double Noise(double x, double y = 0.5d, double z = 0.5d) {
         //determine what cube we are in
-        var cubeX = (int)x & PT.Length / 2 - 1;
-        var cubeY = (int)y & PT.Length / 2 - 1;
-        var cubeZ = (int)z & PT.Length / 2 - 1;
+        var cubeX = (int)x & (PT.Length / 2 - 1);
+        var cubeY = (int)y & (PT.Length / 2 - 1);
+        var cubeZ = (int)z & (PT.Length / 2 - 1);
 
         /*Find the gradients for the 8 corners of the cube
 
@@ -122,9 +123,9 @@ public abstract class Perlin<GradientType> {
 
     //Tile Perlin Noise function, the noise is tiled over a region of tileRegion^3
     public double NoiseTiled(double x, double y = 0.5d, double z = 0.5d, int tileRegion = 2) {
-        var cubeX = (int)x & PT.Length / 2 - 1;
-        var cubeY = (int)y & PT.Length / 2 - 1;
-        var cubeZ = (int)z & PT.Length / 2 - 1;
+        var cubeX = (int)x & (PT.Length / 2 - 1);
+        var cubeY = (int)y & (PT.Length / 2 - 1);
+        var cubeZ = (int)z & (PT.Length / 2 - 1);
         var XIndex = PT[cubeX % tileRegion] + cubeY % tileRegion;
         var X1Index = PT[(cubeX + 1) % tileRegion] + cubeY % tileRegion;
         var XIndex1 = PT[cubeX % tileRegion] + (cubeY + 1) % tileRegion;
@@ -201,7 +202,7 @@ public abstract class Perlin<GradientType> {
     public void SetPermutationTable(int[] newPermutationTable) {
         //make sure the new PT has Length = 2^N (this property is 
         //used in the Noise function)
-        if ((newPermutationTable.Length & newPermutationTable.Length - 1) == 0) {
+        if ((newPermutationTable.Length & (newPermutationTable.Length - 1)) == 0) {
             PT = newPermutationTable;
         }
     }
@@ -237,6 +238,8 @@ public class Perlin : Perlin<Perlin.Vector3> {
         return gradient.x * x + gradient.y * y + gradient.z * z;
     }
 
+    #region Nested type: Vector3
+
     public struct Vector3 {
         public double x, y, z;
 
@@ -246,4 +249,7 @@ public class Perlin : Perlin<Perlin.Vector3> {
             this.z = z;
         }
     }
+
+    #endregion
+}
 }
