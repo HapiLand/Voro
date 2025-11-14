@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
@@ -7,14 +6,20 @@ using VoroSystem.Generation.DiagramSystem;
 using VoroSystem.Generation.GraphSystem.Fields;
 
 namespace VoroSystem.Generation.GraphSystem.Graph {
-[Serializable]
 public class LayerEffect {
-    public LayerEffect(string name, EffectOperation operation = EffectOperation.Set) {
-        Name = name;
+    public LayerEffect(string name, EffectOperation operation = EffectOperation.Add) {
+        this.Name = name;
         Operation = operation;
+
+        if (name == "Flat") {
+            Operation = EffectOperation.Set;
+        }
     }
+
     public string Name { get; }
+
     public EffectOperation Operation { get; set; }
+
     public List<EffectFieldBase> Fields { get; set; } = new();
 
     public void DrawGUI() {
@@ -22,7 +27,7 @@ public class LayerEffect {
         Operation = (EffectOperation)EditorGUILayout.EnumPopup("Operation:", Operation);
         GUILayout.EndHorizontal();
     }
-    
+
     /// <summary>
     /// detect if anything in the effect changes
     /// </summary>

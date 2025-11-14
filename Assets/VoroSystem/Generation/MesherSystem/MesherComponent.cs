@@ -8,10 +8,11 @@ using VoroSystem.Landscape.TilemapSystem.Maps.Chunk;
 namespace VoroSystem.Generation.MesherSystem {
 [ExecuteInEditMode]
 public class MesherComponent : MonoBehaviour {
-    bool _initialized;
-    Vector2Int _lastDimensions;
-    bool[,] _lastVisibility;
-    Dictionary<(int x, int z), GameObject> _tileObjects;
+    bool initialized;
+    Vector2Int lastDimensions;
+    bool[,] lastVisibility;
+    Dictionary<(int x, int z), GameObject> tileObjects;
+
     public static MesherComponent Instance { get; private set; }
 
     void Awake() {
@@ -19,15 +20,16 @@ public class MesherComponent : MonoBehaviour {
             Destroy(gameObject);
             return;
         }
+
         Instance = this;
-        _tileObjects = new Dictionary<(int x, int z), GameObject>();
+        tileObjects = new Dictionary<(int x, int z), GameObject>();
     }
 
     public void MakeMesh(ChunkTilemap tilemap) {
         var currentDimensions = new Vector2Int(tilemap.SizeX, tilemap.SizeZ);
 
         // generate the mes
-        if (!_initialized || DimensionsChanged(currentDimensions)) {
+        if (!initialized || DimensionsChanged(currentDimensions)) {
             RegenerateMesh(tilemap, currentDimensions);
             DesignerComponent.Instance.HasChanged = false;
             return;
@@ -43,14 +45,21 @@ public class MesherComponent : MonoBehaviour {
                         continue;
                     }
 
-                    if (!_tileObjects.TryGetValue((x, z), out var tileInstance)){ continue;}
+                    if (!tile.Visible) {
+                        continue;
+                    }
+
+                    if (!tileObjects.TryGetValue((x, z), out var tileInstance)) {
+                        continue;
+                    }
+
                     var mf = tileInstance.GetComponent<MeshFilter>();
                     if (!mf || !mf.sharedMesh) {
                         continue;
                     }
 
                     var er = tile.Result.CreateEndResult();
-                    mf.sharedMesh.vertices = er.Quad.vertices;
+                    mf.sharedMesh.vertices = er.quad.vertices;
                     mf.sharedMesh.RecalculateBounds();
                     mf.sharedMesh.RecalculateNormals();
                 }
@@ -69,7 +78,7 @@ public class MesherComponent : MonoBehaviour {
     }
 
     bool DimensionsChanged(Vector2Int current) {
-        return current != _lastDimensions;
+        return current != lastDimensions;
     }
 
     void RegenerateMesh(ChunkTilemap tilemap, Vector2Int newDimensions) {
@@ -77,9 +86,9 @@ public class MesherComponent : MonoBehaviour {
         ClearExistingMeshes();
         DiagramComponent.Instance.RunEffects(tilemap);
         BuildAllMeshes(tilemap);
-        _lastDimensions = newDimensions;
-        _lastVisibility = CacheVisibility(tilemap);
-        _initialized = true;
+        lastDimensions = newDimensions;
+        lastVisibility = CacheVisibility(tilemap);
+        initialized = true;
     }
 
     void ClearExistingMeshes() {
@@ -95,7 +104,8 @@ public class MesherComponent : MonoBehaviour {
                 Destroy(child.gameObject);
             }
         }
-        _tileObjects.Clear();
+
+        tileObjects.Clear();
     }
 
     void BuildAllMeshes(ChunkTilemap tilemap) {
@@ -123,12 +133,16 @@ public class MesherComponent : MonoBehaviour {
                     continue;
                 }
 
-                var visibleNow = tile.Visible;
-                if (_lastVisibility[x, z] == visibleNow) {
+                if (!tile.Visible) {
                     continue;
                 }
 
-                _lastVisibility[x, z] = visibleNow;
+                var visibleNow = tile.Visible;
+                if (lastVisibility[x, z] == visibleNow) {
+                    continue;
+                }
+
+                lastVisibility[x, z] = visibleNow;
                 ReplaceTileMesh(tilemap, x, z, originalMat);
             }
         }
@@ -155,14 +169,18 @@ public class MesherComponent : MonoBehaviour {
     void CreateTileMesh(ChunkTilemap tilemap, int x, int z, Material baseMat) {
         Debug.Log("Creating the mesh for this Tile instance");
         var tile = tilemap.GetTile(x, z);
+        if (!tile.Visible) {
+            return;
+        }
+
         var br = new BaseResult(tile);
         var er = br.CreateEndResult();
 
         var go = new GameObject($"[{x},{z}]");
-        _tileObjects[(x, z)] = go;
-        
+        tileObjects[(x, z)] = go;
+
         var mf = go.AddComponent<MeshFilter>();
-        mf.sharedMesh = er.Quad;
+        mf.sharedMesh = er.quad;
 
         var mr = go.AddComponent<MeshRenderer>();
         var mat = new Material(baseMat)

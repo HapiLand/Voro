@@ -14,5 +14,10 @@ public static class DiagramMenuItem {
         obj.AddComponent<DiagramComponent>();
         Selection.activeObject = obj;
     }
+
+    [MenuItem("Voro/Reload")]
+    static void ReloadDomain() {
+        EditorUtility.RequestScriptReload();
+    }
 }
 }

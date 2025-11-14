@@ -9,17 +9,17 @@ public static class EffectLookup {
         {
             Fields = new List<EffectFieldBase>
             {
-                new FloatSlider("Direction", 0f, 0f, 1f),
-                new FloatSlider("Steepness", 0f, 0f, 1f),
-                new Toggle("Reverse", false),
+                new Radial("Direction", 0f),
+                new FloatSlider("Steepness", 0.1f, 0f, 1f),
+                new Toggle("Reverse", false)
             }
         },
         ["Noise"] = new LayerEffect("Noise")
         {
             Fields = new List<EffectFieldBase>
             {
-                new FloatSlider("Size", 0f, 0f, 1f),
-                new FloatSlider("Steepness", 0f, 0f, 1f),
+                new FloatSlider("Size", 0.75f, 0.2f, 0.75f),
+                new FloatSlider("Steepness", 0.5f, 0.15f, 1f)
             }
         },
         ["Flat"] = new LayerEffect("Flat")
@@ -33,8 +33,11 @@ public static class EffectLookup {
         {
             Fields = new List<EffectFieldBase>
             {
-                new FloatSlider("StepSize", 0f, 0f, 1f),
-                new FloatSlider("Randomness", 0f, 0f, 1f),
+                new FloatSlider("min_step_size", 0.15f, 0f, 1f),
+                new FloatSlider("max_step_size", 0.75f, 0f, 1f),
+                new FloatSlider("StepSize", 1f, 0f, 1f),
+                new Radial("direction", 0f),
+                new IntSlider("iterations", 3, 0, 10)
             }
         }
     };

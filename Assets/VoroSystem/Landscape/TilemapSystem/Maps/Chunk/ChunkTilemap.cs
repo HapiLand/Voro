@@ -5,36 +5,29 @@ using VoroSystem.Landscape.WorldGridSystem;
 
 namespace VoroSystem.Landscape.TilemapSystem.Maps.Chunk {
 public class ChunkTilemap : IChunkMap<ChunkTile> {
-    readonly ChunkTile[,] _map;
+    readonly ChunkTile[,] map;
 
     public ChunkTilemap(int xSize, int zSize) {
         SizeX = xSize;
         SizeZ = zSize;
-        _map = new ChunkTile[SizeX, SizeZ];
+        map = new ChunkTile[SizeX, SizeZ];
     }
 
     public int SizeX { get; }
+
     public int SizeZ { get; }
 
     public ChunkTile GetTile(int x, int z) {
-        return InBounds(x, z) ? _map[x, z] : null;
+        return InBounds(x, z) ? map[x, z] : null;
     }
 
     public ChunkTile GetTile(int index) {
         return GetTile(index % SizeX, index / SizeZ);
     }
 
-    ChunkTile GetTileUnsafe(int x, int z) {
-        return _map[x, z];
-    }
-
-    ChunkTile SetTileUnsafe(int x, int z, ChunkTile tile) {
-        return _map[x, z] = tile;
-    }
-
     public void SetTile(int x, int z, ChunkTile tile) {
         if (InBounds(x, z)) {
-            _map[x, z] = tile;
+            map[x, z] = tile;
         }
     }
 
@@ -47,8 +40,16 @@ public class ChunkTilemap : IChunkMap<ChunkTile> {
         return x >= 0 && z >= 0 && x < SizeX && z < SizeZ;
     }
 
+    ChunkTile GetTileUnsafe(int x, int z) {
+        return map[x, z];
+    }
+
+    ChunkTile SetTileUnsafe(int x, int z, ChunkTile tile) {
+        return map[x, z] = tile;
+    }
+
     public void ForEach(Action<ChunkTile> action) {
-        foreach (var t in _map) {
+        foreach (var t in map) {
             action(t);
         }
     }

@@ -16,6 +16,7 @@ public class WorldGridDrawer : UnityEditor.Editor {
     }
 
     static void Draw(WorldGridComponent t) {
+        return;
         var (sizeX, sizeZ, gridSize) = t.Dimensions;
         var origin = t.Origin;
 

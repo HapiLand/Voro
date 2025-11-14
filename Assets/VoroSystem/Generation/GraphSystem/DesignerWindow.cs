@@ -5,9 +5,9 @@ using VoroSystem.Generation.GraphSystem.Graph;
 
 namespace VoroSystem.Generation.GraphSystem {
 public class DesignerWindow : EditorWindow {
-    [SerializeField] DesignerComponent target;
-    string _newLayerName = "";
-    int _selectedEffectIndex;
+    string newLayerName = "";
+    int selectedEffectIndex;
+    DesignerComponent target;
 
     void OnGUI() {
         if (!target) {
@@ -20,19 +20,19 @@ public class DesignerWindow : EditorWindow {
 
         void DrawGraph() {
             var graph = target.graph;
-            GUILayout.Label($"Graph: {graph.Name}");
-            _newLayerName = EditorGUILayout.TextField("Layer Name", _newLayerName);
+            GUILayout.Label($"Graph: {graph.name}");
+            newLayerName = EditorGUILayout.TextField("Layer Name", newLayerName);
             if (GUILayout.Button("Create Layer")) {
-                if (string.IsNullOrWhiteSpace(_newLayerName)) {
+                if (string.IsNullOrWhiteSpace(newLayerName)) {
                     return;
                 }
 
-                target.CreateLayer(_newLayerName);
+                target.CreateLayer(newLayerName);
             }
 
             DrawUILine(Color.red);
             GUILayout.Space(10);
-            foreach (var layer in graph.Layers) {
+            foreach (var layer in graph.layers) {
                 DrawLayer(layer);
             }
         }
@@ -43,9 +43,9 @@ public class DesignerWindow : EditorWindow {
             gl.DrawGUI();
             GUILayout.EndHorizontal();
             var effectNames = EffectLookup.Names.ToList();
-            _selectedEffectIndex = EditorGUILayout.Popup("Select Effect", _selectedEffectIndex, effectNames.ToArray());
+            selectedEffectIndex = EditorGUILayout.Popup("Select Effect", selectedEffectIndex, effectNames.ToArray());
             if (GUILayout.Button("Add Effect")) {
-                var selectedName = effectNames[_selectedEffectIndex];
+                var selectedName = effectNames[selectedEffectIndex];
                 var effectDef = EffectLookup.Get(selectedName);
                 gl.CreateEffect(effectDef);
             }

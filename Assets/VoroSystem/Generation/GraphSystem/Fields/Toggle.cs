@@ -1,8 +1,6 @@
-using System;
 using UnityEngine;
 
 namespace VoroSystem.Generation.GraphSystem.Fields {
-[Serializable]
 public class Toggle : EffectFieldBase {
     public Toggle(string name, bool defaultValue) : base(name, defaultValue, FieldType.Toggle) { }
 

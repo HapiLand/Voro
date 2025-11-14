@@ -2,8 +2,7 @@ using VoroSystem.Generation.GraphSystem.Fields;
 
 namespace VoroSystem.Generation.DiagramSystem {
 class FXField {
-    public FXField(string name, object defaultValue, FieldType fieldType)
-    {
+    public FXField(string name, object defaultValue, FieldType fieldType) {
         Name = name;
         FieldType = fieldType;
         DefaultValue = ConvertValue(defaultValue, fieldType);

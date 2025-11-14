@@ -1,7 +1,7 @@
 using VoroSystem.Generation.GraphSystem.Graph;
 using VoroSystem.Generation.MesherSystem;
 
-namespace VoroSystem.Generation.DiagramSystem {
+namespace VoroSystem.Generation.DiagramSystem.Effects {
 public abstract class EffectManager {
     protected IEffect Effect;
     protected abstract IEffect MakeEffect(LayerEffect effect);

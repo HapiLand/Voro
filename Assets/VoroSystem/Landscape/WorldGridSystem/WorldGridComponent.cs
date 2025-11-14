@@ -5,7 +5,7 @@ namespace VoroSystem.Landscape.WorldGridSystem {
 [ExecuteInEditMode]
 [RequireComponent(typeof(WorldBoundaryComponent))]
 public class WorldGridComponent : MonoBehaviour {
-    [SerializeField] [Range(0.1f, 1f)] float gridSize = 1f;
+    [Range(0.1f, 1f)] float _gridSize = 1f;
     WorldBoundaryComponent _worldBoundary;
     public static WorldGridComponent Instance { get; private set; }
 
@@ -16,15 +16,12 @@ public class WorldGridComponent : MonoBehaviour {
                 // try to get instance if not initialized yet (editor may call before Start)
                 _worldBoundary = WorldBoundaryComponent.Instance;
                 if (_worldBoundary == null) {
-                    return (1, 1, gridSize);
+                    return (1, 1, _gridSize);
                 }
             }
-
-            var x = Mathf.RoundToInt(_worldBoundary.Size.xSize / gridSize);
-            var z = Mathf.RoundToInt(_worldBoundary.Size.zSize / gridSize);
-            x = Mathf.Max(1, x);
-            z = Mathf.Max(1, z);
-            return (x, z, gridSize);
+            var x = Mathf.Max(1, Mathf.RoundToInt(_worldBoundary.Size.xSize / _gridSize));
+            var z = Mathf.Max(1, Mathf.RoundToInt(_worldBoundary.Size.zSize / _gridSize));
+            return (x, z, _gridSize);
         }
     }
 
@@ -49,6 +46,5 @@ public class WorldGridComponent : MonoBehaviour {
         Instance = this;
         _worldBoundary = WorldBoundaryComponent.Instance;
     }
-
 }
 }

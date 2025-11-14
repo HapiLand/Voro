@@ -1,0 +1,97 @@
+#pragma kernel Effect
+
+struct vertex
+{
+    float2 position;
+    float height;
+};
+
+RWStructuredBuffer<vertex> vertex_buffer;
+uint vertex_count;
+
+cbuffer fx_params
+{
+    float min_step_size;
+    float max_step_size;
+    float stepsize;
+    float direction;
+    int iterations;
+    int operation; // Set, Subtract, Add, Multiply
+}
+
+float deg2_rad(float d)
+{
+    float pi = 3.14159265359;
+    return d * (pi / 180.0);
+}
+
+float random(float2 p)
+{
+    float2 k1 = float2(
+        23.14069263277926, // e^pi (Gelfond's constant)
+        2.665144142690225 // 2^sqrt(2) (Gelfond-Schneider constant)
+    );
+    return frac(cos(dot(p, k1)) * 12345.6789);
+}
+
+float remap(float val, float r0, float r1)
+{
+    return val * (r1 - r0) + r0;
+}
+
+float Solve(float2 p)
+{
+    float radians = deg2_rad(direction);
+    float2 axis = float2(cos(radians), sin(radians));
+    float terrace_height = dot(float2(p.x, p.y), axis);
+    float div = terrace_height / stepsize;
+    float flat = floor(div);
+    float val = random(float2(flat, flat + 1));
+    val = remap(val, min_step_size, max_step_size) * iterations;
+    float level = (flat + val) * stepsize;
+    return level / 2.0;
+}
+
+vertex ApplyOperation(vertex vtx, float solved)
+{
+    switch (operation)
+    {
+    case 0:
+        // Set - Overwrites any existing height
+        vtx.height = solved;
+        break;
+
+    case 1:
+        // Subtract - Reduces existing height by solved
+        vtx.height -= solved;
+        break;
+
+    case 2:
+        // Add - Increases existing height by solved
+        vtx.height += solved;
+        break;
+
+    case 3:
+        // Multiply - Scales existing height by solved
+        vtx.height *= solved;
+        break;
+
+    default: return vtx;
+    }
+    return vtx;
+}
+
+[numthreads(64,1,1)]
+void Effect(uint3 id : SV_DispatchThreadID)
+{
+    uint index = id.y * 8 + id.x;
+    if (index >= vertex_count)
+    {
+        return;
+    }
+    vertex vtx = vertex_buffer[index];
+
+    float solved_height = Solve(vtx.position); // calculate height at this position
+    vtx = ApplyOperation(vtx, solved_height);
+    vertex_buffer[index] = vtx; // return
+}

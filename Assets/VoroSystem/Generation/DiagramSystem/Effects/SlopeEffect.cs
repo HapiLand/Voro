@@ -1,4 +1,4 @@
-namespace VoroSystem.Generation.DiagramSystem {
+namespace VoroSystem.Generation.DiagramSystem.Effects {
 class SlopeEffect : BaseEffect {
     protected override string EffectName => "Slope";
 

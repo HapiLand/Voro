@@ -5,14 +5,14 @@ using VoroSystem.Landscape.TilemapSystem.Tiles.Chunk;
 namespace VoroSystem.Generation.MesherSystem {
 /// <summary> The first Result that is created for each Tile </summary>
 public class BaseResult : IVoroResult {
-    public int QuadDensity = 5;
+    public int quadDensity = 5;
 
     /// <summary> Vertices to write to the buffer, turned into a mesh in the EndResult </summary>
-    public List<MeshVertex> QuadVertices;
+    public List<MeshVertex> quadVertices;
 
     /// <summary> Tile to BaseResult, contains vertices to be computed </summary>
     public BaseResult(IChunkTile tilePoint) {
-        QuadVertices = CreateQuadVertices(1f, tilePoint.Position, QuadDensity);
+        quadVertices = CreateQuadVertices(1f, tilePoint.Position, quadDensity);
     }
 
     List<MeshVertex> CreateQuadVertices(float size, Vector2 pos, int segments) {
@@ -38,12 +38,12 @@ public class BaseResult : IVoroResult {
 
     /// <summary> Mutate the elevation in this Result, applying the new height value </summary>
     public void GiveResult(MeshVertex[] bufferResult) {
-        for (var i = 0; i < QuadVertices.Count; i++) {
+        for (var i = 0; i < quadVertices.Count; i++) {
             // var sb = new StringBuilder();
             // sb.Append($"[Voro Result: {i}] ");
             // sb.Append($"Old Height = {QuadVertices[i].Height}. ");
             // sb.Append($"New Height = {bufferResult[i].Height}. ");
-            QuadVertices[i] = bufferResult[i];
+            quadVertices[i] = bufferResult[i];
             // sb.Append($"Final Height = {QuadVertices[i].Height}. (should equal {bufferResult[i].Height})");
             // Debug.Log(sb);
         }

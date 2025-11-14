@@ -1,4 +1,4 @@
-namespace VoroSystem.Generation.DiagramSystem {
+namespace VoroSystem.Generation.DiagramSystem.Effects {
 class FlatEffect : BaseEffect {
     protected override string EffectName => "Flat";
 

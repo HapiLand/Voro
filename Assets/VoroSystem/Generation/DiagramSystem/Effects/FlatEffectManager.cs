@@ -1,11 +1,10 @@
 using VoroSystem.Generation.GraphSystem.Graph;
 
-namespace VoroSystem.Generation.DiagramSystem {
+namespace VoroSystem.Generation.DiagramSystem.Effects {
 class FlatEffectManager : EffectManager {
     public FlatEffectManager(LayerEffect config) {
         Effect = (FlatEffect)MakeEffect(config);
     }
-
 
 
     protected override IEffect MakeEffect(LayerEffect config) {

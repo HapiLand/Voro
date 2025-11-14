@@ -5,8 +5,6 @@ namespace VoroSystem.Landscape.WorldBoundarySystem.Editor {
 [CustomEditor(typeof(WorldBoundaryComponent))]
 public class WorldBoundaryDrawer : UnityEditor.Editor {
     // todo https://docs.unity3d.com/6000.2/Documentation/ScriptReference/IMGUI.Controls.BoxBoundsHandle.html
-
-
     static WorldBoundaryDrawer() {
         SceneView.duringSceneGui += OnGlobalSceneGUI;
     }

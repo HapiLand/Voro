@@ -3,8 +3,9 @@ using UnityEngine;
 namespace VoroSystem.Landscape.WorldBoundarySystem {
 [ExecuteInEditMode]
 public class WorldBoundaryComponent : MonoBehaviour {
-    [SerializeField] [Range(1, 10)] int sizeX = 5;
-    [SerializeField] [Range(1, 10)] int sizeZ = 5;
+    int sizeX = 11;
+    int sizeZ = 10;
+
     public static WorldBoundaryComponent Instance { get; private set; }
 
     public (int xSize, int zSize) Size {
@@ -36,6 +37,8 @@ public class WorldBoundaryComponent : MonoBehaviour {
 
     public void SetCorners(Vector3 cornerA, Vector3 cornerB) {
         Debug.Log("Setting the corners for the world boundary");
+        sizeX = (int)(cornerB.x - cornerA.x);
+        sizeZ = (int)(cornerB.z - cornerA.z);
         Corner = (cornerA, cornerB);
     }
 }

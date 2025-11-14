@@ -1,14 +1,16 @@
 using System.Collections.Generic;
 using UnityEngine;
-using VoroSystem.Generation.DiagramSystem;
+using VoroSystem.Generation.DiagramSystem.Effects;
 using VoroSystem.Generation.GraphSystem.Graph;
 
 namespace VoroSystem.Generation.GraphSystem {
 [ExecuteInEditMode]
 public class DesignerComponent : MonoBehaviour {
-    [SerializeField] public VoroGraph graph;
-    int _lastGraphHash;
+    public VoroGraph graph;
+    int lastGraphHash;
+
     public static DesignerComponent Instance { get; private set; }
+
     public bool HasChanged { get; set; }
 
     void Awake() {
@@ -18,11 +20,13 @@ public class DesignerComponent : MonoBehaviour {
         }
 
         Instance = this;
+
+        graph = new VoroGraph("Example Graph");
+        lastGraphHash = graph.ComputeHash();
     }
 
-    void Reset() {
-        graph = new VoroGraph("Example Graph");
-        _lastGraphHash = graph.ComputeHash();
+    void Start() {
+        CreateLayer("Starting Layer");
     }
 
     void Update() {
@@ -31,12 +35,12 @@ public class DesignerComponent : MonoBehaviour {
         }
 
         var currentHash = graph.ComputeHash();
-        if (currentHash == _lastGraphHash) {
+        if (currentHash == lastGraphHash) {
             return;
         }
 
         HasChanged = true; // mark as changed this frame
-        _lastGraphHash = currentHash;
+        lastGraphHash = currentHash;
         Debug.Log("graph changed");
     }
 
@@ -47,7 +51,7 @@ public class DesignerComponent : MonoBehaviour {
     public void GetGraphDictionary(out Dictionary<string, List<EffectManager>> graphDictionary) {
         graphDictionary = new Dictionary<string, List<EffectManager>>();
 
-        foreach (var layer in graph.Layers) {
+        foreach (var layer in graph.layers) {
             var layerName = layer.Name;
 
             if (!graphDictionary.TryGetValue(layerName, out var effectList)) {
@@ -79,7 +83,6 @@ public class DesignerComponent : MonoBehaviour {
                 }
                 }
             }
-
         }
     }
 }

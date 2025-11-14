@@ -4,12 +4,12 @@ using UnityEngine;
 namespace VoroSystem.Generation.MesherSystem {
 /// <summary> The mutated BaseResult that is found at the end of a Layer being computed </summary>
 public class EndResult : IVoroResult {
-    public BaseResult BaseResult;
-    public Mesh Quad;
+    public BaseResult baseResult;
+    public Mesh quad;
 
     public EndResult(BaseResult br) {
-        BaseResult = br;
-        Quad = CreateQuad(br.QuadVertices, BaseResult.QuadDensity);
+        baseResult = br;
+        quad = CreateQuad(br.quadVertices, baseResult.quadDensity);
     }
 
     Mesh CreateQuad(List<MeshVertex> vtx, int subdivisions) {

@@ -5,24 +5,28 @@ using VoroSystem.Generation.MesherSystem;
 
 namespace VoroSystem.Landscape.TilemapSystem.Tiles.Chunk {
 public class ChunkTile : IChunkTile {
-    BaseResult _baseResult;
-
-    bool _visible;
+    BaseResult baseResult;
+    bool visible;
 
     public ChunkTile(int index, Vector2 position, float size) {
-        Index = index;
-        Position = position;
+        this.Index = index;
+        this.Position = position;
         Visible = false;
         Dirty = false;
         State = StateType.None;
-        Size = size;
+        this.Size = size;
+    }
+
+    public ChunkTile(bool dirty) {
+        Dirty = dirty;
     }
 
     public int Index { get; }
+
     public Vector2 Position { get; }
 
     public bool Visible {
-        get => _visible;
+        get => visible;
         private set
         {
             /*
@@ -33,8 +37,8 @@ public class ChunkTile : IChunkTile {
              */
 
             // make dirty when the visibility has changed
-            SetDirty(_visible != value);
-            _visible = value;
+            SetDirty(visible != value);
+            visible = value;
 
             if (value) {
                 SetState(Dirty ? StateType.Build : StateType.Lifecycle);
@@ -46,6 +50,7 @@ public class ChunkTile : IChunkTile {
     }
 
     public bool Dirty { get; private set; }
+
     public StateType State { get; private set; }
 
     public float Size { get; }
@@ -53,9 +58,13 @@ public class ChunkTile : IChunkTile {
     public BaseResult Result {
         get
         {
-            _baseResult ??= new BaseResult(this);
-            return _baseResult;
+            baseResult ??= new BaseResult(this);
+            return baseResult;
         }
+    }
+
+    public void Update() {
+        UpdateVisibility();
     }
 
     void SetDirty(bool value) {
@@ -83,10 +92,6 @@ public class ChunkTile : IChunkTile {
 
     void SetState(StateType stateType) {
         State = stateType;
-    }
-
-    public void Update() {
-        UpdateVisibility();
     }
 
     void UpdateVisibility() {

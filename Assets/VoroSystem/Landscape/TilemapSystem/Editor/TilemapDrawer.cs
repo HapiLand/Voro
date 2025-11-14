@@ -21,6 +21,7 @@ public class TilemapDrawer : UnityEditor.Editor {
             var center = tile.Position.ToVector3() + new Vector3(tile.Size / 2f, 0f, tile.Size / 2f);
             var size = new Vector3(tile.Size * 0.25f, 0f, tile.Size * 0.25f);
             Handles.color = tile.Visible ? Color.seaGreen : Color.coral;
+            Handles.color *= new Color(1, 1, 1, 0.2f);
             Handles.DrawWireCube(center, size);
         });
     }

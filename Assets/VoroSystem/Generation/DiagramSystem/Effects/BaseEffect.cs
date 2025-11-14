@@ -6,7 +6,7 @@ using UnityEngine;
 using VoroSystem.Generation.GraphSystem.Graph;
 using VoroSystem.Generation.MesherSystem;
 
-namespace VoroSystem.Generation.DiagramSystem {
+namespace VoroSystem.Generation.DiagramSystem.Effects {
 /// <summary> Common functionality for all Effects </summary>
 abstract class BaseEffect : IEffect {
     EffectOperation Operation { get; set; }
@@ -15,6 +15,28 @@ abstract class BaseEffect : IEffect {
 
     public ComputeShader Shader { get; set; }
     public ComputeBuffer Buffer { get; set; }
+
+    public virtual void Initialize(LayerEffect effect) {
+        Shader = Resources.Load<ComputeShader>(EffectName);
+        Operation = effect.Operation;
+        Fields = effect.Fields.Select(f => new FXField(f.Name, f.DefaultValue, f.Type)).ToList();
+    }
+
+    public virtual void ReadResult(BaseResult baseResult) {
+        var result = new MeshVertex[Buffer.count];
+        Buffer.GetData(result);
+        Buffer.Release();
+        baseResult.GiveResult(result);
+    }
+
+    public virtual void Compute(BaseResult baseResult) {
+        CreateBuffer(baseResult);
+        DispatchShader();
+    }
+
+    public virtual void ConfigureShader() {
+        Shader.SetInt("operation", (int)Operation);
+    }
 
     protected void SetParameter<T>(string name) {
         var field = Fields.FirstOrDefault(f => string.Equals(f.Name, name, StringComparison.OrdinalIgnoreCase));
@@ -44,33 +66,11 @@ abstract class BaseEffect : IEffect {
     }
 
     void CreateBuffer(BaseResult baseResult) {
-        var vertices = baseResult.QuadVertices.ToArray();
+        var vertices = baseResult.quadVertices.ToArray();
         Buffer = new ComputeBuffer(vertices.Length, Marshal.SizeOf(typeof(MeshVertex)));
         Buffer.SetData(vertices);
         Shader.SetBuffer(0, "vertex_buffer", Buffer);
         Shader.SetInt("vertex_count", Buffer.count);
-    }
-
-    public virtual void Initialize(LayerEffect effect) {
-        Shader = Resources.Load<ComputeShader>(EffectName);
-            Operation = effect.Operation;
-            Fields = effect.Fields.Select(f => new FXField(f.Name, f.DefaultValue, f.Type)).ToList();
-    }
-
-    public virtual void ReadResult(BaseResult baseResult) {
-        var result = new MeshVertex[Buffer.count];
-        Buffer.GetData(result);
-        Buffer.Release();
-        baseResult.GiveResult(result);
-    }
-
-    public virtual void Compute(BaseResult baseResult) {
-        CreateBuffer(baseResult);
-        DispatchShader();
-    }
-
-    public virtual void ConfigureShader() {
-        Shader.SetInt("operation", (int)Operation);
     }
 }
 }

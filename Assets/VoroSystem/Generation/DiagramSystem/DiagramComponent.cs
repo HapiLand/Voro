@@ -8,8 +8,8 @@ namespace VoroSystem.Generation.DiagramSystem {
 [RequireComponent(typeof(DesignerComponent))]
 [RequireComponent(typeof(TilemapComponent))]
 public class DiagramComponent : MonoBehaviour {
-    DesignerComponent _designer;
-    TilemapComponent _tilemap;
+    DesignerComponent designer;
+    TilemapComponent tilemap;
     public static DiagramComponent Instance { get; private set; }
 
     void Awake() {
@@ -19,12 +19,12 @@ public class DiagramComponent : MonoBehaviour {
         }
 
         Instance = this;
-        _designer = DesignerComponent.Instance;
-        _tilemap = TilemapComponent.Instance;
+        designer = DesignerComponent.Instance;
+        tilemap = TilemapComponent.Instance;
     }
-    
+
     public void RunEffects(ChunkTilemap tilemap) {
-        _designer.GetGraphDictionary(out var design);
+        designer.GetGraphDictionary(out var design);
         // for each layer
         foreach (var (layerName, effectManagers) in design) {
             Debug.Log($"running effects in layer {layerName}");

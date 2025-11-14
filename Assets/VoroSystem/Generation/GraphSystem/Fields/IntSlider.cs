@@ -1,19 +1,27 @@
 using UnityEngine;
 
 namespace VoroSystem.Generation.GraphSystem.Fields {
-public class FloatField : EffectFieldBase {
-    public FloatField(string name, float defaultValue) : base(name, defaultValue, FieldType.FloatField) { }
+public class IntSlider : EffectFieldBase {
+    public IntSlider(string name, int defaultValue, int min, int max) : base(name, defaultValue,
+        FieldType.IntSlider) {
+        this.Min = min;
+        this.Max = max;
+    }
 
-    public float Value {
-        get => (float)DefaultValue;
+    public int Min { get; }
+
+    public int Max { get; }
+
+    public int Value {
+        get => (int)DefaultValue;
         set => DefaultValue = value;
     }
 
     public override void DrawGUI() {
         GUILayout.BeginHorizontal();
-        GUILayout.Label("Float Field");
+        GUILayout.Label("Float Slider");
         GUILayout.Label($"{Value}");
-        Value = float.Parse(GUILayout.TextField(Value.ToString()));
+        Value = (int)GUILayout.HorizontalSlider(Value, Min, Max);
         GUILayout.EndHorizontal();
     }
 
