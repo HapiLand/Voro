@@ -7,20 +7,20 @@ using VoroSystem.Landscape.WorldGridSystem;
 
 namespace VoroSystem.Landscape.TilemapSystem {
 [ExecuteAlways]
-[RequireComponent(typeof(WorldGridComponent))]
 [RequireComponent(typeof(MesherComponent))]
 public class TilemapComponent : MonoBehaviour {
-    Vector2Int lastDimensions;
-    MesherComponent mesher;
-    ChunkTilemap tilemap;
-    WorldGridComponent worldGrid;
-
+    Vector2Int _lastDimensions;
+    MesherComponent _mesher;
+    ChunkTilemap _tilemap;
+    WorldGridComponent _worldGrid;
     public static TilemapComponent Instance { get; private set; }
 
-    int SizeX => worldGrid.Dimensions.xSize;
-    int SizeZ => worldGrid.Dimensions.zSize;
+    int SizeX => _worldGrid.Dimensions.xSize;
+    int SizeZ => _worldGrid.Dimensions.zSize;
 
-    bool DimensionsChanged => lastDimensions.x != SizeX || lastDimensions.y != SizeZ;
+    bool DimensionsChanged => _lastDimensions.x != SizeX || _lastDimensions.y != SizeZ;
+
+    #region Event Functions
 
     void Awake() {
         if (Instance != null) {
@@ -29,8 +29,8 @@ public class TilemapComponent : MonoBehaviour {
         }
 
         Instance = this;
-        worldGrid = WorldGridComponent.Instance;
-        mesher = MesherComponent.Instance;
+        _worldGrid = gameObject.AddComponent<WorldGridComponent>();
+        _mesher = MesherComponent.Instance;
         InitTilemap();
     }
 
@@ -40,21 +40,23 @@ public class TilemapComponent : MonoBehaviour {
             RegenerateMap();
         }
 
-        tilemap.ForEach(tile => { tile.Update(); });
+        _tilemap.ForEach(tile => { tile.Update(); });
     }
 
     void LateUpdate() {
-        mesher.MakeMesh(tilemap);
+        _mesher.MakeMesh(_tilemap);
     }
+
+    #endregion
 
     void InitTilemap() {
         Debug.Log("Initialising the Tilemap");
-        tilemap = new ChunkTilemap(SizeX, SizeZ);
-        lastDimensions = new Vector2Int(SizeX, SizeZ);
+        _tilemap = new ChunkTilemap(SizeX, SizeZ);
+        _lastDimensions = new Vector2Int(SizeX, SizeZ);
 
         for (var z = 0; z < SizeZ; z++) {
             for (var x = 0; x < SizeX; x++) {
-                tilemap.CreateTile(x, z);
+                _tilemap.CreateTile(x, z);
             }
         }
     }
@@ -64,11 +66,11 @@ public class TilemapComponent : MonoBehaviour {
     }
 
     public void ForEach(Action<ChunkTile> action) {
-        tilemap.ForEach(action);
+        _tilemap.ForEach(action);
     }
 
     public ChunkTile GetTile(int index) {
-        return tilemap.GetTile(index);
+        return _tilemap.GetTile(index);
     }
 }
 }

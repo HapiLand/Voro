@@ -1,5 +1,5 @@
 using UnityEngine;
-using VoroSystem.Generation.GraphSystem.Graph;
+using VoroSystem.Designer.GraphSystem.Graph;
 using VoroSystem.Generation.MesherSystem;
 
 namespace VoroSystem.Generation.DiagramSystem.Effects {

@@ -1,44 +1,33 @@
 using UnityEngine;
 
 namespace VoroSystem.Landscape.WorldBoundarySystem {
-[ExecuteInEditMode]
+/// <summary>
+/// Bounding Box
+/// </summary>
+[ExecuteAlways]
 public class WorldBoundaryComponent : MonoBehaviour {
-    int sizeX = 11;
-    int sizeZ = 10;
+    #region Serialized Fields
 
-    public static WorldBoundaryComponent Instance { get; private set; }
+    [SerializeField] int sizeX = 10;
+    [SerializeField] int sizeZ = 10;
 
-    public (int xSize, int zSize) Size {
-        get
-        {
-            var a = Corner.A;
-            var b = Corner.B;
-            var x = Mathf.RoundToInt(Mathf.Abs(b.x - a.x));
-            var z = Mathf.RoundToInt(Mathf.Abs(b.z - a.z));
-            return (x, z);
-        }
+    #endregion
+
+    public (Vector3 A, Vector3 B) Corner { get; private set; }
+    public (int xSize, int zSize) Size => (sizeX, sizeZ);
+
+    #region Event Functions
+
+    void OnEnable() {
+        SetCorners(Vector3.zero, new Vector3(sizeX, 0, sizeZ));
     }
 
-    public (Vector3 A, Vector3 B) Corner { get; private set; } =
-        (new Vector3(0, 0, 0), new Vector3(0, 0, 0));
+    #endregion
 
-    void Awake() {
-        if (Instance != null) {
-            Destroy(gameObject);
-            return;
-        }
-
-        Instance = this;
-    }
-
-    void Start() {
-        SetCorners(new Vector3(0, 0, 0), new Vector3(sizeX, 0, sizeZ));
-    }
 
     public void SetCorners(Vector3 cornerA, Vector3 cornerB) {
-        Debug.Log("Setting the corners for the world boundary");
-        sizeX = (int)(cornerB.x - cornerA.x);
-        sizeZ = (int)(cornerB.z - cornerA.z);
+        sizeX = Mathf.RoundToInt(Mathf.Abs(cornerB.x - cornerA.x));
+        sizeZ = Mathf.RoundToInt(Mathf.Abs(cornerB.z - cornerA.z));
         Corner = (cornerA, cornerB);
     }
 }

@@ -1,4 +1,4 @@
-using VoroSystem.Generation.GraphSystem.Graph;
+using VoroSystem.Designer.GraphSystem.Graph;
 
 namespace VoroSystem.Generation.DiagramSystem.Effects {
 class NoiseEffectManager : EffectManager {

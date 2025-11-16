@@ -1,7 +1,6 @@
 using System;
 using UnityEngine;
 using VoroSystem.Landscape.TilemapSystem.Tiles.Chunk;
-using VoroSystem.Landscape.WorldGridSystem;
 
 namespace VoroSystem.Landscape.TilemapSystem.Maps.Chunk {
 public class ChunkTilemap : IChunkMap<ChunkTile> {
@@ -12,6 +11,8 @@ public class ChunkTilemap : IChunkMap<ChunkTile> {
         SizeZ = zSize;
         map = new ChunkTile[SizeX, SizeZ];
     }
+
+    #region IChunkMap<ChunkTile> Members
 
     public int SizeX { get; }
 
@@ -40,6 +41,8 @@ public class ChunkTilemap : IChunkMap<ChunkTile> {
         return x >= 0 && z >= 0 && x < SizeX && z < SizeZ;
     }
 
+    #endregion
+
     ChunkTile GetTileUnsafe(int x, int z) {
         return map[x, z];
     }
@@ -58,7 +61,7 @@ public class ChunkTilemap : IChunkMap<ChunkTile> {
         var tile = new ChunkTile(
             z * SizeX + x,
             new Vector2(x, z),
-            WorldGridComponent.Instance.Dimensions.gridSize
+            1f
         );
         SetTileUnsafe(x, z, tile);
     }

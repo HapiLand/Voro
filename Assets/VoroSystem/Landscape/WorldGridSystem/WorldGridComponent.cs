@@ -2,49 +2,31 @@ using UnityEngine;
 using VoroSystem.Landscape.WorldBoundarySystem;
 
 namespace VoroSystem.Landscape.WorldGridSystem {
-[ExecuteInEditMode]
-[RequireComponent(typeof(WorldBoundaryComponent))]
+[ExecuteAlways]
 public class WorldGridComponent : MonoBehaviour {
-    [Range(0.1f, 1f)] float _gridSize = 1f;
-    WorldBoundaryComponent _worldBoundary;
-    public static WorldGridComponent Instance { get; private set; }
+    #region Serialized Fields
 
-    public (int xSize, int zSize, float gridSize) Dimensions {
+    [SerializeField] [Range(0.1f, 1f)] float gridSize = 1f;
+    [SerializeField] WorldBoundaryComponent worldBoundary;
+
+    #endregion
+
+    public float GridSize => gridSize;
+
+    public (int xSize, int zSize, float grid) Dimensions {
         get
         {
-            if (_worldBoundary == null) {
-                // try to get instance if not initialized yet (editor may call before Start)
-                _worldBoundary = WorldBoundaryComponent.Instance;
-                if (_worldBoundary == null) {
-                    return (1, 1, _gridSize);
-                }
-            }
-            var x = Mathf.Max(1, Mathf.RoundToInt(_worldBoundary.Size.xSize / _gridSize));
-            var z = Mathf.Max(1, Mathf.RoundToInt(_worldBoundary.Size.zSize / _gridSize));
-            return (x, z, _gridSize);
+            var size = worldBoundary.Size;
+            var xCells = Mathf.Max(1, Mathf.RoundToInt(size.xSize / gridSize));
+            var zCells = Mathf.Max(1, Mathf.RoundToInt(size.zSize / gridSize));
+            return (xCells, zCells, gridSize);
         }
     }
 
-    public Vector3 Origin {
-        get
-        {
-            if (_worldBoundary != null) {
-                return _worldBoundary.Corner.A;
-            }
+    public Vector3 Origin => worldBoundary.Corner.A;
 
-            _worldBoundary = WorldBoundaryComponent.Instance;
-            return _worldBoundary == null ? Vector3.zero : _worldBoundary.Corner.A;
-        }
-    }
-
-    void Awake() {
-        if (Instance != null) {
-            Destroy(gameObject);
-            return;
-        }
-
-        Instance = this;
-        _worldBoundary = WorldBoundaryComponent.Instance;
+    public void Initialize(WorldBoundaryComponent boundary) {
+        worldBoundary = boundary;
     }
 }
 }

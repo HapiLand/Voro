@@ -1,4 +1,4 @@
-using VoroSystem.Generation.GraphSystem.Fields;
+using VoroSystem.Designer.GraphSystem.Fields;
 
 namespace VoroSystem.Generation.DiagramSystem {
 class FXField {

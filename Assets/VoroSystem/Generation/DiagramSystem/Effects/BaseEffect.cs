@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
 using UnityEngine;
-using VoroSystem.Generation.GraphSystem.Graph;
+using VoroSystem.Designer.GraphSystem.Graph;
 using VoroSystem.Generation.MesherSystem;
 
 namespace VoroSystem.Generation.DiagramSystem.Effects {
@@ -12,6 +12,8 @@ abstract class BaseEffect : IEffect {
     EffectOperation Operation { get; set; }
     List<FXField> Fields { get; set; }
     protected abstract string EffectName { get; }
+
+    #region IEffect Members
 
     public ComputeShader Shader { get; set; }
     public ComputeBuffer Buffer { get; set; }
@@ -37,6 +39,8 @@ abstract class BaseEffect : IEffect {
     public virtual void ConfigureShader() {
         Shader.SetInt("operation", (int)Operation);
     }
+
+    #endregion
 
     protected void SetParameter<T>(string name) {
         var field = Fields.FirstOrDefault(f => string.Equals(f.Name, name, StringComparison.OrdinalIgnoreCase));

@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
+using VoroSystem.Designer.GraphSystem;
 using VoroSystem.Generation.DiagramSystem;
-using VoroSystem.Generation.GraphSystem;
 using VoroSystem.Landscape.TilemapSystem;
 using VoroSystem.Landscape.TilemapSystem.Maps.Chunk;
 
@@ -15,6 +15,8 @@ public class MesherComponent : MonoBehaviour {
 
     public static MesherComponent Instance { get; private set; }
 
+    #region Event Functions
+
     void Awake() {
         if (Instance != null) {
             Destroy(gameObject);
@@ -24,6 +26,8 @@ public class MesherComponent : MonoBehaviour {
         Instance = this;
         tileObjects = new Dictionary<(int x, int z), GameObject>();
     }
+
+    #endregion
 
     public void MakeMesh(ChunkTilemap tilemap) {
         var currentDimensions = new Vector2Int(tilemap.SizeX, tilemap.SizeZ);

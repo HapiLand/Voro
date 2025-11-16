@@ -1,5 +1,5 @@
 using UnityEngine;
-using VoroSystem.Generation.GraphSystem;
+using VoroSystem.Designer.GraphSystem;
 using VoroSystem.Landscape.TilemapSystem;
 using VoroSystem.Landscape.TilemapSystem.Maps.Chunk;
 
@@ -12,6 +12,8 @@ public class DiagramComponent : MonoBehaviour {
     TilemapComponent tilemap;
     public static DiagramComponent Instance { get; private set; }
 
+    #region Event Functions
+
     void Awake() {
         if (Instance != null) {
             Destroy(gameObject);
@@ -22,6 +24,8 @@ public class DiagramComponent : MonoBehaviour {
         designer = DesignerComponent.Instance;
         tilemap = TilemapComponent.Instance;
     }
+
+    #endregion
 
     public void RunEffects(ChunkTilemap tilemap) {
         designer.GetGraphDictionary(out var design);

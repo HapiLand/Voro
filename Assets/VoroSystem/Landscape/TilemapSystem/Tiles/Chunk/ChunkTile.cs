@@ -9,17 +9,19 @@ public class ChunkTile : IChunkTile {
     bool visible;
 
     public ChunkTile(int index, Vector2 position, float size) {
-        this.Index = index;
-        this.Position = position;
+        Index = index;
+        Position = position;
         Visible = false;
         Dirty = false;
         State = StateType.None;
-        this.Size = size;
+        Size = size;
     }
 
     public ChunkTile(bool dirty) {
         Dirty = dirty;
     }
+
+    #region IChunkTile Members
 
     public int Index { get; }
 
@@ -66,6 +68,8 @@ public class ChunkTile : IChunkTile {
     public void Update() {
         UpdateVisibility();
     }
+
+    #endregion
 
     void SetDirty(bool value) {
         if (value == Dirty) {
