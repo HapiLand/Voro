@@ -1,0 +1,36 @@
+#include "FXCommon.hlsl"
+
+#pragma kernel CSMain
+
+cbuffer Params
+{
+    float Direction;
+    float Steepness;
+    bool Reverse;
+}
+
+float Solve(float2 uv)
+{
+    float rad = radians(Direction);
+    float2 dir = float2(cos(rad), sin(rad));
+    float result = dot(uv, dir);
+    result *= Steepness;
+    if (Reverse)
+    {
+        result *= -1.0;
+    }
+    return result;
+}
+
+[numthreads(8,8,1)]
+void CSMain(uint3 id : SV_DispatchThreadID)
+{
+    float2 uv = GetUV(id);
+    int2 coord = int2(id.xy);
+
+    float origHeight = Result[coord].r;
+    float solvedHeight = Solve(uv);
+    solvedHeight = ApplyOperation(origHeight, solvedHeight);
+
+    Result[coord] = float4(solvedHeight, solvedHeight, solvedHeight, 1.0);
+}

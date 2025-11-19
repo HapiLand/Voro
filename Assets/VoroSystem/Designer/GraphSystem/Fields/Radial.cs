@@ -1,38 +1,22 @@
 using System;
 using UnityEngine;
+using VoroSystem.Designer.GraphSystem.Core;
+using VoroSystem.Designer.GraphSystem.UI.Drawers;
 
 namespace VoroSystem.Designer.GraphSystem.Fields {
 [Serializable]
-public class Radial : EffectFieldBase {
-    public Radial(string name, float defaultValue) : base(name, defaultValue,
-        FieldType.FloatSlider) { }
+public class Radial : TypedFieldBase<float> {
+  #region Serialized Fields
 
-    public float Min => 0f;
-    public float Max => 360f;
+  [SerializeField] RadialDrawer drawer;
 
-    public float Value {
-        get => (float)DefaultValue;
-        set => DefaultValue = value;
-    }
+  #endregion
 
-    public override void DrawGUI() {
-        GUILayout.BeginHorizontal();
-        GUILayout.Label("Radial");
-        GUILayout.Label($"{Value}");
-        Value = GUILayout.HorizontalSlider(Value, Min, Max);
-        GUILayout.EndHorizontal();
-    }
+  public Radial(string name, float defaultValue)
+    : base(name, defaultValue, FieldType.Radial) {
+    drawer = new RadialDrawer(0, 360f);
+  }
 
-    /// <summary>
-    /// detect if anything in the field changes
-    /// </summary>
-    public override int ComputeHash() {
-        unchecked {
-            // prevent overflow exceptions
-            var hash = Name.GetHashCode();
-            hash = hash * 31 + Value.GetHashCode();
-            return hash;
-        }
-    }
+  protected override IFieldDrawer<float> Drawer => drawer;
 }
 }

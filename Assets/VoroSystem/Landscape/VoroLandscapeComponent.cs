@@ -12,36 +12,37 @@ namespace VoroSystem.Landscape {
 [RequireComponent(typeof(WorldGridComponent))]
 [RequireComponent(typeof(WorldTilemapComponent))]
 public class VoroLandscapeComponent : MonoBehaviour {
-    #region Serialized Fields
+  #region Serialized Fields
 
-    [SerializeField] WorldBoundaryComponent worldBoundary;
-    [SerializeField] WorldGridComponent worldGrid;
-    [SerializeField] WorldTilemapComponent worldTilemap;
+  [SerializeField] WorldBoundaryComponent worldBoundary;
+  [SerializeField] WorldGridComponent worldGrid;
+  [SerializeField] WorldTilemapComponent worldTilemap;
 
-    #endregion
+  #endregion
 
-    public int MapXSize => worldGrid.Dimensions.xSize;
-    public int MapZSize => worldGrid.Dimensions.zSize;
+  public int MapXSize => worldGrid.Dimensions.xSize;
+  public int MapZSize => worldGrid.Dimensions.zSize;
+  public float TileSize => worldGrid.Dimensions.gridSize;
 
-    #region Event Functions
+  #region Event Functions
 
-    void Awake() {
-        worldBoundary ??= GetComponent<WorldBoundaryComponent>();
-        worldGrid ??= GetComponent<WorldGridComponent>();
-        worldTilemap ??= GetComponent<WorldTilemapComponent>();
+  void Awake() {
+    worldBoundary ??= GetComponent<WorldBoundaryComponent>();
+    worldGrid ??= GetComponent<WorldGridComponent>();
+    worldTilemap ??= GetComponent<WorldTilemapComponent>();
 
-        name = "VoroLandscape";
+    name = "VoroLandscape";
 
-        // init WorldGrid so it gains the bounding box size
-        worldGrid.Initialize(worldBoundary);
-        // init WorldTilemap so the array can be created
-        worldTilemap.Initialize(worldGrid);
-    }
+    // init WorldGrid so it gains the bounding box size
+    worldGrid.Initialize(worldBoundary);
+    // init WorldTilemap so the array can be created
+    worldTilemap.Initialize(worldGrid);
+  }
 
-    #endregion
+  #endregion
 
-    public Tile GetTile(int index) {
-        return worldTilemap.GetTile(index);
-    }
+  public Tile GetTile(int index) {
+    return worldTilemap.GetTile(index);
+  }
 }
 }

@@ -1,34 +1,20 @@
 using System;
 using UnityEngine;
+using VoroSystem.Designer.GraphSystem.Core;
+using VoroSystem.Designer.GraphSystem.UI.Drawers;
 
 namespace VoroSystem.Designer.GraphSystem.Fields {
 [Serializable]
-public class Toggle : EffectFieldBase {
-    public Toggle(string name, bool defaultValue) : base(name, defaultValue, FieldType.Toggle) { }
+public class Toggle : TypedFieldBase<bool> {
+  #region Serialized Fields
 
-    public bool Value {
-        get => (bool)DefaultValue;
-        set => DefaultValue = value;
-    }
+  [SerializeField] ToggleDrawer drawer;
 
-    public override void DrawGUI() {
-        GUILayout.BeginHorizontal();
-        GUILayout.Label("Toggle");
-        GUILayout.Label($"{Value}");
-        Value = GUILayout.Toggle(Value, Name);
-        GUILayout.EndHorizontal();
-    }
+  #endregion
 
-    /// <summary>
-    /// detect if anything in the field changes
-    /// </summary>
-    public override int ComputeHash() {
-        unchecked {
-            // prevent overflow exceptions
-            var hash = Name.GetHashCode();
-            hash = hash * 31 + Value.GetHashCode();
-            return hash;
-        }
-    }
+  public Toggle(string name, bool defaultValue)
+    : base(name, defaultValue, FieldType.Toggle) { }
+
+  protected override IFieldDrawer<bool> Drawer => drawer;
 }
 }

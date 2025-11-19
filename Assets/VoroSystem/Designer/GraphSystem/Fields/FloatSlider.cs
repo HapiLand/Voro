@@ -1,42 +1,22 @@
 using System;
 using UnityEngine;
+using VoroSystem.Designer.GraphSystem.Core;
+using VoroSystem.Designer.GraphSystem.UI.Drawers;
 
 namespace VoroSystem.Designer.GraphSystem.Fields {
 [Serializable]
-public class FloatSlider : EffectFieldBase {
-    public FloatSlider(string name, float defaultValue, float min, float max) : base(name, defaultValue,
-        FieldType.FloatSlider) {
-        Min = min;
-        Max = max;
-    }
+public class FloatSlider : TypedFieldBase<float> {
+  #region Serialized Fields
 
-    public float Min { get; }
+  [SerializeField] FloatSliderDrawer drawer;
 
-    public float Max { get; }
+  #endregion
 
-    public float Value {
-        get => (float)DefaultValue;
-        set => DefaultValue = value;
-    }
+  public FloatSlider(string name, float defaultValue, float min, float max)
+    : base(name, defaultValue, FieldType.FloatSlider) {
+    drawer = new FloatSliderDrawer(min, max);
+  }
 
-    public override void DrawGUI() {
-        GUILayout.BeginHorizontal();
-        GUILayout.Label("Float Slider");
-        GUILayout.Label($"{Value}");
-        Value = GUILayout.HorizontalSlider(Value, Min, Max);
-        GUILayout.EndHorizontal();
-    }
-
-    /// <summary>
-    /// detect if anything in the field changes
-    /// </summary>
-    public override int ComputeHash() {
-        unchecked {
-            // prevent overflow exceptions
-            var hash = Name.GetHashCode();
-            hash = hash * 31 + Value.GetHashCode();
-            return hash;
-        }
-    }
+  protected override IFieldDrawer<float> Drawer => drawer;
 }
 }

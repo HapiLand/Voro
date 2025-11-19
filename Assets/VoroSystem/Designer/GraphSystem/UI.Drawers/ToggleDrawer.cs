@@ -1,0 +1,20 @@
+using System;
+using UnityEngine;
+using VoroSystem.Designer.GraphSystem.Core;
+
+namespace VoroSystem.Designer.GraphSystem.UI.Drawers {
+[Serializable]
+public class ToggleDrawer : FieldDrawerBase, IFieldDrawer<bool> {
+  #region IFieldDrawer<bool> Members
+
+  public void Draw(ref bool value, string name) {
+    GUILayout.BeginHorizontal();
+    GUILayout.Label($"{name}", GUILayout.Width(LabelWidth));
+    GUILayout.Label($"{value}", GUILayout.Width(ValueWidth));
+    value = GUILayout.Toggle(value, "", GUILayout.Width(InputWidth));
+    GUILayout.EndHorizontal();
+  }
+
+  #endregion
+}
+}

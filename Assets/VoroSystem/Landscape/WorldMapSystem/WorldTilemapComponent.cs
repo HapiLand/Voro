@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using VoroSystem.Landscape.WorldGridSystem;
+using VoroSystem.Util;
 
 namespace VoroSystem.Landscape.WorldMapSystem {
 /// <summary>
@@ -8,63 +9,63 @@ namespace VoroSystem.Landscape.WorldMapSystem {
 /// </summary>
 [ExecuteAlways]
 public class WorldTilemapComponent : MonoBehaviour {
-    #region Serialized Fields
+  #region Serialized Fields
 
-    [SerializeField] WorldGridComponent worldGrid;
-    [SerializeField] Tile[] tiles;
+  [SerializeField] WorldGridComponent worldGrid;
+  [SerializeField] Tile[] tiles;
 
-    #endregion
+  #endregion
 
-    Vector2Int _lastDimensions;
-    bool DimensionsChanged => _lastDimensions.x != SizeX || _lastDimensions.y != SizeZ;
+  Vector2Int _lastDimensions;
+  bool DimensionsChanged => _lastDimensions.x != SizeX || _lastDimensions.y != SizeZ;
 
-    int SizeX => worldGrid?.Dimensions.xSize ?? 1;
-    int SizeZ => worldGrid?.Dimensions.zSize ?? 1;
+  int SizeX => worldGrid?.Dimensions.xSize ?? 1;
+  int SizeZ => worldGrid?.Dimensions.zSize ?? 1;
 
-    #region Event Functions
+  #region Event Functions
 
-    void Update() {
-        if (DimensionsChanged) {
-            RegenerateMap();
-        }
-
-        ForEach(tile => { tile.Update(); });
+  void Update() {
+    if (DimensionsChanged) {
+      RegenerateMap();
     }
 
-    #endregion
+    ForEach(tile => { tile.Update(); });
+  }
 
-    public void Initialize(WorldGridComponent grid) {
-        worldGrid = grid;
-        InitTilemap();
-    }
+  #endregion
 
-    void RegenerateMap() {
-        InitTilemap();
-    }
+  public void Initialize(WorldGridComponent grid) {
+    worldGrid = grid;
+    InitTilemap();
+  }
 
-    void InitTilemap() {
-        tiles = new Tile[SizeX * SizeZ];
-        _lastDimensions = new Vector2Int(SizeX, SizeZ);
-        for (var z = 0; z < SizeZ; z++) {
-            for (var x = 0; x < SizeX; x++) {
-                CreateTile(x, z);
-            }
-        }
-    }
+  void RegenerateMap() {
+    InitTilemap();
+  }
 
-    void CreateTile(int x, int z) {
-        var index = HelperUtility.GetIndex(x, z, SizeX);
-        tiles[index] = new Tile(index, new Vector2(x, z), worldGrid.GridSize);
+  void InitTilemap() {
+    tiles = new Tile[SizeX * SizeZ];
+    _lastDimensions = new Vector2Int(SizeX, SizeZ);
+    for (var z = 0; z < SizeZ; z++) {
+      for (var x = 0; x < SizeX; x++) {
+        CreateTile(x, z);
+      }
     }
+  }
 
-    public void ForEach(Action<Tile> action) {
-        foreach (var t in tiles) {
-            action(t);
-        }
-    }
+  void CreateTile(int x, int z) {
+    var index = HelperUtility.GetIndex(x, z, SizeX);
+    tiles[index] = new Tile(index, new Vector2(x, z), worldGrid.GridSize);
+  }
 
-    public Tile GetTile(int index) {
-        return tiles[index];
+  public void ForEach(Action<Tile> action) {
+    foreach (var t in tiles) {
+      action(t);
     }
+  }
+
+  public Tile GetTile(int index) {
+    return tiles[index];
+  }
 }
 }

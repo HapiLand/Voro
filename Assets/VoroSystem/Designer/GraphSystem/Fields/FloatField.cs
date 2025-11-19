@@ -1,34 +1,22 @@
 using System;
 using UnityEngine;
+using VoroSystem.Designer.GraphSystem.Core;
+using VoroSystem.Designer.GraphSystem.UI.Drawers;
 
 namespace VoroSystem.Designer.GraphSystem.Fields {
 [Serializable]
-public class FloatField : EffectFieldBase {
-    public FloatField(string name, float defaultValue) : base(name, defaultValue, FieldType.FloatField) { }
+public class FloatField : TypedFieldBase<float> {
+  #region Serialized Fields
 
-    public float Value {
-        get => (float)DefaultValue;
-        set => DefaultValue = value;
-    }
+  [SerializeField] FloatFieldDrawer drawer;
 
-    public override void DrawGUI() {
-        GUILayout.BeginHorizontal();
-        GUILayout.Label("Float Field");
-        GUILayout.Label($"{Value}");
-        Value = float.Parse(GUILayout.TextField(Value.ToString()));
-        GUILayout.EndHorizontal();
-    }
+  #endregion
 
-    /// <summary>
-    /// detect if anything in the field changes
-    /// </summary>
-    public override int ComputeHash() {
-        unchecked {
-            // prevent overflow exceptions
-            var hash = Name.GetHashCode();
-            hash = hash * 31 + Value.GetHashCode();
-            return hash;
-        }
-    }
+  public FloatField(string name, float defaultValue)
+    : base(name, defaultValue, FieldType.FloatField) {
+    drawer = new FloatFieldDrawer();
+  }
+
+  protected override IFieldDrawer<float> Drawer => drawer;
 }
 }

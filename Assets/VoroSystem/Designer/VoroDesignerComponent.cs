@@ -1,23 +1,23 @@
 using UnityEngine;
-using VoroSystem.Designer.GraphSystemV2;
+using VoroSystem.Designer.GraphSystem;
 
 namespace VoroSystem.Designer {
 [ExecuteAlways]
 [RequireComponent(typeof(GraphComponent))]
 public class VoroDesignerComponent : MonoBehaviour {
-    #region Serialized Fields
+  #region Serialized Fields
 
-    [SerializeField] GraphComponent graphComponent;
+  [SerializeField] public GraphComponent graphComponent;
 
-    #endregion
+  #endregion
 
-    #region Event Functions
+  #region Event Functions
 
-    void Awake() {
-        graphComponent ??= GetComponent<GraphComponent>();
-        name = "VoroDesigner";
-    }
+  void Awake() {
+    graphComponent ??= GetComponent<GraphComponent>();
+    name = "VoroDesigner";
+  }
 
-    #endregion
+  #endregion
 }
 }
