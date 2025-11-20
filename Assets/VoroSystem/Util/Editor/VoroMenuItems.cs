@@ -19,6 +19,21 @@ public class VoroMenuItems : EditorWindow {
   #endregion
 
   #region Voro/Core
+  
+  /*
+   * todo correct composition for the system
+   * group the components into game objects
+   * --Namespaces--
+   * Voro.Compute
+   * --   Compute.Effects   : ComputeShader, Heightmap
+   * Voro.Designer
+   * --   Designer.Graph    : GUI editor
+   * Voro.Landscape
+   * --   Landscape.Map     : Bounding box, Tilemap
+   * --   Landscape.World   : Contains GameObject
+   * Voro.Terrain
+   * --   Terrain.Ground    : Chunked mesh
+   */
 
   [MenuItem("Voro/Core/Voro Terrain", false, 0)]
   public static void CreateVoroTerrain() {
