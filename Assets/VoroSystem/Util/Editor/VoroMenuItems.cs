@@ -1,5 +1,3 @@
-using OldVoroSystem.Generation;
-using OldVoroSystem.Landscape;
 using UnityEditor;
 using UnityEngine;
 using VoroSystem.Compute;
@@ -61,53 +59,6 @@ public class VoroMenuItems : EditorWindow {
     }
 
     Selection.activeObject = new GameObject().AddComponent<VoroLandscapeComponent>();
-  }
-
-  #endregion
-
-  #region Voro/Old
-
-  [MenuItem("Voro/Old/Create Diagram", false, 2)]
-  public static void CreateDiagram() {
-    var existing = FindAnyObjectByType<DiagramComponent>();
-    if (existing != null) {
-      DestroyImmediate(existing.gameObject);
-    }
-
-    var obj = new GameObject("Diagram");
-    obj.AddComponent<DiagramComponent>();
-    Selection.activeObject = obj;
-  }
-
-  [MenuItem("Voro/Old/Create Tilemap", false, 2)]
-  public static void CreateTilemap() {
-    var existing = FindAnyObjectByType<TilemapComponent>();
-    if (existing != null) {
-      DestroyImmediate(existing.gameObject);
-    }
-
-    var obj = new GameObject("Tilemap");
-    obj.AddComponent<TilemapComponent>();
-    Selection.activeObject = obj;
-  }
-
-  [MenuItem("Voro/Old/Create World Boundary", false, 2)]
-  public static void CreateWorldBoundary() {
-    var obj = new GameObject("World Boundary");
-    obj.AddComponent<WorldBoundaryComponent>();
-    Selection.activeObject = obj;
-  }
-
-  [MenuItem("Voro/Old/Create World Grid", false, 2)]
-  public static void CreateWorldGrid() {
-    var existing = FindAnyObjectByType<WorldGridComponent>();
-    if (existing != null) {
-      DestroyImmediate(existing.gameObject);
-    }
-
-    var obj = new GameObject("World Grid");
-    obj.AddComponent<WorldGridComponent>();
-    Selection.activeObject = obj;
   }
 
   #endregion

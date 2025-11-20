@@ -1,11 +1,11 @@
 using System;
 
-namespace OldVoroSystem.Landscape {
+namespace VoroSystem.Landscape.WorldMapSystem {
 [Serializable]
 public enum StateType {
+  None,
   Build,
   Lifecycle,
-  None,
   Remove
 }
 }
