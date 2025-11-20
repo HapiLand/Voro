@@ -1,11 +1,9 @@
 using UnityEditor;
 using UnityEngine;
-using VoroSystem.Compute;
-using VoroSystem.Designer;
-using VoroSystem.Landscape;
-using VoroSystem.Landscape.WorldBoundarySystem;
-using VoroSystem.Landscape.WorldGridSystem;
-using VoroSystem.Terrain;
+using VoroSystem.Voro.Compute;
+using VoroSystem.Voro.Designer;
+using VoroSystem.Voro.World.Landscape;
+using VoroSystem.Voro.World.Voro.Terrain;
 
 namespace VoroSystem.Util.Editor {
 public class VoroMenuItems : EditorWindow {
@@ -20,60 +18,47 @@ public class VoroMenuItems : EditorWindow {
 
   #region Voro/Core
   
-  /*
-   * todo correct composition for the system
-   * group the components into game objects
-   * --Namespaces--
-   * Voro.Compute
-   * --   Compute.Effects   : ComputeShader, Heightmap
-   * Voro.Designer
-   * --   Designer.Graph    : GUI editor
-   * Voro.Landscape
-   * --   Landscape.Map     : Bounding box, Tilemap
-   * --   Landscape.World   : Contains GameObject
-   * Voro.Terrain
-   * --   Terrain.Ground    : Chunked mesh
-   */
+  
 
   [MenuItem("Voro/Core/Voro Terrain", false, 0)]
   public static void CreateVoroTerrain() {
-    var component = FindAnyObjectByType<VoroTerrainComponent>();
+    var component = FindAnyObjectByType<VoroTerrain>();
     if (component != null) {
       return;
     }
 
-    Selection.activeObject = new GameObject().AddComponent<VoroTerrainComponent>();
+    Selection.activeObject = new GameObject().AddComponent<VoroTerrain>();
   }
 
   [MenuItem("Voro/Core/Voro Designer", false, 1)]
   public static void CreateVoroDesigner() {
-    var component = FindAnyObjectByType<VoroDesignerComponent>();
+    var component = FindAnyObjectByType<VoroDesigner>();
     if (component != null) {
       return;
     }
 
-    Selection.activeObject = new GameObject().AddComponent<VoroDesignerComponent>();
+    Selection.activeObject = new GameObject().AddComponent<VoroDesigner>();
   }
 
   [MenuItem("Voro/Core/Voro Compute", false, 2)]
   public static void CreateVoroCompute() {
-    var component = FindAnyObjectByType<VoroComputeComponent>();
+    var component = FindAnyObjectByType<VoroCompute>();
     if (component != null) {
       return;
     }
 
-    Selection.activeObject = new GameObject().AddComponent<VoroComputeComponent>();
+    Selection.activeObject = new GameObject().AddComponent<VoroCompute>();
   }
 
 
   [MenuItem("Voro/Core/Internal/Voro Landscape", false, 0)]
   public static void CreateVoroLandscape() {
-    var component = FindAnyObjectByType<VoroLandscapeComponent>();
+    var component = FindAnyObjectByType<VoroLandscape>();
     if (component != null) {
       return;
     }
 
-    Selection.activeObject = new GameObject().AddComponent<VoroLandscapeComponent>();
+    Selection.activeObject = new GameObject().AddComponent<VoroLandscape>();
   }
 
   #endregion
