@@ -5,7 +5,7 @@ using VoroSystem.Voro.World.Landscape.Map;
 namespace VoroSystem.Voro.World.Landscape.Editor {
 [CustomEditor(typeof(WorldBoundary))]
 public class WorldBoundaryDrawer : UnityEditor.Editor {
-  // todo https://docs.unity3d.com/6000.2/Documentation/ScriptReference/IMGUI.Controls.BoxBoundsHandle.html
+  /*// todo https://docs.unity3d.com/6000.2/Documentation/ScriptReference/IMGUI.Controls.BoxBoundsHandle.html
   static WorldBoundaryDrawer() {
     SceneView.duringSceneGui += OnGlobalSceneGUI;
   }
@@ -35,6 +35,6 @@ public class WorldBoundaryDrawer : UnityEditor.Editor {
       new Vector3(Mathf.Abs(t.Corner.B.x - t.Corner.A.x),
         0,
         Mathf.Abs(t.Corner.B.z - t.Corner.A.z)));
-  }
+  }*/
 }
 }
