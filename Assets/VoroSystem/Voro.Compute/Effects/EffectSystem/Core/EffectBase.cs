@@ -5,7 +5,7 @@ using UnityEngine;
 using VoroSystem.Util.Extensions;
 using VoroSystem.Voro.Compute.Effects.EffectSystem.Parameters;
 using VoroSystem.Voro.Designer.Graph;
-using VoroSystem.Voro.World.Voro.Terrain.Ground.Chunks;
+using VoroSystem.Voro.World.TerrainOLD.Ground.Chunks;
 
 namespace VoroSystem.Voro.Compute.Effects.EffectSystem.Core {
 [Serializable]

@@ -1,7 +1,6 @@
-using System;
 using UnityEngine;
 using VoroSystem.Voro.Compute;
-using VoroSystem.Voro.World.Voro.Terrain;
+using VoroSystem.Voro.World.TerrainOLD;
 
 namespace VoroSystem.Voro.Core {
 /*
@@ -11,25 +10,33 @@ namespace VoroSystem.Voro.Core {
  * Voro.Compute
  * --   Compute.Effects     : ComputeShader
  * --   Compute.Elevation   : Heightmap
- * 
+ *
  * Voro.Designer
  * --   Designer.Graph    : GUI editor
  *
  * Voro.Landscape
  * --   Landscape.Map     : Bounding box, Tilemap
- * 
+ *
  * Voro.Terrain
  * --   Terrain.Ground    : Chunked mesh
  */
 [ExecuteAlways]
 public class VoroCore : MonoBehaviour {
-    [SerializeField] VoroCompute compute;
-    [SerializeField] VoroTerrain terrain;
-    
-    void Awake() {
-        name = "Voro Core";
-        compute ??= GetComponentInChildren<VoroCompute>();
-        terrain ??= GetComponentInChildren<VoroTerrain>();
-    }
+  #region Serialized Fields
+
+  [SerializeField] VoroCompute compute;
+  [SerializeField] VoroTerrain terrain;
+
+  #endregion
+
+  #region Event Functions
+
+  void Awake() {
+    name = "Voro Core";
+    compute ??= GetComponentInChildren<VoroCompute>();
+    terrain ??= GetComponentInChildren<VoroTerrain>();
+  }
+
+  #endregion
 }
 }

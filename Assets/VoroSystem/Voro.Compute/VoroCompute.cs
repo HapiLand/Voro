@@ -3,7 +3,7 @@ using UnityEngine;
 using VoroSystem.Voro.Compute.Elevation;
 using VoroSystem.Voro.Designer;
 using VoroSystem.Voro.Designer.Graph;
-using VoroSystem.Voro.World.Voro.Terrain;
+using VoroSystem.Voro.World.TerrainOLD;
 
 namespace VoroSystem.Voro.Compute {
 /// <summary>
@@ -13,7 +13,6 @@ public class VoroCompute : MonoBehaviour {
   #region Serialized Fields
 
   [SerializeField] VoroTerrain voroTerrain;
-  [SerializeField] ChunkTerrain chunkTerrain;
   [SerializeField] VoroDesigner voroDesigner;
   [SerializeField] ChunkReader chunkReader;
 
@@ -28,7 +27,6 @@ public class VoroCompute : MonoBehaviour {
      * displace vertices using heightmap
      */
     voroTerrain ??= GetComponent<VoroTerrain>();
-    chunkTerrain ??= GetComponent<ChunkTerrain>();
     voroDesigner ??= GetComponentInChildren<VoroDesigner>();
 
     chunkReader = new ChunkReader();

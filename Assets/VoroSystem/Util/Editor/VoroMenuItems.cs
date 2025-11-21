@@ -2,8 +2,8 @@ using UnityEditor;
 using UnityEngine;
 using VoroSystem.Voro.Compute;
 using VoroSystem.Voro.Designer;
-using VoroSystem.Voro.World.Landscape;
-using VoroSystem.Voro.World.Voro.Terrain;
+using VoroSystem.Voro.World.Map;
+using VoroSystem.Voro.World.TerrainOLD;
 
 namespace VoroSystem.Util.Editor {
 public class VoroMenuItems : EditorWindow {
@@ -17,8 +17,6 @@ public class VoroMenuItems : EditorWindow {
   #endregion
 
   #region Voro/Core
-  
-  
 
   [MenuItem("Voro/Core/Voro Terrain", false, 0)]
   public static void CreateVoroTerrain() {
@@ -26,7 +24,6 @@ public class VoroMenuItems : EditorWindow {
     if (component != null) {
       return;
     }
-
     Selection.activeObject = new GameObject().AddComponent<VoroTerrain>();
   }
 
@@ -53,12 +50,12 @@ public class VoroMenuItems : EditorWindow {
 
   [MenuItem("Voro/Core/Internal/Voro Landscape", false, 0)]
   public static void CreateVoroLandscape() {
-    var component = FindAnyObjectByType<VoroLandscape>();
+    var component = FindAnyObjectByType<VoroMap>();
     if (component != null) {
       return;
     }
 
-    Selection.activeObject = new GameObject().AddComponent<VoroLandscape>();
+    Selection.activeObject = new GameObject().AddComponent<VoroMap>();
   }
 
   #endregion
