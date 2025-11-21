@@ -1,26 +1,27 @@
 using UnityEditor;
 using UnityEngine;
+using VoroSystem.Voro.Designer;
 using VoroSystem.Voro.World;
-using VoroSystem.Voro.World.Map;
 
 namespace VoroSystem.Voro.Core.Editor {
 public class CoreMenu : EditorWindow {
-  [MenuItem("VoroCore/New Map")]
-  public static void CreateMap() {
-    var component = FindAnyObjectByType<VoroMap>();
-    if (component != null) {
-      return;
+    [MenuItem("VoroCore/Open Designer")]
+    public static void CreateDesigner() {
+        Create<VoroDesigner>();
     }
-    Selection.activeObject = new GameObject().AddComponent<VoroMap>();
-  }
-  
-  [MenuItem("VoroCore/New World")]
-  public static void CreateWorld() {
-    var component = FindAnyObjectByType<VoroWorld>();
-    if (component != null) {
-      return;
+
+    [MenuItem("VoroCore/New World")]
+    public static void CreateWorld() {
+        Create<VoroWorld>();
     }
-    Selection.activeObject = new GameObject().AddComponent<VoroWorld>();
-  }
+
+    static void Create<T>() where T : Component {
+        var component = FindAnyObjectByType<T>();
+        if (component != null) {
+            return;
+        }
+
+        Selection.activeObject = new GameObject().AddComponent<T>();
+    }
 }
 }

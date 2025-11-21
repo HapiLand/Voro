@@ -3,74 +3,71 @@ using UnityEngine;
 namespace VoroSystem.Voro.World.Map {
 [ExecuteAlways]
 public class VoroMap : MonoBehaviour {
-  #region Serialized Fields
+    public (Vector3 A, Vector3 B) Corner { get; private set; }
 
-  [SerializeField] public bool isDirty;
-  [SerializeField] public Tilemap<Tile> tilemap;
-  [SerializeField] [Range(0.1f, 1f)] public float tileSize = 1f;
-  [SerializeField] public int mapSizeX = 10;
-  [SerializeField] public int mapSizeZ = 10;
-
-  #endregion
-
-  public (Vector3 A, Vector3 B) Corner { get; private set; }
-
-  #region Event Functions
-
-  void Awake() {
-    SetCorners(Vector3.zero, new Vector3(mapSizeX, 0, mapSizeZ));
-    name = "Voro Map";
-    CreateTilemap();
-    RegenerateIfDirty();
-  }
-
-  void Update() {
-    RegenerateIfDirty();
-    tilemap?.ForEach(t => t.Update());
-  }
-
-  void OnValidate() {
-    isDirty = true;
-    RegenerateIfDirty();
-  }
-
-  #endregion
-
-  void CreateTilemap() {
-    tilemap ??= new Tilemap<Tile>(tileSize, mapSizeX, mapSizeZ, (index, pos) => new Tile(index, pos, tileSize));
-  }
-
-  void RegenerateIfDirty() {
-    if (!isDirty) {
-      return;
+    void CreateTilemap() {
+        tilemap ??= new Tilemap<Tile>(tileSize, mapSizeX, mapSizeZ, (index, pos) => new Tile(index, pos, tileSize));
     }
 
-    RegenerateMap();
-    isDirty = false;
-  }
+    void RegenerateIfDirty() {
+        if (!isDirty) {
+            return;
+        }
 
-  void RegenerateMap() {
-    tilemap.mapSizeX = mapSizeX;
-    tilemap.mapSizeZ = mapSizeZ;
-    tilemap.tileSize = tileSize;
+        RegenerateMap();
+        isDirty = false;
+    }
 
-    Initialize();
-    tilemap.CreateMap();
-  }
+    void RegenerateMap() {
+        tilemap.mapSizeX = mapSizeX;
+        tilemap.mapSizeZ = mapSizeZ;
+        tilemap.tileSize = tileSize;
 
-  void Initialize() {
-    tilemap = new Tilemap<Tile>(tileSize, mapSizeX, mapSizeZ, (index, pos) => new Tile(index, pos, tileSize));
-  }
+        Initialize();
+        tilemap.CreateMap();
+    }
 
-  public Tile GetTile(int index) {
-    return tilemap[index];
-  }
+    void Initialize() {
+        tilemap = new Tilemap<Tile>(tileSize, mapSizeX, mapSizeZ, (index, pos) => new Tile(index, pos, tileSize));
+    }
 
-  public void SetCorners(Vector3 a, Vector3 b) {
-    mapSizeX = Mathf.RoundToInt(Mathf.Abs(b.x - a.x));
-    mapSizeZ = Mathf.RoundToInt(Mathf.Abs(b.z - a.z));
-    Corner = (a, b);
-    isDirty = true;
-  }
+    public Tile GetTile(int index) {
+        return tilemap[index];
+    }
+
+    public void SetCorners(Vector3 a, Vector3 b) {
+        mapSizeX = Mathf.RoundToInt(Mathf.Abs(b.x - a.x));
+        mapSizeZ = Mathf.RoundToInt(Mathf.Abs(b.z - a.z));
+        Corner = (a, b);
+        isDirty = true;
+    }
+
+    #region Serialized Fields
+    [SerializeField] public bool isDirty;
+    [SerializeField] public Tilemap<Tile> tilemap;
+    [SerializeField] [Range(0.1f, 1f)] public float tileSize = 1f;
+    [SerializeField] public int mapSizeX = 10;
+    [SerializeField] public int mapSizeZ = 10;
+    #endregion
+
+    #region Event Functions
+    void Awake() {
+        SetCorners(Vector3.zero, new Vector3(mapSizeX, 0, mapSizeZ));
+        name = "Voro Map";
+        CreateTilemap();
+        RegenerateIfDirty();
+    }
+
+    void Update() {
+        RegenerateIfDirty();
+        tilemap?.ForEach(t => t.Update());
+    }
+
+    void OnValidate() {
+        isDirty = true;
+        CreateTilemap();
+        RegenerateIfDirty();
+    }
+    #endregion
 }
 }

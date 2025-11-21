@@ -1,6 +1,5 @@
 using UnityEngine;
 using VoroSystem.Voro.Compute;
-using VoroSystem.Voro.World.TerrainOLD;
 
 namespace VoroSystem.Voro.Core {
 /*
@@ -22,21 +21,17 @@ namespace VoroSystem.Voro.Core {
  */
 [ExecuteAlways]
 public class VoroCore : MonoBehaviour {
-  #region Serialized Fields
+    #region Serialized Fields
+    [SerializeField] VoroCompute compute;
+    // [SerializeField] VoroTerrain terrain;
+    #endregion
 
-  [SerializeField] VoroCompute compute;
-  [SerializeField] VoroTerrain terrain;
-
-  #endregion
-
-  #region Event Functions
-
-  void Awake() {
-    name = "Voro Core";
-    compute ??= GetComponentInChildren<VoroCompute>();
-    terrain ??= GetComponentInChildren<VoroTerrain>();
-  }
-
-  #endregion
+    #region Event Functions
+    void Awake() {
+        name = "Voro Core";
+        compute ??= GetComponentInChildren<VoroCompute>();
+        // terrain ??= GetComponentInChildren<VoroTerrain>();
+    }
+    #endregion
 }
 }
