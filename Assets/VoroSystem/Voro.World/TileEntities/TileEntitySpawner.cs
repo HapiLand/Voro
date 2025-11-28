@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using VoroSystem.Util;
 using VoroSystem.Voro.World.Map;
@@ -5,32 +6,50 @@ using VoroSystem.Voro.World.Map;
 namespace VoroSystem.Voro.World.TileEntities {
 [ExecuteAlways]
 public class TileEntitySpawner : MonoBehaviour {
-    [SerializeField] SerializableDictionary<int, GameObject> objects = new();
+  #region Serialized Fields
+  
+  VoroWorld _world;
+  VoroMap _map;
 
-    void Awake() {
-        name = "Tile Entities";
+  [SerializeField] SerializableDictionary<int, TileEntity> objects = new();
+
+  #endregion
+
+  #region Event Functions
+
+  void Awake() {
+    name = "Tile Entities";
+    _world = GetComponent<VoroWorld>();
+    _map = GetComponent<VoroMap>();
+  }
+
+  void OnEnable() {
+    TileEvents.TileCreated += HandleTileCreated;
+  }
+
+  void OnDisable() {
+    TileEvents.TileCreated -= HandleTileCreated;
+  }
+
+  #endregion
+
+  void HandleTileCreated(Tile tile) {
+    if (objects.ContainsKey(tile.Index)) {
+      return;
     }
 
-    void OnEnable() {
-        TileEvents.TileCreated += HandleTileCreated;
-    }
+    var go = new GameObject($"[{tile.Index}] ({tile.Position.x:F0},{tile.Position.y:F0})");
+    go.transform.SetParent(transform);
 
-    void OnDisable() {
-        TileEvents.TileCreated -= HandleTileCreated;
-    }
+    var entity = go.AddComponent<TileEntity>();
+    entity.Initialize(tile, _world, _map);
 
-    void HandleTileCreated(Tile tile) {
-        if (objects.ContainsKey(tile.Index)) {
-            return;
-        }
+    objects[tile.Index] = entity;
+  }
 
-        var go = new GameObject($"[{tile.Index}] ({tile.Position.x:F0},{tile.Position.y:F0})");
-        go.transform.SetParent(transform);
+  public IEnumerable<TileEntity> GetAllEntities() {
+    return objects.Values;
+  }
 
-        var proxy = go.AddComponent<TileEntity>();
-        proxy.Initialize(tile);
-
-        objects[tile.Index] = go;
-    }
 }
 }

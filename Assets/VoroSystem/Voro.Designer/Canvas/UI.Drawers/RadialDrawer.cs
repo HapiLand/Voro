@@ -5,24 +5,28 @@ using VoroSystem.Voro.Designer.Canvas.Core;
 namespace VoroSystem.Voro.Designer.Canvas.UI.Drawers {
 [Serializable]
 public class RadialDrawer : FieldDrawerBase, IFieldDrawer<float> {
-    public RadialDrawer(float min, float max) {
-        this.min = min;
-        this.max = max;
-    }
+  #region Serialized Fields
 
-    #region IFieldDrawer<float> Members
-    public void Draw(ref float value, string name) {
-        GUILayout.BeginHorizontal();
-        GUILayout.Label($"{name}", GUILayout.Width(LabelWidth));
-        GUILayout.Label($"{value:F2}", GUILayout.Width(ValueWidth));
-        value = GUILayout.HorizontalSlider(value, min, max, GUILayout.Width(InputWidth));
-        GUILayout.EndHorizontal();
-    }
-    #endregion
+  [SerializeField] float min;
+  [SerializeField] float max;
 
-    #region Serialized Fields
-    [SerializeField] float min;
-    [SerializeField] float max;
-    #endregion
+  #endregion
+
+  public RadialDrawer(float min, float max) {
+    this.min = min;
+    this.max = max;
+  }
+
+  #region IFieldDrawer<float> Members
+
+  public void Draw(ref float value, string name) {
+    GUILayout.BeginHorizontal();
+    GUILayout.Label($"{name}", GUILayout.Width(LabelWidth));
+    GUILayout.Label($"{value:F2}", GUILayout.Width(ValueWidth));
+    value = GUILayout.HorizontalSlider(value, min, max, GUILayout.Width(InputWidth));
+    GUILayout.EndHorizontal();
+  }
+
+  #endregion
 }
 }

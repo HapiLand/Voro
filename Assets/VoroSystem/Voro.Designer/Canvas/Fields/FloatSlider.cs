@@ -6,15 +6,17 @@ using VoroSystem.Voro.Designer.Canvas.UI.Drawers;
 namespace VoroSystem.Voro.Designer.Canvas.Fields {
 [Serializable]
 public class FloatSlider : TypedFieldBase<float> {
-    #region Serialized Fields
-    [SerializeField] FloatSliderDrawer drawer;
-    #endregion
+  #region Serialized Fields
 
-    public FloatSlider(string name, float defaultValue, float min, float max)
-        : base(name, defaultValue, FieldType.FloatSlider) {
-        drawer = new FloatSliderDrawer(min, max);
-    }
+  [SerializeField] FloatSliderDrawer drawer;
 
-    protected override IFieldDrawer<float> Drawer => drawer;
+  #endregion
+
+  public FloatSlider(string name, float defaultValue, float min, float max)
+    : base(name, defaultValue, FieldType.FloatSlider) {
+    drawer = new FloatSliderDrawer(min, max);
+  }
+
+  protected override IFieldDrawer<float> Drawer => drawer;
 }
 }

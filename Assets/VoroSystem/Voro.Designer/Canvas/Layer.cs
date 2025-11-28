@@ -4,27 +4,24 @@ using UnityEngine;
 
 namespace VoroSystem.Voro.Designer.Canvas {
 [Serializable]
-public class Layer : ILayer {
-    public Layer(string layerName) {
-        this.layerName = layerName;
-    }
+public class Layer {
+  #region Serialized Fields
 
-    public void CreateNode(Node def) {
-        AddNode(def);
-    }
+  [SerializeField] public string layerName;
+  [SerializeField] public List<Node> nodes = new();
 
-    void AddNode(Node node) {
-        nodes.Add(node);
-    }
+  #endregion
 
-    public void LoadDefaults() {
-        var def = NodeLookup.Get("Flat");
-        CreateNode(def);
-    }
+  public Layer(string layerName) {
+    this.layerName = layerName;
+  }
 
-    #region Serialized Fields
-    [SerializeField] public string layerName;
-    [SerializeField] public List<Node> nodes = new();
-    #endregion
+  public void CreateNode(Node def) {
+    AddNode(def);
+  }
+
+  void AddNode(Node node) {
+    nodes.Add(node);
+  }
 }
 }

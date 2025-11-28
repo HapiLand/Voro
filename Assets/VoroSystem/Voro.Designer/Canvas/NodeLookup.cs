@@ -1,52 +1,61 @@
 using System.Collections.Generic;
+using VoroSystem.Voro.Compute.Effects.Core;
 using VoroSystem.Voro.Designer.Canvas.Core;
 using VoroSystem.Voro.Designer.Canvas.Fields;
 
 namespace VoroSystem.Voro.Designer.Canvas {
 public static class NodeLookup {
-    static readonly Dictionary<string, Node> Effects = new()
+  static readonly Dictionary<EffectName, Node> Effects = new()
+  {
     {
-        ["Slope"] = new Node("Slope")
+      EffectName.Slope, new Node(EffectName.Slope)
+      {
+        fields = new List<FieldBase>
         {
-            fields = new List<FieldBase>
-            {
-                new Radial("Direction", 0f),
-                new FloatField("Steepness", 0.1f),
-                new Toggle("Reverse", false)
-            }
-        },
-        ["Noise"] = new Node("Noise")
-        {
-            fields = new List<FieldBase>
-            {
-                new FloatSlider("Size", 0.75f, 0.2f, 0.75f),
-                new FloatSlider("Steepness", 0.5f, 0.15f, 1f)
-            }
-        },
-        ["Flat"] = new Node("Flat")
-        {
-            fields = new List<FieldBase>
-            {
-                new FloatSlider("Height", 0f, 0f, 1f)
-            }
-        },
-        ["Terrace"] = new Node("Terrace")
-        {
-            fields = new List<FieldBase>
-            {
-                new FloatSlider("min_step_size", 0.15f, 0f, 1f),
-                new FloatSlider("max_step_size", 0.75f, 0f, 1f),
-                new FloatSlider("StepSize", 1f, 0f, 1f),
-                new Radial("direction", 0f),
-                new IntSlider("iterations", 3, 0, 10)
-            }
+          new Radial("Direction", 0f),
+          new FloatField("Steepness", 0.1f),
+          new Toggle("Reverse", false)
         }
-    };
-
-    public static IEnumerable<string> Names => Effects.Keys;
-
-    public static Node Get(string name) {
-        return Effects.GetValueOrDefault(name);
+      }
+    },
+    {
+      EffectName.Noise, new Node(EffectName.Noise)
+      {
+        fields = new List<FieldBase>
+        {
+          new FloatSlider("Size", 0.75f, 0.2f, 0.75f),
+          new FloatSlider("Steepness", 0.5f, 0.15f, 1f)
+        }
+      }
+    },
+    {
+      EffectName.Terrace, new Node(EffectName.Terrace)
+      {
+        fields = new List<FieldBase>
+        {
+          new FloatSlider("MinStepSize", 0.15f, 0f, 1f),
+          new FloatSlider("MaxStepSize", 0.75f, 0f, 1f),
+          new FloatSlider("StepSize", 1f, 0f, 1f),
+          new Radial("direction", 0f),
+          new IntSlider("iterations", 3, 0, 10)
+        }
+      }
+    },
+    {
+      EffectName.Flat, new Node(EffectName.Flat)
+      {
+        fields = new List<FieldBase>
+        {
+          new FloatSlider("Height", 0f, 0f, 1f)
+        }
+      }
     }
+  };
+
+  public static IEnumerable<EffectName> Names => Effects.Keys;
+
+  public static Node Get(EffectName name) {
+    return Effects.GetValueOrDefault(name);
+  }
 }
 }

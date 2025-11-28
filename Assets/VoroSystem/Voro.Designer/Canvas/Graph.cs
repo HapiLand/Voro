@@ -4,28 +4,26 @@ using UnityEngine;
 
 namespace VoroSystem.Voro.Designer.Canvas {
 [Serializable]
-public class Graph : IGraph {
-    public Graph(string graphName = "Default Graph") {
-        this.graphName = graphName;
-    }
+public class Graph {
+  #region Serialized Fields
 
-    public Layer CreateLayer(string layerName = "Default Layer") {
-        var layer = new Layer(layerName);
-        AddLayer(layer);
-        return layer;
-    }
+  [SerializeField] public string graphName;
+  [SerializeField] public List<Layer> layers = new();
 
-    void AddLayer(Layer layer) {
-        layers.Add(layer);
-    }
+  #endregion
 
-    public void LoadDefaults() {
-        var layer = CreateLayer();
-    }
+  public Graph(string graphName = "Default Graph") {
+    this.graphName = graphName;
+  }
 
-    #region Serialized Fields
-    [SerializeField] public string graphName;
-    [SerializeField] public List<Layer> layers = new();
-    #endregion
+  public Layer CreateLayer(string layerName = "Default Layer") {
+    var layer = new Layer(layerName);
+    AddLayer(layer);
+    return layer;
+  }
+
+  void AddLayer(Layer layer) {
+    layers.Add(layer);
+  }
 }
 }

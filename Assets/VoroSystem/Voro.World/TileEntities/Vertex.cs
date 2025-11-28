@@ -4,12 +4,14 @@ using UnityEngine;
 namespace VoroSystem.Voro.World.TileEntities {
 [Serializable]
 public class Vertex {
-    #region Serialized Fields
-    public Vector3 position;
-    #endregion
+  #region Serialized Fields
 
-    public Vertex(Vector3 pos) {
-        position = pos;
-    }
+  public Vector3 position;
+
+  #endregion
+
+  public Vertex(Vector3 pos) {
+    position = pos;
+  }
 }
 }
