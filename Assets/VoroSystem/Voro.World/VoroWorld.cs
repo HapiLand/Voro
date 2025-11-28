@@ -1,15 +1,24 @@
 using System.Collections.Generic;
 using UnityEngine;
-using VoroSystem.Voro.World.Map;
-using VoroSystem.Voro.World.TileEntities;
+using VoroSystem.Util;
+using VoroSystem.Voro.World.ChunkStructure;
 
 namespace VoroSystem.Voro.World {
+/// <summary>
+/// VoroWorld represents all the objects that are instanced and exist in the landscape
+/// </summary>
 [ExecuteAlways]
+[RequireComponent(typeof(VoroMap), typeof(VoroSpawner))]
 public class VoroWorld : MonoBehaviour {
   #region Serialized Fields
 
-  [SerializeField] TileEntitySpawner spawner;
-  [SerializeField] VoroMap map;
+  [SerializeField] VoroMap voroMap;
+  [SerializeField] VoroSpawner voroSpawner;
+
+  /// <summary>
+  /// container that stores every Chunk that exists in the world
+  /// </summary>
+  [SerializeField] SerializableDictionary<int, Chunk> chunks = new();
 
   #endregion
 
@@ -17,30 +26,26 @@ public class VoroWorld : MonoBehaviour {
 
   void Awake() {
     name = "Voro World";
-    map = gameObject.AddComponent<VoroMap>();
-    spawner = gameObject.AddComponent<TileEntitySpawner>();
+    voroMap = GetComponent<VoroMap>();
+    voroSpawner = GetComponent<VoroSpawner>();
+    VoroMap.CreatedChunk += HandleChunkCreated;
+    voroMap.Init();
+  }
+
+  void OnDisable() {
+    VoroMap.CreatedChunk -= HandleChunkCreated;
   }
 
   #endregion
 
-  T CreateChild<T>(T existing, string childName = "") where T : Component {
-    if (existing != null) {
-      return existing;
+  void HandleChunkCreated(Chunk obj) {
+    if (!chunks.TryAdd(obj.Index, obj)) {
+      Debug.LogWarning($"Chunk [{obj.Index}] already exists");
     }
-
-    var child = new GameObject(childName);
-    child.transform.SetParent(transform);
-    return child.AddComponent<T>();
   }
 
-  public IEnumerable<TileEntity> GetAllTileEntities() {
-    if (spawner == null) {
-      yield break;
-    }
-
-    foreach (var entity in spawner.GetAllEntities()) {
-      yield return entity;
-    }
+  public IEnumerable<Chunk> GetAllChunks() {
+    return chunks.Values;
   }
 }
 }

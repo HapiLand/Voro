@@ -1,59 +1,30 @@
-using System.Collections.Generic;
+using System;
 using UnityEngine;
-using VoroSystem.Voro.Compute.Effects;
-using VoroSystem.Voro.Compute.Effects.Core;
-using VoroSystem.Voro.Designer;
-using VoroSystem.Voro.Designer.Canvas;
-using VoroSystem.Voro.World;
-using VoroSystem.Voro.World.TileEntities;
 
 namespace VoroSystem.Voro.Compute {
 [ExecuteAlways]
 public class VoroCompute : MonoBehaviour {
-  #region Serialized Fields
-
-  [SerializeField] VoroWorld world;
-  [SerializeField] VoroDesigner designer;
-
-  #endregion
-
-  
+  public static Action OnCompute;
 
   #region Event Functions
 
   void Awake() {
     name = "Voro Compute";
-    world = gameObject.AddComponent<VoroWorld>();
-  }
-
-  void OnEnable() {
-    VoroDesigner.OnChanged += OnDesignerChanged;
-  }
-
-  void OnDisable() {
-    VoroDesigner.OnChanged -= OnDesignerChanged;
   }
 
   #endregion
 
-  public void Init(VoroDesigner designer) {
-    this.designer = designer;
-    designer.gameObject.transform.SetParent(transform);
-  }
-
-  Material MaterialResource => Resources.Load<Material>("ChunkMaterial");
-  
-  void OnDesignerChanged() {
-    foreach (var entity in world.GetAllTileEntities()) {
+  /*void OnDesignerChanged() {
+    foreach (var chunk in world.GetAllChunks()) {
       var mat = new Material(MaterialResource)
       {
-        mainTexture = Compute(entity)
+        mainTexture = Compute(chunk)
       };
       GetComponent<MeshRenderer>().sharedMaterial = mat;
     }
-  }
+  }*/
 
-  Texture2D Compute(TileEntity instance) {
+  /*Texture2D Compute(Chunk instance) {
     var graph = designer.graph;
     var dictionary = ReadGraph(graph, out var allowCompute);
 
@@ -74,10 +45,10 @@ public class VoroCompute : MonoBehaviour {
     }
 
     return result;
-  }
+  }*/
 
 
-  Dictionary<string, List<EffectManager>> ReadGraph(Graph graph, out bool allowCompute) {
+  /*Dictionary<string, List<EffectManager>> ReadGraph(Graph graph, out bool allowCompute) {
     var layerCount = graph.layers.Count;
     var graphDictionary = new Dictionary<string, List<EffectManager>>();
 
@@ -123,6 +94,6 @@ public class VoroCompute : MonoBehaviour {
 
     allowCompute = true;
     return graphDictionary;
-  }
+  }*/
 }
 }

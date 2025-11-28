@@ -40,15 +40,16 @@ public class Tilemap<T> {
       }
     }
   }
-  
+
   public T GetTileAtPosition(Vector2 coord) {
     var x = (int)(coord.x / tileSize);
     var z = (int)(coord.y / tileSize);
     var tilesX = Mathf.Max(1, Mathf.RoundToInt(mapSizeX / tileSize));
     var tilesZ = Mathf.Max(1, Mathf.RoundToInt(mapSizeZ / tileSize));
     if (x < 0 || x >= tilesX || z < 0 || z >= tilesZ) {
-      return default(T);
+      return default;
     }
+
     var index = HelperUtility.GetIndex(x, z, tilesX);
     return map[index];
   }

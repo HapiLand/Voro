@@ -5,7 +5,7 @@ using UnityEngine;
 using VoroSystem.Util.Extensions;
 using VoroSystem.Voro.Compute.Effects.Parameters;
 using VoroSystem.Voro.Designer.Canvas;
-using VoroSystem.Voro.World.TileEntities;
+using VoroSystem.Voro.World.ChunkStructure;
 
 namespace VoroSystem.Voro.Compute.Effects.Core {
 [Serializable]
@@ -59,10 +59,10 @@ public abstract class EffectBase : IEffect {
   /// <summary>
   /// computes the heightmap texture
   /// </summary>
-  public virtual void Compute(TileEntity instance) {
+  public virtual void Compute(Chunk instance) {
     SetShaderTexture();
 
-    var offset = instance.gameObject.transform.position.ToVector2();
+    var offset = instance.AsGameObject().transform.position.ToVector2();
     var x = offset.x;
     var y = offset.y;
     shader.SetFloat("OffsetX", x);

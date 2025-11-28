@@ -47,13 +47,6 @@ public class DesignerEditor : UnityEditor.Editor {
       return;
     }
 
-    DrawUILine(Color.black);
-    if (GUILayout.Button("Compute")) {
-      VoroDesigner.OnChanged?.Invoke();
-    }
-
-    DrawUILine(Color.black);
-
     GUILayout.Label($"Graph: {designer.graph.graphName}");
     EditorGUILayout.BeginHorizontal();
     newLayerName = EditorGUILayout.TextField("New Layer Name:", newLayerName);
