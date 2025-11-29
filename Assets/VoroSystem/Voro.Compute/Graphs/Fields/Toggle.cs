@@ -6,13 +6,15 @@ using VoroSystem.Voro.Compute.Graphs.UI.Drawers;
 namespace VoroSystem.Voro.Compute.Graphs.Fields {
 [Serializable]
 public class Toggle : TypedFieldBase<bool> {
-    #region Serialized Fields
-    [SerializeField] ToggleDrawer drawer;
-    #endregion
+  #region Serialized Fields
 
-    public Toggle(string name, bool defaultValue)
-        : base(name, defaultValue, FieldType.Toggle) { }
+  [SerializeField] ToggleDrawer drawer;
 
-    protected override IFieldDrawer<bool> Drawer => drawer;
+  #endregion
+
+  public Toggle(string name, bool defaultValue)
+    : base(name, defaultValue, FieldType.Toggle) { }
+
+  protected override IFieldDrawer<bool> Drawer => drawer;
 }
 }

@@ -10,113 +10,117 @@ using VoroSystem.Voro.World.ChunkStructure;
 namespace VoroSystem.Voro.Core {
 [ExecuteAlways]
 public class VoroCore : MonoBehaviour {
-    void HandleOnCompute() {
-        foreach (var chunk in voroWorld.GetAllChunks()) {
-            var tex = Compute(chunk);
-            chunk.SetTexture(tex);
-        }
+  #region Serialized Fields
 
-        return;
+  [SerializeField] VoroWorld voroWorld;
+  [SerializeField] VoroCompute voroCompute;
 
-        Texture2D Compute(Chunk chunk) {
-            var graph = voroCompute.graph;
-            var dictionary = ReadGraph(graph, out var allowCompute);
+  #endregion
 
-            var result = Texture2D.blackTexture;
+  #region Event Functions
 
-            if (!allowCompute) {
-                return result;
-            }
+  void Awake() {
+    name = "Voro Core";
+    voroWorld = CreateChild(voroWorld);
+    voroCompute = CreateChild(voroCompute);
 
-            // each Layer
-            foreach (var (layerName, list) in dictionary) {
-                Debug.Log($"Layer \"{layerName}\"");
-                // each Effect Manager
-                list.ForEach(effect => {
-                    Debug.Log($"Computing Effect \"{effect.Name}\"");
-                    result = effect.RunEffect(chunk);
-                });
-            }
+    VoroCompute.OnCompute += HandleOnCompute;
+  }
 
-            return result;
-        }
+  void OnDisable() {
+    VoroCompute.OnCompute -= HandleOnCompute;
+  }
 
-        Dictionary<string, List<EffectManager>> ReadGraph(Graph graph, out bool allowCompute) {
-            var layerCount = graph.layers.Count;
-            var graphDictionary = new Dictionary<string, List<EffectManager>>();
+  #endregion
 
-            if (layerCount == 0) {
-                Debug.Log("No Layers found in Graph");
-                allowCompute = false;
-                return graphDictionary;
-            }
-
-            Debug.Log($"Reading {layerCount} Layers");
-            for (var i = 0; i < layerCount; i++) {
-                var layer = graph.layers[i];
-                var layerName = layer.layerName;
-
-                // add each unique layer to the dictionary
-                if (!graphDictionary.TryGetValue(layerName, out var effectList)) {
-                    effectList = new List<EffectManager>();
-                    graphDictionary[layerName] = effectList;
-                }
-
-                // read the Nodes, create the matching Effect
-                foreach (var node in layer.nodes) {
-                    switch (node.nodeName) {
-                    case EffectName.Slope: {
-                        effectList.Add(new SlopeEffectManager(node));
-                        break;
-                    }
-                    case EffectName.Flat: {
-                        effectList.Add(new FlatEffectManager(node));
-                        break;
-                    }
-                    case EffectName.Noise: {
-                        effectList.Add(new NoiseEffectManager(node));
-                        break;
-                    }
-                    case EffectName.Terrace: {
-                        effectList.Add(new TerraceEffectManager(node));
-                        break;
-                    }
-                    }
-                }
-            }
-
-            allowCompute = true;
-            return graphDictionary;
-        }
+  void HandleOnCompute() {
+    foreach (var chunk in voroWorld.GetAllChunks()) {
+      var tex = Compute(chunk);
+      chunk.SetTexture(tex);
     }
 
-    T CreateChild<T>(T existing, string childName = "") where T : Component {
-        if (existing != null) {
-            return existing;
+    return;
+
+    Texture2D Compute(Chunk chunk) {
+      var graph = voroCompute.Graph;
+      var dictionary = ReadGraph(graph, out var allowCompute);
+
+      var result = Texture2D.blackTexture;
+
+      if (!allowCompute) {
+        return result;
+      }
+
+      // each Layer
+      foreach (var (layerName, list) in dictionary) {
+        Debug.Log($"Layer \"{layerName}\"");
+        // each Effect Manager
+        list.ForEach(effect => {
+          Debug.Log($"Computing Effect \"{effect.Name}\"");
+          result = effect.RunEffect(chunk);
+        });
+      }
+
+      return result;
+    }
+
+    Dictionary<string, List<EffectManager>> ReadGraph(Graph graph, out bool allowCompute) {
+      var layerCount = graph.layers.Count;
+      var graphDictionary = new Dictionary<string, List<EffectManager>>();
+
+      if (layerCount == 0) {
+        Debug.Log("No Layers found in Graph");
+        allowCompute = false;
+        return graphDictionary;
+      }
+
+      Debug.Log($"Reading {layerCount} Layers");
+      for (var i = 0; i < layerCount; i++) {
+        var layer = graph.layers[i];
+        var layerName = layer.layerName;
+
+        // add each unique layer to the dictionary
+        if (!graphDictionary.TryGetValue(layerName, out var effectList)) {
+          effectList = new List<EffectManager>();
+          graphDictionary[layerName] = effectList;
         }
 
-        var child = new GameObject(childName);
-        child.transform.SetParent(transform);
-        return child.AddComponent<T>();
+        // read the Nodes, create the matching Effect
+        foreach (var node in layer.nodes) {
+          switch (node.nodeName) {
+          case EffectName.Slope: {
+            effectList.Add(new SlopeEffectManager(node));
+            break;
+          }
+          case EffectName.Flat: {
+            effectList.Add(new FlatEffectManager(node));
+            break;
+          }
+          case EffectName.Noise: {
+            effectList.Add(new NoiseEffectManager(node));
+            break;
+          }
+          case EffectName.Terrace: {
+            effectList.Add(new TerraceEffectManager(node));
+            break;
+          }
+          }
+        }
+      }
+
+      allowCompute = true;
+      return graphDictionary;
+    }
+  }
+
+  T CreateChild<T>(T existing, string childName = "") where T : Component {
+    if (existing != null) {
+      return existing;
     }
 
-    #region Serialized Fields
-    [SerializeField] VoroWorld voroWorld;
-    [SerializeField] VoroCompute voroCompute;
-    #endregion
-
-    #region Event Functions
-    void Awake() {
-        name = "Voro Core";
-        voroWorld = CreateChild(voroWorld);
-        voroCompute = CreateChild(voroCompute);
-
-        VoroCompute.OnCompute += HandleOnCompute;
-    }
-
-    void OnDisable() {
-        VoroCompute.OnCompute -= HandleOnCompute;
-    }
-    #endregion
+    var child = new GameObject(childName);
+    child.transform.SetParent(transform);
+    return child.AddComponent<T>();
+  }
 }
 }

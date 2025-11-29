@@ -1,0 +1,14 @@
+{
+  "DiagramName" : "Debug Diagram",
+  "Layers" : [
+    {
+      "LayerName" : "Debug Layer",
+      "Nodes" : [
+        {
+          "NodeType" : "Debug",
+          "Mode" : "Set"
+        }
+      ]
+    }
+  ]
+}

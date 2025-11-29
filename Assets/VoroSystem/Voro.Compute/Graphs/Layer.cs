@@ -6,26 +6,28 @@ using UnityEngine;
 namespace VoroSystem.Voro.Compute.Graphs {
 [Serializable]
 public class Layer {
-    public Layer() { }
+  #region Serialized Fields
 
-    public Layer(string layerName) {
-        this.layerName = layerName;
-    }
+  [SerializeField] [JsonProperty("Name")]
+  public string layerName;
 
-    public void CreateNode(Node def) {
-        AddNode(def);
-    }
+  [SerializeField] [JsonProperty("Nodes")]
+  public List<Node> nodes = new();
 
-    void AddNode(Node node) {
-        nodes.Add(node);
-    }
+  #endregion
 
-    #region Serialized Fields
-    [SerializeField] [JsonProperty("Name")]
-    public string layerName;
+  public Layer() { }
 
-    [SerializeField] [JsonProperty("Nodes")]
-    public List<Node> nodes = new();
-    #endregion
+  public Layer(string layerName) {
+    this.layerName = layerName;
+  }
+
+  public void CreateNode(Node def) {
+    AddNode(def);
+  }
+
+  void AddNode(Node node) {
+    nodes.Add(node);
+  }
 }
 }

@@ -6,10 +6,10 @@ namespace VoroSystem.Voro.World.ChunkStructure {
 /// implementation for the mesh of a Tile
 /// </summary>
 public interface ITileMesh {
-    MeshFilter Filter { get; }
-    Mesh Mesh { get; }
-    CVertex[] Vertices { get; }
-    List<int> Triangles { get; }
-    Vector2[] UVs { get; }
+  MeshFilter Filter { get; }
+  Mesh Mesh { get; }
+  CVertex[] Vertices { get; }
+  List<int> Triangles { get; }
+  Vector2[] UVs { get; }
 }
 }

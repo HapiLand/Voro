@@ -4,7 +4,7 @@ namespace VoroSystem.Voro.World.ChunkStructure {
 /// <see cref="Tilemap{T}" />
 /// </summary>
 public interface IMapTile {
-    int Index { get; }
-    float Size { get; }
+  int Index { get; }
+  float Size { get; }
 }
 }

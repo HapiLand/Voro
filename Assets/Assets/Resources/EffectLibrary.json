@@ -1,66 +1,66 @@
 {
-  "effects": [
+  "effects" : [
     {
-      "effectName": "Flat",
-      "operation": "Set",
-      "fields": [
+      "effectName" : "Flat",
+      "operation" : "Set",
+      "fields" : [
         {
-          "fieldName": "Height",
-          "fieldType": "FloatField",
-          "defaultValue": 0
+          "fieldName" : "Height",
+          "fieldType" : "FloatField",
+          "defaultValue" : 0
         }
       ]
     },
     {
-      "effectName": "Slope",
-      "operation": "Set",
-      "fields": [
+      "effectName" : "Slope",
+      "operation" : "Set",
+      "fields" : [
         {
-          "fieldName": "Direction",
-          "fieldType": "Radial",
-          "defaultValue": 0
+          "fieldName" : "Direction",
+          "fieldType" : "Radial",
+          "defaultValue" : 0
         },
         {
-          "fieldName": "Steepness",
-          "fieldType": "FloatSlider",
-          "defaultValue": 0
+          "fieldName" : "Steepness",
+          "fieldType" : "FloatSlider",
+          "defaultValue" : 0
         },
         {
-          "fieldName": "Reverse",
-          "fieldType": "Toggle",
-          "defaultValue": false
+          "fieldName" : "Reverse",
+          "fieldType" : "Toggle",
+          "defaultValue" : false
         }
       ]
     },
     {
-      "effectName": "Noise",
-      "operation": "Set",
-      "fields": [
+      "effectName" : "Noise",
+      "operation" : "Set",
+      "fields" : [
         {
-          "fieldName": "Size",
-          "fieldType": "FloatSlider",
-          "defaultValue": 0
+          "fieldName" : "Size",
+          "fieldType" : "FloatSlider",
+          "defaultValue" : 0
         },
         {
-          "fieldName": "Steepness",
-          "fieldType": "FloatSlider",
-          "defaultValue": 0
+          "fieldName" : "Steepness",
+          "fieldType" : "FloatSlider",
+          "defaultValue" : 0
         }
       ]
     },
     {
-      "effectName": "Terrace",
-      "operation": "Set",
-      "fields": [
+      "effectName" : "Terrace",
+      "operation" : "Set",
+      "fields" : [
         {
-          "fieldName": "StepSize",
-          "fieldType": "FloatSlider",
-          "defaultValue": 0
+          "fieldName" : "StepSize",
+          "fieldType" : "FloatSlider",
+          "defaultValue" : 0
         },
         {
-          "fieldName": "Randomness",
-          "fieldType": "FloatSlider",
-          "defaultValue": 0
+          "fieldName" : "Randomness",
+          "fieldType" : "FloatSlider",
+          "defaultValue" : 0
         }
       ]
     }

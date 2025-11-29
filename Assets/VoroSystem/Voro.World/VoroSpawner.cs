@@ -4,18 +4,20 @@ using VoroSystem.Voro.World.ChunkStructure;
 namespace VoroSystem.Voro.World {
 [ExecuteAlways]
 public class VoroSpawner : MonoBehaviour {
-    void HandleChunkCreated(Chunk obj) {
-        obj.Init(transform);
-    }
+  #region Event Functions
 
-    #region Event Functions
-    void Awake() {
-        VoroMap.CreatedChunk += HandleChunkCreated;
-    }
+  void Awake() {
+    VoroMap.CreatedChunk += HandleChunkCreated;
+  }
 
-    void OnDisable() {
-        VoroMap.CreatedChunk -= HandleChunkCreated;
-    }
-    #endregion
+  void OnDisable() {
+    VoroMap.CreatedChunk -= HandleChunkCreated;
+  }
+
+  #endregion
+
+  void HandleChunkCreated(Chunk obj) {
+    obj.Init(transform);
+  }
 }
 }
