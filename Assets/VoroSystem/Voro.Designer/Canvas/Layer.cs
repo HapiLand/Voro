@@ -1,27 +1,31 @@
 using System;
 using System.Collections.Generic;
+using Newtonsoft.Json;
 using UnityEngine;
 
 namespace VoroSystem.Voro.Designer.Canvas {
 [Serializable]
 public class Layer {
-  #region Serialized Fields
+    public Layer() { }
 
-  [SerializeField] public string layerName;
-  [SerializeField] public List<Node> nodes = new();
+    public Layer(string layerName) {
+        this.layerName = layerName;
+    }
 
-  #endregion
+    public void CreateNode(Node def) {
+        AddNode(def);
+    }
 
-  public Layer(string layerName) {
-    this.layerName = layerName;
-  }
+    void AddNode(Node node) {
+        nodes.Add(node);
+    }
 
-  public void CreateNode(Node def) {
-    AddNode(def);
-  }
+    #region Serialized Fields
+    [SerializeField] [JsonProperty("Name")]
+    public string layerName;
 
-  void AddNode(Node node) {
-    nodes.Add(node);
-  }
+    [SerializeField] [JsonProperty("Nodes")]
+    public List<Node> nodes = new();
+    #endregion
 }
 }

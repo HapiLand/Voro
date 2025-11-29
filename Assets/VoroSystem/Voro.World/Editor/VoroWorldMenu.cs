@@ -3,20 +3,20 @@ using UnityEngine;
 
 namespace VoroSystem.Voro.World.Editor {
 public class VoroWorldMenu : EditorWindow {
-  [MenuItem("Voro/World/New World")]
-  public static void CreateWorld() {
-    Create<VoroWorld>();
-  }
-
-  static T Create<T>() where T : Component {
-    var component = FindAnyObjectByType<T>();
-    if (component != null) {
-      return component;
+    [MenuItem("Voro/World/New World")]
+    public static void CreateWorld() {
+        Create<VoroWorld>();
     }
 
-    component = new GameObject().AddComponent<T>();
-    Selection.activeObject = component;
-    return component;
-  }
+    static T Create<T>() where T : Component {
+        var component = FindAnyObjectByType<T>();
+        if (component != null) {
+            return component;
+        }
+
+        component = new GameObject().AddComponent<T>();
+        Selection.activeObject = component;
+        return component;
+    }
 }
 }

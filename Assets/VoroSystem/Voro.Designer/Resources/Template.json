@@ -1,0 +1,31 @@
+{
+  "Name": "Template",
+  "Layers": [
+    {
+      "Name": "Foo",
+      "Nodes": [
+        {
+          "Name": "Slope",
+          "Operation": "Set",
+          "Fields": [
+            {
+              "Name": "Direction",
+              "DefaultValue": 0,
+              "Type": "Radial"
+            },
+            {
+              "Name": "Steepness",
+              "DefaultValue": 0.1,
+              "Type": "FloatField"
+            },
+            {
+              "Name": "Reverse",
+              "DefaultValue": false,
+              "Type": "Toggle"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,25 +1,34 @@
 using System;
+using Newtonsoft.Json;
 using UnityEngine;
 using VoroSystem.Voro.Designer.Canvas;
 
 namespace VoroSystem.Voro.Designer {
 [ExecuteAlways]
 public class VoroDesigner : MonoBehaviour {
-  public static Action OnChanged;
+    public static Action OnChanged;
 
-  #region Serialized Fields
+    #region Event Functions
+    void Awake() {
+        name = "Voro Designer";
+        jsonSource = Resources.Load<TextAsset>("Template");
+        LoadGraph();
+    }
+    #endregion
 
-  [SerializeField] public Graph graph;
+    void LoadGraph() {
+        graph = new Graph();
+        graph = JsonConvert.DeserializeObject<Graph>(jsonSource.text);
+        foreach (var layer in graph.layers) {
+            foreach (var node in layer.nodes) {
+                node.ConvertFields();
+            }
+        }
+    }
 
-  #endregion
-
-  #region Event Functions
-
-  void Awake() {
-    name = "Voro Designer";
-    graph = new Graph();
-  }
-
-  #endregion
+    #region Serialized Fields
+    [SerializeField] public Graph graph;
+    [SerializeField] public TextAsset jsonSource;
+    #endregion
 }
 }

@@ -4,14 +4,12 @@ using UnityEngine;
 namespace VoroSystem.Voro.World.ChunkStructure {
 [Serializable]
 public class CVertex {
-  #region Serialized Fields
+    #region Serialized Fields
+    public Vector3 position;
+    #endregion
 
-  public Vector3 position;
-
-  #endregion
-
-  public CVertex(Vector3 pos) {
-    position = pos;
-  }
+    public CVertex(Vector3 pos) {
+        position = pos;
+    }
 }
 }

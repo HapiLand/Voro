@@ -1,29 +1,33 @@
 using System;
 using System.Collections.Generic;
+using Newtonsoft.Json;
 using UnityEngine;
 
 namespace VoroSystem.Voro.Designer.Canvas {
 [Serializable]
 public class Graph {
-  #region Serialized Fields
+    public Graph() { }
 
-  [SerializeField] public string graphName;
-  [SerializeField] public List<Layer> layers = new();
+    public Graph(string graphName = "Default Graph") {
+        this.graphName = graphName;
+    }
 
-  #endregion
+    public Layer CreateLayer(string layerName = "Default Layer") {
+        var layer = new Layer(layerName);
+        AddLayer(layer);
+        return layer;
+    }
 
-  public Graph(string graphName = "Default Graph") {
-    this.graphName = graphName;
-  }
+    void AddLayer(Layer layer) {
+        layers.Add(layer);
+    }
 
-  public Layer CreateLayer(string layerName = "Default Layer") {
-    var layer = new Layer(layerName);
-    AddLayer(layer);
-    return layer;
-  }
+    #region Serialized Fields
+    [SerializeField] [JsonProperty("Name")]
+    public string graphName;
 
-  void AddLayer(Layer layer) {
-    layers.Add(layer);
-  }
+    [SerializeField] [JsonProperty("Layers")]
+    public List<Layer> layers = new();
+    #endregion
 }
 }

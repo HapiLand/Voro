@@ -1,44 +1,44 @@
 {
-  "configName" : "Foo Config",
-  "layers" : [
+  "configName": "Foo Config",
+  "layers": [
     {
-      "layerName" : "Foo Layer",
-      "sortOrder" : 0,
-      "effects" : [
+      "layerName": "Foo Layer",
+      "sortOrder": 0,
+      "effects": [
         {
-          "effectName" : "Slope",
-          "operation" : "Set",
-          "fields" : [
+          "effectName": "Slope",
+          "operation": "Set",
+          "fields": [
             {
-              "fieldName" : "Direction",
-              "fieldType" : "Radial",
-              "defaultValue" : 0
+              "fieldName": "Direction",
+              "fieldType": "Radial",
+              "defaultValue": 0
             },
             {
-              "fieldName" : "Steepness",
-              "fieldType" : "FloatSlider",
-              "defaultValue" : 0.3
+              "fieldName": "Steepness",
+              "fieldType": "FloatSlider",
+              "defaultValue": 0.3
             },
             {
-              "fieldName" : "Reverse",
-              "fieldType" : "Toggle",
-              "defaultValue" : false
+              "fieldName": "Reverse",
+              "fieldType": "Toggle",
+              "defaultValue": false
             }
           ]
         },
         {
-          "effectName" : "Noise",
-          "operation" : "Add",
-          "fields" : [
+          "effectName": "Noise",
+          "operation": "Add",
+          "fields": [
             {
-              "fieldName" : "Size",
-              "fieldType" : "FloatSlider",
-              "defaultValue" : 0.6
+              "fieldName": "Size",
+              "fieldType": "FloatSlider",
+              "defaultValue": 0.6
             },
             {
-              "fieldName" : "Steepness",
-              "fieldType" : "FloatSlider",
-              "defaultValue" : 0.3
+              "fieldName": "Steepness",
+              "fieldType": "FloatSlider",
+              "defaultValue": 0.3
             }
           ]
         }

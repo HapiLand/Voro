@@ -8,22 +8,22 @@ using VoroSystem.Voro.Designer.Canvas;
 namespace VoroSystem.Voro.Compute.Effects {
 [Serializable]
 public class SlopeEffect : EffectBase {
-  public SlopeEffect() {
-    type = EffectName.Slope;
-  }
+    public SlopeEffect() {
+        type = EffectName.Slope;
+    }
 
-  public override void ConfigureShader() {
-    base.ConfigureShader();
-    SetParameter<float>("Direction");
-    SetParameter<float>("Steepness");
-    SetParameter<bool>("Reverse");
-  }
+    public override void ConfigureShader() {
+        base.ConfigureShader();
+        SetParameter<float>("Direction");
+        SetParameter<float>("Steepness");
+        SetParameter<bool>("Reverse");
+    }
 
-  public override void Initialize(Node node) {
-    shader = Resources.Load<ComputeShader>("FX/Slope");
-    mode = node.operation;
-    parameters = node.fields.Select(fb => new EffectParameter(fb.name, fb.defaultValue, fb.type)).ToList();
-    base.Initialize(node);
-  }
+    public override void Initialize(Node node) {
+        shader = Resources.Load<ComputeShader>("FX/Slope");
+        mode = node.operation;
+        parameters = node.fields.Select(fb => new EffectParameter(fb.name, fb.defaultValue, fb.type)).ToList();
+        base.Initialize(node);
+    }
 }
 }

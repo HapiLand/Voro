@@ -5,51 +5,49 @@ using UnityEngine;
 namespace VoroSystem.Util {
 [Serializable]
 public class SerializableHashSet<T> {
-  #region Serialized Fields
+    #region Serialized Fields
+    [SerializeField] List<T> items = new();
+    #endregion
 
-  [SerializeField] List<T> items = new();
+    HashSet<T> _set;
 
-  #endregion
-
-  HashSet<T> _set;
-
-  public SerializableHashSet() {
-    _set = new HashSet<T>(items);
-  }
-
-  public bool Add(T item) {
-    if (!_set.Add(item)) {
-      return false;
+    public SerializableHashSet() {
+        _set = new HashSet<T>(items);
     }
 
-    items.Add(item);
-    return true;
-  }
+    public bool Add(T item) {
+        if (!_set.Add(item)) {
+            return false;
+        }
 
-  public bool Remove(T item) {
-    if (!_set.Remove(item)) {
-      return false;
+        items.Add(item);
+        return true;
     }
 
-    items.Remove(item);
-    return true;
-  }
+    public bool Remove(T item) {
+        if (!_set.Remove(item)) {
+            return false;
+        }
 
-  public bool Contains(T item) {
-    return _set.Contains(item);
-  }
+        items.Remove(item);
+        return true;
+    }
 
-  public void Clear() {
-    _set.Clear();
-    items.Clear();
-  }
+    public bool Contains(T item) {
+        return _set.Contains(item);
+    }
 
-  public HashSet<T> AsHashSet() {
-    return _set;
-  }
+    public void Clear() {
+        _set.Clear();
+        items.Clear();
+    }
 
-  public IEnumerator<T> GetEnumerator() {
-    return _set.GetEnumerator();
-  }
+    public HashSet<T> AsHashSet() {
+        return _set;
+    }
+
+    public IEnumerator<T> GetEnumerator() {
+        return _set.GetEnumerator();
+    }
 }
 }
