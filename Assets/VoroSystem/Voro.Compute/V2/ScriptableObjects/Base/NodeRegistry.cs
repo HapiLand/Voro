@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using VoroSystem.Voro.Utilities;
 
-namespace VoroSystem.Voro.Compute.V2.ScriptableObjects.Core {
+namespace VoroSystem.Voro.Compute.V2.ScriptableObjects.Base {
 [CreateAssetMenu(menuName = "Voro/Node/New Registry")]
 [Serializable]
 public class NodeRegistry : ScriptableObject {

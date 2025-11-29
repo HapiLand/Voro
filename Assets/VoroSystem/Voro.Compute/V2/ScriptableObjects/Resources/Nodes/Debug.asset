@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 702855b1872c4908a79ac325ecfa67ed, type: 3}
-  m_Name: Debug Node
-  m_EditorClassIdentifier: Assembly-CSharp::VoroSystem.Voro.Compute.V2.ScriptableObjects.Core.NodeDefinition
+  m_Name: Debug
+  m_EditorClassIdentifier: Assembly-CSharp::VoroSystem.Voro.Compute.V2.ScriptableObjects.Base.NodeDefinition
   type: 0
   dataDefinitions: []
