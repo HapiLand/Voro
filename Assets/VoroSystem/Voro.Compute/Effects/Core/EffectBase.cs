@@ -2,9 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using VoroSystem.Util.Extensions;
 using VoroSystem.Voro.Compute.Effects.Parameters;
-using VoroSystem.Voro.Designer.Canvas;
+using VoroSystem.Voro.Compute.Graphs;
+using VoroSystem.Voro.Utilities.Extensions;
 using VoroSystem.Voro.World.ChunkStructure;
 
 namespace VoroSystem.Voro.Compute.Effects.Core {

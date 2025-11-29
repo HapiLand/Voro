@@ -1,6 +1,6 @@
 using System;
 using VoroSystem.Voro.Compute.Effects.Core;
-using VoroSystem.Voro.Designer.Canvas;
+using VoroSystem.Voro.Compute.Graphs;
 
 namespace VoroSystem.Voro.Compute.Effects {
 [Serializable]

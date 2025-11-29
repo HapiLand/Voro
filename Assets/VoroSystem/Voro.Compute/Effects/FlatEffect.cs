@@ -3,7 +3,7 @@ using System.Linq;
 using UnityEngine;
 using VoroSystem.Voro.Compute.Effects.Core;
 using VoroSystem.Voro.Compute.Effects.Parameters;
-using VoroSystem.Voro.Designer.Canvas;
+using VoroSystem.Voro.Compute.Graphs;
 
 namespace VoroSystem.Voro.Compute.Effects {
 [Serializable]

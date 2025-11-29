@@ -1,6 +1,6 @@
 using System;
 using UnityEngine;
-using VoroSystem.Voro.Designer.Canvas;
+using VoroSystem.Voro.Compute.Graphs;
 using VoroSystem.Voro.World.ChunkStructure;
 
 namespace VoroSystem.Voro.Compute.Effects.Core {

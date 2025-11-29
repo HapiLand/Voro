@@ -3,8 +3,7 @@ using UnityEngine;
 using VoroSystem.Voro.Compute;
 using VoroSystem.Voro.Compute.Effects;
 using VoroSystem.Voro.Compute.Effects.Core;
-using VoroSystem.Voro.Designer;
-using VoroSystem.Voro.Designer.Canvas;
+using VoroSystem.Voro.Compute.Graphs;
 using VoroSystem.Voro.World;
 using VoroSystem.Voro.World.ChunkStructure;
 
@@ -20,7 +19,7 @@ public class VoroCore : MonoBehaviour {
         return;
 
         Texture2D Compute(Chunk chunk) {
-            var graph = voroDesigner.graph;
+            var graph = voroCompute.graph;
             var dictionary = ReadGraph(graph, out var allowCompute);
 
             var result = Texture2D.blackTexture;
@@ -103,7 +102,6 @@ public class VoroCore : MonoBehaviour {
 
     #region Serialized Fields
     [SerializeField] VoroWorld voroWorld;
-    [SerializeField] VoroDesigner voroDesigner;
     [SerializeField] VoroCompute voroCompute;
     #endregion
 
@@ -111,7 +109,6 @@ public class VoroCore : MonoBehaviour {
     void Awake() {
         name = "Voro Core";
         voroWorld = CreateChild(voroWorld);
-        voroDesigner = CreateChild(voroDesigner);
         voroCompute = CreateChild(voroCompute);
 
         VoroCompute.OnCompute += HandleOnCompute;

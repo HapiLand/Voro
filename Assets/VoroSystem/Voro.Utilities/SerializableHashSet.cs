@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace VoroSystem.Util {
+namespace VoroSystem.Voro.Utilities {
 [Serializable]
 public class SerializableHashSet<T> {
     #region Serialized Fields

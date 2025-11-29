@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace VoroSystem.Util.Cameras {
+namespace VoroSystem.Voro.Utilities.Cameras {
 public class Cam {
     /// <summary> Unity Camera in Scene </summary>
     readonly Camera _unityCam = Camera.main;

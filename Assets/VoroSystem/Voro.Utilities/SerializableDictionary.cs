@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace VoroSystem.Util {
+namespace VoroSystem.Voro.Utilities {
 /// <summary>
 /// Generic Serializable Dictionary for Unity 2020.1 and above.
 /// Simply declare your key/value types and you're good to go - zero boilerplate.

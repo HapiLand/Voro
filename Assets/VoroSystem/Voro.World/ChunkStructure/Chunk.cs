@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using VoroSystem.Util.Cameras;
-using VoroSystem.Util.Extensions;
+using VoroSystem.Voro.Utilities.Cameras;
+using VoroSystem.Voro.Utilities.Extensions;
 
 namespace VoroSystem.Voro.World.ChunkStructure {
 /// <summary>

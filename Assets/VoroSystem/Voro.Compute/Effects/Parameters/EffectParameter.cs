@@ -1,6 +1,6 @@
 using System;
 using UnityEngine;
-using VoroSystem.Voro.Designer.Canvas.Core;
+using VoroSystem.Voro.Compute.Graphs.Core;
 
 namespace VoroSystem.Voro.Compute.Effects.Parameters {
 [Serializable]

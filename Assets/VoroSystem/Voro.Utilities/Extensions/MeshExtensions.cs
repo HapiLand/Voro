@@ -1,7 +1,7 @@
 using UnityEngine;
 using VoroSystem.Voro.World.ChunkStructure;
 
-namespace VoroSystem.Util.Extensions {
+namespace VoroSystem.Voro.Utilities.Extensions {
 public static class MeshExtensions {
     public static Vector3[] ToVector3Array(this CVertex[] vtx) {
         var array = new Vector3[vtx.Length];

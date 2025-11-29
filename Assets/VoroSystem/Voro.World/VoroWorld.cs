@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
-using VoroSystem.Util;
+using VoroSystem.Voro.Utilities;
 using VoroSystem.Voro.World.ChunkStructure;
 
 namespace VoroSystem.Voro.World {
