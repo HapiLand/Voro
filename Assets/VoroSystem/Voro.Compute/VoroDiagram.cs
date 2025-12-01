@@ -3,9 +3,8 @@ using System.Linq;
 using Newtonsoft.Json;
 using UnityEngine;
 using VoroSystem.Voro.Compute.Graphs;
-using VoroSystem.Voro.Compute.V2;
-using VoroSystem.Voro.Compute.V2.ScriptableObjects.Base;
-
+// using VoroSystem.Voro.Compute.V2;
+// using VoroSystem.Voro.Compute.V2.ScriptableObjects.Base;
 // ReSharper disable UnassignedField.Global
 
 namespace VoroSystem.Voro.Compute {
@@ -15,7 +14,7 @@ public class VoroDiagram : MonoBehaviour {
 
   #region Serialized Fields
 
-  [SerializeField] public Diagram diagram;
+  // [SerializeField] public Diagram diagram;
   [SerializeField] public Graph graph;
 
   #endregion
@@ -24,60 +23,60 @@ public class VoroDiagram : MonoBehaviour {
 
   void Awake() {
     LoadGraph(Resources.Load<TextAsset>("Template"));
-    LoadDiagram(Resources.Load<TextAsset>("Diagram"));
+    // LoadDiagram(Resources.Load<TextAsset>("Diagram"));
   }
 
   void OnDestroy() {
-    if (diagram == null) {
+    /*if (diagram == null) {
       return;
     }
     foreach (var nodeData in diagram.layers.SelectMany(layer => layer.nodes.SelectMany(node => node.data))) {
       var dataDef = nodeData.dataDefinition;
       // ReSharper disable once EventUnsubscriptionViaAnonymousDelegate
       dataDef.OnValueChanged -= properties => { OnChanged?.Invoke(); };
-    }
-
+    }*/
   }
 
   #endregion
 
   public void CreateLayer(string layerName) {
-    diagram.CreateLayer(layerName);
+    // diagram.CreateLayer(layerName);
+    graph.CreateLayer(layerName);
     OnChanged?.Invoke();
   }
 
-  public void CreateNode(Diagram.Layer layer, NodeType type, OperationMode mode = OperationMode.Set) {
+  /*public void CreateNode(Diagram.Layer layer, NodeType type, OperationMode mode = OperationMode.Set) {
     var registry = Resources.Load<NodeRegistry>("Registry");
     var nodeDefinition = registry.GetDefinition(type);
     var node = layer.CreateNode(nodeDefinition, mode);
 
     // subscribe to detect changes
-    foreach (var dataDef in nodeDefinition.DataDefinitions) {
+    foreach (var dataDef in nodeDefinition.data) {
       dataDef.OnValueChanged += properties => { OnChanged?.Invoke(); };
     }
-  }
+  }*/
 
-  public void SetNodeMode(Diagram.Layer.Node node, OperationMode mode) {
+  /*public void SetNodeMode(Diagram.Layer.Node node, OperationMode mode) {
     if (node.mode == mode) {
       return;
     }
-
     node.mode = mode;
     OnChanged?.Invoke();
-  }
+  }*/
 
-  public void LoadDiagram(TextAsset asset) {
-    var dto = JsonConvert.DeserializeObject<DiagramDto>(asset.text);
+  /*public void LoadDiagram(TextAsset asset) {
+    var diagramDto = CreateDiagramDataTransferObject(asset.text);
+    // Debug.Log(diagramDto.ToString());
+    diagram = new Diagram(diagramDto.diagramName);
     var registry = Resources.Load<NodeRegistry>("Registry");
-    diagram = new Diagram(dto.diagramName);
 
-    foreach (var layerDto in dto.layers) {
+    foreach (var layerDto in diagramDto.layers) {
       var layer = new Diagram.Layer(layerDto.layerName);
 
       foreach (var dataDef in from nodeDto in layerDto.nodes
                let nodeDefinition = registry.GetDefinition(nodeDto.nodeType)
                let node = layer.CreateNode(nodeDefinition, nodeDto.mode)
-               from dataDef in nodeDefinition.DataDefinitions
+               from dataDef in nodeDefinition.data
                select dataDef) {
         dataDef.OnValueChanged += properties => { OnChanged?.Invoke(); };
       }
@@ -86,7 +85,12 @@ public class VoroDiagram : MonoBehaviour {
     }
 
     OnChanged?.Invoke();
-  }
+  }*/
+
+  /*static DiagramDto CreateDiagramDataTransferObject(string text) {
+    var dto = JsonConvert.DeserializeObject<DiagramDto>(text);
+    return dto;
+  }*/
 
   void LoadGraph(TextAsset asset) {
     graph = new Graph();

@@ -1,6 +1,6 @@
 using System;
 
-namespace VoroSystem.Voro.Compute.V2 {
+namespace VoroSystem.Voro.Compute {
 [Serializable]
 public enum NodeType {
   Debug,
