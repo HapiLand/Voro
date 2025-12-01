@@ -4,18 +4,20 @@ using UnityEngine;
 namespace VoroSystem.Voro.Compute.Graphs.Core {
 [Serializable]
 public abstract class FieldBase {
-    protected FieldBase(string fieldName, object defaultValue, FieldType type) {
-        name = fieldName;
-        this.defaultValue = defaultValue;
-        this.type = type;
-    }
+  #region Serialized Fields
 
-    public abstract void DrawGUI();
+  [SerializeReference] public string name;
+  [SerializeReference] public object defaultValue;
+  [SerializeReference] public FieldType type;
 
-    #region Serialized Fields
-    [SerializeReference] public string name;
-    [SerializeReference] public object defaultValue;
-    [SerializeReference] public FieldType type;
-    #endregion
+  #endregion
+
+  protected FieldBase(string fieldName, object defaultValue, FieldType type) {
+    name = fieldName;
+    this.defaultValue = defaultValue;
+    this.type = type;
+  }
+
+  public abstract void DrawGUI();
 }
 }

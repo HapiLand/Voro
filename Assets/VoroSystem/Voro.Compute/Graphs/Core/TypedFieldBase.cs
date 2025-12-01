@@ -3,20 +3,20 @@ using System;
 namespace VoroSystem.Voro.Compute.Graphs.Core {
 [Serializable]
 public abstract class TypedFieldBase<T> : FieldBase {
-    protected TypedFieldBase(string fieldName, T defaultValue, FieldType fieldType)
-        : base(fieldName, defaultValue, fieldType) { }
+  protected TypedFieldBase(string fieldName, T defaultValue, FieldType fieldType)
+    : base(fieldName, defaultValue, fieldType) { }
 
-    public T Value {
-        get => (T)defaultValue;
-        set => defaultValue = value;
-    }
+  public T Value {
+    get => (T)defaultValue;
+    set => defaultValue = value;
+  }
 
-    protected abstract IFieldDrawer<T> Drawer { get; }
+  protected abstract IFieldDrawer<T> Drawer { get; }
 
-    public override void DrawGUI() {
-        var v = Value;
-        Drawer.Draw(ref v, name);
-        Value = v;
-    }
+  public override void DrawGUI() {
+    var v = Value;
+    Drawer.Draw(ref v, name);
+    Value = v;
+  }
 }
 }

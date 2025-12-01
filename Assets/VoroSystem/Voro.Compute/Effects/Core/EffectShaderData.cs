@@ -7,31 +7,31 @@ namespace VoroSystem.Voro.Compute.Effects.Core {
 /// </summary>
 [Serializable]
 public struct EffectShaderData {
-    /// <summary>
-    /// property ID for the result the shader outputs
-    /// </summary>
-    public int result;
+  /// <summary>
+  /// property ID for the result the shader outputs
+  /// </summary>
+  public int result;
 
-    /// <summary>
-    /// size of the render texture
-    /// </summary>
-    public int textureSize;
+  /// <summary>
+  /// size of the render texture
+  /// </summary>
+  public int textureSize;
 
-    /// <summary>
-    /// Kernel to dispatch
-    /// </summary>
-    public int kernel;
+  /// <summary>
+  /// Kernel to dispatch
+  /// </summary>
+  public int kernel;
 
-    /// <summary>
-    /// texture format for the render texture
-    /// </summary>
-    public RenderTextureFormat textureFormat;
+  /// <summary>
+  /// texture format for the render texture
+  /// </summary>
+  public RenderTextureFormat textureFormat;
 
-    public EffectShaderData(int result, int textureSize, int kernel, RenderTextureFormat textureFormat) {
-        this.result = result;
-        this.textureSize = textureSize;
-        this.kernel = kernel;
-        this.textureFormat = textureFormat;
-    }
+  public EffectShaderData(int result, int textureSize, int kernel, RenderTextureFormat textureFormat) {
+    this.result = result;
+    this.textureSize = textureSize;
+    this.kernel = kernel;
+    this.textureFormat = textureFormat;
+  }
 }
 }

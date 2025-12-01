@@ -5,17 +5,17 @@ using VoroSystem.Voro.Compute.Graphs;
 namespace VoroSystem.Voro.Compute.Effects {
 [Serializable]
 public class SlopeEffectManager : EffectManager {
-    public SlopeEffectManager(Node node) {
-        Effect = (SlopeEffect)MakeEffect(node);
-        Name = "Slope Effect";
-    }
+  public SlopeEffectManager(Node node) {
+    Effect = (SlopeEffect)MakeEffect(node);
+    Name = "Slope Effect";
+  }
 
-    public override string Name { get; }
+  public override string Name { get; }
 
-    protected override IEffect MakeEffect(Node node) {
-        var effect = new SlopeEffect();
-        effect.Initialize(node);
-        return effect;
-    }
+  protected override IEffect MakeEffect(Node node) {
+    var effect = new SlopeEffect();
+    effect.Initialize(node);
+    return effect;
+  }
 }
 }
