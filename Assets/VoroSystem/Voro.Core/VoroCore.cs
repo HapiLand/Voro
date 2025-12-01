@@ -1,9 +1,9 @@
 using System.Collections.Generic;
 using UnityEngine;
-using VoroSystem.Voro.Compute;
-using VoroSystem.Voro.Compute.Effects;
-using VoroSystem.Voro.Compute.Effects.Core;
-using VoroSystem.Voro.Compute.Graphs;
+using VoroSystem.Voro.Compute.Components;
+using VoroSystem.Voro.Compute.DiagramSystem;
+using VoroSystem.Voro.Compute.EffectSystem;
+using VoroSystem.Voro.Compute.EffectSystem.Core;
 using VoroSystem.Voro.World;
 using VoroSystem.Voro.World.ChunkStructure;
 
