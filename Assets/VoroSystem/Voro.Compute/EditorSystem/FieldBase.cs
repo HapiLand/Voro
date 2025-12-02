@@ -4,20 +4,27 @@ using UnityEngine;
 namespace VoroSystem.Voro.Compute.EditorSystem {
 [Serializable]
 public abstract class FieldBase {
-  #region Serialized Fields
+    [Serializable]
+    public enum FieldType {
+        FloatField,
+        Radial,
+        FloatSlider,
+        Toggle,
+        IntSlider
+    }
 
-  [SerializeReference] public string name;
-  [SerializeReference] public object defaultValue;
-  [SerializeReference] public FieldType type;
+    protected FieldBase(string fieldName, object defaultValue, FieldType type) {
+        name = fieldName;
+        this.defaultValue = defaultValue;
+        this.type = type;
+    }
 
-  #endregion
+    public abstract void DrawGUI();
 
-  protected FieldBase(string fieldName, object defaultValue, FieldType type) {
-    name = fieldName;
-    this.defaultValue = defaultValue;
-    this.type = type;
-  }
-
-  public abstract void DrawGUI();
+    #region Serialized Fields
+    [SerializeReference] public string name;
+    [SerializeReference] public object defaultValue;
+    [SerializeReference] public FieldType type;
+    #endregion
 }
 }

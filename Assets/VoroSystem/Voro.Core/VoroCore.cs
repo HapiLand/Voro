@@ -42,7 +42,7 @@ public class VoroCore : MonoBehaviour {
     return;
 
     Texture2D Compute(Chunk chunk) {
-      var graph = voroCompute.Graph;
+      var graph = voroCompute.Diagram;
       var dictionary = ReadGraph(graph, out var allowCompute);
 
       var result = Texture2D.blackTexture;
@@ -64,8 +64,8 @@ public class VoroCore : MonoBehaviour {
       return result;
     }
 
-    Dictionary<string, List<EffectManager>> ReadGraph(Graph graph, out bool allowCompute) {
-      var layerCount = graph.layers.Count;
+    Dictionary<string, List<EffectManager>> ReadGraph(Diagram diagram, out bool allowCompute) {
+      var layerCount = diagram.layers.Count;
       var graphDictionary = new Dictionary<string, List<EffectManager>>();
 
       if (layerCount == 0) {
@@ -76,7 +76,7 @@ public class VoroCore : MonoBehaviour {
 
       Debug.Log($"Reading {layerCount} Layers");
       for (var i = 0; i < layerCount; i++) {
-        var layer = graph.layers[i];
+        var layer = diagram.layers[i];
         var layerName = layer.layerName;
 
         // add each unique layer to the dictionary
@@ -87,20 +87,20 @@ public class VoroCore : MonoBehaviour {
 
         // read the Nodes, create the matching Effect
         foreach (var node in layer.nodes) {
-          switch (node.nodeName) {
-          case EffectName.Slope: {
+          switch (node.NodeType) {
+          case EffectBase.EffectType.Slope: {
             effectList.Add(new SlopeEffectManager(node));
             break;
           }
-          case EffectName.Flat: {
+          case EffectBase.EffectType.Flat: {
             effectList.Add(new FlatEffectManager(node));
             break;
           }
-          case EffectName.Noise: {
+          case EffectBase.EffectType.Noise: {
             effectList.Add(new NoiseEffectManager(node));
             break;
           }
-          case EffectName.Terrace: {
+          case EffectBase.EffectType.Terrace: {
             effectList.Add(new TerraceEffectManager(node));
             break;
           }

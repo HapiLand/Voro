@@ -4,30 +4,26 @@ using VoroSystem.Voro.Compute.DiagramSystem;
 
 namespace VoroSystem.Voro.Compute.Components {
 [ExecuteAlways]
-[RequireComponent(typeof(VoroGraph))]
+[RequireComponent(typeof(VoroDiagram))]
 public class VoroCompute : MonoBehaviour {
-  public static Action OnCompute;
-  public static Action OnChanged;
+    public static Action OnCompute;
+    public static Action OnChanged;
 
-  #region Serialized Fields
+    #region Serialized Fields
+    public VoroDiagram voroDiagram;
+    #endregion
 
-  public VoroGraph voroGraph;
+    public Diagram Diagram => voroDiagram.diagram;
 
-  #endregion
+    #region Event Functions
+    void Awake() {
+        name = "Voro Compute";
+        voroDiagram = GetComponent<VoroDiagram>();
+    }
 
-  public Graph Graph => voroGraph.graph;
-
-  #region Event Functions
-
-  void Awake() {
-    name = "Voro Compute";
-    voroGraph = GetComponent<VoroGraph>();
-  }
-
-  void Start() {
-    OnCompute?.Invoke();
-  }
-
-  #endregion
+    void Start() {
+        OnCompute?.Invoke();
+    }
+    #endregion
 }
 }

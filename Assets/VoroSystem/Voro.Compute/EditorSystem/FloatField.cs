@@ -4,17 +4,15 @@ using UnityEngine;
 namespace VoroSystem.Voro.Compute.EditorSystem {
 [Serializable]
 public class FloatField : TypedFieldBase<float> {
-  #region Serialized Fields
+    #region Serialized Fields
+    [SerializeField] FloatFieldDrawer drawer;
+    #endregion
 
-  [SerializeField] FloatFieldDrawer drawer;
+    public FloatField(string name, float defaultValue)
+        : base(name, defaultValue, FieldType.FloatField) {
+        drawer = new FloatFieldDrawer();
+    }
 
-  #endregion
-
-  public FloatField(string name, float defaultValue)
-    : base(name, defaultValue, FieldType.FloatField) {
-    drawer = new FloatFieldDrawer();
-  }
-
-  protected override IFieldDrawer<float> Drawer => drawer;
+    protected override IFieldDrawer<float> Drawer => drawer;
 }
 }

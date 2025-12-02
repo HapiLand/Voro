@@ -5,15 +5,15 @@ using UnityEngine;
 namespace VoroSystem.Voro.Compute.EditorSystem {
 [Serializable]
 public struct FieldData {
-  [JsonProperty("Name")] public string name;
+    [JsonProperty("Name")] public string name;
 
-  [JsonProperty("DefaultValue")] [SerializeReference]
-  public object defaultValue;
+    [JsonProperty("DefaultValue")] [SerializeReference]
+    public object defaultValue;
 
-  [JsonProperty("Type")] public string type;
+    [JsonProperty("Type")] public string type;
 
-  [JsonProperty("MinValue")] public float minValue;
+    [JsonProperty("MinValue")] public float minValue;
 
-  [JsonProperty("MaxValue")] public float maxValue;
+    [JsonProperty("MaxValue")] public float maxValue;
 }
 }
