@@ -1,0 +1,57 @@
+{
+  "Name" : "Example Diagram",
+  "Layers" : [
+    {
+      "Name" : "Foo",
+      "Effects" : [
+        {
+          "Name" : "Flat",
+          "Mode" : "Set",
+          "Properties" : [
+            {
+              "Label" : "Height",
+              "Default" : 0.0,
+              "RangeMin" : 0.0,
+              "RangeMax" : 1.0
+            }
+          ]
+        },
+        {
+          "Name" : "Slope",
+          "Mode" : "Add",
+          "Properties" : [
+            {
+              "Label" : "Direction",
+              "Default" : 0.0
+            },
+            {
+              "Label" : "Steepness",
+              "Default" : 0.1
+            },
+            {
+              "Label" : "Reverse",
+              "Default" : false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Name" : "Bar",
+      "Properties" : [
+        {
+          "Label" : "Size",
+          "Default" : 0.75,
+          "RangeMin" : 0.2,
+          "RangeMax" : 0.75
+        },
+        {
+          "Label" : "Steepness",
+          "Default" : 0.5,
+          "RangeMin" : 0.15,
+          "RangeMax" : 1.0
+        }
+      ]
+    }
+  ]
+}

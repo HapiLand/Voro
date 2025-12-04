@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using Newtonsoft.Json;
-using VoroSystem.Voro.Compute.DiagramSystem.Nodes;
 using VoroSystem.Voro.Compute.EffectSystem.Core;
 
 // ReSharper disable InconsistentNaming
@@ -9,17 +8,20 @@ using VoroSystem.Voro.Compute.EffectSystem.Core;
 namespace VoroSystem.Voro.Compute.DiagramSystem.DTOs {
 [Serializable]
 public class NodeDTO {
-    [JsonProperty("Name")] public EffectBase.EffectType type;
-    [JsonProperty("Operation")] public EffectBase.EffectMode mode;
-    [JsonProperty("Fields")] public List<FieldDTO> fields = new();
+  #region Serialized Fields
 
-    public INode ToNode() {
-        var node = NodeFactory.Create(type);
-        foreach (var fieldDto in fields) {
-            node.Fields.Add(fieldDto.ToBase());
-        }
+  [JsonProperty("EffectType")] public EffectBase.EffectType type;
+  [JsonProperty("Mode")] public EffectBase.EffectMode mode;
+  public List<FieldDTO> fields = new();
 
-        return node;
-    }
+  #endregion
+
+  public Node ToNode() {
+    return Node.CreateFromDataTransferObject(this);
+  }
+
+  public void LoadFields() {
+    fields = FieldsLookup.LoadFields(type);
+  }
 }
 }

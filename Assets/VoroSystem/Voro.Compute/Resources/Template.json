@@ -1,29 +1,12 @@
 {
-  "Name": "Template",
-  "Layers": [
+  "Label" : "MyDiagram",
+  "Layers" : [
     {
-      "Name": "Foo",
-      "Nodes": [
+      "Label" : "MyLayer",
+      "Nodes" : [
         {
-          "Name": "Slope",
-          "Operation": "Set",
-          "Fields": [
-            {
-              "Name": "Direction",
-              "DefaultValue": 50,
-              "Type": "Radial"
-            },
-            {
-              "Name": "Steepness",
-              "DefaultValue": 0.1,
-              "Type": "FloatField"
-            },
-            {
-              "Name": "Reverse",
-              "DefaultValue": false,
-              "Type": "Toggle"
-            }
-          ]
+          "EffectType" : "Slope",
+          "Mode" : "Set"
         }
       ]
     }

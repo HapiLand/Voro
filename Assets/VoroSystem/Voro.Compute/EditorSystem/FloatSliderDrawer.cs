@@ -1,27 +1,30 @@
 using System;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 namespace VoroSystem.Voro.Compute.EditorSystem {
 [Serializable]
 public class FloatSliderDrawer : FieldDrawerBase, IFieldDrawer<float> {
-    public FloatSliderDrawer(float min, float max) {
-        this.min = min;
-        this.max = max;
-    }
+  #region Serialized Fields
 
-    #region IFieldDrawer<float> Members
-    public void Draw(ref float value, string name) {
-        GUILayout.BeginHorizontal();
-        GUILayout.Label($"{name}", GUILayout.Width(LabelWidth));
-        GUILayout.Label($"{value:F2}", GUILayout.Width(ValueWidth));
-        value = GUILayout.HorizontalSlider(value, min, max, GUILayout.Width(InputWidth));
-        GUILayout.EndHorizontal();
-    }
-    #endregion
+  [SerializeField] float min;
+  [SerializeField] float max;
 
-    #region Serialized Fields
-    [SerializeField] float min;
-    [SerializeField] float max;
-    #endregion
+  #endregion
+
+  public FloatSliderDrawer(float min, float max) {
+    this.min = min;
+    this.max = max;
+  }
+
+  #region IFieldDrawer<float> Members
+
+
+
+  public VisualElement DrawUI(ref float v, string name) {
+    throw new NotImplementedException();
+  }
+
+  #endregion
 }
 }

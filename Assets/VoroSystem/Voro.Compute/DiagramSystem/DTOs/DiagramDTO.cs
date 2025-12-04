@@ -7,20 +7,15 @@ using Newtonsoft.Json;
 namespace VoroSystem.Voro.Compute.DiagramSystem.DTOs {
 [Serializable]
 public class DiagramDTO {
-    [JsonProperty("Name")] public string name;
-    [JsonProperty("Layers")] public List<LayerDTO> layers = new();
+  #region Serialized Fields
 
-    public DiagramDTO(string name) {
-        this.name = name;
-    }
+  [JsonProperty("Label")] public string name;
+  [JsonProperty("Layers")] public List<LayerDTO> layers = new();
 
-    public Diagram ToDiagram() {
-        var graph = new Diagram(name);
-        foreach (var layerDto in layers) {
-            graph.layers.Add(layerDto.ToLayer());
-        }
+  #endregion
 
-        return graph;
-    }
+  public Diagram ToDiagram() {
+    return Diagram.CreateFromDataTransferObject(this);
+  }
 }
 }

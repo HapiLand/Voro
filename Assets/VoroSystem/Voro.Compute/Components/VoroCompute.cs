@@ -1,29 +1,25 @@
-using System;
 using UnityEngine;
 using VoroSystem.Voro.Compute.DiagramSystem;
+using VoroSystem.Voro.Core;
 
 namespace VoroSystem.Voro.Compute.Components {
 [ExecuteAlways]
 [RequireComponent(typeof(VoroDiagram))]
 public class VoroCompute : MonoBehaviour {
-    public static Action OnCompute;
-    public static Action OnChanged;
+  #region Serialized Fields
 
-    #region Serialized Fields
-    public VoroDiagram voroDiagram;
-    #endregion
+  public VoroDiagram voroDiagram;
 
-    public Diagram Diagram => voroDiagram.diagram;
+  #endregion
 
-    #region Event Functions
-    void Awake() {
-        name = "Voro Compute";
-        voroDiagram = GetComponent<VoroDiagram>();
-    }
+  public Diagram Diagram => voroDiagram.diagram;
 
-    void Start() {
-        OnCompute?.Invoke();
-    }
-    #endregion
+  #region Event Functions
+
+  void Awake() {
+    name = "Voro Compute";
+    voroDiagram = GetComponent<VoroDiagram>();
+  }
+  #endregion
 }
 }

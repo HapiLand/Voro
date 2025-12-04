@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using VoroSystem.Voro.Utilities.Cameras;
 using VoroSystem.Voro.Utilities.Extensions;
+using VoroSystem.Voro.World.Components;
 
 namespace VoroSystem.Voro.World.ChunkStructure {
 /// <summary>

@@ -1,0 +1,24 @@
+{
+  "Properties" : [
+    {
+      "Name" : "Angle",
+      "Type" : "float"
+    },
+    {
+      "Name" : "FloatField",
+      "Type" : "float"
+    },
+    {
+      "Name" : "Toggle",
+      "Type" : "bool"
+    },
+    {
+      "Name" : "FloatSlider",
+      "Type" : "float"
+    },
+    {
+      "Name" : "IntSlider",
+      "Type" : "int"
+    }
+  ]
+}

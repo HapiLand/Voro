@@ -1,62 +1,50 @@
+using System.Linq;
 using Newtonsoft.Json.Linq;
 using UnityEngine;
 using VoroSystem.Voro.Compute.DiagramSystem;
 using VoroSystem.Voro.Compute.DiagramSystem.DTOs;
+using VoroSystem.Voro.Core;
 
 // ReSharper disable InconsistentNaming
 
 namespace VoroSystem.Voro.Compute.Components {
 [ExecuteAlways]
 public class VoroDiagram : MonoBehaviour {
-    #region Event Functions
-    void Awake() {
-        jsonSource = Resources.Load<TextAsset>("Template");
-        LoadDiagram();
-    }
-    #endregion
+  #region Serialized Fields
 
-    void LoadDiagram() {
-        var diagramDto = BuildDiagramDTO();
-        diagram = diagramDto.ToDiagram();
-        return;
+  [SerializeField] VoroEvents events;
+  [SerializeField] public Diagram diagram;
+  [SerializeField] public TextAsset jsonSource;
 
-        DiagramDTO BuildDiagramDTO() {
-            var root = JObject.Parse(jsonSource.text);
-            var diagramName = root["Name"]?.ToString() ?? "Unnamed Diagram";
-            var diagramDto = new DiagramDTO(diagramName);
+  #endregion
 
-            BuildLayers(root, diagramDto);
+  string newLayerName;
 
-            return diagramDto;
-        }
+  #region Event Functions
 
-        void BuildLayers(JObject root, DiagramDTO diagramDto) {
-            if (root["Layers"] is not JArray jArray) {
-                return;
-            }
+  void Awake() {
+    jsonSource = Resources.Load<TextAsset>("Template");
+    events = VoroEvents.GetInstance();
+  }
 
-            foreach (var layerToken in jArray) {
-                var layerDto = layerToken.ToObject<LayerDTO>();
-                BuildNodes(layerToken, layerDto);
-                diagramDto.layers.Add(layerDto);
-            }
-        }
+  void Start() {
+    LoadDiagram();
+  }
 
-        void BuildNodes(JToken layerToken, LayerDTO layerDto) {
-            if (layerToken["Nodes"] is not JArray jArray) {
-                return;
-            }
+  #endregion
 
-            foreach (var nodeToken in jArray) {
-                var nodeDto = nodeToken.ToObject<NodeDTO>();
-                layerDto.nodes.Add(nodeDto);
-            }
-        }
+
+  void LoadDiagram() {
+    var root = JObject.Parse(jsonSource.text);
+    var diagramDto = root.ToObject<DiagramDTO>();
+
+    // the fieldDTOs need to be constructed as are not contained in the file
+    foreach (var nodeDto in diagramDto.layers.SelectMany(layerDto => layerDto.nodes)) {
+      nodeDto.LoadFields();
     }
 
-    #region Serialized Fields
-    [SerializeField] public Diagram diagram;
-    [SerializeField] public TextAsset jsonSource;
-    #endregion
+    diagram = diagramDto.ToDiagram();
+    events.RaiseOnDiagramCreated(diagram);
+  }
 }
 }
