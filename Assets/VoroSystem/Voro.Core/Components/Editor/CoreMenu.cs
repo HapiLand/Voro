@@ -17,7 +17,7 @@ public class CoreMenu : EditorWindow {
   static T Create<T>() where T : Component {
     var component = FindAnyObjectByType<T>();
     if (component != null) {
-      return component;
+      DestroyImmediate(component.gameObject);
     }
 
     component = new GameObject().AddComponent<T>();

@@ -53,16 +53,49 @@ public class CoreEditorWindow : EditorWindow {
   static void CreateDiagramGUI(Container container, Diagram diagram) {
     container.Add(new LabelElement("", "Name", diagram.name));
     
-    container.Add(new Container("items", "-- Layers -- "));
+    container.Add(new Container("items", "-- Layers --"));
     container.Q<Container>("items").Add(new Container("create", "Create Layer"));
     
     if (diagram.layers.Count > 0) {
       diagram.layers.ForEach(l => {
-        container.Q<Container>("items").Add(new Container("layer", "Layer"));
+        container.Q<Container>("items").Add(new Container("layer", "-- Layer --"));
+        CreateLayerGUI(container.Q<Container>("layer"), l);
       });
     }
   }
-  
+
+  static void CreateLayerGUI(Container container, Layer layer) {
+    container.Add(new LabelElement("", "Name", layer.name));
+    container.Add(new Container("items", "-- Effects --"));
+    container.Q<Container>("items").Add(new Container("create", "Add Effect"));
+    if (layer.nodes.Count > 0) {
+      layer.nodes.ForEach(n => {
+        container.Q<Container>("items").Add(new Container("node", "-- Effect --"));
+        CreateNodeGUI(container.Q<Container>("node"), n);
+      });
+    }
+  }
+
+  static void CreateNodeGUI(Container container, Node node) {
+    container.Add(new LabelElement("", "Name", node.Name));
+    container.Add(new Container("items", "-- Controls --"));
+    container.Q<Container>("items").Add(new Container("operation", "Mode"));
+    if (node.Fields.Count > 0) {
+      node.Fields.ForEach(fb => {
+        container.Q<Container>("items").Add(new Container("field", "-- Control --"));
+        CreateFieldGUI(container.Q<Container>("field"), fb);
+      });
+    }
+  }
+
+  static void CreateFieldGUI(Container container, FieldBase fb) {
+    container.Add(new Container("items", ""));
+    container.Q<Container>("items").Add(new LabelElement("", "Name", fb.name));
+    container.Q<Container>("items").Add(new LabelElement("", "Input", ""));
+    container.Q<Container>("items").Add(new LabelElement("", "Display", ""));
+  }
+
+
   static void CreateComputeGUI(Container container) {
     container.Add(new ButtonElement("button compute", "Compute", VoroEvents.GetInstance().RaiseClickCompute));
   }
