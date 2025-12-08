@@ -4,20 +4,20 @@ using VoroSystem.Voro.World.ChunkStructure.Interfaces;
 
 namespace VoroSystem.Voro.World.ChunkStructure {
 [Serializable]
-public class TileMaterial : ITileMaterial {
+public class ChunkMaterial : IChunkMaterial {
   #region Serialized Fields
 
   [SerializeField] MeshRenderer renderer;
 
   #endregion
 
-  public TileMaterial(GameObject instance) {
+  public ChunkMaterial(GameObject instance) {
     renderer = instance.AddComponent<MeshRenderer>();
     SetMaterial(Resources.Load<Material>("ChunkMaterial"));
     SetTexture(Texture2D.redTexture);
   }
 
-  #region ITileMaterial Members
+  #region IChunkMaterial Members
 
   public MeshRenderer Renderer => renderer;
 

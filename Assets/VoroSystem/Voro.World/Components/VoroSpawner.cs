@@ -16,8 +16,6 @@ public class VoroSpawner : MonoBehaviour {
 
   #endregion
 
-  void HandleChunkCreated(Chunk obj) {
-    obj.Init(transform);
-  }
+  void HandleChunkCreated(Chunk obj) { }
 }
 }

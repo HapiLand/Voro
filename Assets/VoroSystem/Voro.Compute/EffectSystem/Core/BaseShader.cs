@@ -14,6 +14,6 @@ public abstract class BaseShader {
   /// <summary> dispatches the shader </summary>
   public abstract void Compute(Chunk chunk);
 
-  public abstract void SetOperationMode(OperationMode mode);
+
 }
 }

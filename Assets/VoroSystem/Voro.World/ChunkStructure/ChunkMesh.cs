@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using UnityEngine;
 using VoroSystem.Voro.Utilities.Extensions;
 using VoroSystem.Voro.World.ChunkStructure.Interfaces;
@@ -7,10 +8,10 @@ using VoroSystem.Voro.World.Components;
 
 namespace VoroSystem.Voro.World.ChunkStructure {
 [Serializable]
-public class TileMesh : ITileMesh {
+public class ChunkMesh : IChunkMesh {
   #region Serialized Fields
 
-  public int subdivision = 10;
+  public int subdivision = 11;
   [SerializeField] MeshFilter filter;
   [SerializeField] Mesh mesh;
   [SerializeField] MeshVertex[] vertices;
@@ -19,19 +20,22 @@ public class TileMesh : ITileMesh {
   [SerializeField] VoroMap voroMap;
   [SerializeField] float size;
   [SerializeField] Vector2 position;
-  public ComputeBuffer PointBuffer;
+
   #endregion
 
-  public TileMesh(GameObject instance, float size, VoroMap map) {
+  public ComputeBuffer PointBuffer;
+
+  public ChunkMesh(GameObject instance, float size, VoroMap map) {
     this.size = size;
     voroMap = map;
     position = instance.transform.position.ToVector2();
 
     filter = instance.AddComponent<MeshFilter>();
     BuildMesh();
+    CreatePointBuffer();
   }
 
-  #region ITileMesh Members
+  #region IChunkMesh Members
 
   public MeshFilter Filter => filter;
   public Mesh Mesh => mesh;
@@ -68,7 +72,7 @@ public class TileMesh : ITileMesh {
       v.position = new Vector3(v.position.x, height, v.position.z);
       vertices[i] = v;
     }
-    
+
     /*for (var i = 0; i < vertices.Length; i++) {
       var uv = uvs[i];
       var height = SampleHeightAtCoordinate(uv);
@@ -81,6 +85,46 @@ public class TileMesh : ITileMesh {
     mesh.RecalculateNormals();
   }
 
+  #endregion
+
+  void CreatePointBuffer() {
+    var pointsArray = new MeshVertex.PointData[Vertices.Length];
+    for (var i = 0; i < pointsArray.Length; i++) {
+      pointsArray[i] = new MeshVertex.PointData
+      {
+        Position = Vertices[i].position
+      };
+    }
+
+    CreateStructuredBuffer(ref PointBuffer, pointsArray);
+  }
+
+  void CreateStructuredBuffer<T>(ref ComputeBuffer buffer, int count) {
+    var stride = Marshal.SizeOf(typeof(T));
+    var createNewBuffer = buffer == null || !buffer.IsValid() || buffer.count != count || buffer.stride != stride;
+    if (!createNewBuffer) {
+      return;
+    }
+
+    Release(buffer);
+    buffer = new ComputeBuffer(count, stride);
+  }
+
+  void CreateStructuredBuffer<T>(ref ComputeBuffer buffer, T[] data) {
+    CreateStructuredBuffer<T>(ref buffer, data.Length);
+    buffer.SetData(data);
+  }
+
+  public void ReleasePointBuffer() {
+    Release(PointBuffer);
+  }
+
+  void Release(params ComputeBuffer[] buffers) {
+    foreach (var t in buffers) {
+      t?.Release();
+    }
+  }
+
   /// <summary>
   /// reads a height value found in this vertex
   /// </summary>
@@ -88,8 +132,6 @@ public class TileMesh : ITileMesh {
     var vertex = vertices[index];
     return vertex.height;
   }
-
-  #endregion
 
   void CreateUVs(out Vector2[] uvs) {
     uvs = new Vector2[Vertices.Length];
@@ -173,8 +215,8 @@ public class TileMesh : ITileMesh {
   /// <summary>
   /// update height values using computed data
   /// </summary>
-  /// <param name="data"></param>
-  /// <exception cref="NotImplementedException"></exception>
+  /// <param name="data"> </param>
+  /// <exception cref="NotImplementedException"> </exception>
   public void Apply(MeshVertex.PointData[] data) {
     for (var i = 0; i < data.Length; i++) {
       Vertices[i].height = data[i].Position.y;

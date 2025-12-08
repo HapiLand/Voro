@@ -9,21 +9,25 @@ float ApplyOperation(float o, float s)
     switch (Operation)
     {
     case 0:
+        // None
+        break;
+        
+    case 1:
         // Set - Overwrites any existing height
         o = s;
         break;
 
-    case 1:
+    case 2:
         // Subtract - Reduces existing height by solved
         o -= s;
         break;
 
-    case 2:
+    case 3:
         // Add - Increases existing height by solved
         o += s;
         break;
 
-    case 3:
+    case 4:
         // Multiply - Scales existing height by solved
         o *= s;
         break;

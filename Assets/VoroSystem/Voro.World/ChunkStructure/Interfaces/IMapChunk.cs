@@ -3,8 +3,8 @@ namespace VoroSystem.Voro.World.ChunkStructure.Interfaces {
 /// implementation for how a Tile exists in
 /// <see cref="Tilemap{T}" />
 /// </summary>
-public interface IMapTile {
-  int Index { get; }
-  float Size { get; }
+public interface IMapChunk {
+  int MapIndex { get; }
+  float ChunkSize { get; }
 }
 }

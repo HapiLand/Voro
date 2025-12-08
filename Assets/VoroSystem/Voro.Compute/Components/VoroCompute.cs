@@ -42,18 +42,14 @@ public class VoroCompute : MonoBehaviour {
         Debug.Log($"Layer: {layerName}");
         list.ForEach(effect => {
           Debug.Log($"Effect: {effect.Name.ToString()}");
-          effect.TryCreateBuffer(ref chunk);
           resultTexture = effect.RunEffect(chunk);
         });
       }
       
-      if (chunk.HasPointBuffer()) {
-        // get buffer data
-        chunk.ReadBuffer();
-        
-        // release buffers
-        chunk.ReleasePointBuffer();
-      }
+      // get buffer data
+      chunk.ReadBuffer();
+      // release buffers
+      chunk.ReleasePointBuffer();
 
       return resultTexture;
     });

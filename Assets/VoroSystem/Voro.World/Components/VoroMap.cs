@@ -41,8 +41,9 @@ public class VoroMap : MonoBehaviour {
       chunkSize,
       MapSizeX,
       MapSizeZ,
-      (index, pos) => {
-        var chunk = new Chunk(index, pos, chunkSize, this);
+      (index, worldPos) => {
+        Debug.Log($"[Chunk Factory] index: {index} worldPos: {worldPos}");
+        var chunk = new Chunk(index, worldPos, chunkSize, this, transform);
         CreatedChunk?.Invoke(chunk);
         return chunk;
       });

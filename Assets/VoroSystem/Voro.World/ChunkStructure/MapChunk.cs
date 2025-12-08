@@ -4,7 +4,7 @@ using VoroSystem.Voro.World.ChunkStructure.Interfaces;
 
 namespace VoroSystem.Voro.World.ChunkStructure {
 [Serializable]
-public class MapTile : IMapTile {
+public class MapChunk : IMapChunk {
   #region Serialized Fields
 
   [SerializeField] int index;
@@ -12,15 +12,15 @@ public class MapTile : IMapTile {
 
   #endregion
 
-  public MapTile(int index, float size) {
+  public MapChunk(int index, float size) {
     this.index = index;
     this.size = size;
   }
 
-  #region IMapTile Members
+  #region IMapChunk Members
 
-  public int Index => index;
-  public float Size => size;
+  public int MapIndex => index;
+  public float ChunkSize => size;
 
   #endregion
 }

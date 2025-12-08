@@ -1,4 +1,14 @@
 {
   "Label" : "MyDiagram",
-  "Layers" : []
+  "Layers" : [
+    {
+      "Label" : "MyLayer",
+      "Nodes" : [
+        {
+          "EffectType" : "Noise",
+          "Mode" : "Set"
+        }
+      ]
+    }
+  ]
 }

@@ -11,79 +11,45 @@ namespace VoroSystem.Voro.World.ChunkStructure {
 public class Chunk {
   #region Serialized Fields
 
-  [SerializeField] MapTile mapTile;
-  [SerializeField] TileEntity tileEntity;
-  [SerializeField] VoroMap voroMap;
-  [SerializeField] TileState tileState;
+  [SerializeField] MapChunk mapChunk;
+  [SerializeField] ChunkEntity chunkEntity;
+  [SerializeField] ChunkState chunkState;
 
   #endregion
 
-  public Chunk(int index, Vector2 position, float size, VoroMap voroMap) {
-    mapTile = new MapTile(index, size);
-    tileEntity = new TileEntity(position);
-    this.voroMap = voroMap;
-    tileState = new TileState();
+  public Chunk(int index, Vector2 pos, float size, VoroMap voroMap, Transform parent) {
+    mapChunk = new MapChunk(index, size);
+    chunkEntity = new ChunkEntity(pos, size, parent, voroMap);
+    chunkState = new ChunkState();
   }
 
-  public Vector2 Position => tileEntity.Position;
-  public float Size => mapTile.Size;
-  public bool Visible => tileState.Visible;
-  public int Index => mapTile.Index;
-  public GameObject Entity => tileEntity.Instance;
-
-  public int VertexPerAxis {
-  get{
-    if (tileEntity?.TileMesh == null) {
-      return 11;
-    }
-    return tileEntity.TileMesh.subdivision + 1;
-  }
-  }
+  public Vector2 Position => chunkEntity.Position;
+  public float Size => mapChunk.ChunkSize;
+  public bool Visible => chunkState.Visible;
+  public int Index => mapChunk.MapIndex;
+  public GameObject Entity => chunkEntity.Entity;
+  public int VertexPerAxis => chunkEntity.ChunkMesh.subdivision + 1;
+  public ComputeBuffer PointBuffer => chunkEntity.PointBuffer;
 
   public void SetTexture(Texture2D tex) {
-    tileEntity.SetTexture(tex);
+    chunkEntity.SetTexture(tex);
   }
-  public Texture2D GetTexture() {
-    return tileEntity.GetTexture();
-  }
-  public void Init(Transform parent) {
-    if (tileState.Initialised) {
-      Debug.LogWarning($"Chunk {mapTile.Index} already initialised");
-      return;
-    }
 
-    tileEntity.CreateInstance(parent, mapTile.Size, voroMap);
-    tileState.Initialised = true;
+  public Texture2D GetTexture() {
+    return chunkEntity.GetTexture();
   }
+
 
   public void Update() {
-    if (!tileState.Initialised) {
-      Debug.LogWarning($"Chunk [{mapTile.Index}] not initialised");
-      return;
-    }
-
-    tileState.UpdateVisibility(tileEntity.Position);
-    tileEntity.UpdateHeight();
-  }
-
-  public bool HasPointBuffer() {
-    return tileEntity.HasPointBuffer();
-  }
-
-  public void CreatePointBuffer() {
-    tileEntity.CreatePointBuffer();
+    chunkState.UpdateVisibility(chunkEntity.Position);
+    chunkEntity.UpdateHeight();
   }
 
   public void ReleasePointBuffer() {
-    tileEntity.ReleasePointBuffer();
+    chunkEntity.ReleasePointBuffer();
   }
-
-  public ComputeBuffer GetPointBuffer() {
-    return tileEntity.GetPointBuffer();
-  }
-
   public void ReadBuffer() {
-    tileEntity.ReadHeightFromPointBuffer();
+    chunkEntity.ReadHeightFromPointBuffer();
   }
 }
 }

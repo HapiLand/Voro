@@ -6,20 +6,14 @@ using VoroSystem.Voro.World.ChunkStructure.Interfaces;
 
 namespace VoroSystem.Voro.World.ChunkStructure {
 [Serializable]
-public class TileState : ITileState {
+public class ChunkState : IChunkState {
   #region Serialized Fields
 
-  [SerializeField] bool initialised;
   [SerializeField] bool visible;
 
   #endregion
 
-  #region ITileState Members
-
-  public bool Initialised {
-    get => initialised;
-    set => initialised = value;
-  }
+  #region IChunkState Members
 
   public bool Visible => visible;
 

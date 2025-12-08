@@ -4,6 +4,11 @@
 
 #pragma kernel CSMain
 
+struct Vertex {
+    float3 position;
+};
+RWStructuredBuffer<Vertex> VertexBuffer;
+
 cbuffer Params
 {
     float Size;
@@ -29,15 +34,22 @@ float Solve(float2 uv)
     return noise;
 }
 
-[numthreads(8,8,1)]
+[numthreads(144,1,1)]
 void CSMain(uint3 id : SV_DispatchThreadID)
 {
-    float2 uv = GetUV(id);
-    int2 coord = int2(id.xy);
+    int index = id.x;
+    Vertex vtx = VertexBuffer[index];
 
-    float origHeight = Result[coord].r;
-    float solvedHeight = Solve(uv);
-    solvedHeight = ApplyOperation(origHeight, solvedHeight);
+    float2 vertex_pos = vtx.position.xz;
+    float2 chunk_offset = float2(OffsetX, OffsetY);
+    vertex_pos += chunk_offset;
+    
+    float existing_height = vtx.position.y;
+    float solved_height = Solve(vertex_pos);
+    float result_height = ApplyOperation(existing_height, solved_height);
 
-    Result[coord] = float4(solvedHeight, solvedHeight, solvedHeight, 1.0);
+    result_height = 1;
+    
+    vtx.position.y = result_height;
+    VertexBuffer[index] = vtx;
 }

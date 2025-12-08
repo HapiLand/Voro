@@ -1,8 +1,7 @@
 using VoroSystem.Voro.Compute.EffectSystem.EffectDefinitions;
 
 namespace VoroSystem.Voro.Compute.EffectSystem.Core {
-public class Effect<TParam> : TypedBaseEffect<TParam>
-  where TParam : class, new() {
+public class Effect<TParam> : TypedBaseEffect<TParam> where TParam : class, new() {
   public Effect(EffectName name) : base(name) { }
 
   public override void Init() {
@@ -12,9 +11,8 @@ public class Effect<TParam> : TypedBaseEffect<TParam>
       break;
 
     case EffectName.Noise:
-    // Resources.Load<ComputeShader>("FX/Noise");
-    // SetParameter<float>("Size");
-    // etParameter<float>("Steepness");
+      Shader = new NoiseShader<TParam>(Parameters);
+      break;
     case EffectName.Flat:
     // Resources.Load<ComputeShader>("FX/Flat");
     // SetParameter<float>("Height");
@@ -28,7 +26,7 @@ public class Effect<TParam> : TypedBaseEffect<TParam>
       break;
     }
 
-    Shader.SetOperationMode(Mode);
+    // Shader.SetOperationMode(Mode);
     // Debug.Log($"[{Name}] Effect initialized");
   }
 }

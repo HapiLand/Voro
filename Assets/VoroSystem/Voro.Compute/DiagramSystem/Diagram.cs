@@ -53,15 +53,29 @@ public class Diagram {
         {
           Parameters =
           {
+            Mode = node.Mode,
             Direction = node.GetParameter<float>("Direction"),
             Steepness = node.GetParameter<float>("Steepness"),
-            Reverse = node.GetParameter<bool>("Reverse")
+            Reverse = node.GetParameter<bool>("Reverse"),
           }
         };
         slope.Init();
         return slope;
       }
       case EffectName.Noise:
+      {
+        var noise = new Effect<NoiseParameters>(EffectName.Noise)
+        {
+          Parameters =
+          {
+            Mode = node.Mode,
+            Size = node.GetParameter<float>("Size"),
+            Steepness = node.GetParameter<float>("Steepness"),
+          }
+        };
+        noise.Init();
+        return noise;
+      }
       case EffectName.Flat:
       case EffectName.Terrace:
       default:

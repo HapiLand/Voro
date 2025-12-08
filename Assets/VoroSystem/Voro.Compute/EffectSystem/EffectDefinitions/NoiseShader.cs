@@ -4,17 +4,16 @@ using VoroSystem.Voro.Utilities.Extensions;
 using VoroSystem.Voro.World.ChunkStructure;
 
 namespace VoroSystem.Voro.Compute.EffectSystem.EffectDefinitions {
-public class SlopeShader<TParam> : TypedBaseShader<TParam> where TParam : class {
-  public SlopeShader(TParam parameters) : base(parameters) {
-    ComputeShader = Resources.Load<ComputeShader>("FX/Slope");
-
+public class NoiseShader<TParam> : TypedBaseShader<TParam> where TParam : class {
+  public NoiseShader(TParam parameters) : base(parameters) {
+    ComputeShader = Resources.Load<ComputeShader>("FX/Noise");
+    
     SetOperationMode();
     
-    SetParameter<float>("Direction");
+    SetParameter<float>("Size");
     SetParameter<float>("Steepness");
-    SetParameter<bool>("Reverse");
   }
-  
+
   public override void SetParameter<T>(string name) {
     var prop = Parameters.GetType().GetProperty(name);
     if (prop == null) {
@@ -24,11 +23,11 @@ public class SlopeShader<TParam> : TypedBaseShader<TParam> where TParam : class 
     var value = prop.GetValue(Parameters);
     if (typeof(T) == typeof(float)) {
       ComputeShader.SetFloat(name, (float)value);
-      Debug.Log($"[Slope] {typeof(T)} Parameter: {name} = {(float)value}");
+      Debug.Log($"[Noise] {typeof(T)} Parameter: {name} = {(float)value}");
     }
     else if (typeof(T) == typeof(bool)) {
       ComputeShader.SetBool(name, (bool)value);
-      Debug.Log($"[Slope] {typeof(T)} Parameter: {name} = {(bool)value}");
+      Debug.Log($"[Noise] {typeof(T)} Parameter: {name} = {(bool)value}");
     }
   }
 
@@ -57,7 +56,5 @@ public class SlopeShader<TParam> : TypedBaseShader<TParam> where TParam : class 
       ComputeShader.SetBuffer(0, "VertexBuffer", buffer);
     }
   }
-
-
 }
 }

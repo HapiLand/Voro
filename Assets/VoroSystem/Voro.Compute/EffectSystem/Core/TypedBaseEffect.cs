@@ -15,12 +15,5 @@ public abstract class TypedBaseEffect<TParam> : BaseEffect where TParam : class,
     Shader.Compute(chunk);
     return Shader.ReadResult();
   }
-
-  #region Serialized Fields
-
-  public EffectName Name;
-  public OperationMode Mode;
-
-  #endregion
 }
 }
