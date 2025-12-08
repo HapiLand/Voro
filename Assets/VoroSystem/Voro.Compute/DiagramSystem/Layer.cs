@@ -1,12 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEditor;
 using UnityEngine;
 using VoroSystem.Voro.Compute.DiagramSystem.DTOs;
-using VoroSystem.Voro.Compute.EffectSystem.Core;
-using VoroSystem.Voro.Core;
-using VoroSystem.Voro.Utilities;
+using VoroSystem.Voro.Core.Events;
 
 namespace VoroSystem.Voro.Compute.DiagramSystem {
 [Serializable]
@@ -15,17 +12,35 @@ public class Layer {
 
   [SerializeField] public string name;
   [SerializeReference] public List<Node> nodes;
-  [SerializeField] EffectBase.EffectType selectedEnum;
-  [SerializeField] VoroEvents events;
+  [SerializeField] EffectName selectedEnum;
 
   #endregion
 
   Layer(string name, List<Node> nodes) {
     this.name = name;
     this.nodes = nodes;
-    // VoroComputeEvents.GetInstance().DiagramSystem.Layer.RaiseCreated(this);
-    events = VoroEvents.GetInstance();
-    events.OnNewNodeEvent += CreateNode;
+    DiagramEvents.GetInstance().OnCreateNode += CreateNode;
+    DiagramEvents.GetInstance().OnMoveNode += MoveNode;
+    DiagramEvents.GetInstance().OnRemoveNode += RemoveNode;
+  }
+
+  void MoveNode(Node node, int direction) {
+    var index = nodes.IndexOf(node);
+    if (index == -1) {
+      return;
+    }
+
+    var newIndex = index + direction;
+    if (newIndex < 0 || newIndex >= nodes.Count) {
+      return;
+    }
+
+    nodes.RemoveAt(index);
+    nodes.Insert(newIndex, node);
+  }
+
+  void RemoveNode(Node node) {
+    nodes.Remove(node);
   }
 
   public static Layer CreateFromDataTransferObject(LayerDTO dto) {
@@ -38,7 +53,7 @@ public class Layer {
   }
 
 
-  void CreateNode(EffectBase.EffectType effectType) {
+  void CreateNode(EffectName effectType) {
     var node = Node.CreateNewInstance(effectType);
     nodes.Add(node);
   }

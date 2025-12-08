@@ -1,14 +1,4 @@
 {
   "Label" : "MyDiagram",
-  "Layers" : [
-    {
-      "Label" : "MyLayer",
-      "Nodes" : [
-        {
-          "EffectType" : "Slope",
-          "Mode" : "Set"
-        }
-      ]
-    }
-  ]
+  "Layers" : []
 }

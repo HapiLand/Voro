@@ -4,7 +4,7 @@
       "Type" : "Slope",
       "Fields" : [
         {
-          "Type" : "Angle",
+          "Type" : "FloatField",
           "Label" : "Direction",
           "Default" : 0.0
         },
@@ -16,7 +16,7 @@
         {
           "Type" : "Toggle",
           "Label" : "Reverse",
-          "Default" : false
+          "Default" : 0.0
         }
       ]
     },
@@ -24,18 +24,14 @@
       "Type" : "Noise",
       "Fields" : [
         {
-          "Type" : "FloatSlider",
+          "Type" : "FloatField",
           "Label" : "Size",
-          "Default" : 0.75,
-          "RangeMin" : 0.2,
-          "RangeMax" : 0.75
+          "Default" : 0.75
         },
         {
-          "Type" : "FloatSlider",
+          "Type" : "FloatField",
           "Label" : "Steepness",
-          "Default" : 0.5,
-          "RangeMin" : 0.15,
-          "RangeMax" : 1.0
+          "Default" : 0.5
         }
       ]
     },
@@ -43,37 +39,29 @@
       "Type" : "Terrace",
       "Fields" : [
         {
-          "Type" : "FloatSlider",
+          "Type" : "FloatField",
           "Label" : "MinStepSize",
-          "Default" : 0.15,
-          "RangeMin" : 0.0,
-          "RangeMax" : 1.0
+          "Default" : 0.15
         },
         {
-          "Type" : "FloatSlider",
+          "Type" : "FloatField",
           "Label" : "MaxStepSize",
-          "Default" : 0.75,
-          "RangeMin" : 0.0,
-          "RangeMax" : 1.0
+          "Default" : 0.75
         },
         {
-          "Type" : "FloatSlider",
+          "Type" : "FloatField",
           "Label" : "StepSize",
-          "Default" : 1.0,
-          "RangeMin" : 0.0,
-          "RangeMax" : 1.0
+          "Default" : 1.0
         },
         {
-          "Type" : "Angle",
+          "Type" : "FloatField",
           "Label" : "Direction",
           "Default" : 0.0
         },
         {
-          "Type" : "IntSlider",
+          "Type" : "FloatField",
           "Label" : "Iterations",
-          "Default" : 3,
-          "RangeMin" : 0,
-          "RangeMax" : 10
+          "Default" : 3
         }
       ]
     },
@@ -81,11 +69,9 @@
       "Type" : "Flat",
       "Fields" : [
         {
-          "Type" : "FloatSlider",
+          "Type" : "FloatField",
           "Label" : "Height",
-          "Default" : 0.0,
-          "RangeMin" : 0.0,
-          "RangeMax" : 1.0
+          "Default" : 0.0
         }
       ]
     }

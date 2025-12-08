@@ -6,47 +6,50 @@ using UnityEngine;
 using VoroSystem.Voro.Compute.DiagramSystem.DTOs;
 using VoroSystem.Voro.Compute.EditorSystem;
 using VoroSystem.Voro.Compute.EditorSystem.Controls;
-using VoroSystem.Voro.Compute.EffectSystem.Core;
 
 namespace VoroSystem.Voro.Compute.DiagramSystem {
 public static class FieldsLookup {
-  static EffectBase.EffectType GetEffectType(JToken token) {
+  static EffectName GetEffectType(JToken token) {
     var typeName = token["Type"]?.ToString();
-    return Enum.TryParse(typeName, out EffectBase.EffectType type) ? type : EffectBase.EffectType.None;
+    if (string.IsNullOrWhiteSpace(typeName)) {
+      throw new ArgumentException();
+    }
+
+    return !Enum.TryParse(typeName, true, out EffectName type) ? throw new ArgumentException() : type;
   }
 
-  public static FieldBase CreateFieldBase(FieldDTO dto) {
+  public static ControlBase CreateFieldBase(FieldDTO dto) {
     switch (dto.type) {
-    case FieldBase.FieldType.FloatField: {
+    case ControlBase.ControlType.FloatField: {
       var value = Convert.ToSingle(dto.defaultValue);
-      return new FloatField(dto.label, value);
+      return new FloatInputControl(dto.label, value);
     }
-    case FieldBase.FieldType.Angle: {
+    case ControlBase.ControlType.Angle: {
       var value = Convert.ToSingle(dto.defaultValue);
-      return new Angle(dto.label, value);
+      return new AngleControl(dto.label, value);
     }
-    case FieldBase.FieldType.FloatSlider: {
+    case ControlBase.ControlType.FloatSlider: {
       var value = Convert.ToSingle(dto.defaultValue);
       var min = Convert.ToSingle(dto.rangeMin);
       var max = Convert.ToSingle(dto.rangeMax);
-      return new FloatSlider(dto.label, value, min, max);
+      return new FloatSliderControl(dto.label, value, min, max);
     }
-    case FieldBase.FieldType.Toggle: {
+    case ControlBase.ControlType.Toggle: {
       var value = Convert.ToBoolean(dto.defaultValue);
-      return new Toggle(dto.label, value);
+      return new ToggleControl(dto.label, value);
     }
-    case FieldBase.FieldType.IntSlider: {
+    case ControlBase.ControlType.IntSlider: {
       var value = Convert.ToInt32(dto.defaultValue);
       var min = Convert.ToInt32(dto.rangeMin);
       var max = Convert.ToInt32(dto.rangeMax);
-      return new IntSlider(dto.label, value, min, max);
+      return new IntSliderControl(dto.label, value, min, max);
     }
     default:
       return null;
     }
   }
 
-  public static List<FieldDTO> LoadFields(EffectBase.EffectType type) {
+  public static List<FieldDTO> LoadFields(EffectName type) {
     var fields = new List<FieldDTO>();
     var root = JObject.Parse(Resources.Load<TextAsset>("Lookup").text);
     if (root["Effects"] is not JArray effectsArray) {

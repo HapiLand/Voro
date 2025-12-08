@@ -3,7 +3,7 @@ using Newtonsoft.Json.Linq;
 using UnityEngine;
 using VoroSystem.Voro.Compute.DiagramSystem;
 using VoroSystem.Voro.Compute.DiagramSystem.DTOs;
-using VoroSystem.Voro.Core;
+using VoroSystem.Voro.Core.Events;
 
 // ReSharper disable InconsistentNaming
 
@@ -12,19 +12,15 @@ namespace VoroSystem.Voro.Compute.Components {
 public class VoroDiagram : MonoBehaviour {
   #region Serialized Fields
 
-  [SerializeField] VoroEvents events;
   [SerializeField] public Diagram diagram;
   [SerializeField] public TextAsset jsonSource;
 
   #endregion
 
-  string newLayerName;
-
   #region Event Functions
 
   void Awake() {
     jsonSource = Resources.Load<TextAsset>("Template");
-    events = VoroEvents.GetInstance();
   }
 
   void Start() {
@@ -32,7 +28,6 @@ public class VoroDiagram : MonoBehaviour {
   }
 
   #endregion
-
 
   void LoadDiagram() {
     var root = JObject.Parse(jsonSource.text);
@@ -44,7 +39,7 @@ public class VoroDiagram : MonoBehaviour {
     }
 
     diagram = diagramDto.ToDiagram();
-    events.RaiseOnDiagramCreated(diagram);
+    DiagramEvents.GetInstance().RaiseOnCreated(diagram);
   }
 }
 }

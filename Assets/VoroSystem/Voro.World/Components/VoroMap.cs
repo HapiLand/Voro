@@ -14,6 +14,7 @@ public class VoroMap : MonoBehaviour {
 
   #endregion
 
+
   int MapSizeX => Mathf.RoundToInt(Mathf.Abs(cornerA.x - cornerB.x));
   int MapSizeZ => Mathf.RoundToInt(Mathf.Abs(cornerB.y - cornerA.y));
 
@@ -24,6 +25,10 @@ public class VoroMap : MonoBehaviour {
   }
 
   #endregion
+
+  public Chunk GetChunkAtPosition(Vector2 pos) {
+    return map.GetAtPosition(pos);
+  }
 
   public void Init() {
     CreateMap();
@@ -50,10 +55,6 @@ public class VoroMap : MonoBehaviour {
     }
 
     map.ForEach(action);
-  }
-
-  public Chunk GetChunkAtPosition(Vector2 pos) {
-    return map.GetAtPosition(pos);
   }
 }
 }

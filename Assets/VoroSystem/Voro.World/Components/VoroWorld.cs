@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using VoroSystem.Voro.Utilities;
@@ -18,13 +19,22 @@ public class VoroWorld : MonoBehaviour {
   /// <summary>
   /// container that stores every Chunk that exists in the world
   /// </summary>
-  [SerializeField] SerializableDictionary<int, Chunk> chunks = new();
+  [SerializeField] SerializableDictionary<int, Chunk> chunkDictionary = new();
 
   #endregion
+
+  public static VoroWorld Instance { get; private set; }
 
   #region Event Functions
 
   void Awake() {
+    if (Instance != null) {
+      Destroy(gameObject);
+      return;
+    }
+
+    Instance = this;
+
     name = "Voro World";
     voroMap = GetComponent<VoroMap>();
     voroSpawner = GetComponent<VoroSpawner>();
@@ -38,14 +48,20 @@ public class VoroWorld : MonoBehaviour {
 
   #endregion
 
+  public void SetChunkTextures(Func<Chunk, Texture2D> textureFunc) {
+    foreach (var chunk in chunkDictionary.Values) {
+      chunk.SetTexture(textureFunc(chunk));
+    }
+  }
+
   void HandleChunkCreated(Chunk obj) {
-    if (!chunks.TryAdd(obj.Index, obj)) {
+    if (!chunkDictionary.TryAdd(obj.Index, obj)) {
       Debug.LogWarning($"Chunk [{obj.Index}] already exists");
     }
   }
 
   public IEnumerable<Chunk> GetAllChunks() {
-    return chunks.Values;
+    return chunkDictionary.Values;
   }
 }
 }

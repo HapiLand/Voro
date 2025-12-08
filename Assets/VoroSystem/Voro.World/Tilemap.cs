@@ -14,13 +14,13 @@ public class Tilemap<T> {
 
   #endregion
 
-  Func<int, Vector2, T> factory;
+  Func<int, Vector2, T> _factory;
 
   public Tilemap(float tileSize, int mapSizeX, int mapSizeZ, Func<int, Vector2, T> factory) {
     this.tileSize = tileSize;
     this.mapSizeX = mapSizeX;
     this.mapSizeZ = mapSizeZ;
-    this.factory = factory;
+    _factory = factory;
     CreateMap();
   }
 
@@ -36,7 +36,7 @@ public class Tilemap<T> {
       for (var x = 0; x < tilesX; x++) {
         var index = HelperUtility.GetIndex(x, z, tilesX);
         var worldPos = new Vector2(x * tileSize, z * tileSize);
-        map[index] = factory(index, worldPos);
+        map[index] = _factory(index, worldPos);
       }
     }
   }
