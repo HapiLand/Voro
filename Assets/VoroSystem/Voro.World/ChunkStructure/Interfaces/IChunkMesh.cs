@@ -12,6 +12,5 @@ public interface IChunkMesh {
   List<int> Triangles { get; }
   Vector2[] UVs { get; }
   void BuildMesh();
-  void UpdateHeight();
 }
 }

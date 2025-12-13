@@ -48,9 +48,9 @@ public class VoroWorld : MonoBehaviour {
 
   #endregion
 
-  public void SetChunkTextures(Func<Chunk, Texture2D> textureFunc) {
+  public void SetChunkTextures(Func<Chunk, Texture2D> computeFunc) {
     foreach (var chunk in chunkDictionary.Values) {
-      chunk.SetTexture(textureFunc(chunk));
+      chunk.SetTexture(computeFunc(chunk));
     }
   }
 

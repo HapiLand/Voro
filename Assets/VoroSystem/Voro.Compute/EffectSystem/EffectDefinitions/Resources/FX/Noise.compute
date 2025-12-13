@@ -1,12 +1,12 @@
-#include "SimplexNoise2D.hlsl"
-#include "ClassicNoise2D.hlsl"
-#include "FXCommon.hlsl"
-
 #pragma kernel CSMain
+#include "FXCommon.hlsl"
+#include "SimplexNoise2D.hlsl"
 
-struct Vertex {
+struct Vertex
+{
     float3 position;
 };
+
 RWStructuredBuffer<Vertex> VertexBuffer;
 
 cbuffer Params
@@ -17,19 +17,8 @@ cbuffer Params
 
 float Solve(float2 uv)
 {
-    /*  Alter the Size of the Noise
-     *
-     *  Make this less confusing for the user, by having
-     *  a smaller Size value return a smaller noise texture.
-     *
-     *  Technically a lower Size value only samples a smaller
-     *  region of the noise. However, its pretty fucking stupid to
-     *  present the user with a "Noise Size" slider, for Small<-->Big
-     *  and when they select "Big" it effectively zooms out, making it
-     *  appear to be smaller. Very stupid.
-     */
-    float noiseSize = 1.0 - Size; // 0-1 -> 1-0
-    uv *= noiseSize;
+    float noise_size = 1.0 - Size; // 0-1 -> 1-0
+    uv *= noise_size;
     float noise = SimplexNoise(uv) * Steepness;
     return noise;
 }
@@ -43,13 +32,11 @@ void CSMain(uint3 id : SV_DispatchThreadID)
     float2 vertex_pos = vtx.position.xz;
     float2 chunk_offset = float2(OffsetX, OffsetY);
     vertex_pos += chunk_offset;
-    
+
     float existing_height = vtx.position.y;
     float solved_height = Solve(vertex_pos);
     float result_height = ApplyOperation(existing_height, solved_height);
 
-    result_height = 1;
-    
     vtx.position.y = result_height;
     VertexBuffer[index] = vtx;
 }

@@ -10,8 +10,9 @@ float ApplyOperation(float o, float s)
     {
     case 0:
         // None
+        o = s;
         break;
-        
+
     case 1:
         // Set - Overwrites any existing height
         o = s;

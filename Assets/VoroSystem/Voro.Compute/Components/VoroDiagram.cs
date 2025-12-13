@@ -17,6 +17,21 @@ public class VoroDiagram : MonoBehaviour {
 
   #endregion
 
+  DiagramDTO DiagramDTO {
+    get
+    {
+      var root = JObject.Parse(jsonSource.text);
+      var diagramDto = root.ToObject<DiagramDTO>();
+
+      // the fieldDTOs need to be constructed as are not contained in the file
+      foreach (var nodeDto in diagramDto.layers.SelectMany(layerDto => layerDto.nodes)) {
+        nodeDto.LoadFields();
+      }
+
+      return diagramDto;
+    }
+  }
+
   #region Event Functions
 
   void Awake() {
@@ -30,13 +45,7 @@ public class VoroDiagram : MonoBehaviour {
   #endregion
 
   void LoadDiagram() {
-    var root = JObject.Parse(jsonSource.text);
-    var diagramDto = root.ToObject<DiagramDTO>();
-
-    // the fieldDTOs need to be constructed as are not contained in the file
-    foreach (var nodeDto in diagramDto.layers.SelectMany(layerDto => layerDto.nodes)) {
-      nodeDto.LoadFields();
-    }
+    var diagramDto = DiagramDTO;
 
     diagram = diagramDto.ToDiagram();
     DiagramEvents.GetInstance().RaiseOnCreated(diagram);

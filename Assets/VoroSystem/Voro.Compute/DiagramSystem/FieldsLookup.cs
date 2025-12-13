@@ -20,25 +20,25 @@ public static class FieldsLookup {
 
   public static ControlBase CreateFieldBase(FieldDTO dto) {
     switch (dto.type) {
-    case ControlBase.ControlType.FloatField: {
+    case ControlType.FloatField: {
       var value = Convert.ToSingle(dto.defaultValue);
       return new FloatInputControl(dto.label, value);
     }
-    case ControlBase.ControlType.Angle: {
+    case ControlType.Angle: {
       var value = Convert.ToSingle(dto.defaultValue);
       return new AngleControl(dto.label, value);
     }
-    case ControlBase.ControlType.FloatSlider: {
+    case ControlType.FloatSlider: {
       var value = Convert.ToSingle(dto.defaultValue);
       var min = Convert.ToSingle(dto.rangeMin);
       var max = Convert.ToSingle(dto.rangeMax);
       return new FloatSliderControl(dto.label, value, min, max);
     }
-    case ControlBase.ControlType.Toggle: {
+    case ControlType.Toggle: {
       var value = Convert.ToBoolean(dto.defaultValue);
       return new ToggleControl(dto.label, value);
     }
-    case ControlBase.ControlType.IntSlider: {
+    case ControlType.IntSlider: {
       var value = Convert.ToInt32(dto.defaultValue);
       var min = Convert.ToInt32(dto.rangeMin);
       var max = Convert.ToInt32(dto.rangeMax);

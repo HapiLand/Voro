@@ -5,41 +5,66 @@ using UnityEngine.UIElements;
 namespace VoroSystem.Voro.Core.Components.Editor.Panels.Base {
 [Serializable]
 public abstract class BasePanel : VisualElement {
-  #region Serialized Fields
-
-  [SerializeReference] Label titleLabel;
-
-  #endregion
+  public VisualElement Header;
 
   protected BasePanel(string id, string title) {
     name = id;
+    Header = CreateHeader(title);
+    Add(Header);
 
-    style.backgroundColor = new StyleColor(Color.darkSlateBlue);
+    style.backgroundColor = new StyleColor(Color.slateGray);
+    // style.alignItems = Align.FlexStart;
 
-    const int padding = 10;
-    style.paddingBottom = padding;
-    style.paddingTop = padding;
-    style.paddingLeft = padding;
-    style.paddingRight = padding;
-    style.marginBottom = padding;
-    style.marginTop = padding;
-    style.marginLeft = padding;
-    style.marginRight = padding;
-    style.alignItems = Align.FlexStart;
+    var borderWidth = 0;
+    var borderColor = Color.black;
+    var margin = 0;
 
-    const int strokeWidth = 2;
-    var strokeColor = Color.black;
-    style.borderTopWidth = strokeWidth;
-    style.borderBottomWidth = strokeWidth;
-    style.borderLeftWidth = strokeWidth;
-    style.borderRightWidth = strokeWidth;
-    style.borderTopColor = strokeColor;
-    style.borderBottomColor = strokeColor;
-    style.borderLeftColor = strokeColor;
-    style.borderRightColor = strokeColor;
+    style.borderTopWidth = borderWidth;
+    style.borderTopColor = borderColor;
+    style.marginTop = margin;
 
-    titleLabel = new Label(title);
-    Add(titleLabel);
+    style.borderBottomWidth = borderWidth;
+    style.borderBottomColor = borderColor;
+    style.marginBottom = margin;
+
+    style.borderLeftWidth = borderWidth;
+    style.borderLeftColor = borderColor;
+    style.marginLeft = margin;
+
+    style.borderRightWidth = borderWidth;
+    style.borderRightColor = borderColor;
+    style.marginRight = margin;
+  }
+
+  static VisualElement CreateHeader(string headerText) {
+    var header = new VisualElement
+    {
+      style =
+      {
+        backgroundColor = new StyleColor(Color.lightSteelBlue),
+
+        paddingLeft = 10,
+
+        paddingRight = 10,
+
+        paddingTop = 10,
+
+        paddingBottom = 10,
+        borderBottomWidth = 2,
+        borderBottomColor = Color.black
+      }
+    };
+
+    var label = new Label(headerText)
+    {
+      style =
+      {
+        color = new StyleColor(Color.black)
+      }
+    };
+    header.Add(label);
+
+    return header;
   }
 }
 }

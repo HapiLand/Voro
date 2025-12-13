@@ -14,7 +14,7 @@ public class ChunkMaterial : IChunkMaterial {
   public ChunkMaterial(GameObject instance) {
     renderer = instance.AddComponent<MeshRenderer>();
     SetMaterial(Resources.Load<Material>("ChunkMaterial"));
-    SetTexture(Texture2D.redTexture);
+    SetTexture(Texture2D.whiteTexture);
   }
 
   #region IChunkMaterial Members

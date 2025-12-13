@@ -1,5 +1,4 @@
 using System;
-using UnityEngine;
 using UnityEngine.UIElements;
 using VoroSystem.Voro.Core.Components.Editor.Panels.Base;
 using VoroSystem.Voro.Core.Events;
@@ -7,18 +6,18 @@ using VoroSystem.Voro.Core.Events;
 namespace VoroSystem.Voro.Core.Components.Editor.Panels {
 [Serializable]
 public class ComputePanel : BasePanel {
-  #region Serialized Fields
-
-  [SerializeField] Button computeButton;
-
-  #endregion
-
   public ComputePanel(string title) : base("compute", title) {
-    computeButton = new Button(() => { ComputeEvents.GetInstance().RaiseCompute(); })
+    Add(new Button(() => { ComputeEvents.GetInstance().RaiseCompute(); })
     {
-      text = "Compute"
-    };
-    Add(computeButton);
+      text = "Compute",
+      style =
+      {
+        marginTop = 10,
+        marginBottom = 10,
+        marginLeft = 10,
+        marginRight = 10
+      }
+    });
   }
 }
 }

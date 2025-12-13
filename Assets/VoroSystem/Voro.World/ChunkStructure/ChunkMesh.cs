@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Runtime.InteropServices;
 using UnityEngine;
 using VoroSystem.Voro.Utilities.Extensions;
 using VoroSystem.Voro.World.ChunkStructure.Interfaces;
@@ -19,20 +18,17 @@ public class ChunkMesh : IChunkMesh {
   [SerializeField] Vector2[] uvs;
   [SerializeField] VoroMap voroMap;
   [SerializeField] float size;
-  [SerializeField] Vector2 position;
+  [SerializeField] Vector3 position;
 
   #endregion
-
-  public ComputeBuffer PointBuffer;
 
   public ChunkMesh(GameObject instance, float size, VoroMap map) {
     this.size = size;
     voroMap = map;
-    position = instance.transform.position.ToVector2();
+    position = instance.transform.position;
 
     filter = instance.AddComponent<MeshFilter>();
     BuildMesh();
-    CreatePointBuffer();
   }
 
   #region IChunkMesh Members
@@ -62,84 +58,15 @@ public class ChunkMesh : IChunkMesh {
     filter.sharedMesh = mesh;
   }
 
-  public void UpdateHeight() {
-    var uvs = mesh.uv;
-
-    // todo shader write height value to vertices directly
-    for (var i = 0; i < vertices.Length; i++) {
-      var height = SampleVertexHeight(i);
-      var v = vertices[i];
-      v.position = new Vector3(v.position.x, height, v.position.z);
-      vertices[i] = v;
-    }
-
-    /*for (var i = 0; i < vertices.Length; i++) {
-      var uv = uvs[i];
-      var height = SampleHeightAtCoordinate(uv);
-      var v = vertices[i];
-      v.position = new Vector3(v.position.x, height, v.position.z);
-      vertices[i] = v;
-    }*/
-
-    mesh.vertices = vertices.ToVector3Array();
-    mesh.RecalculateNormals();
-  }
-
   #endregion
 
-  void CreatePointBuffer() {
-    var pointsArray = new MeshVertex.PointData[Vertices.Length];
-    for (var i = 0; i < pointsArray.Length; i++) {
-      pointsArray[i] = new MeshVertex.PointData
-      {
-        Position = Vertices[i].position
-      };
-    }
-
-    CreateStructuredBuffer(ref PointBuffer, pointsArray);
-  }
-
-  void CreateStructuredBuffer<T>(ref ComputeBuffer buffer, int count) {
-    var stride = Marshal.SizeOf(typeof(T));
-    var createNewBuffer = buffer == null || !buffer.IsValid() || buffer.count != count || buffer.stride != stride;
-    if (!createNewBuffer) {
-      return;
-    }
-
-    Release(buffer);
-    buffer = new ComputeBuffer(count, stride);
-  }
-
-  void CreateStructuredBuffer<T>(ref ComputeBuffer buffer, T[] data) {
-    CreateStructuredBuffer<T>(ref buffer, data.Length);
-    buffer.SetData(data);
-  }
-
-  public void ReleasePointBuffer() {
-    Release(PointBuffer);
-  }
-
-  void Release(params ComputeBuffer[] buffers) {
-    foreach (var t in buffers) {
-      t?.Release();
-    }
-  }
-
-  /// <summary>
-  /// reads a height value found in this vertex
-  /// </summary>
-  float SampleVertexHeight(int index) {
-    var vertex = vertices[index];
-    return vertex.height;
-  }
-
   void CreateUVs(out Vector2[] uvs) {
-    uvs = new Vector2[Vertices.Length];
+    uvs = new Vector2[vertices.Length];
     var step = size / subdivision;
     for (var z = 0; z <= subdivision; z++) {
       for (var x = 0; x <= subdivision; x++) {
         var u = position.x + x * step;
-        var v = position.y + z * step;
+        var v = position.z + z * step;
         uvs[z * (subdivision + 1) + x] = new Vector2(u, v);
       }
     }
@@ -182,45 +109,17 @@ public class ChunkMesh : IChunkMesh {
     v = list.ToArray();
   }
 
-  float SampleHeightAtCoordinate(Vector2 uv) {
-    // find the chunk at this coordinate
-    var chunk = voroMap.GetChunkAtPosition(uv);
-    if (chunk == null) {
-      return 0f;
-    }
-
-    // read texture in the tile
-    var tex = chunk.GetTexture();
-    if (!tex) {
-      return 0f;
-    }
-
-    // sample the texture to get its height
-    var localPos = uv - chunk.Position;
-    var u = Mathf.Clamp01(localPos.x / size);
-    var v = Mathf.Clamp01(localPos.y / size);
-    var sample = tex.GetPixelBilinear(u, v);
-    return sample.r;
-  }
-
-  public MeshVertex GetVertex(int x, int z) {
-    if (x < 0 || x > subdivision || z < 0 || z > subdivision) {
-      throw new ArgumentOutOfRangeException($"Invalid vertex coordinates: ({x}, {z})");
-    }
-
-    var index = z * (subdivision + 1) + x;
-    return vertices[index];
-  }
-
   /// <summary>
   /// update height values using computed data
   /// </summary>
   /// <param name="data"> </param>
-  /// <exception cref="NotImplementedException"> </exception>
-  public void Apply(MeshVertex.PointData[] data) {
+  public void Apply(float[] data) {
     for (var i = 0; i < data.Length; i++) {
-      Vertices[i].height = data[i].Position.y;
+      vertices[i].height = data[i];
     }
+
+    mesh.vertices = vertices.ToVector3Array();
+    mesh.RecalculateNormals();
   }
 }
 }

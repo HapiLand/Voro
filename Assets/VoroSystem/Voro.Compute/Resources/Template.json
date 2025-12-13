@@ -1,12 +1,16 @@
 {
-  "Label" : "MyDiagram",
+  "Label" : "Example Terrain",
   "Layers" : [
     {
-      "Label" : "MyLayer",
+      "Label" : "Simple Layer",
       "Nodes" : [
         {
-          "EffectType" : "Noise",
+          "EffectType" : "Slope",
           "Mode" : "Set"
+        },
+        {
+          "EffectType" : "Noise",
+          "Mode" : "Add"
         }
       ]
     }

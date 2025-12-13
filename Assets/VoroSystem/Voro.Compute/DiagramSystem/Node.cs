@@ -50,10 +50,12 @@ public class Node {
       if (c.name == name && c is FloatInputControl floatInput) {
         return (T)(object)floatInput.Value;
       }
+
       if (c.name == name && c is ToggleControl toggle) {
         return (T)(object)toggle.Value;
       }
     }
+
     throw new InvalidOperationException();
   }
 }

@@ -60,7 +60,7 @@ public class VoroMapDrawer : UnityEditor.Editor {
 
   static void DrawTiles(VoroMap map) {
     map.ForEach(chunk => {
-      var center = chunk.Position.ToVector3() + new Vector3(chunk.Size * 0.5f, 0f, chunk.Size * 0.5f);
+      var center = chunk.Position + new Vector3(chunk.Size * 0.5f, 0f, chunk.Size * 0.5f);
       const float scale = 0.95f;
       var size = new Vector3(chunk.Size * scale, 0f, chunk.Size * scale);
       Handles.color = chunk.Visible ? Color.forestGreen : Color.crimson;

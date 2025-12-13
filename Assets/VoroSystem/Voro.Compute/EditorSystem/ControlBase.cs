@@ -4,19 +4,6 @@ using UnityEngine;
 namespace VoroSystem.Voro.Compute.EditorSystem {
 [Serializable]
 public abstract class ControlBase {
-  #region ControlType enum
-
-  [Serializable]
-  public enum ControlType {
-    FloatField,
-    Angle,
-    FloatSlider,
-    Toggle,
-    IntSlider
-  }
-
-  #endregion
-
   #region Serialized Fields
 
   [SerializeReference] public string name;

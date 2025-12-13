@@ -8,46 +8,68 @@ using VoroSystem.Voro.Core.Events;
 namespace VoroSystem.Voro.Core.Components.Editor.Panels {
 [Serializable]
 public class DiagramPanel : BasePanel {
-  #region Serialized Fields
-
-  [SerializeField] Button createLayerButton;
-  [SerializeField] Diagram diagram;
-
-  #endregion
-
   public DiagramPanel(string title, Diagram diagram) : base("diagram", title) {
-    this.diagram = diagram;
-    Add(new Label($"Name: {this.diagram.name}"));
-
-    LayerCreation();
-
-    if (this.diagram.layers.Count > 0) {
-      this.diagram.layers.ForEach(l => { Add(new LayerPanel("Layer", l)); });
-    }
-  }
-
-  void LayerCreation() {
-    var element = new VisualElement
+    Header.Add(new Label
     {
+      text = diagram.name,
+      style =
+      {
+        color = new StyleColor(Color.black),
+        unityFontStyleAndWeight = FontStyle.Bold,
+        marginBottom = 10
+      }
+    });
+    Header.Add(new VisualElement
+    {
+      name = "row1",
+      style =
+      {
+        flexDirection = FlexDirection.Row,
+        alignItems = Align.Center
+      }
+    });
+    Header.Q<VisualElement>("row1").Add(new Label
+    {
+      text = "New Layer",
+      style =
+      {
+        color = new StyleColor(Color.black)
+      }
+    });
+    Header.Q<VisualElement>("row1").Add(new TextField
+    {
+      name = "field",
+      value = "Default Layer Name",
+      style =
+      {
+        height = 30
+      }
+    });
+    Header.Q<VisualElement>("row1").Add(new Button(() => {
+      DiagramEvents.GetInstance().RaiseCreateLayer(Header.Q<VisualElement>("row1").Q<TextField>("field").value);
+    })
+    {
+      name = "button",
+      text = "Create Layer"
+    });
+    if (diagram.layers.Count == 0) {
+      return;
+    }
+
+    Add(new VisualElement
+    {
+      name = "row2",
       style =
       {
         flexDirection = FlexDirection.Row
       }
-    };
-
-    var layerNameField = new TextField("New Layer: ")
+    });
+    this.Q<VisualElement>("row2").Add(new ScrollView(ScrollViewMode.Vertical)
     {
-      value = "DefaultName"
-    };
-    createLayerButton = new Button(() => { DiagramEvents.GetInstance().RaiseCreateLayer(layerNameField.value); })
-    {
-      text = $"Create '{layerNameField.value}'"
-    };
-    layerNameField.RegisterValueChangedCallback(evt => { createLayerButton.text = $"Create '{evt.newValue}'"; });
+      name = "scroll"
+    });
 
-    element.Add(layerNameField);
-    element.Add(createLayerButton);
-    Add(element);
+    diagram.layers.ForEach(l => { this.Q<VisualElement>("row2").Add(new LayerPanel("Layer", l)); });
   }
 }
 }

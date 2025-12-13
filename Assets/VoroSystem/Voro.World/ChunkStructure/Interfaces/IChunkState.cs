@@ -6,6 +6,6 @@ namespace VoroSystem.Voro.World.ChunkStructure.Interfaces {
 /// </summary>
 public interface IChunkState {
   bool Visible { get; }
-  void UpdateVisibility(Vector2 position);
+  void UpdateVisibility(Vector3 position);
 }
 }

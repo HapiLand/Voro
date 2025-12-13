@@ -16,6 +16,8 @@ public class MeshVertex {
     height = 0;
   }
 
+  public Vector3 WorldPosition => new(position.x, height, position.z);
+
   public struct PointData {
     public Vector3 Position;
   }

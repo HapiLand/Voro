@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using VoroSystem.Voro.Utilities.Extensions;
 using VoroSystem.Voro.World.ChunkStructure;
 
 namespace VoroSystem.Voro.World.Components {
@@ -41,9 +42,8 @@ public class VoroMap : MonoBehaviour {
       chunkSize,
       MapSizeX,
       MapSizeZ,
-      (index, worldPos) => {
-        Debug.Log($"[Chunk Factory] index: {index} worldPos: {worldPos}");
-        var chunk = new Chunk(index, worldPos, chunkSize, this, transform);
+      (index, mapPosition) => {
+        var chunk = new Chunk(index, mapPosition.ToVector3(), chunkSize, this, transform);
         CreatedChunk?.Invoke(chunk);
         return chunk;
       });

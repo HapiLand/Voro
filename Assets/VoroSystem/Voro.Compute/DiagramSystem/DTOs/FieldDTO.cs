@@ -10,7 +10,7 @@ namespace VoroSystem.Voro.Compute.DiagramSystem.DTOs {
 public class FieldDTO {
   #region Serialized Fields
 
-  [JsonProperty("Type")] public ControlBase.ControlType type;
+  [JsonProperty("Type")] public ControlType type;
   [JsonProperty("Label")] public string label;
 
   [JsonProperty("Default")] [SerializeReference]

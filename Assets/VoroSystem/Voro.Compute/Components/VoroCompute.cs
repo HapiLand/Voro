@@ -31,27 +31,27 @@ public class VoroCompute : MonoBehaviour {
 
   void HandleOnCompute() {
     VoroWorld.Instance.SetChunkTextures(chunk => {
+      Debug.Log("[Compute] Create dictionary");
       var dict = Diagram.GetEffectDictionary(out var allow);
-      var resultTexture = Texture2D.blackTexture;
 
       if (!allow) {
-        return resultTexture;
+        return Texture2D.blackTexture;
       }
 
+      // create buffer if it does not exist
+      chunk.TryCreateBuffer();
+
+      // Debug.Log("Compute Begin:");
       foreach (var (layerName, list) in dict) {
-        Debug.Log($"Layer: {layerName}");
+        Debug.Log($"Computing Layer: {layerName}");
         list.ForEach(effect => {
-          Debug.Log($"Effect: {effect.Name.ToString()}");
-          resultTexture = effect.RunEffect(chunk);
+          Debug.Log($"Computing Effect {effect.Name.ToString()} in Layer {layerName}");
+          effect.RunEffect(chunk);
         });
       }
-      
-      // get buffer data
-      chunk.ReadBuffer();
-      // release buffers
-      chunk.ReleasePointBuffer();
 
-      return resultTexture;
+      chunk.ApplyBuffer();
+      return Texture2D.blackTexture;
     });
   }
 }

@@ -1,7 +1,6 @@
 using System;
 using UnityEngine;
 using VoroSystem.Voro.Utilities.Cameras;
-using VoroSystem.Voro.Utilities.Extensions;
 using VoroSystem.Voro.World.ChunkStructure.Interfaces;
 
 namespace VoroSystem.Voro.World.ChunkStructure {
@@ -17,10 +16,9 @@ public class ChunkState : IChunkState {
 
   public bool Visible => visible;
 
-  public void UpdateVisibility(Vector2 position) {
+  public void UpdateVisibility(Vector3 position) {
     var cam = CameraManager.Camera;
-    var tileWorldPos = position.ToVector3();
-    var viewportPos = cam.WorldToViewportPoint(tileWorldPos);
+    var viewportPos = cam.WorldToViewportPoint(position);
     var isVisible = viewportPos is { z: > 0, x: >= 0 and <= 1, y: >= 0 and <= 1 };
     visible = isVisible;
   }
