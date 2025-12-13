@@ -57,15 +57,12 @@ public class GraphComponentEditorWindow : EditorWindow {
     _serializedGraphData.Update();
 
     EditorGUILayout.LabelField("Graph Data", EditorStyles.boldLabel);
+    EditorGUILayout.PropertyField(_serializedGraphData.FindProperty("graphName"));
   
-    EditorGUILayout.PropertyField(_serializedGraphData.FindProperty("Name"));
-    
     // draw layer list
-    EditorGUILayout.PropertyField(_serializedGraphData.FindProperty("Foo"), true);
-    
+    EditorGUILayout.PropertyField(_serializedGraphData.FindProperty("layers"), true);
     // EditorGUILayout.PropertyField(_serializedGraphData.FindProperty("Number"));
     // EditorGUILayout.PropertyField(_serializedGraphData.FindProperty("Toggle"));
-
     _serializedGraphData.ApplyModifiedProperties();
   }
 

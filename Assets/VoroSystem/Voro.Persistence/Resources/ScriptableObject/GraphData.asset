@@ -11,6 +11,6 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ca9ca6569b94149bf83dad73a4ac85c9, type: 3}
   m_Name: GraphData
-  m_EditorClassIdentifier: Assembly-CSharp::VoroSystem.Voro.GraphEditor.GraphScriptableObject
-  Name: Example Name
-  Foo: []
+  m_EditorClassIdentifier: Assembly-CSharp::VoroSystem.Voro.GraphEditor.Data.GraphScriptableObject
+  graphName: Example Name
+  layers: []

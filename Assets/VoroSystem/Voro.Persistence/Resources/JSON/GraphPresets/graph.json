@@ -1,0 +1,21 @@
+{
+  "Name": "Example Name",
+  "Layers": [
+    {
+      "Name": "My Layer",
+      "Effects": [
+        {
+          "Variant": "Slope",
+          "Mode": "Set",
+          "Controls": [
+            {
+              "Name": "Steepness",
+              "Variant": "Slider",
+              "Value": null
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

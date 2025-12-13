@@ -1,18 +1,25 @@
+using System;
 using System.Collections.Generic;
+using Newtonsoft.Json;
 using UnityEngine;
 
 namespace VoroSystem.Voro.GraphEditor.Data {
 public class GraphScriptableObject : ScriptableObject {
-  #region Event Functions
+  #region Serialized Fields
 
-  void OnEnable() {
-    Name = "Example Name";
-    Foo = new List<LayerData>();
-  }
+  public string graphName = "Example Name";
+  public List<LayerData> layers = new();
 
   #endregion
-
-  public string Name;
-  public List<LayerData> Foo;
+  
+  [Serializable]
+  // ReSharper disable InconsistentNaming
+  public class DTO {
+    // ReSharper restore InconsistentNaming
+    #region Serialized Fields
+    [JsonProperty("Name")] public string name;
+    [JsonProperty("Layers")] public List<LayerData.DTO> layers = new();
+    #endregion
+  }
 }
 }

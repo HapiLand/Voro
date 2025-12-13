@@ -16,7 +16,7 @@ public static class GraphJsonIO {
     }
 
     var json = File.ReadAllText(path);
-    var dataObject = JsonConvert.DeserializeObject<GraphDataObject>(json);
+    var dataObject = JsonConvert.DeserializeObject<GraphScriptableObject.DTO>(json);
 
     Undo.RecordObject(target, "Import JSON");
     GraphMapper.ApplyToScriptableObject(dataObject, target);

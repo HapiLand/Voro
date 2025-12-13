@@ -4,10 +4,11 @@ using Newtonsoft.Json;
 
 namespace VoroSystem.Voro.GraphEditor.Data {
 [Serializable]
-public class LayerData {
+public class EffectData {
   #region Serialized Fields
-  public string layerName = "Example Name";
-  public List<EffectData> effects = new();
+  public string variantType;
+  public string operation;
+  public List<ControlData> controls;
   #endregion
   
   [Serializable]
@@ -15,8 +16,9 @@ public class LayerData {
   public class DTO {
     // ReSharper restore InconsistentNaming
     #region Serialized Fields
-    [JsonProperty("Name")] public string name;
-    [JsonProperty("Effects")] public List<EffectData.DTO> effects = new();
+    [JsonProperty("Variant")] public string variantType;
+    [JsonProperty("Mode")] public string operation;
+    [JsonProperty("Controls")] public List<ControlData.DTO> controls = new();
     #endregion
   }
 }
