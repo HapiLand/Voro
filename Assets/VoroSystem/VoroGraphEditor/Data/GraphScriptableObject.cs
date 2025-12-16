@@ -21,7 +21,8 @@ public class GraphScriptableObject : ScriptableObject {
         layerName = "Layer",
         effects = new List<EffectData>
         {
-          EffectFactory.Create(EffectVariants.Slope)
+          // EffectFactory.Create(EffectVariants.Slope),
+          EffectFactory.Create(EffectVariants.Noise),
         }
       }
     };

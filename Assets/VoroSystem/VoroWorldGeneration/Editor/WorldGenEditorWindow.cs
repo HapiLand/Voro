@@ -115,7 +115,7 @@ public class WorldGenEditorWindow : EditorWindow {
     var go = new GameObject("WorldGenerator");
     generator = go.AddComponent<WorldGenerator>();
 
-    Debug.Log("WorldGenerator created");
+    // Debug.Log("WorldGenerator created");
   }
 
   [MenuItem("VoroNew/World")]
@@ -132,7 +132,7 @@ public class WorldGenEditorWindow : EditorWindow {
 
     DestroyImmediate(generator.gameObject);
     generator = null;
-    Debug.Log("WorldGenerator destroyed");
+    // Debug.Log("WorldGenerator destroyed");
   }
 }
 }

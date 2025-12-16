@@ -89,7 +89,7 @@ public class Tile {
 
       void TileHeight() {
         _heightSystem = new TerrainHeightSystem();
-        Debug.Log("TerrainHeightSystem created");
+        // Debug.Log("TerrainHeightSystem created");
       }
     }
   }

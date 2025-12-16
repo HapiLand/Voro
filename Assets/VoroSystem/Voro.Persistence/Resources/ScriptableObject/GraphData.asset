@@ -16,37 +16,40 @@ MonoBehaviour:
   layers:
   - layerName: Layer
     effects:
-    - rid: 3732410196382712103
+    - rid: 3732410241492189715
+    - rid: -2
   references:
     version: 2
     RefIds:
-    - rid: 3732410196382712103
-      type: {class: SlopeEffect, ns: VoroSystem.Voro.DataStructures.EffectDefinition.Variants, asm: Assembly-CSharp}
+    - rid: -2
+      type: {class: , ns: , asm: }
+    - rid: 3732410241492189715
+      type: {class: NoiseEffect, ns: VoroSystem.VoroDataStructures.EffectDefinition.Variants, asm: Assembly-CSharp}
       data:
         parameters:
-        - rid: 3732410196382712104
-        - rid: 3732410196382712105
-        effectType: 0
+        - rid: 3732410241492189716
+        - rid: 3732410241492189717
+        effectType: 1
         operationType: 0
-    - rid: 3732410196382712104
-      type: {class: ParameterData, ns: VoroSystem.Voro.DataStructures.EffectDefinition.ParameterDefinition.Core, asm: Assembly-CSharp}
+    - rid: 3732410241492189716
+      type: {class: ParameterData, ns: VoroSystem.VoroDataStructures.EffectDefinition.ParameterDefinition.Core, asm: Assembly-CSharp}
       data:
         defaultValue:
-          rid: 3732410196382712106
-        parameterName: Steepness
+          rid: 3732410241492189718
+        parameterName: Size
         parameterType: 0
-    - rid: 3732410196382712105
-      type: {class: ParameterData, ns: VoroSystem.Voro.DataStructures.EffectDefinition.ParameterDefinition.Core, asm: Assembly-CSharp}
+    - rid: 3732410241492189717
+      type: {class: ParameterData, ns: VoroSystem.VoroDataStructures.EffectDefinition.ParameterDefinition.Core, asm: Assembly-CSharp}
       data:
         defaultValue:
-          rid: 3732410196382712107
-        parameterName: Reverse
-        parameterType: 1
-    - rid: 3732410196382712106
-      type: {class: FloatValue, ns: VoroSystem.Voro.DataStructures.EffectDefinition.ParameterDefinition.Variants, asm: Assembly-CSharp}
+          rid: 3732410241492189719
+        parameterName: Roughness
+        parameterType: 0
+    - rid: 3732410241492189718
+      type: {class: FloatValue, ns: VoroSystem.VoroDataStructures.EffectDefinition.ParameterDefinition.Variants, asm: Assembly-CSharp}
       data:
         value: 1
-    - rid: 3732410196382712107
-      type: {class: BoolValue, ns: VoroSystem.Voro.DataStructures.EffectDefinition.ParameterDefinition.Variants, asm: Assembly-CSharp}
+    - rid: 3732410241492189719
+      type: {class: FloatValue, ns: VoroSystem.VoroDataStructures.EffectDefinition.ParameterDefinition.Variants, asm: Assembly-CSharp}
       data:
-        value: 0
+        value: 0.1

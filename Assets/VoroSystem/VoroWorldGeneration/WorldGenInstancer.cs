@@ -25,7 +25,7 @@ public class WorldGenInstancer : MonoBehaviour {
   /// <param name="tile"> </param>
   void HandleNewTileCreated(Tile tile) {
     tile.CreateEntity(parentTransform);
-    Debug.Log("Tile instanced into scene");
+    // Debug.Log("Tile instanced into scene");
     tile.Update();
   }
 

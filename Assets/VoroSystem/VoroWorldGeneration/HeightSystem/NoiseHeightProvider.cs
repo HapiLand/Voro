@@ -9,7 +9,7 @@ namespace VoroSystem.VoroWorldGeneration.HeightSystem {
 /// <summary>
 /// provides terrain height with random values for height
 /// </summary>
-public class SlopeHeightProvider : IHeightProvider<float> {
+public class NoiseHeightProvider : IHeightProvider<float> {
   readonly ComputeShader _computeShader;
   readonly int _kernelID;
 
@@ -21,7 +21,7 @@ public class SlopeHeightProvider : IHeightProvider<float> {
   ComputeBuffer _inputBuffer;
   ComputeBuffer _resultBuffer;
 
-  public SlopeHeightProvider(Bounds worldBounds, ComputeShader computeShader) {
+  public NoiseHeightProvider(Bounds worldBounds, ComputeShader computeShader) {
     _worldBounds = worldBounds;
     _computeShader = computeShader;
     _kernelID = _computeShader.FindKernel("CSMain");
@@ -73,9 +73,8 @@ public class SlopeHeightProvider : IHeightProvider<float> {
   #endregion
 
   public void SetParameters(List<ParameterData> parameters) {
-    SetParameter("Direction");
-    SetParameter("Steepness");
-    SetParameter("Reverse");
+    SetParameter("Size");
+    SetParameter("Roughness");
     return;
 
     void SetParameter(string name) {

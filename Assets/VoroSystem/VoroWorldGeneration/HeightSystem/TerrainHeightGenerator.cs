@@ -40,22 +40,25 @@ public class TerrainHeightGenerator {
 
     // read the graph and convert its effects to providers
     var graph = GraphScriptableObjectUtility.GetOrCreate();
-    Debug.Log($"Graph: {graph}");
+    // Debug.Log($"Graph: {graph}");
 
-    providers = new List<IHeightProvider>
-    {
-      new RandomHeightProvider(worldBounds),
-      new SineHeightProvider(worldBounds, ShaderUtility.Get(EffectVariants.Sine))
-    };
+    providers = new List<IHeightProvider>();
 
     foreach (var layer in graph.layers) {
       foreach (var effect in layer.effects) {
-        Debug.Log($"[Graph {graph.graphName}] [Layer {layer.layerName}] [Effect {effect.effectType.ToString()}]");
+        // Debug.Log($"[Graph {graph.graphName}] [Layer {layer.layerName}] [Effect {effect.effectType.ToString()}]");
 
         switch (effect) {
-        case SlopeEffect slopeEffect:
+        case SlopeEffect slopeEffect: {
           var provider = slopeEffect.GetHeightProvider(worldBounds);
           providers.Add(provider);
+        }
+          break;
+        
+        case NoiseEffect noiseEffect: {
+          var provider = noiseEffect.GetHeightProvider(worldBounds);
+          providers.Add(provider);
+        }
           break;
         }
       }

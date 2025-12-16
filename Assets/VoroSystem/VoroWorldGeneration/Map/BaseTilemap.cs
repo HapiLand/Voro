@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 
 namespace VoroSystem.VoroWorldGeneration.Map {
@@ -18,7 +19,7 @@ public abstract class BaseTilemap<T> where T : Tile {
     this.mapSizeX = mapSizeX;
     this.mapSizeZ = mapSizeZ;
     Factory = factory;
-    CreateMap();
+    CreateMapAsync();
   }
 
   public T this[int index] {
@@ -53,8 +54,8 @@ public abstract class BaseTilemap<T> where T : Tile {
     }
   }
 
-
-  public abstract void CreateMap();
+  // public abstract void CreateMap();
+  public abstract IEnumerator CreateMapAsync(int tilesPerFrame = 100);
 
   public T GetAtPosition(Vector2 pos) {
     var x = (int)(pos.x / tileSize);

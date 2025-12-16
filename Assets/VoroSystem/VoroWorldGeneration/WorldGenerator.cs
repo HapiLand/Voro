@@ -29,7 +29,13 @@ public class WorldGenerator : MonoBehaviour {
     stateMachine.StartGeneration();
 
     // generate grid, tiles are instanced into scene
-    _worldGrid = WorldGenTilemap.GenerateWorldGrid();
+    // _worldGrid = WorldGenTilemap.GenerateWorldGrid();
+    tilemap.GenerateWorldGrid(worldGrid =>
+    {
+      // Debug.Log("Tilemap ready");
+      _worldGrid = worldGrid;
+    });
+    
 
     stateMachine.CompleteGeneration();
   }

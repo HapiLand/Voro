@@ -1,8 +1,10 @@
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 using VoroSystem.VoroDataStructures.EffectDefinition.Core;
 using VoroSystem.VoroDataStructures.EffectDefinition.ParameterDefinition.Core;
 using VoroSystem.VoroDataStructures.EffectDefinition.ParameterDefinition.Variants;
+using VoroSystem.VoroWorldGeneration.HeightSystem;
 
 namespace VoroSystem.VoroDataStructures.EffectDefinition.Variants {
 [EffectVariant(EffectVariants.Noise)]
@@ -15,6 +17,12 @@ public class NoiseEffect : EffectData {
       new("Roughness", ParameterVariants.FloatField, new FloatValue { value = 0.1f })
     };
     effectType = EffectVariants.Noise;
+  }
+
+  public NoiseHeightProvider GetHeightProvider(Bounds worldBounds) {
+    var provider = new NoiseHeightProvider(worldBounds, ShaderUtility.Get(EffectVariants.Noise));
+    provider.SetParameters(parameters);
+    return provider;
   }
 }
 }

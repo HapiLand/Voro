@@ -26,7 +26,7 @@ public class WorldGenState : MonoBehaviour {
     }
 
     currentState = GenerationState.Creating;
-    Debug.Log("World generation started");
+    // Debug.Log("World generation started");
   }
 
   public void CompleteGeneration() {
@@ -35,7 +35,7 @@ public class WorldGenState : MonoBehaviour {
       return;
     }
     currentState = GenerationState.GenerationComplete;
-    Debug.Log("World generation complete");
+    // Debug.Log("World generation complete");
   }
 }
 }
