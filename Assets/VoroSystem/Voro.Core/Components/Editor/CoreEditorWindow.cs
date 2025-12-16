@@ -7,13 +7,10 @@ using VoroSystem.Voro.Core.Events;
 namespace VoroSystem.Voro.Core.Components.Editor {
 public class CoreEditorWindow : EditorWindow {
   #region Serialized Fields
-
   [SerializeField] Diagram diagram;
-
   #endregion
 
   #region Event Functions
-
   void OnEnable() {
     DiagramEvents.GetInstance().OnDiagramChanged += CreateGUI;
     DiagramEvents.GetInstance().OnCreated += OnDiagramCreated;
@@ -31,7 +28,6 @@ public class CoreEditorWindow : EditorWindow {
       rootVisualElement.Add(new CorePanel("Voro Core", diagram));
     }
   }
-
   #endregion
 
   void OnDiagramCreated(Diagram diagram) {

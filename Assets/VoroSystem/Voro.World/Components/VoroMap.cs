@@ -7,12 +7,10 @@ namespace VoroSystem.Voro.World.Components {
 [ExecuteAlways]
 public class VoroMap : MonoBehaviour {
   #region Serialized Fields
-
   [SerializeField] Tilemap<Chunk> map;
   [SerializeField] [Range(0.1f, 1f)] float chunkSize = 1f;
   [SerializeField] public Vector2 cornerA = new(0, 0);
   [SerializeField] public Vector2 cornerB = new(10, 10);
-
   #endregion
 
 
@@ -20,11 +18,9 @@ public class VoroMap : MonoBehaviour {
   int MapSizeZ => Mathf.RoundToInt(Mathf.Abs(cornerB.y - cornerA.y));
 
   #region Event Functions
-
   void Update() {
     ForEach(c => c.Update());
   }
-
   #endregion
 
   public Chunk GetChunkAtPosition(Vector2 pos) {

@@ -7,12 +7,10 @@ namespace VoroSystem.Voro.World.ChunkStructure {
 [Serializable]
 public class ChunkEntity : IChunkEntity {
   #region Serialized Fields
-
   [SerializeField] Vector3 position;
   [SerializeField] GameObject entity;
   [SerializeField] ChunkMaterial chunkMaterial;
   [SerializeField] ChunkMesh chunkMesh;
-
   #endregion
 
   public ChunkEntity(Vector3 position, float meshSize, Transform parent, VoroMap map) {
@@ -21,12 +19,10 @@ public class ChunkEntity : IChunkEntity {
   }
 
   #region IChunkEntity Members
-
   public Vector3 Position => position;
   public GameObject Entity => entity;
   public ChunkMaterial ChunkMaterial => chunkMaterial;
   public ChunkMesh ChunkMesh => chunkMesh;
-
   #endregion
 
   void CreateInstance(Transform parent, float size, VoroMap map) {

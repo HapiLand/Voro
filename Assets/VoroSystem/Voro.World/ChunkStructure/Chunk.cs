@@ -10,12 +10,10 @@ namespace VoroSystem.Voro.World.ChunkStructure {
 [Serializable]
 public class Chunk {
   #region Serialized Fields
-
   [SerializeField] MapChunk mapChunk;
   [SerializeField] ChunkEntity chunkEntity;
   [SerializeField] ChunkState chunkState;
   [SerializeField] ChunkHeight chunkHeightmap;
-
   #endregion
 
   public Chunk(int index, Vector3 position, float size, VoroMap voroMap, Transform parent) {

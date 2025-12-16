@@ -6,10 +6,8 @@ namespace VoroSystem.Voro.World.ChunkStructure {
 [Serializable]
 public class MapChunk : IMapChunk {
   #region Serialized Fields
-
   [SerializeField] int index;
   [SerializeField] float size;
-
   #endregion
 
   public MapChunk(int index, float size) {
@@ -18,10 +16,8 @@ public class MapChunk : IMapChunk {
   }
 
   #region IMapChunk Members
-
   public int MapIndex => index;
   public float ChunkSize => size;
-
   #endregion
 }
 }

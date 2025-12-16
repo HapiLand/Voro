@@ -12,5 +12,41 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca9ca6569b94149bf83dad73a4ac85c9, type: 3}
   m_Name: GraphData
   m_EditorClassIdentifier: Assembly-CSharp::VoroSystem.Voro.GraphEditor.Data.GraphScriptableObject
-  graphName: Example Name
-  layers: []
+  graphName: Graph Name
+  layers:
+  - layerName: Layer
+    effects:
+    - rid: 3732410196382712103
+  references:
+    version: 2
+    RefIds:
+    - rid: 3732410196382712103
+      type: {class: SlopeEffect, ns: VoroSystem.Voro.DataStructures.EffectDefinition.Variants, asm: Assembly-CSharp}
+      data:
+        parameters:
+        - rid: 3732410196382712104
+        - rid: 3732410196382712105
+        effectType: 0
+        operationType: 0
+    - rid: 3732410196382712104
+      type: {class: ParameterData, ns: VoroSystem.Voro.DataStructures.EffectDefinition.ParameterDefinition.Core, asm: Assembly-CSharp}
+      data:
+        defaultValue:
+          rid: 3732410196382712106
+        parameterName: Steepness
+        parameterType: 0
+    - rid: 3732410196382712105
+      type: {class: ParameterData, ns: VoroSystem.Voro.DataStructures.EffectDefinition.ParameterDefinition.Core, asm: Assembly-CSharp}
+      data:
+        defaultValue:
+          rid: 3732410196382712107
+        parameterName: Reverse
+        parameterType: 1
+    - rid: 3732410196382712106
+      type: {class: FloatValue, ns: VoroSystem.Voro.DataStructures.EffectDefinition.ParameterDefinition.Variants, asm: Assembly-CSharp}
+      data:
+        value: 1
+    - rid: 3732410196382712107
+      type: {class: BoolValue, ns: VoroSystem.Voro.DataStructures.EffectDefinition.ParameterDefinition.Variants, asm: Assembly-CSharp}
+      data:
+        value: 0

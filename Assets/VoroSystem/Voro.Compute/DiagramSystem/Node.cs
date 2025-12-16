@@ -10,11 +10,9 @@ namespace VoroSystem.Voro.Compute.DiagramSystem {
 [Serializable]
 public class Node {
   #region Serialized Fields
-
   [SerializeField] EffectName type;
   [SerializeField] OperationMode mode;
   [SerializeReference] List<ControlBase> controls;
-
   #endregion
 
   Node(EffectName type, OperationMode mode, List<ControlBase> controls) {

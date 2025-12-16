@@ -5,9 +5,7 @@ namespace VoroSystem.Voro.Core.Events {
 [Serializable]
 public class ControlEvents {
   #region Delegates
-
   public delegate void ValueChangeAction<T>(T value);
-
   #endregion
 
   static ControlEvents _instance;

@@ -18,7 +18,6 @@ public class ChunkHeight : IChunkHeight {
   }
 
   #region IChunkHeight Members
-
   public float[] HeightValues { get; }
   public Vector3[] VertexValues { get; }
   public ComputeBuffer Buffer { get; private set; }
@@ -63,7 +62,6 @@ public class ChunkHeight : IChunkHeight {
     IsReleased = false;
     SetBufferData(_initialVertices);
   }
-
   #endregion
 
   public void CreateBuffer() { }

@@ -3,12 +3,12 @@ using UnityEngine;
 
 namespace VoroSystem.Voro.Core.Components.Editor {
 public class CoreMenu : EditorWindow {
-  [MenuItem("Voro/Debug/Reload Domain")]
+  [MenuItem("VoroNew/Reload Domain")]
   static void ReloadDomain() {
     EditorUtility.RequestScriptReload();
   }
 
-  [MenuItem("Voro/New Core", false, 0)]
+  [MenuItem("VoroNew/Core")]
   static void CreateCore() {
     CoreEditorWindow.ShowWindow();
     Create<VoroCore>();

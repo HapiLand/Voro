@@ -7,21 +7,19 @@ public static class PresetUtility {
   /// <summary>
   /// TerrainPreset
   /// {
-  ///   "Name": "Preset Zero",
-  ///   "Layers": [ ... ]
+  /// "Name": "Preset Zero",
+  /// "Layers": [ ... ]
   /// }
-  ///
   /// TerrainLayer
   /// {
-  ///   "Name": "Simple Layer",
-  ///   "Nodes": [ ... ]
+  /// "Name": "Simple Layer",
+  /// "Nodes": [ ... ]
   /// }
-  ///
   /// TerrainNode
   /// {
-  ///   "Name": "Slope",
-  ///   "Mode": "Set",
-  ///   "Controls": [ ... ]
+  /// "Name": "Slope",
+  /// "Mode": "Set",
+  /// "Controls": [ ... ]
   /// }
   /// </summary>
 
@@ -32,6 +30,7 @@ public static class PresetUtility {
       return jsonFiles;
     }
   }
+
   public static DiagramDataTransferObject ParseJsonToDiagramDTO(TextAsset[] jsonFiles, int index) {
     var json = jsonFiles[index];
     var parsedObject = JObject.Parse(json.text);
@@ -57,7 +56,5 @@ public static class PresetUtility {
 
     return diagram;
   }
-  
-  
 }
 }

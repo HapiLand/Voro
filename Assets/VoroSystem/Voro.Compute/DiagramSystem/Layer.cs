@@ -9,11 +9,9 @@ namespace VoroSystem.Voro.Compute.DiagramSystem {
 [Serializable]
 public class Layer {
   #region Serialized Fields
-
   [SerializeField] public string name;
   [SerializeReference] public List<Node> nodes;
   [SerializeField] EffectName selectedEnum;
-
   #endregion
 
   Layer(string name, List<Node> nodes) {

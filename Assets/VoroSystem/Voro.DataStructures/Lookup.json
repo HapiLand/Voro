@@ -1,0 +1,28 @@
+{
+  "EffectName" : "Slope",
+  "Parameters" : [
+    {
+      "Name" : "Steepness",
+      "Variant" : "FloatField",
+      "Properties" : {
+        "Default" : 0.1
+      }
+    },
+    {
+      "Name" : "Direction",
+      "Variant" : "Slider",
+      "Properties" : {
+        "Default" : 90.0,
+        "Min" : 0.0,
+        "Max" : 360.0
+      }
+    },
+    {
+      "Name" : "Reverse",
+      "Variant" : "Toggle",
+      "Properties" : {
+        "Default" : false
+      }
+    }
+  ]
+}

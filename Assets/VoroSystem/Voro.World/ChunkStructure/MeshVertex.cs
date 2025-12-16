@@ -5,10 +5,8 @@ namespace VoroSystem.Voro.World.ChunkStructure {
 [Serializable]
 public class MeshVertex {
   #region Serialized Fields
-
   public float height;
   public Vector3 position;
-
   #endregion
 
   public MeshVertex(Vector3 pos) {

@@ -9,7 +9,6 @@ namespace VoroSystem.Voro.World.ChunkStructure {
 [Serializable]
 public class ChunkMesh : IChunkMesh {
   #region Serialized Fields
-
   public int subdivision = 11;
   [SerializeField] MeshFilter filter;
   [SerializeField] Mesh mesh;
@@ -19,7 +18,6 @@ public class ChunkMesh : IChunkMesh {
   [SerializeField] VoroMap voroMap;
   [SerializeField] float size;
   [SerializeField] Vector3 position;
-
   #endregion
 
   public ChunkMesh(GameObject instance, float size, VoroMap map) {
@@ -32,7 +30,6 @@ public class ChunkMesh : IChunkMesh {
   }
 
   #region IChunkMesh Members
-
   public MeshFilter Filter => filter;
   public Mesh Mesh => mesh;
   public MeshVertex[] Vertices => vertices;
@@ -57,7 +54,6 @@ public class ChunkMesh : IChunkMesh {
     mesh.RecalculateNormals();
     filter.sharedMesh = mesh;
   }
-
   #endregion
 
   void CreateUVs(out Vector2[] uvs) {

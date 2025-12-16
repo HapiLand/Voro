@@ -11,14 +11,12 @@ namespace VoroSystem.Voro.Utilities {
 [Serializable]
 public class SerializableDictionary<TKey, TValue> : IDictionary<TKey, TValue>, ISerializationCallbackReceiver {
   #region Serialized Fields
-
   // Internal
   [SerializeField] List<KeyValuePair> list = new();
 
 #pragma warning disable 0414
   [SerializeField] [HideInInspector] bool keyCollision;
 #pragma warning restore 0414
-
   #endregion
 
   Dictionary<TKey, TValue> _dict = new();
@@ -26,7 +24,6 @@ public class SerializableDictionary<TKey, TValue> : IDictionary<TKey, TValue>, I
   Dictionary<TKey, int> _indexByKey = new();
 
   #region IDictionary<TKey,TValue> Members
-
   // IDictionary
   public TValue this[TKey key] {
     get => _dict[key];
@@ -129,11 +126,9 @@ public class SerializableDictionary<TKey, TValue> : IDictionary<TKey, TValue>, I
   IEnumerator IEnumerable.GetEnumerator() {
     return _dict.GetEnumerator();
   }
-
   #endregion
 
   #region ISerializationCallbackReceiver Members
-
   // Lists are serialized natively by Unity, no custom implementation needed.
   public void OnBeforeSerialize() { }
 
@@ -153,7 +148,6 @@ public class SerializableDictionary<TKey, TValue> : IDictionary<TKey, TValue>, I
       }
     }
   }
-
   #endregion
 
   void UpdateIndexLookup(int removedIndex) {
@@ -164,7 +158,6 @@ public class SerializableDictionary<TKey, TValue> : IDictionary<TKey, TValue>, I
   }
 
   #region Nested type: ${0}
-
   [Serializable]
   struct KeyValuePair {
     public TKey key;
@@ -175,7 +168,6 @@ public class SerializableDictionary<TKey, TValue> : IDictionary<TKey, TValue>, I
       this.value = value;
     }
   }
-
   #endregion
 }
 }

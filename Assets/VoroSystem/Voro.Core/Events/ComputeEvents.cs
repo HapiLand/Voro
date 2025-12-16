@@ -5,9 +5,7 @@ namespace VoroSystem.Voro.Core.Events {
 [Serializable]
 public class ComputeEvents {
   #region Delegates
-
   public delegate void ComputeAction();
-
   #endregion
 
   static ComputeEvents _instance;

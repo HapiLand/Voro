@@ -11,11 +11,9 @@ namespace VoroSystem.Voro.Compute.DiagramSystem {
 [Serializable]
 public class Diagram {
   #region Serialized Fields
-
   [SerializeField] public string name;
   [SerializeField] public List<Layer> layers;
   [SerializeField] string newLayerName;
-
   #endregion
 
   Diagram(string name, List<Layer> layers) {

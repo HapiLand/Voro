@@ -7,7 +7,6 @@ namespace VoroSystem.Voro.Core.Events {
 [Serializable]
 public class DiagramEvents {
   #region Delegates
-
   public delegate void ChangeModeAction(OperationMode mode);
 
   public delegate void CreateLayerAction(string name);
@@ -23,7 +22,6 @@ public class DiagramEvents {
   public delegate void RemoveLayerAction(Layer layer);
 
   public delegate void RemoveNodeAction(Node node);
-
   #endregion
 
   static DiagramEvents _instance;

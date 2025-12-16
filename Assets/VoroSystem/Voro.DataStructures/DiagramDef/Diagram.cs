@@ -9,10 +9,8 @@ public class Diagram : IDiagram {
   }
 
   #region IDiagram Members
-
   public string Name { get; set; }
   public List<ILayer> Layers { get; set; }
-
   #endregion
 }
 }

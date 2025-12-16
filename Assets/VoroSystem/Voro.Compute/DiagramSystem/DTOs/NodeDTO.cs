@@ -8,11 +8,9 @@ namespace VoroSystem.Voro.Compute.DiagramSystem.DTOs {
 [Serializable]
 public class NodeDTO {
   #region Serialized Fields
-
   [JsonProperty("EffectType")] public EffectName type;
   [JsonProperty("Mode")] public OperationMode mode;
   public List<FieldDTO> fields = new();
-
   #endregion
 
   public Node ToNode() {

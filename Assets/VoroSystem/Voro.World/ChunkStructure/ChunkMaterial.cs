@@ -6,9 +6,7 @@ namespace VoroSystem.Voro.World.ChunkStructure {
 [Serializable]
 public class ChunkMaterial : IChunkMaterial {
   #region Serialized Fields
-
   [SerializeField] MeshRenderer renderer;
-
   #endregion
 
   public ChunkMaterial(GameObject instance) {
@@ -18,7 +16,6 @@ public class ChunkMaterial : IChunkMaterial {
   }
 
   #region IChunkMaterial Members
-
   public MeshRenderer Renderer => renderer;
 
   public void SetMaterial(Material mat) {
@@ -32,7 +29,6 @@ public class ChunkMaterial : IChunkMaterial {
   public Material GetMaterial() {
     return renderer.sharedMaterial;
   }
-
   #endregion
 }
 }

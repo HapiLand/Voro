@@ -8,10 +8,8 @@ namespace VoroSystem.Voro.Compute.DiagramSystem.DTOs {
 [Serializable]
 public class DiagramDTO {
   #region Serialized Fields
-
   [JsonProperty("Label")] public string name;
   [JsonProperty("Layers")] public List<LayerDTO> layers = new();
-
   #endregion
 
   public Diagram ToDiagram() {

@@ -7,7 +7,10 @@ public class Layer : ILayer {
     Name = name;
     Nodes = nodes;
   }
+
+  #region ILayer Members
   public string Name { get; }
   public List<INode> Nodes { get; }
+  #endregion
 }
 }

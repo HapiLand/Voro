@@ -6,9 +6,7 @@ namespace VoroSystem.Voro.Utilities {
 [Serializable]
 public class SerializableHashSet<T> {
   #region Serialized Fields
-
   [SerializeField] List<T> items = new();
-
   #endregion
 
   HashSet<T> _set;

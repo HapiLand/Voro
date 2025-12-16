@@ -7,11 +7,9 @@ public class Control<T> : IControl<T> where T : ControlDataBase {
   }
 
   #region IControl<T> Members
-
   public string Name { get; }
   public string Type { get; }
   public T Value { get; }
-
   #endregion
 }
 }

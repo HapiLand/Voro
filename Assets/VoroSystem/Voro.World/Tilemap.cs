@@ -6,12 +6,10 @@ namespace VoroSystem.Voro.World {
 [Serializable]
 public class Tilemap<T> {
   #region Serialized Fields
-
   [SerializeField] public T[] map;
   [SerializeField] public float tileSize;
   [SerializeField] public int mapSizeX;
   [SerializeField] public int mapSizeZ;
-
   #endregion
 
   Func<int, Vector2, T> _factory;

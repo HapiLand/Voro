@@ -5,9 +5,7 @@ namespace VoroSystem.Voro.Core.Events {
 [Serializable]
 public class ButtonEvents {
   #region Delegates
-
   public delegate void ButtonAction();
-
   #endregion
 
   static ButtonEvents _instance;

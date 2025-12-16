@@ -11,10 +11,8 @@ namespace VoroSystem.Voro.Compute.Components {
 [ExecuteAlways]
 public class VoroDiagram : MonoBehaviour {
   #region Serialized Fields
-
   [SerializeField] public Diagram diagram;
   [SerializeField] public TextAsset jsonSource;
-
   #endregion
 
   DiagramDTO DiagramDTO {
@@ -33,7 +31,6 @@ public class VoroDiagram : MonoBehaviour {
   }
 
   #region Event Functions
-
   void Awake() {
     jsonSource = Resources.Load<TextAsset>("Template");
   }
@@ -41,7 +38,6 @@ public class VoroDiagram : MonoBehaviour {
   void Start() {
     LoadDiagram();
   }
-
   #endregion
 
   void LoadDiagram() {

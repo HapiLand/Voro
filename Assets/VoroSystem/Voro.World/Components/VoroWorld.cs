@@ -12,7 +12,6 @@ namespace VoroSystem.Voro.World.Components {
 [RequireComponent(typeof(VoroMap), typeof(VoroSpawner))]
 public class VoroWorld : MonoBehaviour {
   #region Serialized Fields
-
   [SerializeField] VoroMap voroMap;
   [SerializeField] VoroSpawner voroSpawner;
 
@@ -20,13 +19,11 @@ public class VoroWorld : MonoBehaviour {
   /// container that stores every Chunk that exists in the world
   /// </summary>
   [SerializeField] SerializableDictionary<int, Chunk> chunkDictionary = new();
-
   #endregion
 
   public static VoroWorld Instance { get; private set; }
 
   #region Event Functions
-
   void Awake() {
     if (Instance != null) {
       Destroy(gameObject);
@@ -45,7 +42,6 @@ public class VoroWorld : MonoBehaviour {
   void OnDisable() {
     VoroMap.CreatedChunk -= HandleChunkCreated;
   }
-
   #endregion
 
   public void SetChunkTextures(Func<Chunk, Texture2D> computeFunc) {

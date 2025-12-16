@@ -8,15 +8,12 @@ namespace VoroSystem.Voro.Compute.Components {
 [RequireComponent(typeof(VoroDiagram))]
 public class VoroCompute : MonoBehaviour {
   #region Serialized Fields
-
   public VoroDiagram voroDiagram;
-
   #endregion
 
   public Diagram Diagram => voroDiagram.diagram;
 
   #region Event Functions
-
   void Awake() {
     name = "Voro Compute";
     voroDiagram = GetComponent<VoroDiagram>();
@@ -26,7 +23,6 @@ public class VoroCompute : MonoBehaviour {
   void OnDisable() {
     ComputeEvents.GetInstance().OnCompute -= HandleOnCompute;
   }
-
   #endregion
 
   void HandleOnCompute() {

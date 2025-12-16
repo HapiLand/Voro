@@ -9,7 +9,6 @@ namespace VoroSystem.Voro.Compute.DiagramSystem.DTOs {
 [Serializable]
 public class FieldDTO {
   #region Serialized Fields
-
   [JsonProperty("Type")] public ControlType type;
   [JsonProperty("Label")] public string label;
 
@@ -21,7 +20,6 @@ public class FieldDTO {
 
   [JsonProperty("RangeMin")] [SerializeReference]
   public object rangeMin;
-
   #endregion
 
   public ControlBase ToFieldBase() {

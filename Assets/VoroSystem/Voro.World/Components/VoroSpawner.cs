@@ -5,7 +5,6 @@ namespace VoroSystem.Voro.World.Components {
 [ExecuteAlways]
 public class VoroSpawner : MonoBehaviour {
   #region Event Functions
-
   void Awake() {
     VoroMap.CreatedChunk += HandleChunkCreated;
   }
@@ -13,7 +12,6 @@ public class VoroSpawner : MonoBehaviour {
   void OnDisable() {
     VoroMap.CreatedChunk -= HandleChunkCreated;
   }
-
   #endregion
 
   void HandleChunkCreated(Chunk obj) { }

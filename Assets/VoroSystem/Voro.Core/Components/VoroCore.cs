@@ -6,20 +6,16 @@ namespace VoroSystem.Voro.Core.Components {
 [ExecuteAlways]
 public class VoroCore : MonoBehaviour {
   #region Serialized Fields
-
   [SerializeField] VoroWorld voroWorld;
   [SerializeField] VoroCompute voroCompute;
-
   #endregion
 
   #region Event Functions
-
   void Awake() {
     name = "Voro Core";
     voroWorld = CreateChild(voroWorld);
     voroCompute = CreateChild(voroCompute);
   }
-
   #endregion
 
   T CreateChild<T>(T existing, string childName = "") where T : Component {
@@ -33,7 +29,6 @@ public class VoroCore : MonoBehaviour {
   }
 
   #region Compute handlers
-
   /*static void HandleComputeCalled(object sender, VoroComputeEvents.ComputeEventArgs e) {
     Debug.Log("[VoroCore] Compute called");
   }
@@ -46,7 +41,6 @@ public class VoroCore : MonoBehaviour {
   static void HandleComputeComplete(object sender, VoroComputeEvents.ComputeEventArgs e) {
     Debug.Log("[VoroCore] Compute complete");
   }*/
-
   #endregion
 }
 }
