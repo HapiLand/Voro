@@ -1,0 +1,37 @@
+{
+  "Name": "Graph Name",
+  "Layers": [
+    {
+      "Name": "Layer",
+      "Effects": [
+        {
+          "EffectVariant": 0,
+          "OperationVariant": 0,
+          "Parameters": [
+            {
+              "Name": "Steepness",
+              "ParameterVariant": 0,
+              "Value": {
+                "value": 0.0
+              }
+            },
+            {
+              "Name": "Angle",
+              "ParameterVariant": 0,
+              "Value": {
+                "value": 45.0
+              }
+            },
+            {
+              "Name": "Reverse",
+              "ParameterVariant": 1,
+              "Value": {
+                "value": false
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

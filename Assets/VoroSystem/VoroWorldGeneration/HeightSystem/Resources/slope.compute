@@ -1,0 +1,25 @@
+#pragma kernel CSMain
+
+RWStructuredBuffer<float> Result;
+StructuredBuffer<float> InputX;
+StructuredBuffer<float> InputZ;
+
+float Steepness;
+float Angle;
+bool Reverse;
+
+[numthreads(64, 1, 1)]
+void CSMain(uint3 id : SV_DispatchThreadID)
+{
+    uint index = id.x;
+    float x = InputX[index];
+    float z = InputZ[index];
+    float2 p = float2(x, z);
+    float rad = radians(Angle);
+    float2 dir = float2(cos(rad), sin(rad));
+    float height = dot(p, dir);
+    height *= Steepness;
+    height = Reverse ? height * -1.0 : height;
+
+    Result[index] = height;
+}

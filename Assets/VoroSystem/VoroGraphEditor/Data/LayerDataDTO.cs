@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Newtonsoft.Json;
-using VoroSystem.Voro.DataStructures.EffectDefinition.Core;
+using VoroSystem.VoroDataStructures.EffectDefinition.Core;
 
 // ReSharper disable InconsistentNaming
 

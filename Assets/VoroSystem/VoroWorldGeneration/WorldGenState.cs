@@ -16,7 +16,7 @@ public class WorldGenState : MonoBehaviour {
   #endregion
 
   public bool CanStartGeneration() {
-    return currentState != GenerationState.Creating;
+    return currentState == GenerationState.NotCreated;
   }
 
   public void StartGeneration() {
@@ -30,6 +30,10 @@ public class WorldGenState : MonoBehaviour {
   }
 
   public void CompleteGeneration() {
+    if (currentState != GenerationState.Creating) {
+      Debug.LogWarning("Cannot complete generation that hasn't started");
+      return;
+    }
     currentState = GenerationState.GenerationComplete;
     Debug.Log("World generation complete");
   }

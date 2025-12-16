@@ -1,0 +1,11 @@
+#pragma kernel CSMain
+
+RWStructuredBuffer<float> Result;
+StructuredBuffer<float> InputX;
+
+[numthreads(64, 1, 1)]
+void CSMain(uint3 id : SV_DispatchThreadID)
+{
+    uint index = id.x;
+    Result[index] = sin(InputX[index]);
+}

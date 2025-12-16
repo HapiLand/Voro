@@ -1,6 +1,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using VoroSystem.VoroDataStructures.EffectDefinition.Core;
+using VoroSystem.VoroDataStructures.EffectDefinition.Variants;
+using VoroSystem.VoroGraphEditor;
 using VoroSystem.VoroWorldGeneration.Map;
 
 namespace VoroSystem.VoroWorldGeneration.HeightSystem {
@@ -32,14 +35,37 @@ public class TerrainHeightGenerator {
   /// <param name="providers"> provides access to height values in the world </param>
   public static void GetProviders(out List<IHeightProvider> providers) {
     // todo IHeightProvider from Graph,Layer,Effect
+
     var worldBounds = CalculateWorldBounds(_regions, 2);
-    providers = new List<IHeightProvider> { new RandomHeightProvider(worldBounds) };
+
+    // read the graph and convert its effects to providers
+    var graph = GraphScriptableObjectUtility.GetOrCreate();
+    Debug.Log($"Graph: {graph}");
+
+    providers = new List<IHeightProvider>
+    {
+      new RandomHeightProvider(worldBounds),
+      new SineHeightProvider(worldBounds, ShaderUtility.Get(EffectVariants.Sine))
+    };
+
+    foreach (var layer in graph.layers) {
+      foreach (var effect in layer.effects) {
+        Debug.Log($"[Graph {graph.graphName}] [Layer {layer.layerName}] [Effect {effect.effectType.ToString()}]");
+
+        switch (effect) {
+        case SlopeEffect slopeEffect:
+          var provider = slopeEffect.GetHeightProvider(worldBounds);
+          providers.Add(provider);
+          break;
+        }
+      }
+    }
   }
 
   /// <summary>
   /// generate height values
   /// </summary>
-  /// <param name="tileEntity"> temporary todo remove </param>
+  /// <param name="tileEntity"> </param>
   /// <param name="sampleRegion"> region to sample height within </param>
   /// <param name="providers"> provides computed height values </param>
   /// <param name="sampled"> the sampled height values </param>
@@ -61,10 +87,10 @@ public class TerrainHeightGenerator {
         for (var i = 0; i < sampled.Length; i++) {
           sampled[i] += floats[i];
         }
+
         break;
       }
     }
-
   }
 
   /// <summary>

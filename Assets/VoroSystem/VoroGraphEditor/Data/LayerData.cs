@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using VoroSystem.Voro.DataStructures.EffectDefinition.Core;
+using VoroSystem.VoroDataStructures.EffectDefinition.Core;
 
 namespace VoroSystem.VoroGraphEditor.Data {
 [Serializable]

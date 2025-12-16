@@ -5,8 +5,8 @@ namespace VoroSystem.VoroWorldGeneration.Map {
 public class WorldGenTilemap : MonoBehaviour {
   #region Delegates
   public delegate void TileAction(Tile tile);
+  
   #endregion
-
   public static Tilemap<Tile> GenerateWorldGrid() {
     var grid = new Tilemap<Tile>(
       WorldGenTileSettings.TileSize,

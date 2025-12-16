@@ -1,7 +1,8 @@
 using System.Collections.Generic;
+using System.Text;
 using UnityEngine;
-using VoroSystem.Voro.DataStructures.EffectDefinition;
-using VoroSystem.Voro.DataStructures.EffectDefinition.Core;
+using VoroSystem.VoroDataStructures.EffectDefinition;
+using VoroSystem.VoroDataStructures.EffectDefinition.Core;
 
 namespace VoroSystem.VoroGraphEditor.Data {
 public class GraphScriptableObject : ScriptableObject {
@@ -26,5 +27,17 @@ public class GraphScriptableObject : ScriptableObject {
     };
   }
   #endregion
+
+  public override string ToString() {
+    var sb = new StringBuilder();
+    sb.AppendLine($"Graph Name: {graphName}");
+    sb.AppendLine("Layers:");
+
+    for (var i = 0; i < layers.Count; i++) {
+      sb.AppendLine($"  Layer {i}: {layers[i]}");
+    }
+
+    return sb.ToString();
+  }
 }
 }

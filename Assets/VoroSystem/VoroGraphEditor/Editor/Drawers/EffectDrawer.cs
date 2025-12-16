@@ -1,7 +1,7 @@
 using UnityEditor;
 using UnityEditorInternal;
 using UnityEngine;
-using VoroSystem.Voro.DataStructures.EffectDefinition.Core;
+using VoroSystem.VoroDataStructures.EffectDefinition.Core;
 
 namespace VoroSystem.VoroGraphEditor.Editor.Drawers {
 [CustomPropertyDrawer(typeof(EffectData))]

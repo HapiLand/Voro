@@ -1,3 +1,4 @@
+using System;
 using UnityEditor;
 using UnityEngine;
 using VoroSystem.VoroWorldGeneration.Map;
@@ -7,13 +8,36 @@ public class WorldGenEditorWindow : EditorWindow {
   WorldGenerator generator;
   int mapHeight;
   int mapWidth;
+  bool autoRefreshEnabled = false;
+  double nextRefreshTime = 0f;
+  const double RefreshInterval = 5.0;
 
   #region Event Functions
   void OnEnable() {
     mapWidth = WorldGenMapSettings.Width;
     mapHeight = WorldGenMapSettings.Height;
+    EditorApplication.update += AutoRefreshUpdate;
   }
 
+  void OnDisable() {
+    EditorApplication.update -= AutoRefreshUpdate;
+  }
+  void AutoRefreshUpdate() {
+    if (!autoRefreshEnabled || generator == null) {
+      return;
+    }
+
+    if (EditorApplication.timeSinceStartup >= nextRefreshTime) {
+      nextRefreshTime = EditorApplication.timeSinceStartup + RefreshInterval;
+
+      // Simulate Clear World + Start Generation
+      DestroyGenerator();
+      InitWorldGenerator();
+      generator.StartGeneration();
+
+      Repaint();
+    }
+  }
   void OnGUI() {
     if (generator == null) {
       InitWorldGenerator();
@@ -28,6 +52,15 @@ public class WorldGenEditorWindow : EditorWindow {
     EditorGUILayout.Space();
 
     DrawGenerationButtons();
+
+    EditorGUILayout.Space();
+    autoRefreshEnabled = EditorGUILayout.Toggle("Auto Refresh", autoRefreshEnabled);
+    nextRefreshTime = autoRefreshEnabled switch
+    {
+      true when nextRefreshTime == 0f => EditorApplication.timeSinceStartup + RefreshInterval,
+      false => 0f,
+      _ => nextRefreshTime
+    };
 
     Repaint();
   }
