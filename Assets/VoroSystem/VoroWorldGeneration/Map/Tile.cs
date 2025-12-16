@@ -47,16 +47,11 @@ public class Tile {
     MeshFilter _mf;
     MeshRenderer _mr;
 
-    #region Event Functions
-    void OnDrawGizmos() {
-      // _heightSystem?.SampleRegion((coords, height) => { Handles.Label(coords, height.ToString("F1")); });
-    }
-    #endregion
-
     public void UpdateHeightSystem() {
-      var samplerFunc = _heightSystem.SampleRegion(this);
-      var displaced = samplerFunc((position, height) => { Debug.Log($"Position {position} @ {height}"); });
-
+      var samplerFunc = TerrainHeightSystem.SampleHeight(this);
+      var displaced = samplerFunc((position, height) => {
+        /*Debug.Log($"Position {position} @ {height}");*/
+      });
       /*
        * shader -> world height model -> tile requests region -> vertex mapping
        *

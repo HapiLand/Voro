@@ -1,5 +1,6 @@
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
-using VoroSystem.Voro.Utilities.Extensions;
 using VoroSystem.VoroWorldGeneration.Map;
 
 namespace VoroSystem.VoroWorldGeneration.HeightSystem {
@@ -10,28 +11,121 @@ namespace VoroSystem.VoroWorldGeneration.HeightSystem {
 /// writes results into TerrainHeightStorage.
 /// </summary>
 public class TerrainHeightGenerator {
-  
   /// <summary>
-  /// upon generating height values, these are kept in storage
+  /// collection of TerrainRegion in order to calculate the world size
   /// </summary>
-  readonly TerrainHeightStorage _storage = new();
+  static readonly List<TerrainRegion> _regions = new();
 
   /// <summary>
-  /// generates height values to be captured by a region
+  /// adds the terrain region to the generator
+  /// when every TileEntity is stored, an accurate size of the world can be found
   /// </summary>
-  /// <param name="tileEntity"></param>
-  /// <param name="vertices">world space positions to sample height at</param>
-  public void Begin(Tile.TileEntity tileEntity, out Vector3[] vertices) {
-    // todo create height values, return height values so TerrainHeightSystem can sample them
-    
-    // get the mesh in the tile
+  /// <param name="region"> </param>
+  public static void StoreRegion(TerrainRegion region) {
+    _regions.Clear(); // todo allow every TileEntity to be stored before calling Action<Vector3, float>
+    _regions.Add(region);
+  }
+
+  /// <summary>
+  /// create every height provider that can access computed world space height values
+  /// </summary>
+  /// <param name="providers"> provides access to height values in the world </param>
+  public static void GetProviders(out List<IHeightProvider> providers) {
+    // todo IHeightProvider from Graph,Layer,Effect
+    var worldBounds = CalculateWorldBounds(_regions, 2);
+    providers = new List<IHeightProvider> { new RandomHeightProvider(worldBounds) };
+  }
+
+  /// <summary>
+  /// generate height values
+  /// </summary>
+  /// <param name="tileEntity"> temporary todo remove </param>
+  /// <param name="sampleRegion"> region to sample height within </param>
+  /// <param name="providers"> provides computed height values </param>
+  /// <param name="sampled"> the sampled height values </param>
+  public static void GenerateHeights(
+    Tile.TileEntity tileEntity,
+    TerrainRegion sampleRegion,
+    List<IHeightProvider> providers,
+    out float[] sampled) {
+    // determine size of array for the sampled floats
     var mesh = tileEntity.GetComponent<MeshFilter>().sharedMesh;
-    vertices = mesh.vertices;
+    var vertices = mesh.vertices;
+    sampled = new float[vertices.Length];
 
-    // make the terrain region for this mesh, this will find the world height values
-    var bounds = mesh.bounds;
-    var center = bounds.center + tileEntity.transform.position;
-    var region = new TerrainRegion(center.ToVector2());
+    // input the terrain region to the provider to get height values
+    foreach (var resultArray in providers.Select(provider => provider.ProvideUntyped(sampleRegion, vertices))) {
+      switch (resultArray) {
+      case float[] floats:
+        // accumulate each value into the final sampled array
+        for (var i = 0; i < sampled.Length; i++) {
+          sampled[i] += floats[i];
+        }
+        break;
+      }
+    }
+    /*switch (provider) {
+    case RandomHeightProvider heightProvider:
+      // use the region to sample the provided height values
+      var providerHeights = heightProvider.Provide(sampleRegion, vertices);
+      for (var i = 0; i < sampled.Length; i++) {
+        sampled[i] += providerHeights[i];
+      }
+      break;
+    }*/
+    
+    /*foreach (var data in providers.Select(provider => provider.ProvideUntyped())) {
+      switch (data) {
+      case float[] floats:
+        break;
+      }
+      break;
+    }*/
+  }
+
+  /// <summary>
+  /// find the bounds for every terrain region that is stored
+  /// </summary>
+  /// <param name="regions"> </param>
+  /// <param name="margin"> </param>
+  /// <returns> </returns>
+  static Bounds CalculateWorldBounds(List<TerrainRegion> regions, float margin = 0f) {
+    if (regions == null || regions.Count == 0) {
+      return new Bounds(Vector3.zero, Vector3.zero);
+    }
+
+    var minX = float.PositiveInfinity;
+    var minZ = float.PositiveInfinity;
+    var maxX = float.NegativeInfinity;
+    var maxZ = float.NegativeInfinity;
+
+    foreach (var region in regions) {
+      var halfSize = region.Size * 0.5f;
+
+      var regionMinX = region.Center.x - halfSize;
+      var regionMaxX = region.Center.x + halfSize;
+      var regionMinZ = region.Center.y - halfSize;
+      var regionMaxZ = region.Center.y + halfSize;
+
+      minX = Mathf.Min(minX, regionMinX);
+      maxX = Mathf.Max(maxX, regionMaxX);
+      minZ = Mathf.Min(minZ, regionMinZ);
+      maxZ = Mathf.Max(maxZ, regionMaxZ);
+    }
+
+    // apply margin
+    minX -= margin;
+    minZ -= margin;
+    maxX += margin;
+    maxZ += margin;
+
+    var min = new Vector3(minX, 0f, minZ);
+    var max = new Vector3(maxX, 0f, maxZ);
+
+    var bounds = new Bounds();
+    bounds.SetMinMax(min, max);
+
+    return bounds;
   }
 }
 }

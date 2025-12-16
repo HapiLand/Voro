@@ -1,4 +1,5 @@
 using UnityEngine;
+using VoroSystem.Voro.Utilities.Extensions;
 using VoroSystem.VoroWorldGeneration.Map;
 
 namespace VoroSystem.VoroWorldGeneration.HeightSystem {
@@ -19,14 +20,15 @@ public struct TerrainRegion {
   public readonly float Size;
 
   /// <summary>
-  /// mesh resolution
+  /// A region in the world that exists around the bounds of a tile
   /// </summary>
-  public readonly int Resolution;
-
-  public TerrainRegion(Vector2 center) {
-    Center = center;
+  /// <param name="tileEntity"> </param>
+  public TerrainRegion(Tile.TileEntity tileEntity) {
+    var mesh = tileEntity.GetComponent<MeshFilter>().sharedMesh;
+    var meshBounds = mesh.bounds;
+    var boundsCenter = meshBounds.center + tileEntity.transform.position;
+    Center = boundsCenter.ToVector2();
     Size = WorldGenTileSettings.TileSize;
-    Resolution = WorldGenTileSettings.MeshResolution;
   }
 }
 }

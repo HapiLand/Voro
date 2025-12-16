@@ -1,6 +1,5 @@
 using System;
 using UnityEngine;
-using VoroSystem.Voro.Utilities.Extensions;
 using VoroSystem.VoroWorldGeneration.Map;
 
 namespace VoroSystem.VoroWorldGeneration.HeightSystem {
@@ -12,7 +11,6 @@ namespace VoroSystem.VoroWorldGeneration.HeightSystem {
 /// ---
 /// HeightProvider             produces height data from a source (graph->shader)
 /// → TerrainHeightGenerator   invoke height provider to produce height
-/// → TerrainHeightStorage     stores height in its format (volume?)
 /// → TerrainHeightSystem      reads storage, tiles provide access to data
 /// → TileHeightSampler        TerrainRegion samples stored height to produce float[]
 /// → TileEntity               float[] used to displace
@@ -23,32 +21,45 @@ public class TerrainHeightSystem {
   /// the generator gets a IHeightProvider to provide height values
   /// </summary>
   readonly TerrainHeightGenerator _generator = new();
-  
-  // todo implement RandomHeightProvider
-  // todo implement generation method, TerrainHeightGenerator invokes IHeightProvider
-  // todo implement TerrainHeightStorage to store height values
-  // todo implement TileHeightSampler to retreive stored height to produce float[]
 
-  public Func<Action<Vector3, float>, Vector3[]> SampleRegion(Tile.TileEntity tileEntity) {
+  public static Func<Action<Vector3, float>, Vector3[]> SampleHeight(Tile.TileEntity tileEntity) {
+    // get terrain region for the tile, height will be sampled inside the region
+    var sampleRegion = new TerrainRegion(tileEntity);
+
+    // store the region
+    TerrainHeightGenerator.StoreRegion(sampleRegion);
+
+    // get all the height providers to access generated height values
+    TerrainHeightGenerator.GetProviders(out var providers);
+
+    // get the provided height values, sample within a region to capture generated height
+    TerrainHeightGenerator.GenerateHeights(tileEntity, sampleRegion, providers, out var sampled);
+
+    var meshFilter = tileEntity.GetComponent<MeshFilter>();
+    var mesh = meshFilter.sharedMesh;
+    var vertices = mesh.vertices;
     
-    _generator.Begin(tileEntity, out var vertices);
-
     return action => {
-      var result = new Vector3[vertices.Length];
+      var displacedVertices = new Vector3[vertices.Length];
+      
       for (var i = 0; i < vertices.Length; i++) {
         var vtx = vertices[i];
-        // find the height value
-        var height = 0.0f;
-        var position = new Vector3(vtx.x, vtx.y + height, vtx.z);
-        action?.Invoke(position, height);
-        result[i] = position;
+
+        // Apply sampled height
+        var height = sampled[i];
+        var displaced = new Vector3(vtx.x, vtx.y + height, vtx.z);
+        
+        // apply the height to displace
+        action?.Invoke(displaced, height);
+        displacedVertices[i] = displaced;
       }
 
-      var mesh = tileEntity.GetComponent<MeshFilter>().sharedMesh;  
-      mesh.vertices = result;
+      // update mesh with displaced vertices
+      mesh.vertices = displacedVertices;
       mesh.RecalculateNormals();
       mesh.RecalculateBounds();
-      return result;
+      return displacedVertices;
+
 
       /*// get bounds of the sample region, find height within this area
       var (minX, minZ, maxX, maxZ) = _storage.GetSampleBounds(_region);

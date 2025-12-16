@@ -239,7 +239,6 @@ public class Perlin : Perlin<Perlin.Vector3> {
   }
 
   #region Nested type: Vector3
-
   public struct Vector3 {
     public double x, y, z;
 
@@ -249,7 +248,6 @@ public class Perlin : Perlin<Perlin.Vector3> {
       this.z = z;
     }
   }
-
   #endregion
 }
 }
