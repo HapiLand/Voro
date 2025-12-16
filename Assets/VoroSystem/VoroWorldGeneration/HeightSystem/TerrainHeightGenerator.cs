@@ -64,23 +64,7 @@ public class TerrainHeightGenerator {
         break;
       }
     }
-    /*switch (provider) {
-    case RandomHeightProvider heightProvider:
-      // use the region to sample the provided height values
-      var providerHeights = heightProvider.Provide(sampleRegion, vertices);
-      for (var i = 0; i < sampled.Length; i++) {
-        sampled[i] += providerHeights[i];
-      }
-      break;
-    }*/
-    
-    /*foreach (var data in providers.Select(provider => provider.ProvideUntyped())) {
-      switch (data) {
-      case float[] floats:
-        break;
-      }
-      break;
-    }*/
+
   }
 
   /// <summary>

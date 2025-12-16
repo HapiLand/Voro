@@ -61,64 +61,9 @@ public class TerrainHeightSystem {
       return displacedVertices;
 
 
-      /*// get bounds of the sample region, find height within this area
-      var (minX, minZ, maxX, maxZ) = _storage.GetSampleBounds(_region);
-      var countX = maxX - minX + 1;
-      var countZ = maxZ - minZ + 1;
-      // the sampled world heights are stored in this array
-      var sampledHeightResults = new float[countX * countZ];
-      var index = 0;
-      for (var dx = minX; dx <= maxX; dx++) {
-        for (var dz = minZ; dz <= maxZ; dz++) {
-          var height = _storage.SampleHeightBilinear(dx, dz, _region.Resolution);
-          sampledHeightResults[index++] = height;
-        }
-      }*/
-
-
-      // old
-      // var (minX, minZ, maxX, maxZ) = _storage.GetSampleBounds(_region);
-      // var worldScale = _storage.StepSize / _region.Resolution;
-      // for (var dx = minX; dx <= maxX; dx++) {
-      //   for (var dz = minZ; dz <= maxZ; dz++) {
-      //     var height = _storage.SampleHeightBilinear(dx, dz, _region.Resolution);
-      //     var pos = new Vector3(dx * worldScale, 0f, dz * worldScale);
-      //     action(pos, height);
-      //   }
-      // }
-
-
-      // new
-      /*var (minX, minZ, maxX, maxZ) = _storage.GetSampleBounds(_region);
-      var worldScale = _storage.StepSize / _region.Resolution;
-
-      var countX = maxX - minX + 1;
-      var countZ = maxZ - minZ + 1;
-      var result = new Vector3[countX * countZ];
-
-      var index = 0;
-      for (var dx = minX; dx <= maxX; dx++) {
-        for (var dz = minZ; dz <= maxZ; dz++) {
-          var height = _storage.SampleHeightBilinear(dx, dz, _region.Resolution);
-          var pos = new Vector3(dx * worldScale, height, dz * worldScale);
-
-          action?.Invoke(pos, height);
-          result[index++] = pos;
-        }
-      }*/
+     
     };
   }
 
-  // public void SampleRegion(Action<Vector3, float> action) {
-  //   var (minX, minZ, maxX, maxZ) = _storage.GetSampleBounds(_region);
-  //   var worldScale = _storage.StepSize / _region.Resolution;
-  //   for (var dx = minX; dx <= maxX; dx++) {
-  //     for (var dz = minZ; dz <= maxZ; dz++) {
-  //       var height = _storage.SampleHeightBilinear(dx, dz, _region.Resolution);
-  //       var pos = new Vector3(dx * worldScale, 0f, dz * worldScale);
-  //       action(pos, height);
-  //     }
-  //   }
-  // }
 }
 }
