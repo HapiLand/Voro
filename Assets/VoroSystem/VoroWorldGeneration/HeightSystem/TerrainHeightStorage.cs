@@ -6,6 +6,12 @@ namespace VoroSystem.VoroWorldGeneration.HeightSystem {
 /// responsible only for data storage and retrieval, not generation or rendering.
 /// </summary>
 public class TerrainHeightStorage {
+  
+  /// <summary>
+  /// the height values are stored here
+  /// </summary>
+  float[,] _heightMap;
+  
   /*readonly float[,] _heightMap;
   readonly int _worldSize;
   public readonly float StepSize;

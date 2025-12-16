@@ -19,29 +19,19 @@ namespace VoroSystem.VoroWorldGeneration.HeightSystem {
 /// </summary>
 public class TerrainHeightSystem {
   /// <summary>
-  /// stores the world height values
-  /// </summary>
-  readonly TerrainHeightStorage _storage = new();
-  /// <summary>
-  /// invokes methods to produce height data
+  /// when TerrainRegion is provided to this,
+  /// the generator gets a IHeightProvider to provide height values
   /// </summary>
   readonly TerrainHeightGenerator _generator = new();
-
-  // todo implement TerrainHeightGenerator
+  
   // todo implement RandomHeightProvider
   // todo implement generation method, TerrainHeightGenerator invokes IHeightProvider
   // todo implement TerrainHeightStorage to store height values
   // todo implement TileHeightSampler to retreive stored height to produce float[]
 
   public Func<Action<Vector3, float>, Vector3[]> SampleRegion(Tile.TileEntity tileEntity) {
-    // get the mesh in the tile
-    var mesh = tileEntity.GetComponent<MeshFilter>().sharedMesh;
-    var vertices = mesh.vertices;
-
-    // make the terrain region for this mesh, this will find the world height values
-    var bounds = mesh.bounds;
-    var center = bounds.center + tileEntity.transform.position;
-    var region = new TerrainRegion(center.ToVector2());
+    
+    _generator.Begin(tileEntity, out var vertices);
 
     return action => {
       var result = new Vector3[vertices.Length];
@@ -54,6 +44,7 @@ public class TerrainHeightSystem {
         result[i] = position;
       }
 
+      var mesh = tileEntity.GetComponent<MeshFilter>().sharedMesh;  
       mesh.vertices = result;
       mesh.RecalculateNormals();
       mesh.RecalculateBounds();
