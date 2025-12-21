@@ -73,7 +73,7 @@ public class TerrainHeightGenerator {
   /// <param name="providers"> provides computed height values </param>
   /// <param name="sampled"> the sampled height values </param>
   public static void GenerateHeights(
-    Tile.TileEntity tileEntity,
+    TileEntity tileEntity,
     TerrainRegion sampleRegion,
     List<IHeightProvider> providers,
     out float[] sampled) {

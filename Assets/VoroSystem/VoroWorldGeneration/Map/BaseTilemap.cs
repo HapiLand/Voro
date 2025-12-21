@@ -19,7 +19,7 @@ public abstract class BaseTilemap<T> where T : Tile {
     this.mapSizeX = mapSizeX;
     this.mapSizeZ = mapSizeZ;
     Factory = factory;
-    CreateMapAsync();
+    // CreateMapAsync();
   }
 
   public T this[int index] {

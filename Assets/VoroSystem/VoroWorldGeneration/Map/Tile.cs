@@ -1,7 +1,5 @@
 using System;
 using UnityEngine;
-using VoroSystem.Voro.Utilities.Extensions;
-using VoroSystem.VoroWorldGeneration.HeightSystem;
 
 namespace VoroSystem.VoroWorldGeneration.Map {
 [Serializable]
@@ -10,15 +8,17 @@ public class Tile {
   [field: SerializeField] public int Index { get; private set; }
   [field: SerializeField] public Vector2 Position { get; private set; }
   [field: SerializeField] public TileEntity Entity { get; private set; }
-  [field: SerializeField] public bool Visible { get; private set; }
   #endregion
+
+  bool _isVisible;
 
   public Tile(int index, Vector2 position) {
     Position = position;
     Index = index;
   }
 
-  public void CreateEntity(Transform parentTransform) {
+  public void CreateEntity() {
+    var parentTransform = WorldGenInstancer.Instance.transform;
     var gameObject = new GameObject($"Tile_{Index}")
     {
       transform =
@@ -26,72 +26,38 @@ public class Tile {
         parent = parentTransform
       }
     };
+
     Entity = gameObject.AddComponent<TileEntity>();
-    Entity.Initialize(this);
+    Entity.SetTile(this);
+    Debug.Log("Tile Created Entity");
   }
 
   public void Update() {
-    UpdateVisibility();
-    Entity.UpdateHeightSystem();
-  }
-
-  void UpdateVisibility() {
-    var viewportPos = Camera.main.WorldToViewportPoint(Position.ToVector3());
-    Visible = viewportPos is { z: > 0, x: >= 0 and <= 1, y: >= 0 and <= 1 };
-  }
-
-  [Serializable]
-  [RequireComponent(typeof(MeshRenderer), typeof(MeshFilter))]
-  public class TileEntity : MonoBehaviour {
-    TerrainHeightSystem _heightSystem;
-    MeshFilter _mf;
-    MeshRenderer _mr;
-
-    public void UpdateHeightSystem() {
-      var samplerFunc = TerrainHeightSystem.SampleHeight(this);
-      var displaced = samplerFunc((position, height) => {
-        /*Debug.Log($"Position {position} @ {height}");*/
-      });
-      /*
-       * shader -> world height model -> tile requests region -> vertex mapping
-       *
-       * world height is a global heightfield (with multiple layers)
-       * tile asks for height sample at world coordinates
-       * tile converts world-space samples into vertex displacement
-       */
-    }
-
-
-    public void Initialize(Tile tile) {
-      transform.position = new Vector3(tile.Position.x, 0f, tile.Position.y);
-      gameObject.name = $"Tile_{tile.Position.x}_{tile.Position.y}";
-
-      TileMaterial();
-      TileMesh();
-      TileHeight();
+    if (Entity == null) {
       return;
+    }
 
-      void TileMaterial() {
-        _mr = GetComponent<MeshRenderer>();
-        _mr.sharedMaterial = new Material(Resources.Load<Material>("ChunkMaterial"))
-        {
-          mainTexture = Texture2D.whiteTexture
-        };
-      }
-
-      void TileMesh() {
-        _mf = GetComponent<MeshFilter>();
-        _mf.sharedMesh = new MeshBuilder()
-          .SetSize(WorldGenTileSettings.TileSize)
-          .SetResolution(WorldGenTileSettings.MeshResolution)
-          .Build();
-      }
-
-      void TileHeight() {
-        _heightSystem = new TerrainHeightSystem();
-        // Debug.Log("TerrainHeightSystem created");
+    var currentlyVisible = CheckVisibility();
+    Entity.gameObject.SetActive(_isVisible);
+    
+    if (currentlyVisible != _isVisible) {
+      _isVisible = currentlyVisible;
+      if (_isVisible) {
+        Entity.MarkDirty();
       }
     }
+    if (_isVisible && Entity.IsDirty) {
+      Entity.UpdateTileEntity();
+    }
+  }
+
+  bool CheckVisibility() {
+    var viewportPos = Camera.main.WorldToViewportPoint(new Vector3(Position.x, 0f, Position.y));
+    return viewportPos is { z: > 0, x: >= 0 and <= 1, y: >= 0 and <= 1 };
+  }
+
+  public void MarkEntityDirty() {
+    Entity?.MarkDirty();
   }
 }
 }

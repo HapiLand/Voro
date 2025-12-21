@@ -23,7 +23,7 @@ public struct TerrainRegion {
   /// A region in the world that exists around the bounds of a tile
   /// </summary>
   /// <param name="tileEntity"> </param>
-  public TerrainRegion(Tile.TileEntity tileEntity) {
+  public TerrainRegion(TileEntity tileEntity) {
     var mesh = tileEntity.GetComponent<MeshFilter>().sharedMesh;
     var meshBounds = mesh.bounds;
     var boundsCenter = meshBounds.center + tileEntity.transform.position;

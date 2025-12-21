@@ -6,44 +6,51 @@ namespace VoroSystem.VoroWorldGeneration.Map {
 public class WorldGenTilemap : MonoBehaviour {
   #region Delegates
   public delegate void TileAction(Tile tile);
+
   public delegate void TilemapReady(Tilemap<Tile> tilemap);
   #endregion
 
-  public static event TileAction OnNewTile = delegate { /*Debug.Log("[TileAction] Created Tile");*/ };
+  Tilemap<Tile> _tilemap;
+
+  #region Event Functions
+  void Update() {
+    _tilemap?.ForEach(tile => {
+      if (tile == null) {
+        return;
+      }
+
+      if (tile.Entity != null) {
+        tile.Update();
+      }
+    });
+
+
+  }
+  #endregion
+
+  public static event TileAction OnNewTile = delegate { };
 
   public void GenerateWorldGrid(TilemapReady onComplete) {
+    Debug.Log($"Creating new [{WorldGenMapSettings.Width} x {WorldGenMapSettings.Height}] TileMap");
+    _tilemap = new Tilemap<Tile>(
+      WorldGenTileSettings.TileSize,
+      WorldGenMapSettings.Width,
+      WorldGenMapSettings.Height,
+      (index, pos) => {
+        var tile = new Tile(index, pos);
+        OnNewTile?.Invoke(tile);
+        return tile;
+      });
+
+    Debug.Log("Starting Coroutine");
     StartCoroutine(Generate(onComplete));
   }
 
   IEnumerator Generate(TilemapReady onComplete) {
-    var grid = new Tilemap<Tile>(
-      WorldGenTileSettings.TileSize,
-      WorldGenMapSettings.Width,
-      WorldGenMapSettings.Height,
-      (index, pos) => {
-        var tile = new Tile(index, pos);
-        OnNewTile?.Invoke(tile);
-        return tile;
-      });
-
-    yield return grid.CreateMapAsync(WorldGenMapSettings.GenerateTilesPerFrame);
+    yield return _tilemap.CreateMapAsync(WorldGenMapSettings.GenerateTilesPerFrame);
+    onComplete?.Invoke(_tilemap);
     // Debug.Log($"Tilemap generated [{WorldGenMapSettings.Width} x {WorldGenMapSettings.Height}] grid");
-    onComplete?.Invoke(grid);
+    //onComplete?.Invoke(grid);
   }
-
-  /*public static Tilemap<Tile> GenerateWorldGrid() {
-    var grid = new Tilemap<Tile>(
-      WorldGenTileSettings.TileSize,
-      WorldGenMapSettings.Width,
-      WorldGenMapSettings.Height,
-      (index, pos) => {
-        // create new tile instance
-        var tile = new Tile(index, pos);
-        OnNewTile?.Invoke(tile);
-        return tile;
-      });
-    Debug.Log($"Tilemap generated [{WorldGenMapSettings.Width} x {WorldGenMapSettings.Height}] grid");
-    return grid;
-  }*/
 }
 }

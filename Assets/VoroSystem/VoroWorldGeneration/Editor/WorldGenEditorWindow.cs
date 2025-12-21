@@ -5,17 +5,17 @@ using VoroSystem.VoroWorldGeneration.Map;
 
 namespace VoroSystem.VoroWorldGeneration.Editor {
 public class WorldGenEditorWindow : EditorWindow {
-  WorldGenerator generator;
-  int mapHeight;
-  int mapWidth;
-  bool autoRefreshEnabled = false;
-  double nextRefreshTime = 0f;
+  WorldGenerator _generator;
+  int _mapHeight;
+  int _mapWidth;
+  bool _autoRefreshEnabled = false;
+  double _nextRefreshTime = 0f;
   const double RefreshInterval = 5.0;
 
   #region Event Functions
   void OnEnable() {
-    mapWidth = WorldGenMapSettings.Width;
-    mapHeight = WorldGenMapSettings.Height;
+    _mapWidth = WorldGenMapSettings.Width;
+    _mapHeight = WorldGenMapSettings.Height;
     EditorApplication.update += AutoRefreshUpdate;
   }
 
@@ -23,30 +23,30 @@ public class WorldGenEditorWindow : EditorWindow {
     EditorApplication.update -= AutoRefreshUpdate;
   }
   void AutoRefreshUpdate() {
-    if (!autoRefreshEnabled || generator == null) {
+    if (!_autoRefreshEnabled || _generator == null) {
       return;
     }
 
-    if (EditorApplication.timeSinceStartup >= nextRefreshTime) {
-      nextRefreshTime = EditorApplication.timeSinceStartup + RefreshInterval;
+    if (EditorApplication.timeSinceStartup >= _nextRefreshTime) {
+      _nextRefreshTime = EditorApplication.timeSinceStartup + RefreshInterval;
 
       // Simulate Clear World + Start Generation
       DestroyGenerator();
       InitWorldGenerator();
-      generator.StartGeneration();
+      _generator.StartGeneration();
 
       Repaint();
     }
   }
   void OnGUI() {
-    if (generator == null) {
+    if (_generator == null) {
       InitWorldGenerator();
     }
 
     EditorGUILayout.LabelField("World Generator", EditorStyles.boldLabel);
     EditorGUILayout.Space();
 
-    EditorGUILayout.LabelField("State:", generator.stateMachine.currentState.ToString());
+    EditorGUILayout.LabelField("State:", _generator.stateMachine.currentState.ToString());
 
     DrawMapSettings();
     EditorGUILayout.Space();
@@ -54,12 +54,12 @@ public class WorldGenEditorWindow : EditorWindow {
     DrawGenerationButtons();
 
     EditorGUILayout.Space();
-    autoRefreshEnabled = EditorGUILayout.Toggle("Auto Refresh", autoRefreshEnabled);
-    nextRefreshTime = autoRefreshEnabled switch
+    _autoRefreshEnabled = EditorGUILayout.Toggle("Auto Refresh", _autoRefreshEnabled);
+    _nextRefreshTime = _autoRefreshEnabled switch
     {
-      true when nextRefreshTime == 0f => EditorApplication.timeSinceStartup + RefreshInterval,
+      true when _nextRefreshTime == 0f => EditorApplication.timeSinceStartup + RefreshInterval,
       false => 0f,
-      _ => nextRefreshTime
+      _ => _nextRefreshTime
     };
 
     Repaint();
@@ -68,36 +68,36 @@ public class WorldGenEditorWindow : EditorWindow {
 
   void DrawMapSettings() {
     EditorGUILayout.LabelField("Map Settings", EditorStyles.boldLabel);
-    mapWidth = EditorGUILayout.IntField("Width", mapWidth);
-    mapHeight = EditorGUILayout.IntField("Height", mapHeight);
+    _mapWidth = EditorGUILayout.IntField("Width", _mapWidth);
+    _mapHeight = EditorGUILayout.IntField("Height", _mapHeight);
     if (GUILayout.Button("Apply Map Settings")) {
-      WorldGenMapSettings.SetDimensions(mapWidth, mapHeight);
+      WorldGenMapSettings.SetDimensions(_mapWidth, _mapHeight);
     }
   }
 
   void DrawGenerationButtons() {
-    if (generator == null || generator.stateMachine == null) {
+    if (_generator == null || _generator.stateMachine == null) {
       GUI.enabled = false;
       EditorGUILayout.LabelField("WorldGenerator not found");
       GUI.enabled = true;
       return;
     }
 
-    var state = generator.stateMachine.currentState;
+    var state = _generator.stateMachine.currentState;
 
     // Start Generation Button
     GUI.enabled = state is WorldGenState.GenerationState.NotCreated or WorldGenState.GenerationState.GenerationComplete;
     if (GUILayout.Button("Start Generation")) {
-      generator.StartGeneration();
+      _generator.StartGeneration();
     }
 
     // Destroy Generator Button
-    GUI.enabled = generator != null;
+    GUI.enabled = _generator != null;
     if (GUILayout.Button("Clear World")) {
       DestroyGenerator();
     }
 
-    GUI.enabled = generator != null;
+    GUI.enabled = _generator != null;
     if (GUILayout.Button("Terminate")) {
       DestroyGenerator();
       Close();
@@ -107,15 +107,15 @@ public class WorldGenEditorWindow : EditorWindow {
   }
 
   void InitWorldGenerator() {
-    generator = FindObjectOfType<WorldGenerator>();
-    if (generator) {
+    _generator = FindObjectOfType<WorldGenerator>();
+    if (_generator) {
       return;
     }
 
     var go = new GameObject("WorldGenerator");
-    generator = go.AddComponent<WorldGenerator>();
+    _generator = go.AddComponent<WorldGenerator>();
 
-    // Debug.Log("WorldGenerator created");
+    Debug.Log("WorldGenerator created");
   }
 
   [MenuItem("VoroNew/World")]
@@ -126,13 +126,13 @@ public class WorldGenEditorWindow : EditorWindow {
   }
 
   void DestroyGenerator() {
-    if (!generator) {
+    if (!_generator) {
       return;
     }
 
-    DestroyImmediate(generator.gameObject);
-    generator = null;
-    // Debug.Log("WorldGenerator destroyed");
+    DestroyImmediate(_generator.gameObject);
+    _generator = null;
+    Debug.Log("WorldGenerator destroyed");
   }
 }
 }

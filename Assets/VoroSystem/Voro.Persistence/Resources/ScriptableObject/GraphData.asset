@@ -11,45 +11,42 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ca9ca6569b94149bf83dad73a4ac85c9, type: 3}
   m_Name: GraphData
-  m_EditorClassIdentifier: Assembly-CSharp::VoroSystem.Voro.GraphEditor.Data.GraphScriptableObject
+  m_EditorClassIdentifier: Assembly-CSharp::VoroSystem.VoroGraphEditor.Data.GraphScriptableObject
   graphName: Graph Name
   layers:
   - layerName: Layer
     effects:
-    - rid: 3732410241492189715
-    - rid: -2
+    - rid: 3732410357379760690
   references:
     version: 2
     RefIds:
-    - rid: -2
-      type: {class: , ns: , asm: }
-    - rid: 3732410241492189715
+    - rid: 3732410357379760690
       type: {class: NoiseEffect, ns: VoroSystem.VoroDataStructures.EffectDefinition.Variants, asm: Assembly-CSharp}
       data:
         parameters:
-        - rid: 3732410241492189716
-        - rid: 3732410241492189717
+        - rid: 3732410357379760691
+        - rid: 3732410357379760692
         effectType: 1
         operationType: 0
-    - rid: 3732410241492189716
+    - rid: 3732410357379760691
       type: {class: ParameterData, ns: VoroSystem.VoroDataStructures.EffectDefinition.ParameterDefinition.Core, asm: Assembly-CSharp}
       data:
         defaultValue:
-          rid: 3732410241492189718
+          rid: 3732410357379760693
         parameterName: Size
         parameterType: 0
-    - rid: 3732410241492189717
+    - rid: 3732410357379760692
       type: {class: ParameterData, ns: VoroSystem.VoroDataStructures.EffectDefinition.ParameterDefinition.Core, asm: Assembly-CSharp}
       data:
         defaultValue:
-          rid: 3732410241492189719
+          rid: 3732410357379760694
         parameterName: Roughness
         parameterType: 0
-    - rid: 3732410241492189718
+    - rid: 3732410357379760693
       type: {class: FloatValue, ns: VoroSystem.VoroDataStructures.EffectDefinition.ParameterDefinition.Variants, asm: Assembly-CSharp}
       data:
         value: 1
-    - rid: 3732410241492189719
+    - rid: 3732410357379760694
       type: {class: FloatValue, ns: VoroSystem.VoroDataStructures.EffectDefinition.ParameterDefinition.Variants, asm: Assembly-CSharp}
       data:
         value: 0.1

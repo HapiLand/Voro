@@ -22,7 +22,7 @@ public class TerrainHeightSystem {
   /// </summary>
   readonly TerrainHeightGenerator _generator = new();
 
-  public static Func<Action<Vector3, float>, Vector3[]> SampleHeight(Tile.TileEntity tileEntity) {
+  public static Func<Action<Vector3, float>, Vector3[]> SampleHeight(TileEntity tileEntity) {
     // get terrain region for the tile, height will be sampled inside the region
     var sampleRegion = new TerrainRegion(tileEntity);
 

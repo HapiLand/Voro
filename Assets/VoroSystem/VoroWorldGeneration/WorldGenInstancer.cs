@@ -1,17 +1,21 @@
+using System;
 using UnityEngine;
 using VoroSystem.VoroWorldGeneration.Map;
 
 namespace VoroSystem.VoroWorldGeneration {
 [ExecuteAlways]
 public class WorldGenInstancer : MonoBehaviour {
-  #region Serialized Fields
-  public Transform parentTransform;
-  #endregion
-
+  public static WorldGenInstancer Instance { get; private set; }
   #region Event Functions
   void Awake() {
+    if (Instance != null)
+    {
+      Destroy(gameObject);
+      return;
+    }
+    Instance = this;
+    
     WorldGenTilemap.OnNewTile += HandleNewTileCreated;
-    parentTransform ??= transform;
   }
 
   void OnDisable() {
@@ -24,10 +28,12 @@ public class WorldGenInstancer : MonoBehaviour {
   /// </summary>
   /// <param name="tile"> </param>
   void HandleNewTileCreated(Tile tile) {
-    tile.CreateEntity(parentTransform);
+    tile.CreateEntity();
     // Debug.Log("Tile instanced into scene");
     tile.Update();
   }
+
+
 
   public static void ClearGrid(Tilemap<Tile> grid) {
     if (grid == null) {
