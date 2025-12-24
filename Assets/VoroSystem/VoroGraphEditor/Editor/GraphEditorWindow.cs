@@ -31,7 +31,7 @@ public class GraphEditorWindow : EditorWindow {
   }
   #endregion
 
-  [MenuItem("VoroNew/Graph Editor")]
+  [MenuItem("Voro/Graph Editor")]
   public static void ShowWindow() {
     var wnd = GetWindow<GraphEditorWindow>();
     wnd.titleContent = new GUIContent("Graph Editor");

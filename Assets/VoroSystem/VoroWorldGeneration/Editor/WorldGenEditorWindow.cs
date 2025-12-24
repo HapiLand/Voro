@@ -129,7 +129,7 @@ public class WorldGenEditorWindow : EditorWindow {
     Debug.Log("WorldGenerator created");
   }
 
-  [MenuItem("VoroNew/World")]
+  [MenuItem("Voro/World Generator")]
   public static void ShowWindow() {
     var wnd = GetWindow<WorldGenEditorWindow>();
     wnd.titleContent = new GUIContent("World Generation");
