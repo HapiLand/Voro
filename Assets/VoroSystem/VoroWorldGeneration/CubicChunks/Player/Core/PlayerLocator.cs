@@ -1,4 +1,5 @@
 using UnityEngine;
+using VoroSystem.VoroWorldGeneration.CubicChunks.World.Core;
 
 namespace VoroSystem.VoroWorldGeneration.CubicChunks.Player.Core {
 public static class PlayerLocator {
@@ -26,8 +27,13 @@ public static class PlayerLocator {
     );
   }
 
-  public static Vector3 GridToWorld(Vector3Int gridCoord, float cubeSize) {
-    return (Vector3)gridCoord * cubeSize + Vector3.one * (cubeSize * 0.5f);
+  /// <summary>
+  /// returns the position where the bottom-left corner of a cube is located at the coordinate
+  /// </summary>
+  /// <param name="gridCoord">origin point of a cube (bottom-left)</param>
+  /// <returns></returns>
+  public static Vector3 GridToWorld(Vector3Int gridCoord) {
+    return (Vector3)gridCoord * WorldSettings.GridSize + Vector3.one * (WorldSettings.GridSize * 0.5f);
   }
 }
 }

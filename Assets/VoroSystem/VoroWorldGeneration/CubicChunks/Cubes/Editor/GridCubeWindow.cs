@@ -1,5 +1,7 @@
 using UnityEditor;
 using UnityEngine;
+using VoroSystem.VoroWorldGeneration.CubicChunks.Player.Core;
+using VoroSystem.VoroWorldGeneration.CubicChunks.World.Core;
 
 namespace VoroSystem.VoroWorldGeneration.CubicChunks.Cubes.Editor {
 /// <summary>
@@ -56,5 +58,7 @@ public class GridCubeWindow : EditorWindow {
     window._cube = cube;
     window.Show();
   }
+  
+
 }
 }

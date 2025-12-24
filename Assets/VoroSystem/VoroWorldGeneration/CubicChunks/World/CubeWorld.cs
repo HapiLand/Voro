@@ -59,7 +59,7 @@ public class CubeWorld : GridTracker {
   GridCube CreateCube(Vector3Int coord) {
     var cubeObject = new GameObject($"Cube [{coord.x}, {coord.y}, {coord.z}]");
     cubeObject.transform.SetParent(transform, false);
-    cubeObject.transform.position = PlayerLocator.GridToWorld(coord, WorldSettings.GridSize);
+    cubeObject.transform.position = PlayerLocator.GridToWorld(coord);
 
     var cube = cubeObject.AddComponent<GridCube>();
     cube.BoundingBox.GridCoord = coord;
