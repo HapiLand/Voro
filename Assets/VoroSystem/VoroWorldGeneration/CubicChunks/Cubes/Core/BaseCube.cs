@@ -1,14 +1,24 @@
+using System;
 using UnityEngine;
 using VoroSystem.VoroWorldGeneration.CubicChunks.World.Core;
 using VoroSystem.VoroWorldGeneration.Map;
 
 namespace VoroSystem.VoroWorldGeneration.CubicChunks.Cubes.Core {
 [ExecuteAlways]
-[RequireComponent(typeof(WorldGenTilemap))]
+[RequireComponent(typeof(WorldGenTilemap), typeof(WorldGenInstancer))]
 public abstract class BaseCube : MonoBehaviour {
   protected virtual float GizmoBaseSize => WorldSettings.GridSize;
   protected virtual bool IsPlayerInside => false;
   protected virtual bool NeighborHasPlayer => false;
+  protected WorldGenTilemap MapGenerator;
+  protected WorldGenInstancer TileInstancer;
+  protected Tilemap<Tile> Tilemap;
+
+  protected virtual void Awake() {
+    TileInstancer = GetComponent<WorldGenInstancer>();
+    MapGenerator = GetComponent<WorldGenTilemap>();
+    TileInstancer.Init(MapGenerator);
+  }
 
   #region Event Functions
   protected virtual void OnDrawGizmos() {

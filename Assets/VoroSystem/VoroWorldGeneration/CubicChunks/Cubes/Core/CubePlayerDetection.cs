@@ -69,7 +69,6 @@ public class CubePlayerDetection {
     foreach (var offset in NeighborOffsets) {
       var coord = _cube.BoundingBox.GridCoord + offset;
       if (!world.TryGetCube(coord, out var neighbor)) {
-        //if (!CubeWorld.Instance.IsValidCoord(neighborCoord)) {
         continue;
       }
 

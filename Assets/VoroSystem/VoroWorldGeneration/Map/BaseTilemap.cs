@@ -7,19 +7,19 @@ namespace VoroSystem.VoroWorldGeneration.Map {
 public abstract class BaseTilemap<T> where T : Tile {
   #region Serialized Fields
   [SerializeField] public T[] map;
-  [SerializeField] public float tileSize;
-  [SerializeField] public int mapSizeX;
-  [SerializeField] public int mapSizeZ;
+  public float TileSize => WorldGenTileSettings.TileSize;
+  /// <summary>
+  /// the base size of the tilemap, tiles are placed within these dimensions
+  /// </summary>
+  [SerializeField] public Vector3Int baseDimensions;
   #endregion
+  public Vector3 mapOrigin;
+  protected Func<(int tileIndex, Vector3 worldOrigin), T> Factory;
 
-  protected Func<int, Vector2, T> Factory;
-
-  protected BaseTilemap(float tileSize, int mapSizeX, int mapSizeZ, Func<int, Vector2, T> factory) {
-    this.tileSize = tileSize;
-    this.mapSizeX = mapSizeX;
-    this.mapSizeZ = mapSizeZ;
+  protected BaseTilemap(Vector3Int boundsSize, Vector3 originPosition, Func<(int tileIndex, Vector3 worldOrigin), T> factory) {
+    mapOrigin = originPosition;
+    baseDimensions = boundsSize;
     Factory = factory;
-    // CreateMapAsync();
   }
 
   public T this[int index] {
@@ -30,8 +30,8 @@ public abstract class BaseTilemap<T> where T : Tile {
   public T this[int x, int z] {
     get
     {
-      var tilesX = Mathf.Max(1, Mathf.RoundToInt(mapSizeX / tileSize));
-      var tilesZ = Mathf.Max(1, Mathf.RoundToInt(mapSizeZ / tileSize));
+      var tilesX = Mathf.Max(1, Mathf.RoundToInt(baseDimensions.x / TileSize));
+      var tilesZ = Mathf.Max(1, Mathf.RoundToInt(baseDimensions.z / TileSize));
 
       if (x < 0 || x >= tilesX || z < 0 || z >= tilesZ) {
         return null;
@@ -42,8 +42,8 @@ public abstract class BaseTilemap<T> where T : Tile {
     }
     set
     {
-      var tilesX = Mathf.Max(1, Mathf.RoundToInt(mapSizeX / tileSize));
-      var tilesZ = Mathf.Max(1, Mathf.RoundToInt(mapSizeZ / tileSize));
+      var tilesX = Mathf.Max(1, Mathf.RoundToInt(baseDimensions.x / TileSize));
+      var tilesZ = Mathf.Max(1, Mathf.RoundToInt(baseDimensions.z / TileSize));
 
       if (x < 0 || x >= tilesX || z < 0 || z >= tilesZ) {
         return;
@@ -57,10 +57,10 @@ public abstract class BaseTilemap<T> where T : Tile {
   // public abstract void CreateMap();
   public abstract IEnumerator CreateMapAsync(int tilesPerFrame = 100);
 
-  public T GetAtPosition(Vector2 pos) {
-    var x = (int)(pos.x / tileSize);
-    var z = (int)(pos.y / tileSize);
-    return this[x, z]; // Use the new indexer
+  public T GetAtPosition(Vector3 pos) {
+    var x = (int)(pos.x / TileSize);
+    var z = (int)(pos.z / TileSize);
+    return this[x, z];
   }
 
   public int GetIndex(int x, int z, int sizeX) {

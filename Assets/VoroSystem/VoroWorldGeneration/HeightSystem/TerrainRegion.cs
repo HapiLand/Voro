@@ -12,7 +12,7 @@ public struct TerrainRegion {
   /// <summary>
   /// center of the region
   /// </summary>
-  public Vector2 Center;
+  public Vector3 Center;
 
   /// <summary>
   /// size of the area to sample
@@ -27,7 +27,7 @@ public struct TerrainRegion {
     var mesh = tileEntity.GetComponent<MeshFilter>().sharedMesh;
     var meshBounds = mesh.bounds;
     var boundsCenter = meshBounds.center + tileEntity.transform.position;
-    Center = boundsCenter.ToVector2();
+    Center = boundsCenter;
     Size = WorldGenTileSettings.TileSize;
   }
 }

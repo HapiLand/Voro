@@ -45,8 +45,8 @@ public class TileEntity : MonoBehaviour {
 
   public void SetTile(Tile tile) {
     this.tile = tile;
-    transform.position = new Vector3(tile.Position.x, 0f, tile.Position.y);
-    gameObject.name = $"Tile_{tile.Position.x}_{tile.Position.y}";
+    transform.position = tile.WorldOriginPosition;
+    gameObject.name = $"Tile_{tile.WorldOriginPosition.x:F0}_{tile.WorldOriginPosition.z:F0}";
 
     // Initial material setup
     var mat = new Material(Resources.Load<Material>("ChunkMaterial"));
@@ -57,70 +57,5 @@ public class TileEntity : MonoBehaviour {
       .SetResolution(WorldGenTileSettings.MeshResolution)
       .Build();
   }
-  /*void Start() {
-    if (_tile == null) {
-      Debug.LogError("TileEntity: _tile is null");
-      return;
-    }
-    SetMaterial(new Material(Resources.Load<Material>("ChunkMaterial")));
-    SetTexture(Texture2D.whiteTexture);
-    SetMesh(new MeshBuilder()
-      .SetSize(WorldGenTileSettings.TileSize)
-      .SetResolution(WorldGenTileSettings.MeshResolution)
-      .Build());
-    MarkDirty();
-  }*/
-
-  /*void Update() {
-    if (_tile == null) {
-      return;
-    }
-
-    UpdateVisibility();
-    if (!_dirty) {
-      return;
-    }
-
-    UpdateHeightSystem();
-    ClearDirty();
-  }*/
-
-  /*void UpdateVisibility() {
-    var viewportPos = Camera.main.WorldToViewportPoint(gameObject.transform.position);
-    _visible = viewportPos is { z: > 0, x: >= 0 and <= 1, y: >= 0 and <= 1 };
-    SetTexture(_visible ? Texture2D.whiteTexture : Texture2D.redTexture);
-  }
-
-  public void UpdateHeightSystem() {
-    var samplerFunc = TerrainHeightSystem.SampleHeight(this);
-    var displaced = samplerFunc((position, height) => { });
-  }
-
-  void MarkDirty() {
-    _dirty = true;
-  }
-
-  void ClearDirty() {
-    _dirty = false;
-  }
-
-  void SetMaterial(Material mat) {
-    _mr.sharedMaterial = mat;
-  }
-
-  void SetTexture(Texture2D tex) {
-    _mr.sharedMaterial.mainTexture = tex;
-  }
-
-  void SetMesh(Mesh mesh) {
-    _mf.sharedMesh = mesh;
-  }
-
-  public void SetTile(Tile tile) {
-    Debug.Log("TileEntity Set Tile");
-    _tile = tile;
-    transform.position = new Vector3(tile.Position.x, 0f, tile.Position.y);
-    gameObject.name = $"Tile_{tile.Position.x}_{tile.Position.y}";
-  }*/
 }
 }

@@ -4,15 +4,12 @@ using UnityEngine;
 
 namespace VoroSystem.VoroWorldGeneration.Map {
 public class Tilemap<T> : BaseTilemap<T> where T : Tile {
-  readonly int _tilesX;
-  readonly int _tilesZ;
-
-  public Tilemap(float tileSize, int mapSizeX, int mapSizeZ, Func<int, Vector2, T> factory)
-    : base(tileSize, mapSizeX, mapSizeZ, factory) {
-    _tilesX = Mathf.Max(1, Mathf.CeilToInt(mapSizeX / tileSize));
-    _tilesZ = Mathf.Max(1, Mathf.CeilToInt(mapSizeZ / tileSize));
-    var totalTiles = _tilesX * _tilesZ;
-    Debug.Log("Creating initial map");
+  public Vector3Int mapDimensions => new Vector3Int(
+    Mathf.Max(1, Mathf.CeilToInt(baseDimensions.x / TileSize)),
+    Mathf.Max(1, Mathf.CeilToInt(baseDimensions.y / TileSize)),
+    Mathf.Max(1, Mathf.CeilToInt(baseDimensions.z / TileSize)));
+  public Tilemap(Vector3Int boundsSize, Vector3 boundsWorldOrigin, Func<(int tileIndex, Vector3 worldOrigin), T> factory) : base(boundsSize, boundsWorldOrigin, factory) {
+    var totalTiles = mapDimensions.x * mapDimensions.z;
     map = new T[totalTiles];
   }
 
@@ -28,11 +25,16 @@ public class Tilemap<T> : BaseTilemap<T> where T : Tile {
     var batchIndex = 0;
 
     for (var i = 0; i < map.Length; i++) {
-      var x = i % _tilesX;
-      var z = i / _tilesX;
+      var x = i % mapDimensions.x;
+      var z = i / mapDimensions.z;
 
-      var worldPos = new Vector2(x * tileSize, z * tileSize);
-      map[i] = Factory(i, worldPos);
+      var index = i;
+      var worldPosition = new Vector3(
+        x * TileSize + mapOrigin.x, 
+        mapOrigin.y, 
+        z * TileSize + mapOrigin.z);
+      var tuple = (index, worldPosition);
+      map[i] = Factory(tuple);
 
       createdThisFrame++;
       totalCreated++;
@@ -46,35 +48,6 @@ public class Tilemap<T> : BaseTilemap<T> where T : Tile {
     }
 
     Debug.Log("tilemap CreateMapAsync completed");
-
-    /*for (var z = 0; z < tilesZ; z++) {
-      for (var x = 0; x < tilesX; x++) {
-        var index = GetIndex(x, z, tilesX);
-        var worldPos = new Vector2(x * tileSize, z * tileSize);
-        map[index] = Factory(index, worldPos);
-        createdThisFrame++;
-        if (createdThisFrame >= tilesPerFrame)
-        {
-          createdThisFrame = 0;
-          yield return null;
-        }
-      }
-    }*/
   }
-
-  /*public override void CreateMap() {
-    var tilesX = Mathf.Max(1, Mathf.RoundToInt(mapSizeX / tileSize));
-    var tilesZ = Mathf.Max(1, Mathf.RoundToInt(mapSizeZ / tileSize));
-
-    map = new T[tilesX * tilesZ];
-
-    for (var z = 0; z < tilesZ; z++) {
-      for (var x = 0; x < tilesX; x++) {
-        var index = GetIndex(x, z, tilesX);
-        var worldPos = new Vector2(x * tileSize, z * tileSize);
-        map[index] = Factory(index, worldPos);
-      }
-    }
-  }*/
 }
 }

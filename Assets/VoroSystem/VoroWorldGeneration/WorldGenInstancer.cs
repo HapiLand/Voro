@@ -2,6 +2,9 @@ using UnityEngine;
 using VoroSystem.VoroWorldGeneration.Map;
 
 namespace VoroSystem.VoroWorldGeneration {
+/// <summary>
+/// instantiates tile GameObjects into the world upon a tile being created
+/// </summary>
 [ExecuteAlways]
 public class WorldGenInstancer : MonoBehaviour {
   WorldGenTilemap _tilemap;

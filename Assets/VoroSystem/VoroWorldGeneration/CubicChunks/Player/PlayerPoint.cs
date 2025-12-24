@@ -104,7 +104,8 @@ public class PlayerPoint : MonoBehaviour {
     var max = WaypointBounds.max;
     var x = Random.Range(min.x, max.x);
     var y = Random.Range(min.y, max.y);
-    // y = 0;
+    y = 0;
+    // todo editor window to toggle whether to disable vertical waypoint
     var z = Random.Range(min.z, max.z);
     _waypoint = new Vector3(x, y, z);
   }

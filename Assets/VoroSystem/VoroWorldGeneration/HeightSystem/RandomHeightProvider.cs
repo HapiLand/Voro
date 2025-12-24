@@ -32,7 +32,7 @@ public class RandomHeightProvider : IHeightProvider<float> {
 
     for (var i = 0; i < vertices.Length; i++) {
       var worldX = vertices[i].x + region.Center.x - region.Size / 2f;
-      var worldZ = vertices[i].z + region.Center.y - region.Size / 2f;
+      var worldZ = vertices[i].z + region.Center.z - region.Size / 2f;
       result[i] = heightFunc((worldX, worldZ));
     }
 

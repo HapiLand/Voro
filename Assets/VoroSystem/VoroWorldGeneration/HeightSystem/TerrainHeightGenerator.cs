@@ -33,8 +33,6 @@ public class TerrainHeightGenerator {
   /// </summary>
   /// <param name="providers"> provides access to height values in the world </param>
   public static void GetProviders(out List<IHeightProvider> providers) {
-    // todo IHeightProvider from Graph,Layer,Effect
-
     var worldBounds = CalculateWorldBounds(_regions, 2);
 
     // read the graph and convert its effects to providers
@@ -116,8 +114,8 @@ public class TerrainHeightGenerator {
 
       var regionMinX = region.Center.x - halfSize;
       var regionMaxX = region.Center.x + halfSize;
-      var regionMinZ = region.Center.y - halfSize;
-      var regionMaxZ = region.Center.y + halfSize;
+      var regionMinZ = region.Center.z - halfSize;
+      var regionMaxZ = region.Center.z + halfSize;
 
       minX = Mathf.Min(minX, regionMinX);
       maxX = Mathf.Max(maxX, regionMaxX);

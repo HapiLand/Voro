@@ -1,7 +1,12 @@
 using System.Collections;
 using UnityEngine;
+using VoroSystem.Voro.Utilities.Extensions;
+using VoroSystem.VoroWorldGeneration.CubicChunks.Cubes.Core;
 
 namespace VoroSystem.VoroWorldGeneration.Map {
+/// <summary>
+/// responsible for generating a Tilemap, async creates tiles, detects when a tile is created
+/// </summary>
 [ExecuteAlways]
 public class WorldGenTilemap : MonoBehaviour {
   #region Delegates
@@ -28,15 +33,15 @@ public class WorldGenTilemap : MonoBehaviour {
 
   public event TileAction OnNewTile = delegate { };
 
-  public void GenerateWorldGrid(Vector3Int dimensions, TilemapReady onComplete) {
-    Debug.Log($"Creating new [{dimensions.x} x {dimensions.z}] TileMap");
+  public void GenerateWorldGrid(GridCubeBoundingBox cubeBoundingBox, TilemapReady onComplete) {
+    var originPosition = cubeBoundingBox.WorldOriginPosition;
+    Debug.Log($"Creating [{cubeBoundingBox.BoundSize}] Tilemap at {originPosition}");
 
     _tilemap = new Tilemap<Tile>(
-      WorldGenTileSettings.TileSize,
-      dimensions.x,
-      dimensions.z,
-      (index, pos) => {
-        var tile = new Tile(index, pos);
+      cubeBoundingBox.BoundSize,
+      originPosition,
+(tuple) => {
+        var tile = new Tile(tuple.tileIndex, tuple.worldOrigin);
         OnNewTile?.Invoke(tile);
         return tile;
       });
@@ -48,6 +53,16 @@ public class WorldGenTilemap : MonoBehaviour {
   IEnumerator GenerateAsync(TilemapReady onComplete) {
     yield return _tilemap.CreateMapAsync(WorldGenMapSettings.GenerateTilesPerFrame);
     onComplete?.Invoke(_tilemap);
+  }
+
+  /// <summary>
+  /// determine if a tilemap is allowed to be generated
+  /// </summary>
+  /// <param name="allowGeneration"></param>
+  public void Check(out bool allowGeneration) {
+    allowGeneration = true;
+    // todo implement check to ensure the tilemap is allowed to be created
+    //  player must be inside this, or in neighbor in order to generate
   }
 }
 }

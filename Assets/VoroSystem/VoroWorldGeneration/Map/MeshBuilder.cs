@@ -30,16 +30,16 @@ public class MeshBuilder {
 
     var step = Size / Resolution;
 
-    // Generate vertices and UVs
+    // generate vertices+uvs
     for (var z = 0; z <= Resolution; z++) {
       for (var x = 0; x <= Resolution; x++) {
         var i = z * (Resolution + 1) + x;
         _vertices[i] = new Vector3(x * step, 0f, z * step);
-        _uvs[i] = new Vector2((float)x / Resolution, (float)z / Resolution); // normalized 0..1
+        _uvs[i] = new Vector2((float)x / Resolution, (float)z / Resolution);
       }
     }
 
-    // Generate triangles
+    // generate triangles for the mesh
     for (var z = 0; z < Resolution; z++) {
       for (var x = 0; x < Resolution; x++) {
         var i0 = z * (Resolution + 1) + x;
@@ -47,19 +47,21 @@ public class MeshBuilder {
         var i2 = i0 + Resolution + 1;
         var i3 = i2 + 1;
 
-        // Triangle 1
-        _triangles.Add(i0);
-        _triangles.Add(i2);
-        _triangles.Add(i1);
+        {
+          _triangles.Add(i0);
+          _triangles.Add(i2);
+          _triangles.Add(i1);
+        }
 
-        // Triangle 2
-        _triangles.Add(i1);
-        _triangles.Add(i2);
-        _triangles.Add(i3);
+        {
+          _triangles.Add(i1);
+          _triangles.Add(i2);
+          _triangles.Add(i3);
+        }
       }
     }
 
-    // Apply to mesh
+    // apply to mesh
     Mesh.Clear();
     Mesh.vertices = _vertices;
     Mesh.triangles = _triangles.ToArray();

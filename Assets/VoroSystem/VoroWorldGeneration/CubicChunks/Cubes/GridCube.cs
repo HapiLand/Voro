@@ -1,5 +1,8 @@
+using UnityEngine;
+using VoroSystem.Voro.World;
 using VoroSystem.VoroWorldGeneration.CubicChunks.Cubes.Core;
 using VoroSystem.VoroWorldGeneration.CubicChunks.Player.Core;
+using Tile = VoroSystem.VoroWorldGeneration.Map.Tile;
 
 namespace VoroSystem.VoroWorldGeneration.CubicChunks.Cubes {
 public class GridCube : BaseCube {
@@ -14,7 +17,9 @@ public class GridCube : BaseCube {
   protected override bool NeighborHasPlayer => CubePlayerDetection?.NeighborHasPlayer ?? false;
 
   #region Event Functions
-  void Awake() {
+  protected override void Awake() {
+    base.Awake();
+
     BoundingBox = new GridCubeBoundingBox(transform);
     CubePlayerDetection = new CubePlayerDetection(this)
     {
@@ -24,6 +29,9 @@ public class GridCube : BaseCube {
 
   void Update() {
     CubePlayerDetection.Update();
+    // todo destroy tilemap on condition
+    //  destroy when player is not inside this or neighbor
+    //  destroy when no tiles are visible
   }
   #endregion
 
@@ -31,7 +39,27 @@ public class GridCube : BaseCube {
   /// generates tiles within the bounds of the cube
   /// </summary>
   public void GenerateTilemap() {
-    // todo update WorldGenState to indicate the GridCube is generating tiles
+    MapGenerator.Check(out var allowGeneration);
+    if (allowGeneration) {
+      Debug.Log("Starting Generation");
+      // todo notify CubeWorld.WorldGenState to indicate the GridCube has started generating the tilemap
+      // todo set internal state - generating
+      
+      MapGenerator.GenerateWorldGrid(
+        BoundingBox,
+        tilemapComplete => {
+          Tilemap = tilemapComplete;
+          // todo notify CubeWorld.WorldGenState to indicate the GridCube has completed creating the tilemap
+          Debug.Log("Tilemap Generation Complete");
+        });
+      
+      Debug.Log("Generation Complete");
+      // todo set internal state - completed generation
+    }
+    else {
+      Debug.Log("Map Generation not allowed");
+      // todo set internal state - generation denied
+    }
   }
 }
 }

@@ -35,7 +35,8 @@ public class WorldGenerator : MonoBehaviour {
     }
 
     stateMachine.StartGeneration();
-    // generate grid, tiles are instanced into scene
+    // todo notify CubeWorld that all its cubes should begin generation
+    /*// generate grid, tiles are instanced into scene
     Debug.Log("Start Generate World Grid");
     tilemap.GenerateWorldGrid(
       new Vector3Int(10, 1, 10),
@@ -43,7 +44,7 @@ public class WorldGenerator : MonoBehaviour {
       Debug.Log("Tilemap ready");
       _worldGrid = worldGrid;
       stateMachine.CompleteGeneration();
-    });
+    });*/
   }
 
   public WorldGenState.GenerationState GetCurrentState() {

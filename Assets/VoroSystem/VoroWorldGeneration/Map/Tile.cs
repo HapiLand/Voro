@@ -6,14 +6,15 @@ namespace VoroSystem.VoroWorldGeneration.Map {
 public class Tile {
   #region Serialized Fields
   [field: SerializeField] public int Index { get; private set; }
-  [field: SerializeField] public Vector2 Position { get; private set; }
+  [field: SerializeField] public Vector3 WorldOriginPosition { get; private set; }
   [field: SerializeField] public TileEntity Entity { get; private set; }
+  // todo Tile inherits from TileEntity instead of creating a seperate entity instance
   #endregion
 
   bool _isVisible;
 
-  public Tile(int index, Vector2 position) {
-    Position = position;
+  public Tile(int index, Vector3 worldOriginPosition) {
+    WorldOriginPosition = worldOriginPosition;
     Index = index;
   }
 
@@ -50,9 +51,9 @@ public class Tile {
       Entity.UpdateTileEntity();
     }
   }
-
+  
   bool CheckVisibility() {
-    var viewportPos = Camera.main.WorldToViewportPoint(new Vector3(Position.x, 0f, Position.y));
+    var viewportPos = Camera.main.WorldToViewportPoint(WorldOriginPosition);
     return viewportPos is { z: > 0, x: >= 0 and <= 1, y: >= 0 and <= 1 };
   }
 
