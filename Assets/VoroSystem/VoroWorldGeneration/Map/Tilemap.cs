@@ -4,14 +4,16 @@ using UnityEngine;
 
 namespace VoroSystem.VoroWorldGeneration.Map {
 public class Tilemap<T> : BaseTilemap<T> where T : Tile {
-  public Vector3Int mapDimensions => new Vector3Int(
-    Mathf.Max(1, Mathf.CeilToInt(baseDimensions.x / TileSize)),
-    Mathf.Max(1, Mathf.CeilToInt(baseDimensions.y / TileSize)),
-    Mathf.Max(1, Mathf.CeilToInt(baseDimensions.z / TileSize)));
-  public Tilemap(Vector3Int boundsSize, Vector3 boundsWorldOrigin, Func<(int tileIndex, Vector3 worldOrigin), T> factory) : base(boundsSize, boundsWorldOrigin, factory) {
+  public Tilemap(Vector3Int boundsSize, Vector3 boundsWorldOrigin,
+    Func<(int tileIndex, Vector3 worldOrigin), T> factory) : base(boundsSize, boundsWorldOrigin, factory) {
     var totalTiles = mapDimensions.x * mapDimensions.z;
     map = new T[totalTiles];
   }
+
+  public Vector3Int mapDimensions => new(
+    Mathf.Max(1, Mathf.CeilToInt(baseDimensions.x / TileSize)),
+    Mathf.Max(1, Mathf.CeilToInt(baseDimensions.y / TileSize)),
+    Mathf.Max(1, Mathf.CeilToInt(baseDimensions.z / TileSize)));
 
   /// <summary>
   /// called by a Coroutine, creates tiles in the tilemap
@@ -30,8 +32,8 @@ public class Tilemap<T> : BaseTilemap<T> where T : Tile {
 
       var index = i;
       var worldPosition = new Vector3(
-        x * TileSize + mapOrigin.x, 
-        mapOrigin.y, 
+        x * TileSize + mapOrigin.x,
+        mapOrigin.y,
         z * TileSize + mapOrigin.z);
       var tuple = (index, worldPosition);
       map[i] = Factory(tuple);

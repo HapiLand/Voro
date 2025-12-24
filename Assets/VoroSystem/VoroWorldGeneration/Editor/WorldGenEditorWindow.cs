@@ -1,16 +1,19 @@
 using UnityEditor;
 using UnityEngine;
-using VoroSystem.VoroWorldGeneration.Map;
 
 namespace VoroSystem.VoroWorldGeneration.Editor {
 public class WorldGenEditorWindow : EditorWindow {
   WorldGenerator _generator;
+
+  #region Event Functions
   void OnEnable() {
     WorldGenEditorEvents.OnParametersChanged += OnParametersChanged;
   }
+
   void OnDisable() {
     WorldGenEditorEvents.OnParametersChanged -= OnParametersChanged;
   }
+
   void OnGUI() {
     if (_generator == null) {
       InitWorldGenerator();
@@ -26,20 +29,25 @@ public class WorldGenEditorWindow : EditorWindow {
     DrawGenerationButtons();
     Repaint();
   }
+  #endregion
+
   void OnParametersChanged() {
     if (_generator == null) {
       return;
     }
+
     DestroyGenerator();
     InitWorldGenerator();
     _generator.StartGeneration();
     Repaint();
   }
+
   void DrawGenerationButtons() {
     if (_generator == null || _generator.stateMachine == null) {
       EditorGUILayout.HelpBox("WorldGenerator not found", MessageType.Warning);
       return;
     }
+
     var state = _generator.GetCurrentState();
 
     // start generator button
@@ -69,6 +77,7 @@ public class WorldGenEditorWindow : EditorWindow {
     if (_generator) {
       return;
     }
+
     // todo helper utility to create a game object
     var go = new GameObject("WorldGenerator");
     _generator = go.AddComponent<WorldGenerator>();
@@ -86,6 +95,7 @@ public class WorldGenEditorWindow : EditorWindow {
     if (!_generator) {
       return;
     }
+
     DestroyImmediate(_generator.gameObject);
     _generator = null;
     Debug.Log("WorldGenerator destroyed");

@@ -22,7 +22,7 @@ public class GraphScriptableObject : ScriptableObject {
         effects = new List<EffectData>
         {
           // EffectFactory.Create(EffectVariants.Slope),
-          EffectFactory.Create(EffectVariants.Noise),
+          EffectFactory.Create(EffectVariants.Noise)
         }
       }
     };

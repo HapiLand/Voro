@@ -1,8 +1,6 @@
 using UnityEngine;
-using VoroSystem.Voro.World;
 using VoroSystem.VoroWorldGeneration.CubicChunks.Cubes.Core;
 using VoroSystem.VoroWorldGeneration.CubicChunks.Player.Core;
-using Tile = VoroSystem.VoroWorldGeneration.Map.Tile;
 
 namespace VoroSystem.VoroWorldGeneration.CubicChunks.Cubes {
 public class GridCube : BaseCube {
@@ -44,7 +42,7 @@ public class GridCube : BaseCube {
       Debug.Log("Starting Generation");
       // todo notify CubeWorld.WorldGenState to indicate the GridCube has started generating the tilemap
       // todo set internal state - generating
-      
+
       MapGenerator.GenerateWorldGrid(
         BoundingBox,
         tilemapComplete => {
@@ -52,7 +50,7 @@ public class GridCube : BaseCube {
           // todo notify CubeWorld.WorldGenState to indicate the GridCube has completed creating the tilemap
           Debug.Log("Tilemap Generation Complete");
         });
-      
+
       Debug.Log("Generation Complete");
       // todo set internal state - completed generation
     }

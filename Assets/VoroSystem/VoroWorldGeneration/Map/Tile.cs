@@ -8,7 +8,6 @@ public class Tile {
   [field: SerializeField] public int Index { get; private set; }
   [field: SerializeField] public Vector3 WorldOriginPosition { get; private set; }
   [field: SerializeField] public TileEntity Entity { get; private set; }
-  // todo Tile inherits from TileEntity instead of creating a seperate entity instance
   #endregion
 
   bool _isVisible;
@@ -51,7 +50,7 @@ public class Tile {
       Entity.UpdateTileEntity();
     }
   }
-  
+
   bool CheckVisibility() {
     var viewportPos = Camera.main.WorldToViewportPoint(WorldOriginPosition);
     return viewportPos is { z: > 0, x: >= 0 and <= 1, y: >= 0 and <= 1 };
@@ -60,5 +59,6 @@ public class Tile {
   public void MarkEntityDirty() {
     Entity?.MarkDirty();
   }
+  // todo Tile inherits from TileEntity instead of creating a seperate entity instance
 }
 }

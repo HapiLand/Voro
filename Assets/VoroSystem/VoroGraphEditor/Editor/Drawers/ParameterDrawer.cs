@@ -18,18 +18,17 @@ public class ParameterDataDrawer : PropertyDrawer {
     EditorGUI.indentLevel = 0;
 
     var didChange = DrawFields(position, property);
-    if (didChange)
-    {
+    if (didChange) {
       WorldGenEditorEvents.RaiseParametersChanged();
     }
-    
+
     EditorGUI.indentLevel = indent;
     EditorGUI.EndProperty();
   }
 
   bool DrawFields(Rect position, SerializedProperty property) {
     EditorGUI.BeginChangeCheck();
-    
+
     var nameRect = GetNameRect(position);
     var variantRect = GetVariantRect(position);
     var usedWidth = nameRect.width + Spacing + variantRect.width + Spacing;
@@ -69,7 +68,7 @@ public class ParameterDataDrawer : PropertyDrawer {
       );
       break;
     }
-    
+
     return EditorGUI.EndChangeCheck();
   }
 

@@ -1,6 +1,5 @@
 using System.Collections;
 using UnityEngine;
-using VoroSystem.Voro.Utilities.Extensions;
 using VoroSystem.VoroWorldGeneration.CubicChunks.Cubes.Core;
 
 namespace VoroSystem.VoroWorldGeneration.Map {
@@ -40,7 +39,7 @@ public class WorldGenTilemap : MonoBehaviour {
     _tilemap = new Tilemap<Tile>(
       cubeBoundingBox.BoundSize,
       originPosition,
-(tuple) => {
+      tuple => {
         var tile = new Tile(tuple.tileIndex, tuple.worldOrigin);
         OnNewTile?.Invoke(tile);
         return tile;
@@ -58,7 +57,7 @@ public class WorldGenTilemap : MonoBehaviour {
   /// <summary>
   /// determine if a tilemap is allowed to be generated
   /// </summary>
-  /// <param name="allowGeneration"></param>
+  /// <param name="allowGeneration"> </param>
   public void Check(out bool allowGeneration) {
     allowGeneration = true;
     // todo implement check to ensure the tilemap is allowed to be created

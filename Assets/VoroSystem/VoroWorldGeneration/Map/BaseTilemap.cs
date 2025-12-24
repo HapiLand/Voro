@@ -7,20 +7,25 @@ namespace VoroSystem.VoroWorldGeneration.Map {
 public abstract class BaseTilemap<T> where T : Tile {
   #region Serialized Fields
   [SerializeField] public T[] map;
-  public float TileSize => WorldGenTileSettings.TileSize;
+
   /// <summary>
   /// the base size of the tilemap, tiles are placed within these dimensions
   /// </summary>
   [SerializeField] public Vector3Int baseDimensions;
-  #endregion
+
   public Vector3 mapOrigin;
+  #endregion
+
   protected Func<(int tileIndex, Vector3 worldOrigin), T> Factory;
 
-  protected BaseTilemap(Vector3Int boundsSize, Vector3 originPosition, Func<(int tileIndex, Vector3 worldOrigin), T> factory) {
+  protected BaseTilemap(Vector3Int boundsSize, Vector3 originPosition,
+    Func<(int tileIndex, Vector3 worldOrigin), T> factory) {
     mapOrigin = originPosition;
     baseDimensions = boundsSize;
     Factory = factory;
   }
+
+  public float TileSize => WorldGenTileSettings.TileSize;
 
   public T this[int index] {
     get => map[index];
