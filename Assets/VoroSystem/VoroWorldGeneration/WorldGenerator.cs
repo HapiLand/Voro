@@ -37,11 +37,17 @@ public class WorldGenerator : MonoBehaviour {
     stateMachine.StartGeneration();
     // generate grid, tiles are instanced into scene
     Debug.Log("Start Generate World Grid");
-    tilemap.GenerateWorldGrid(worldGrid => {
+    tilemap.GenerateWorldGrid(
+      new Vector3Int(10, 1, 10),
+      worldGrid => {
       Debug.Log("Tilemap ready");
       _worldGrid = worldGrid;
       stateMachine.CompleteGeneration();
     });
+  }
+
+  public WorldGenState.GenerationState GetCurrentState() {
+    return stateMachine.currentState;
   }
 }
 }

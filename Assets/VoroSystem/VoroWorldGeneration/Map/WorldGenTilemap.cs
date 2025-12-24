@@ -28,13 +28,13 @@ public class WorldGenTilemap : MonoBehaviour {
 
   public event TileAction OnNewTile = delegate { };
 
-  public void GenerateWorldGrid(TilemapReady onComplete) {
-    Debug.Log($"Creating new [{WorldGenMapSettings.Width} x {WorldGenMapSettings.Height}] TileMap");
+  public void GenerateWorldGrid(Vector3Int dimensions, TilemapReady onComplete) {
+    Debug.Log($"Creating new [{dimensions.x} x {dimensions.z}] TileMap");
 
     _tilemap = new Tilemap<Tile>(
       WorldGenTileSettings.TileSize,
-      WorldGenMapSettings.Width,
-      WorldGenMapSettings.Height,
+      dimensions.x,
+      dimensions.z,
       (index, pos) => {
         var tile = new Tile(index, pos);
         OnNewTile?.Invoke(tile);

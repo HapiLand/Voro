@@ -4,26 +4,13 @@ using VoroSystem.VoroWorldGeneration.Map;
 
 namespace VoroSystem.VoroWorldGeneration.Editor {
 public class WorldGenEditorWindow : EditorWindow {
-  const double RefreshInterval = 5.0;
-  bool _autoRefreshEnabled; // todo remove refresh toggle, refreshing should always happen
   WorldGenerator _generator;
-  int _mapHeight; // todo remove map height
-  int _mapWidth; // todo remove map width
-  double _nextRefreshTime; // todo remove refresh timer
-
-  #region Event Functions
   void OnEnable() {
-    _mapWidth = WorldGenMapSettings.Width;
-    _mapHeight = WorldGenMapSettings.Height;
-    EditorApplication.update += AutoRefreshUpdate;
     WorldGenEditorEvents.OnParametersChanged += OnParametersChanged;
   }
-
   void OnDisable() {
-    EditorApplication.update -= AutoRefreshUpdate;
     WorldGenEditorEvents.OnParametersChanged -= OnParametersChanged;
   }
-
   void OnGUI() {
     if (_generator == null) {
       InitWorldGenerator();
@@ -32,86 +19,42 @@ public class WorldGenEditorWindow : EditorWindow {
     EditorGUILayout.LabelField("World Generator", EditorStyles.boldLabel);
     EditorGUILayout.Space();
 
-    EditorGUILayout.LabelField("State:",
-      _generator.stateMachine.currentState.ToString()); // todo display state in gridcube window
+    EditorGUILayout.LabelField("State:", _generator.GetCurrentState().ToString());
 
-    DrawMapSettings();
     EditorGUILayout.Space();
 
     DrawGenerationButtons();
-
-    EditorGUILayout.Space();
-    _autoRefreshEnabled = EditorGUILayout.Toggle("Auto Refresh", _autoRefreshEnabled);
-    _nextRefreshTime = _autoRefreshEnabled switch
-    {
-      true when _nextRefreshTime == 0f => EditorApplication.timeSinceStartup + RefreshInterval,
-      false => 0f,
-      _ => _nextRefreshTime
-    };
-
     Repaint();
   }
-  #endregion
-
   void OnParametersChanged() {
     if (_generator == null) {
       return;
     }
-
     DestroyGenerator();
     InitWorldGenerator();
     _generator.StartGeneration();
     Repaint();
   }
-
-  void AutoRefreshUpdate() {
-    if (!_autoRefreshEnabled || _generator == null) {
-      return;
-    }
-
-    if (EditorApplication.timeSinceStartup >= _nextRefreshTime) {
-      _nextRefreshTime = EditorApplication.timeSinceStartup + RefreshInterval;
-
-      // Simulate Clear World + Start Generation
-      DestroyGenerator();
-      InitWorldGenerator();
-      _generator.StartGeneration();
-
-      Repaint();
-    }
-  }
-
-  void DrawMapSettings() {
-    EditorGUILayout.LabelField("Map Settings", EditorStyles.boldLabel);
-    _mapWidth = EditorGUILayout.IntField("Width", _mapWidth);
-    _mapHeight = EditorGUILayout.IntField("Height", _mapHeight);
-    if (GUILayout.Button("Apply Map Settings")) {
-      WorldGenMapSettings.SetDimensions(_mapWidth, _mapHeight);
-    }
-  }
-
   void DrawGenerationButtons() {
     if (_generator == null || _generator.stateMachine == null) {
-      GUI.enabled = false;
-      EditorGUILayout.LabelField("WorldGenerator not found");
-      GUI.enabled = true;
+      EditorGUILayout.HelpBox("WorldGenerator not found", MessageType.Warning);
       return;
     }
+    var state = _generator.GetCurrentState();
 
-    var state = _generator.stateMachine.currentState;
-
-    // Start Generation Button
+    // start generator button
     GUI.enabled = state is WorldGenState.GenerationState.NotCreated or WorldGenState.GenerationState.GenerationComplete;
     if (GUILayout.Button("Start Generation")) {
       _generator.StartGeneration();
     }
 
-    // Destroy Generator Button
+    // destroy generator button
     GUI.enabled = _generator != null;
     if (GUILayout.Button("Clear World")) {
       DestroyGenerator();
     }
 
+    // terminate button
     GUI.enabled = _generator != null;
     if (GUILayout.Button("Terminate")) {
       DestroyGenerator();
@@ -122,14 +65,13 @@ public class WorldGenEditorWindow : EditorWindow {
   }
 
   void InitWorldGenerator() {
-    _generator = FindObjectOfType<WorldGenerator>();
+    _generator = FindFirstObjectByType<WorldGenerator>();
     if (_generator) {
       return;
     }
-
+    // todo helper utility to create a game object
     var go = new GameObject("WorldGenerator");
     _generator = go.AddComponent<WorldGenerator>();
-
     Debug.Log("WorldGenerator created");
   }
 
@@ -144,7 +86,6 @@ public class WorldGenEditorWindow : EditorWindow {
     if (!_generator) {
       return;
     }
-
     DestroyImmediate(_generator.gameObject);
     _generator = null;
     Debug.Log("WorldGenerator destroyed");
