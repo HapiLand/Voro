@@ -6,11 +6,13 @@ namespace VoroSystem.VoroWorldGeneration.CubicChunks.Cubes.Editor {
 /// displays info about a grid cube
 /// </summary>
 public class GridCubeWindow : EditorWindow {
-  GridCube _cube;
+  #region Serialized Fields
+  [SerializeField] GridCube cube;
+  #endregion
 
   #region Event Functions
   void OnGUI() {
-    if (_cube == null) {
+    if (cube == null) {
       EditorGUILayout.LabelField("No GridCube selected");
       return;
     }
@@ -19,14 +21,14 @@ public class GridCubeWindow : EditorWindow {
 
     EditorGUILayout.BeginHorizontal();
     EditorGUILayout.LabelField("Position:", GUILayout.Width(labelWidth));
-    EditorGUILayout.Vector3Field(GUIContent.none, _cube.transform.position);
+    EditorGUILayout.Vector3Field(GUIContent.none, cube.transform.position);
     EditorGUILayout.EndHorizontal();
 
     EditorGUILayout.Space();
 
     EditorGUILayout.BeginHorizontal();
     EditorGUILayout.LabelField("Player Inside:", GUILayout.Width(labelWidth));
-    EditorGUILayout.Toggle(_cube.CubePlayerDetection?.IsPlayerInside ?? false);
+    EditorGUILayout.Toggle(cube.CubePlayerDetection?.IsPlayerInside ?? false);
     EditorGUILayout.EndHorizontal();
 
     EditorGUILayout.Space();
@@ -34,7 +36,7 @@ public class GridCubeWindow : EditorWindow {
     EditorGUILayout.BeginHorizontal();
     EditorGUILayout.LabelField("Generation:", GUILayout.Width(labelWidth));
     if (GUILayout.Button("Generate Tilemap")) {
-      _cube.GenerateTilemap();
+      cube.GenerateTilemap();
     }
 
     EditorGUILayout.EndHorizontal();
@@ -42,19 +44,19 @@ public class GridCubeWindow : EditorWindow {
 
   void OnSelectionChange() {
     if (Selection.activeGameObject == null) {
-      _cube = null;
+      cube = null;
       Repaint();
       return;
     }
 
-    _cube = Selection.activeGameObject.GetComponent<GridCube>();
+    cube = Selection.activeGameObject.GetComponent<GridCube>();
     Repaint();
   }
   #endregion
 
   public static void ShowWindow(GridCube cube) {
     var window = GetWindow<GridCubeWindow>("Grid Cube");
-    window._cube = cube;
+    window.cube = cube;
     window.Show();
   }
 }

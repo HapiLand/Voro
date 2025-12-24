@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -5,19 +6,24 @@ using VoroSystem.VoroWorldGeneration.CubicChunks.Player;
 using VoroSystem.VoroWorldGeneration.CubicChunks.World;
 
 namespace VoroSystem.VoroWorldGeneration.CubicChunks.Cubes.Core {
+[Serializable]
 public class CubePlayerDetection {
   static readonly Vector3Int[] NeighborOffsets = GenerateNeighborOffsets();
-  readonly GridCube _cube;
-  bool _lastPlayerInside;
+
+  #region Serialized Fields
+  [SerializeField] bool lastPlayerInside;
+
+  [field: SerializeField] public bool IsPlayerInside { get; private set; }
+  [field: SerializeField] public bool NeighborHasPlayer { get; private set; }
+  [field: SerializeField] public PlayerPoint Player { get; set; }
+
+  [SerializeField] GridCube cube;
+  #endregion
 
 
   public CubePlayerDetection(GridCube cube) {
-    _cube = cube;
+    this.cube = cube;
   }
-
-  public bool IsPlayerInside { get; private set; }
-  public bool NeighborHasPlayer { get; private set; }
-  public PlayerPoint Player { get; set; }
 
   public void Update() {
     if (!Player) {
@@ -25,17 +31,17 @@ public class CubePlayerDetection {
       return;
     }
 
-    var inside = _cube.BoundingBox.Bounds.Contains(Player.transform.position);
+    var inside = cube.BoundingBox.Bounds.Contains(Player.transform.position);
     SetPlayerInside(inside);
   }
 
   void SetPlayerInside(bool inside) {
-    if (inside == _lastPlayerInside) {
+    if (inside == lastPlayerInside) {
       return;
     }
 
     IsPlayerInside = inside;
-    _lastPlayerInside = inside;
+    lastPlayerInside = inside;
     NotifyNeighbors(inside);
   }
 
@@ -67,7 +73,7 @@ public class CubePlayerDetection {
     }
 
     foreach (var offset in NeighborOffsets) {
-      var coord = _cube.BoundingBox.GridCoord + offset;
+      var coord = cube.BoundingBox.GridCoord + offset;
       if (!world.TryGetCube(coord, out var neighbor)) {
         continue;
       }

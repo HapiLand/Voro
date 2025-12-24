@@ -12,7 +12,8 @@ public static class ControlFactory {
       "Toggle" => new Control<ToggleData>(name, type, new ToggleData
       {
         Value = Convert.ToBoolean(value)
-      })
+      }),
+      _ => throw new ArgumentOutOfRangeException(nameof(type), type, null)
     };
   }
 }

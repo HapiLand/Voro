@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace VoroSystem.VoroWorldGeneration.Editor {
 public class WorldGenEditorWindow : EditorWindow {
-  WorldGenerator _generator;
+  WorldGenerator _worldGenerator;
 
   #region Event Functions
   void OnEnable() {
@@ -15,55 +15,59 @@ public class WorldGenEditorWindow : EditorWindow {
   }
 
   void OnGUI() {
-    if (_generator == null) {
-      InitWorldGenerator();
-    }
+    InitWorldGenerator();
 
     EditorGUILayout.LabelField("World Generator", EditorStyles.boldLabel);
     EditorGUILayout.Space();
 
-    EditorGUILayout.LabelField("State:", _generator.GetCurrentState().ToString());
+    if (_worldGenerator == null || _worldGenerator.CubeWorld == null) {
+      EditorGUILayout.HelpBox("WorldGenerator not found", MessageType.Warning);
+      return;
+    }
 
+    DrawStateInfo();
     EditorGUILayout.Space();
-
     DrawGenerationButtons();
+
     Repaint();
   }
   #endregion
 
+  void DrawStateInfo() {
+    var state = _worldGenerator.CubeWorld.worldState;
+
+    if (state == null) {
+      EditorGUILayout.HelpBox("WorldState missing", MessageType.Warning);
+      return;
+    }
+
+    EditorGUILayout.LabelField("Current State:", state.CurrentStateName);
+  }
+
   void OnParametersChanged() {
-    if (_generator == null) {
+    if (_worldGenerator == null) {
       return;
     }
 
     DestroyGenerator();
     InitWorldGenerator();
-    _generator.StartGeneration();
+    _worldGenerator.StartGeneration();
     Repaint();
   }
 
   void DrawGenerationButtons() {
-    if (_generator == null || _generator.stateMachine == null) {
-      EditorGUILayout.HelpBox("WorldGenerator not found", MessageType.Warning);
-      return;
-    }
-
-    var state = _generator.GetCurrentState();
-
-    // start generator button
-    GUI.enabled = state is WorldGenState.GenerationState.NotCreated or WorldGenState.GenerationState.GenerationComplete;
+    var worldState = _worldGenerator.CubeWorld.worldState;
+    GUI.enabled = worldState != null;
     if (GUILayout.Button("Start Generation")) {
-      _generator.StartGeneration();
+      _worldGenerator.StartGeneration();
     }
 
-    // destroy generator button
-    GUI.enabled = _generator != null;
+    GUI.enabled = _worldGenerator != null;
     if (GUILayout.Button("Clear World")) {
       DestroyGenerator();
     }
 
-    // terminate button
-    GUI.enabled = _generator != null;
+    GUI.enabled = _worldGenerator != null;
     if (GUILayout.Button("Terminate")) {
       DestroyGenerator();
       Close();
@@ -73,31 +77,34 @@ public class WorldGenEditorWindow : EditorWindow {
   }
 
   void InitWorldGenerator() {
-    _generator = FindFirstObjectByType<WorldGenerator>();
-    if (_generator) {
+    if (_worldGenerator != null) {
       return;
     }
 
-    // todo helper utility to create a game object
+    _worldGenerator = FindFirstObjectByType<WorldGenerator>();
+
+    if (_worldGenerator != null) {
+      return;
+    }
+
     var go = new GameObject("WorldGenerator");
-    _generator = go.AddComponent<WorldGenerator>();
-    Debug.Log("WorldGenerator created");
+    _worldGenerator = go.AddComponent<WorldGenerator>();
   }
 
   [MenuItem("Voro/World Generator")]
   public static void ShowWindow() {
     var wnd = GetWindow<WorldGenEditorWindow>();
-    wnd.titleContent = new GUIContent("World Generation");
+    wnd.titleContent = new GUIContent("World Generator");
     wnd.InitWorldGenerator();
   }
 
   void DestroyGenerator() {
-    if (!_generator) {
+    if (!_worldGenerator) {
       return;
     }
 
-    DestroyImmediate(_generator.gameObject);
-    _generator = null;
+    DestroyImmediate(_worldGenerator.gameObject);
+    _worldGenerator = null;
     Debug.Log("WorldGenerator destroyed");
   }
 }

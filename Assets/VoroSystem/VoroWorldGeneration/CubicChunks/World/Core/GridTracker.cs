@@ -1,34 +1,27 @@
+using System;
 using UnityEngine;
 using VoroSystem.VoroWorldGeneration.CubicChunks.Player;
 using VoroSystem.VoroWorldGeneration.CubicChunks.Player.Core;
 
 namespace VoroSystem.VoroWorldGeneration.CubicChunks.World.Core {
-[ExecuteAlways]
-public class GridTracker : MonoBehaviour {
-  protected PlayerPoint Player { get; private set; }
-  protected Vector3Int ActiveCoordinate { get; private set; }
-  protected Vector3Int PreviousCoordinate { get; private set; }
+[Serializable]
+public class GridTracker {
+  #region Serialized Fields
+  public PlayerPoint player;
+  [field: SerializeField] public Vector3Int ActiveCoordinate { get; private set; }
+  [field: SerializeField] public Vector3Int PreviousCoordinate { get; private set; }
+  #endregion
 
-  #region Event Functions
-  protected virtual void Awake() {
-    Player = PlayerLocator.GetOrCreatePlayer();
-    ActiveCoordinate = PlayerLocator.GetPlayerGridCoordinate(Player, WorldSettings.GridSize);
+  public GridTracker() {
+    player = PlayerLocator.GetOrCreatePlayer();
+    ActiveCoordinate = PlayerLocator.GetPlayerGridCoordinate(player, GridSize);
     PreviousCoordinate = ActiveCoordinate;
   }
 
-  protected virtual void Update() {
-    if (TryUpdateCoordinate()) {
-      OnCoordinateChanged(ActiveCoordinate);
-    }
-  }
+  float GridSize => WorldSettings.GridSize;
 
-  protected virtual void OnDrawGizmos() { }
-  #endregion
-
-  bool TryUpdateCoordinate() {
-    var current =
-      PlayerLocator.GetPlayerGridCoordinate(Player, WorldSettings.GridSize);
-
+  public bool TryUpdateCoordinate() {
+    var current = PlayerLocator.GetPlayerGridCoordinate(player, GridSize);
     if (current == ActiveCoordinate) {
       return false;
     }
@@ -37,10 +30,5 @@ public class GridTracker : MonoBehaviour {
     ActiveCoordinate = current;
     return true;
   }
-
-  /// <summary>
-  /// Called when the player moves into a new grid coordinate.
-  /// </summary>
-  protected virtual void OnCoordinateChanged(Vector3Int newCoord) { }
 }
 }

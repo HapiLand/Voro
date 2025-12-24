@@ -49,7 +49,7 @@ public class TileEntity : MonoBehaviour {
     gameObject.name = $"Tile_{tile.WorldOriginPosition.x:F0}_{tile.WorldOriginPosition.z:F0}";
 
     // Initial material setup
-    var mat = new Material(Resources.Load<Material>("ChunkMaterial"));
+    var mat = new Material(Resources.Load<Material>("TileMat"));
     meshRenderer.sharedMaterial = mat;
     meshRenderer.sharedMaterial.mainTexture = Texture2D.whiteTexture;
     meshFilter.sharedMesh = new MeshBuilder()

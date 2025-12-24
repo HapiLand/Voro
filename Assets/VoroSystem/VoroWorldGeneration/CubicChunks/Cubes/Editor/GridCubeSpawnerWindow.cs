@@ -4,7 +4,9 @@ using VoroSystem.VoroWorldGeneration.CubicChunks.Player.Core;
 
 namespace VoroSystem.VoroWorldGeneration.CubicChunks.Cubes.Editor {
 public class GridCubeSpawnerWindow : EditorWindow {
-  Vector3Int spawnCoordinate = Vector3Int.zero;
+  #region Serialized Fields
+  [SerializeField] Vector3Int spawnCoordinate = Vector3Int.zero;
+  #endregion
 
   #region Event Functions
   void OnGUI() {

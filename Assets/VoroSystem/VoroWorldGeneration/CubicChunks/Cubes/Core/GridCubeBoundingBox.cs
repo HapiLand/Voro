@@ -1,16 +1,21 @@
+using System;
 using UnityEngine;
 using VoroSystem.VoroWorldGeneration.CubicChunks.World.Core;
 
 namespace VoroSystem.VoroWorldGeneration.CubicChunks.Cubes.Core {
+[Serializable]
 public class GridCubeBoundingBox {
-  readonly Transform _transform;
+  #region Serialized Fields
+  [field: SerializeField] public Vector3Int GridCoord { get; set; }
+
+  [SerializeField] Transform transform;
+  #endregion
 
   public GridCubeBoundingBox(Transform transform) {
-    _transform = transform;
+    this.transform = transform;
   }
 
-  public Vector3Int GridCoord { get; set; }
-  public Bounds Bounds => new(_transform.position, Vector3.one * WorldSettings.GridSize);
+  public Bounds Bounds => new(transform.position, Vector3.one * WorldSettings.GridSize);
 
   /// <summary>
   /// world space position of the bottom-left point
