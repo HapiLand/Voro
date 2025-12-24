@@ -2,6 +2,7 @@ using UnityEditor;
 using UnityEngine;
 using VoroSystem.VoroDataStructures.EffectDefinition.ParameterDefinition.Core;
 using VoroSystem.VoroDataStructures.EffectDefinition.ParameterDefinition.Variants;
+using VoroSystem.VoroWorldGeneration;
 
 namespace VoroSystem.VoroGraphEditor.Editor.Drawers {
 [CustomPropertyDrawer(typeof(ParameterData), true)]
@@ -16,13 +17,19 @@ public class ParameterDataDrawer : PropertyDrawer {
     var indent = EditorGUI.indentLevel;
     EditorGUI.indentLevel = 0;
 
-    DrawFields(position, property);
-
+    var didChange = DrawFields(position, property);
+    if (didChange)
+    {
+      WorldGenEditorEvents.RaiseParametersChanged();
+    }
+    
     EditorGUI.indentLevel = indent;
     EditorGUI.EndProperty();
   }
 
-  void DrawFields(Rect position, SerializedProperty property) {
+  bool DrawFields(Rect position, SerializedProperty property) {
+    EditorGUI.BeginChangeCheck();
+    
     var nameRect = GetNameRect(position);
     var variantRect = GetVariantRect(position);
     var usedWidth = nameRect.width + Spacing + variantRect.width + Spacing;
@@ -34,7 +41,7 @@ public class ParameterDataDrawer : PropertyDrawer {
     var defaultValueProp = property.FindPropertyRelative("defaultValue");
     if (defaultValueProp.managedReferenceValue == null) {
       EditorGUI.HelpBox(valueRect, "Default value is NULL", MessageType.Warning);
-      return;
+      return EditorGUI.EndChangeCheck();
     }
 
     var valueProp = defaultValueProp.FindPropertyRelative("value");
@@ -42,7 +49,7 @@ public class ParameterDataDrawer : PropertyDrawer {
       Debug.LogError(
         $"ParameterDrawer: 'value' field not found in {defaultValueProp.managedReferenceValue.GetType().Name}");
       EditorGUI.HelpBox(valueRect, "Missing 'value' field", MessageType.Error);
-      return;
+      return EditorGUI.EndChangeCheck();
     }
 
     switch (defaultValueProp.managedReferenceValue) {
@@ -62,6 +69,8 @@ public class ParameterDataDrawer : PropertyDrawer {
       );
       break;
     }
+    
+    return EditorGUI.EndChangeCheck();
   }
 
   static Rect GetNameRect(Rect position) {

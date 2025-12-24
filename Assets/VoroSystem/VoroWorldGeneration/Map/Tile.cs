@@ -17,8 +17,7 @@ public class Tile {
     Index = index;
   }
 
-  public void CreateEntity() {
-    var parentTransform = WorldGenInstancer.Instance.transform;
+  public void CreateEntity(Transform parentTransform) {
     var gameObject = new GameObject($"Tile_{Index}")
     {
       transform =

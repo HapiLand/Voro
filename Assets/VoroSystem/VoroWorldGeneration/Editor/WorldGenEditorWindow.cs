@@ -17,10 +17,21 @@ public class WorldGenEditorWindow : EditorWindow {
     _mapWidth = WorldGenMapSettings.Width;
     _mapHeight = WorldGenMapSettings.Height;
     EditorApplication.update += AutoRefreshUpdate;
+    WorldGenEditorEvents.OnParametersChanged += OnParametersChanged;
   }
 
   void OnDisable() {
     EditorApplication.update -= AutoRefreshUpdate;
+    WorldGenEditorEvents.OnParametersChanged -= OnParametersChanged;
+  }
+  void OnParametersChanged() {
+    if (_generator == null) {
+      return;
+    }
+    DestroyGenerator();
+    InitWorldGenerator();
+    _generator.StartGeneration();
+    Repaint();
   }
   void AutoRefreshUpdate() {
     if (!_autoRefreshEnabled || _generator == null) {

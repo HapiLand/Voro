@@ -16,37 +16,37 @@ MonoBehaviour:
   layers:
   - layerName: Layer
     effects:
-    - rid: 3732410357379760690
+    - rid: 3732410405571789060
   references:
     version: 2
     RefIds:
-    - rid: 3732410357379760690
+    - rid: 3732410405571789060
       type: {class: NoiseEffect, ns: VoroSystem.VoroDataStructures.EffectDefinition.Variants, asm: Assembly-CSharp}
       data:
         parameters:
-        - rid: 3732410357379760691
-        - rid: 3732410357379760692
+        - rid: 3732410405571789061
+        - rid: 3732410405571789062
         effectType: 1
         operationType: 0
-    - rid: 3732410357379760691
+    - rid: 3732410405571789061
       type: {class: ParameterData, ns: VoroSystem.VoroDataStructures.EffectDefinition.ParameterDefinition.Core, asm: Assembly-CSharp}
       data:
         defaultValue:
-          rid: 3732410357379760693
+          rid: 3732410405571789063
         parameterName: Size
         parameterType: 0
-    - rid: 3732410357379760692
+    - rid: 3732410405571789062
       type: {class: ParameterData, ns: VoroSystem.VoroDataStructures.EffectDefinition.ParameterDefinition.Core, asm: Assembly-CSharp}
       data:
         defaultValue:
-          rid: 3732410357379760694
+          rid: 3732410405571789064
         parameterName: Roughness
         parameterType: 0
-    - rid: 3732410357379760693
+    - rid: 3732410405571789063
       type: {class: FloatValue, ns: VoroSystem.VoroDataStructures.EffectDefinition.ParameterDefinition.Variants, asm: Assembly-CSharp}
       data:
         value: 1
-    - rid: 3732410357379760694
+    - rid: 3732410405571789064
       type: {class: FloatValue, ns: VoroSystem.VoroDataStructures.EffectDefinition.ParameterDefinition.Variants, asm: Assembly-CSharp}
       data:
         value: 0.1
