@@ -1,0 +1,39 @@
+using UnityEngine;
+using VoroSystem.VoroWorldGeneration.CubicChunks.World;
+using VoroSystem.VoroWorldGeneration.CubicChunks.World.Core;
+
+namespace VoroSystem.VoroWorldGeneration.CubicChunks.Cubes.Core {
+[ExecuteAlways]
+public abstract class BaseCube : MonoBehaviour {
+  protected virtual float GizmoBaseSize => WorldSettings.GridSize;
+  protected virtual bool IsPlayerInside => false;
+  protected virtual bool NeighborHasPlayer => false;
+
+  #region Event Functions
+  protected virtual void OnDrawGizmos() {
+    GetVisualState(out var color, out var size);
+    Gizmos.color = color;
+    Gizmos.DrawWireCube(transform.position, Vector3.one * size);
+  }
+  #endregion
+  public void GetVisualState(out Color color, out float size)
+  {
+    if (IsPlayerInside)
+    {
+      size = GizmoBaseSize;
+      color = Color.green;
+      return;
+    }
+
+    if (NeighborHasPlayer)
+    {
+      size = GizmoBaseSize * 0.8f;
+      color = Color.blue;
+      return;
+    }
+
+    size = GizmoBaseSize * 0.25f;
+    color = Color.red;
+  }
+}
+}

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace VoroSystem.VoroWorldGeneration.CubicChunks.Player {
+namespace VoroSystem.VoroWorldGeneration.CubicChunks.Player.Core {
 public static class PlayerLocator {
   public static PlayerPoint GetOrCreatePlayer() {
     var player = Object.FindFirstObjectByType<PlayerPoint>();
