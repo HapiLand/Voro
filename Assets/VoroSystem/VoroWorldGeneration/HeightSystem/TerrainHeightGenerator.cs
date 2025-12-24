@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using VoroSystem.VoroDataStructures.EffectDefinition.Core;
 using VoroSystem.VoroDataStructures.EffectDefinition.Variants;
 using VoroSystem.VoroGraphEditor;
 using VoroSystem.VoroWorldGeneration.Map;
@@ -54,7 +53,7 @@ public class TerrainHeightGenerator {
           providers.Add(provider);
         }
           break;
-        
+
         case NoiseEffect noiseEffect: {
           var provider = noiseEffect.GetHeightProvider(worldBounds);
           providers.Add(provider);

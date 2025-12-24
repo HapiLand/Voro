@@ -38,17 +38,17 @@ public class TerrainHeightSystem {
     var meshFilter = tileEntity.GetComponent<MeshFilter>();
     var mesh = meshFilter.sharedMesh;
     var vertices = mesh.vertices;
-    
+
     return action => {
       var displacedVertices = new Vector3[vertices.Length];
-      
+
       for (var i = 0; i < vertices.Length; i++) {
         var vtx = vertices[i];
 
         // Apply sampled height
         var height = sampled[i];
         var displaced = new Vector3(vtx.x, vtx.y + height, vtx.z);
-        
+
         // apply the height to displace
         action?.Invoke(displaced, height);
         displacedVertices[i] = displaced;
@@ -59,11 +59,7 @@ public class TerrainHeightSystem {
       mesh.RecalculateNormals();
       mesh.RecalculateBounds();
       return displacedVertices;
-
-
-     
     };
   }
-
 }
 }

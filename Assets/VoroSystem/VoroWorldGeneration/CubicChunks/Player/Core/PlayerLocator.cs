@@ -30,8 +30,8 @@ public static class PlayerLocator {
   /// <summary>
   /// returns the position where the bottom-left corner of a cube is located at the coordinate
   /// </summary>
-  /// <param name="gridCoord">origin point of a cube (bottom-left)</param>
-  /// <returns></returns>
+  /// <param name="gridCoord"> origin point of a cube (bottom-left) </param>
+  /// <returns> </returns>
   public static Vector3 GridToWorld(Vector3Int gridCoord) {
     return (Vector3)gridCoord * WorldSettings.GridSize + Vector3.one * (WorldSettings.GridSize * 0.5f);
   }

@@ -23,15 +23,14 @@ public class WorldGenTilemap : MonoBehaviour {
         tile.Update();
       }
     });
-
-
   }
   #endregion
 
-  public static event TileAction OnNewTile = delegate { };
+  public event TileAction OnNewTile = delegate { };
 
   public void GenerateWorldGrid(TilemapReady onComplete) {
     Debug.Log($"Creating new [{WorldGenMapSettings.Width} x {WorldGenMapSettings.Height}] TileMap");
+
     _tilemap = new Tilemap<Tile>(
       WorldGenTileSettings.TileSize,
       WorldGenMapSettings.Width,
@@ -43,14 +42,12 @@ public class WorldGenTilemap : MonoBehaviour {
       });
 
     Debug.Log("Starting Coroutine");
-    StartCoroutine(Generate(onComplete));
+    StartCoroutine(GenerateAsync(onComplete));
   }
 
-  IEnumerator Generate(TilemapReady onComplete) {
+  IEnumerator GenerateAsync(TilemapReady onComplete) {
     yield return _tilemap.CreateMapAsync(WorldGenMapSettings.GenerateTilesPerFrame);
     onComplete?.Invoke(_tilemap);
-    // Debug.Log($"Tilemap generated [{WorldGenMapSettings.Width} x {WorldGenMapSettings.Height}] grid");
-    //onComplete?.Invoke(grid);
   }
 }
 }

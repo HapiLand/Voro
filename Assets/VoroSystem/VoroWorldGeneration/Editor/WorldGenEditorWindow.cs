@@ -1,16 +1,15 @@
-using System;
 using UnityEditor;
 using UnityEngine;
 using VoroSystem.VoroWorldGeneration.Map;
 
 namespace VoroSystem.VoroWorldGeneration.Editor {
 public class WorldGenEditorWindow : EditorWindow {
-  WorldGenerator _generator;
-  int _mapHeight;
-  int _mapWidth;
-  bool _autoRefreshEnabled = false;
-  double _nextRefreshTime = 0f;
   const double RefreshInterval = 5.0;
+  bool _autoRefreshEnabled; // todo remove refresh toggle, refreshing should always happen
+  WorldGenerator _generator;
+  int _mapHeight; // todo remove map height
+  int _mapWidth; // todo remove map width
+  double _nextRefreshTime; // todo remove refresh timer
 
   #region Event Functions
   void OnEnable() {
@@ -24,31 +23,7 @@ public class WorldGenEditorWindow : EditorWindow {
     EditorApplication.update -= AutoRefreshUpdate;
     WorldGenEditorEvents.OnParametersChanged -= OnParametersChanged;
   }
-  void OnParametersChanged() {
-    if (_generator == null) {
-      return;
-    }
-    DestroyGenerator();
-    InitWorldGenerator();
-    _generator.StartGeneration();
-    Repaint();
-  }
-  void AutoRefreshUpdate() {
-    if (!_autoRefreshEnabled || _generator == null) {
-      return;
-    }
 
-    if (EditorApplication.timeSinceStartup >= _nextRefreshTime) {
-      _nextRefreshTime = EditorApplication.timeSinceStartup + RefreshInterval;
-
-      // Simulate Clear World + Start Generation
-      DestroyGenerator();
-      InitWorldGenerator();
-      _generator.StartGeneration();
-
-      Repaint();
-    }
-  }
   void OnGUI() {
     if (_generator == null) {
       InitWorldGenerator();
@@ -57,7 +32,8 @@ public class WorldGenEditorWindow : EditorWindow {
     EditorGUILayout.LabelField("World Generator", EditorStyles.boldLabel);
     EditorGUILayout.Space();
 
-    EditorGUILayout.LabelField("State:", _generator.stateMachine.currentState.ToString());
+    EditorGUILayout.LabelField("State:",
+      _generator.stateMachine.currentState.ToString()); // todo display state in gridcube window
 
     DrawMapSettings();
     EditorGUILayout.Space();
@@ -76,6 +52,34 @@ public class WorldGenEditorWindow : EditorWindow {
     Repaint();
   }
   #endregion
+
+  void OnParametersChanged() {
+    if (_generator == null) {
+      return;
+    }
+
+    DestroyGenerator();
+    InitWorldGenerator();
+    _generator.StartGeneration();
+    Repaint();
+  }
+
+  void AutoRefreshUpdate() {
+    if (!_autoRefreshEnabled || _generator == null) {
+      return;
+    }
+
+    if (EditorApplication.timeSinceStartup >= _nextRefreshTime) {
+      _nextRefreshTime = EditorApplication.timeSinceStartup + RefreshInterval;
+
+      // Simulate Clear World + Start Generation
+      DestroyGenerator();
+      InitWorldGenerator();
+      _generator.StartGeneration();
+
+      Repaint();
+    }
+  }
 
   void DrawMapSettings() {
     EditorGUILayout.LabelField("Map Settings", EditorStyles.boldLabel);

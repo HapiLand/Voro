@@ -45,7 +45,7 @@ public class Tilemap<T> : BaseTilemap<T> where T : Tile {
       }
     }
 
-    Debug.Log($"tilemap CreateMapAsync completed");
+    Debug.Log("tilemap CreateMapAsync completed");
 
     /*for (var z = 0; z < tilesZ; z++) {
       for (var x = 0; x < tilesX; x++) {

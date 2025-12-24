@@ -34,6 +34,7 @@ public class WorldGenState : MonoBehaviour {
       Debug.LogWarning("Cannot complete generation that hasn't started");
       return;
     }
+
     currentState = GenerationState.GenerationComplete;
     Debug.Log("World generation complete");
   }

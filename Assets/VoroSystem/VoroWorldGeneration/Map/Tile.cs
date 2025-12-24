@@ -38,13 +38,14 @@ public class Tile {
 
     var currentlyVisible = CheckVisibility();
     Entity.gameObject.SetActive(_isVisible);
-    
+
     if (currentlyVisible != _isVisible) {
       _isVisible = currentlyVisible;
       if (_isVisible) {
         Entity.MarkDirty();
       }
     }
+
     if (_isVisible && Entity.IsDirty) {
       Entity.UpdateTileEntity();
     }

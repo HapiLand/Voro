@@ -1,11 +1,9 @@
 using UnityEditor;
 using UnityEngine;
-using VoroSystem.VoroWorldGeneration.CubicChunks.Player.Core;
-using VoroSystem.VoroWorldGeneration.CubicChunks.World.Core;
 
 namespace VoroSystem.VoroWorldGeneration.CubicChunks.Cubes.Editor {
 /// <summary>
-/// displays info about a grid cube 
+/// displays info about a grid cube
 /// </summary>
 public class GridCubeWindow : EditorWindow {
   GridCube _cube;
@@ -18,7 +16,7 @@ public class GridCubeWindow : EditorWindow {
     }
 
     var labelWidth = 150;
-    
+
     EditorGUILayout.BeginHorizontal();
     EditorGUILayout.LabelField("Position:", GUILayout.Width(labelWidth));
     EditorGUILayout.Vector3Field(GUIContent.none, _cube.transform.position);
@@ -30,14 +28,15 @@ public class GridCubeWindow : EditorWindow {
     EditorGUILayout.LabelField("Player Inside:", GUILayout.Width(labelWidth));
     EditorGUILayout.Toggle(_cube.CubePlayerDetection?.IsPlayerInside ?? false);
     EditorGUILayout.EndHorizontal();
-    
+
     EditorGUILayout.Space();
-    
+
     EditorGUILayout.BeginHorizontal();
     EditorGUILayout.LabelField("Generation:", GUILayout.Width(labelWidth));
     if (GUILayout.Button("Generate Tilemap")) {
       _cube.GenerateTilemap();
     }
+
     EditorGUILayout.EndHorizontal();
   }
 
@@ -47,7 +46,7 @@ public class GridCubeWindow : EditorWindow {
       Repaint();
       return;
     }
-    
+
     _cube = Selection.activeGameObject.GetComponent<GridCube>();
     Repaint();
   }
@@ -58,7 +57,5 @@ public class GridCubeWindow : EditorWindow {
     window._cube = cube;
     window.Show();
   }
-  
-
 }
 }
