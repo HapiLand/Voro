@@ -1,36 +1,26 @@
 using UnityEditor;
-using UnityEngine;
-using VoroSystem.UI.Reflection;
 
 namespace VoroSystem.UI.Editor {
 /// <summary>
 /// use this to display the custom fields
 /// </summary>
 public class UIWindow : EditorWindow {
-    EditorMember barMember;
-    EditorMember fooMember;
-    IntField intField;
-    TestObject obj;
+  AdjustIntegerEditor _adjustIntegerEditor;
 
-    void OnEnable() {
-        obj = new TestObject();
-        intField = new IntField();
-        fooMember = EditorMember.Create(typeof(TestObject).GetField(nameof(TestObject.Foo))!);
-        barMember = EditorMember.Create(typeof(TestObject).GetField(nameof(TestObject.Bar))!);
-    }
+  #region Event Functions
+  void OnEnable() {
+    _adjustIntegerEditor = new AdjustIntegerEditor();
+    _adjustIntegerEditor.Initialize();
+  }
 
-    void OnGUI() {
-        const float labelWidth = 150f;
-        EditorGUILayout.BeginHorizontal();
-        EditorGUILayout.LabelField("Label", GUILayout.Width(labelWidth));
-        var fooResult = intField.ProcessInput(fooMember, obj);
-        var barResult = intField.ProcessInput(barMember, obj);
-        EditorGUILayout.EndHorizontal();
-    }
+  void OnGUI() {
+    _adjustIntegerEditor?.Draw();
+  }
+  #endregion
 
-    [MenuItem("Voro/UI Window")]
-    public static void ShowWindow() {
-        GetWindow<UIWindow>("Window");
-    }
+  [MenuItem("Voro/UI Window")]
+  public static void ShowWindow() {
+    GetWindow<UIWindow>("Window");
+  }
 }
 }
