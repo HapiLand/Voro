@@ -20,7 +20,7 @@ public class WorldGenEditorWindow : EditorWindow {
     EditorGUILayout.LabelField("World Generator", EditorStyles.boldLabel);
     EditorGUILayout.Space();
 
-    if (_worldGenerator == null || _worldGenerator.CubeWorld == null) {
+    if (_worldGenerator == null || _worldGenerator.ChunkWorld == null) {
       EditorGUILayout.HelpBox("WorldGenerator not found", MessageType.Warning);
       return;
     }
@@ -34,7 +34,7 @@ public class WorldGenEditorWindow : EditorWindow {
   #endregion
 
   void DrawStateInfo() {
-    var state = _worldGenerator.CubeWorld.worldState;
+    var state = _worldGenerator.ChunkWorld.worldState;
 
     if (state == null) {
       EditorGUILayout.HelpBox("WorldState missing", MessageType.Warning);
@@ -56,7 +56,7 @@ public class WorldGenEditorWindow : EditorWindow {
   }
 
   void DrawGenerationButtons() {
-    var worldState = _worldGenerator.CubeWorld.worldState;
+    var worldState = _worldGenerator.ChunkWorld.worldState;
     GUI.enabled = worldState != null;
     if (GUILayout.Button("Start Generation")) {
       _worldGenerator.StartGeneration();

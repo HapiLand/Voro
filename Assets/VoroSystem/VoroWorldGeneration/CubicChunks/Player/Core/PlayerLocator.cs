@@ -1,4 +1,6 @@
 using UnityEngine;
+using Voro.Internal.World;
+using Voro.Internal.World.GridTiles;
 using VoroSystem.VoroWorldGeneration.CubicChunks.World.Core;
 
 namespace VoroSystem.VoroWorldGeneration.CubicChunks.Player.Core {
@@ -33,7 +35,7 @@ public static class PlayerLocator {
   /// <param name="gridCoord"> origin point of a cube (bottom-left) </param>
   /// <returns> </returns>
   public static Vector3 GridToWorld(Vector3Int gridCoord) {
-    return (Vector3)gridCoord * WorldSettings.GridSize + Vector3.one * (WorldSettings.GridSize * 0.5f);
+    return (Vector3)gridCoord * GridTileSettings.GridTileSize + Vector3.one * (GridTileSettings.GridTileSize * 0.5f);
   }
 }
 }

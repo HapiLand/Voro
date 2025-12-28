@@ -1,5 +1,6 @@
 using UnityEditor;
 using UnityEngine;
+using Voro.Internal.World;
 
 namespace VoroSystem.VoroWorldGeneration.CubicChunks.Cubes.Editor {
 /// <summary>
@@ -7,7 +8,7 @@ namespace VoroSystem.VoroWorldGeneration.CubicChunks.Cubes.Editor {
 /// </summary>
 public class GridCubeWindow : EditorWindow {
   #region Serialized Fields
-  [SerializeField] GridCube cube;
+  [SerializeField] Chunk cube;
   #endregion
 
   #region Event Functions
@@ -28,7 +29,7 @@ public class GridCubeWindow : EditorWindow {
 
     EditorGUILayout.BeginHorizontal();
     EditorGUILayout.LabelField("Player Inside:", GUILayout.Width(labelWidth));
-    EditorGUILayout.Toggle(cube.CubePlayerDetection?.IsPlayerInside ?? false);
+    EditorGUILayout.Toggle(cube.IsPlayerInside);
     EditorGUILayout.EndHorizontal();
 
     EditorGUILayout.Space();
@@ -49,12 +50,12 @@ public class GridCubeWindow : EditorWindow {
       return;
     }
 
-    cube = Selection.activeGameObject.GetComponent<GridCube>();
+    cube = Selection.activeGameObject.GetComponent<Chunk>();
     Repaint();
   }
   #endregion
 
-  public static void ShowWindow(GridCube cube) {
+  public static void ShowWindow(Chunk cube) {
     var window = GetWindow<GridCubeWindow>("Grid Cube");
     window.cube = cube;
     window.Show();

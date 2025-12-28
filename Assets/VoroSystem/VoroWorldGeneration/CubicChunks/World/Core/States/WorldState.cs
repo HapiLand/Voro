@@ -1,11 +1,12 @@
 using System.Collections;
 using UnityEngine;
+using Voro.Internal.World;
 
 namespace VoroSystem.VoroWorldGeneration.CubicChunks.World.Core.States {
 [ExecuteAlways]
 public class WorldState : MonoBehaviour {
   #region Serialized Fields
-  public CubeWorld cubeWorld;
+  public ChunkWorld cubeWorld;
 
   [SerializeReference] IWorldState activeState;
   [SerializeReference] Coroutine updateCoroutine;
@@ -15,7 +16,7 @@ public class WorldState : MonoBehaviour {
 
   #region Event Functions
   void Awake() {
-    cubeWorld = GetComponent<CubeWorld>();
+    cubeWorld = GetComponent<ChunkWorld>();
     SetState(new NotCreatedState());
   }
   #endregion

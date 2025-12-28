@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using Voro.Internal.Terrain.Algorithms;
 using VoroSystem.VoroWorldGeneration.HeightSystem;
 
 namespace VoroSystem.VoroWorldGeneration.Map {
@@ -39,8 +40,7 @@ public class TileEntity : MonoBehaviour {
   }
 
   void UpdateHeightSystem() {
-    var samplerFunc = TerrainHeightSystem.SampleHeight(this);
-    samplerFunc((position, height) => { });
+    AlgorithmDispatcher.DispatchOnTile(this);
   }
 
   public void SetTile(Tile tile) {

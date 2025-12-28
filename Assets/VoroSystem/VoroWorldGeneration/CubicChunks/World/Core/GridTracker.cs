@@ -1,5 +1,7 @@
 using System;
 using UnityEngine;
+using Voro.Internal.World;
+using Voro.Internal.World.GridTiles;
 using VoroSystem.VoroWorldGeneration.CubicChunks.Player;
 using VoroSystem.VoroWorldGeneration.CubicChunks.Player.Core;
 
@@ -18,7 +20,7 @@ public class GridTracker {
     PreviousCoordinate = ActiveCoordinate;
   }
 
-  float GridSize => WorldSettings.GridSize;
+  float GridSize => GridTileSettings.GridTileSize;
 
   public bool TryUpdateCoordinate() {
     var current = PlayerLocator.GetPlayerGridCoordinate(player, GridSize);
