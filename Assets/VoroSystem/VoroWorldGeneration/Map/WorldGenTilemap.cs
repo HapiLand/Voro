@@ -1,6 +1,6 @@
 using System.Collections;
 using UnityEngine;
-using Voro.Internal.World;
+using VoroSystem.VoroWorldGeneration.CubicChunks.Cubes.Core;
 
 namespace VoroSystem.VoroWorldGeneration.Map {
 /// <summary>
@@ -32,7 +32,7 @@ public class WorldGenTilemap : MonoBehaviour {
 
   public event TileAction OnNewTile = delegate { };
 
-  public void GenerateWorldGrid(Chunk cubeBoundingBox, TilemapReady onComplete) {
+  public void GenerateWorldGrid(GridCubeBoundingBox cubeBoundingBox, TilemapReady onComplete) {
     var originPosition = cubeBoundingBox.WorldOriginPosition;
     Debug.Log($"Creating [{cubeBoundingBox.BoundSize}] Tilemap at {originPosition}");
 

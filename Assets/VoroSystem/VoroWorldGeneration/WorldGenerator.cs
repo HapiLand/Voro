@@ -1,5 +1,4 @@
 using UnityEngine;
-using Voro.Internal.World;
 using VoroSystem.VoroWorldGeneration.CubicChunks.World;
 using VoroSystem.VoroWorldGeneration.CubicChunks.World.Core;
 using VoroSystem.VoroWorldGeneration.CubicChunks.World.Core.States;
@@ -7,15 +6,15 @@ using VoroSystem.VoroWorldGeneration.Map;
 
 namespace VoroSystem.VoroWorldGeneration {
 [ExecuteAlways]
-[RequireComponent(typeof(ChunkWorld))]
+[RequireComponent(typeof(CubeWorld))]
 public class WorldGenerator : MonoBehaviour {
-  public ChunkWorld ChunkWorld;
+  public CubeWorld CubeWorld;
   void Awake() {
-    ChunkWorld = GetComponent<ChunkWorld>();
+    CubeWorld = GetComponent<CubeWorld>();
   }
   public void StartGeneration() {
     // notify cube world that all its cubes should begin generation
-    ChunkWorld.NotifyStartGeneration();
+    CubeWorld.NotifyStartGeneration();
   }
 
   /*public WorldState.GenerationState GetCurrentState() {

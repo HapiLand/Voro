@@ -1,6 +1,5 @@
 using UnityEditor;
 using UnityEngine;
-using Voro.Internal.World;
 using VoroSystem.VoroWorldGeneration.CubicChunks.Player.Core;
 
 namespace VoroSystem.VoroWorldGeneration.CubicChunks.Cubes.Editor {
@@ -35,8 +34,8 @@ public class GridCubeSpawnerWindow : EditorWindow {
   void SpawnCube(Vector3Int coord) {
     var cubeObject = new GameObject($"Cube [{coord.x}, {coord.y}, {coord.z}]");
     cubeObject.transform.position = PlayerLocator.GridToWorld(coord);
-    var cube = cubeObject.AddComponent<Chunk>();
-    cube.GridCoord = coord;
+    var cube = cubeObject.AddComponent<GridCube>();
+    cube.BoundingBox.GridCoord = coord;
 
     // Select the new object in the hierarchy
     Selection.activeGameObject = cubeObject;

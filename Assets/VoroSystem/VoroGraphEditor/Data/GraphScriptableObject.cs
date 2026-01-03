@@ -1,9 +1,6 @@
 using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
-using Voro.Internal;
-using Voro.Internal.Terrain.Algorithms;
-using Voro.Internal.Terrain.Algorithms.Noise;
 using VoroSystem.VoroDataStructures.EffectDefinition;
 using VoroSystem.VoroDataStructures.EffectDefinition.Core;
 
@@ -26,7 +23,7 @@ public class GraphScriptableObject : ScriptableObject {
         {
           // EffectFactory.Create(EffectVariants.Slope),
           EffectFactory.Create(EffectVariants.Noise)
-        },
+        }
       }
     };
   }

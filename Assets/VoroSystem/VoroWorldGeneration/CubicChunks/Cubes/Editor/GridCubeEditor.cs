@@ -1,16 +1,15 @@
 using UnityEditor;
 using UnityEngine;
-using Voro.Internal.World;
 
 namespace VoroSystem.VoroWorldGeneration.CubicChunks.Cubes.Editor {
 /// <summary>
 /// creates a selectable handle to let the grid cube be selected inside the editors scene
 /// </summary>
-[CustomEditor(typeof(Chunk))]
+[CustomEditor(typeof(GridCube))]
 public class GridCubeEditor : UnityEditor.Editor {
   #region Event Functions
   void OnSceneGUI() {
-    var cube = (Chunk)target;
+    var cube = (GridCube)target;
 
     cube.GetVisualState(out var baseColor, out var size);
     Handles.color = HandleUtility.nearestControl == GUIUtility.hotControl
