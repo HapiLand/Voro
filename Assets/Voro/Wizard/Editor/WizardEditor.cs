@@ -39,6 +39,7 @@ public class WizardEditor : UnityEditor.Editor {
       Debug.LogWarning("Wizard already showed");
       return;
     }
+
     WizardAssetUtility.CreateAndSelectWizard();
     WizardSessionStates.SetShowedState(true);
   }
@@ -112,9 +113,11 @@ public class WizardEditor : UnityEditor.Editor {
     if (AssetUtility.DoesDirectoryExist(WizardAssetPaths.WizardLockPath)) {
       return;
     }
+
     if (!EditorUtility.DisplayDialog("Disable Wizard", "Proceed?", "Proceed", "Cancel")) {
       return;
     }
+
     AssetUtility.CreateDirectory(WizardAssetPaths.WizardLockPath);
     AssetUtility.RemoveAsset<Wizard>(WizardAssetPaths.WizardPath);
     AssetDatabase.Refresh();

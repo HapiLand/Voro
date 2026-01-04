@@ -71,20 +71,18 @@ public abstract class TerrainAlgorithm : ScriptableObject {
 
     HeightGenerator(ComputeShader shader, string kernelName) {
       _shader = shader;
-      _kernelIndex = _shader.FindKernel(kernelName); 
+      _kernelIndex = _shader.FindKernel(kernelName);
     }
 
-    public static HeightGenerator Create(ComputeShader shader, string kernelName) {
-      return new HeightGenerator(shader, kernelName);
-    }
+    public static HeightGenerator Create(ComputeShader shader, string kernelName) => new(shader, kernelName);
 
     public void SetParameters(Parameter[] parameters) {
       foreach (var p in parameters) {
         _shader.SetFloat(p.name, 0.0f);
       }
     }
-    
-    
+
+
     Func<(float x, float z), float> HeightFunc() {
       return pos => {
         var inputX = new[] { pos.x };
@@ -110,9 +108,7 @@ public abstract class TerrainAlgorithm : ScriptableObject {
         return result[0];
       };
 
-      Array ProvideUntyped(TerrainRegion region, Vector3[] vertices) {
-        return Provide(region, vertices);
-      }
+      Array ProvideUntyped(TerrainRegion region, Vector3[] vertices) => Provide(region, vertices);
 
       float[] Provide(TerrainRegion region, Vector3[] vertices) {
         var result = new float[vertices.Length];

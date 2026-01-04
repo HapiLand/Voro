@@ -1,5 +1,5 @@
 using UnityEngine;
-using Voro.Internal.World.GridTiles;
+using Voro.Internal.World.GameWorldMap.WorldTiles;
 
 namespace Voro.Internal.World.WorldChunks {
 /// <summary>
@@ -8,16 +8,14 @@ namespace Voro.Internal.World.WorldChunks {
 public class WorldChunkBounds : MonoBehaviour {
   GridTile _gridTile;
   Vector3Int GridCoordinate => _gridTile.Coordinate;
-  Bounds Bounds => new(transform.position, Vector3.one * GridTileSettings.GridTileSize);
+  Bounds Bounds => new(transform.position, Vector3.one * TileSettings.TileSize);
 
   public Vector3 WorldOriginPosition => new Vector3(GridCoordinate.x, GridCoordinate.y, GridCoordinate.z) *
-                                        GridTileSettings.GridTileSize;
+                                        TileSettings.TileSize;
 
   public Vector3Int BoundSize =>
     new(CeilToIntMin1(Bounds.size.x), CeilToIntMin1(Bounds.size.y), CeilToIntMin1(Bounds.size.z));
 
-  static int CeilToIntMin1(float value) {
-    return Mathf.Max(1, Mathf.CeilToInt(value));
-  }
+  static int CeilToIntMin1(float value) => Mathf.Max(1, Mathf.CeilToInt(value));
 }
 }

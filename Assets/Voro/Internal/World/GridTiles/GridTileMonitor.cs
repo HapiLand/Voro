@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace Voro.Internal.World.GridTiles {
+namespace Voro.Internal.World {
 /// <summary>
 /// contains and monitors the world grid
 /// </summary>

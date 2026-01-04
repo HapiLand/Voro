@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Voro.Internal.World.GridTiles {
+namespace Voro.Internal.World {
 /// <summary>
 /// debug draw to show every registered tile
 /// </summary>

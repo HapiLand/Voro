@@ -20,14 +20,11 @@ public class NoiseAlgorithm : TerrainAlgorithm {
     // heightGenerator = HeightGenerator.Create(LoadShader(),FindShaderName());
     return;
 
-    string FindShaderName() {
+    string FindShaderName() => throw
       // todo get from [Algorithm] 
-      throw new NotImplementedException();
-    }
+      new NotImplementedException();
 
-    ComputeShader LoadShader() {
-      throw new NotImplementedException();
-    }
+    ComputeShader LoadShader() => throw new NotImplementedException();
   }
   #endregion
 }

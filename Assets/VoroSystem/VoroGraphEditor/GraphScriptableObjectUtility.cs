@@ -6,9 +6,7 @@ using VoroSystem.VoroGraphEditor.Data;
 
 namespace VoroSystem.VoroGraphEditor {
 public static class GraphScriptableObjectUtility {
-  
   public static GraphScriptableObject GetOrCreate() {
-    
     var so = AssetDatabase.LoadAssetAtPath<GraphScriptableObject>(
       "Assets/" + GraphEditorPaths.SCRIPTABLE_OBJECT_ASSET_RELATIVE_PATH
     );

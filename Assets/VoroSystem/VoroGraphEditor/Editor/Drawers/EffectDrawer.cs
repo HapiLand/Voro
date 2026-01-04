@@ -68,9 +68,8 @@ public class EffectDataDrawer : PropertyDrawer {
     return new Rect(position.x + halfWidth + Spacing, position.y, halfWidth, lineHeight);
   }
 
-  static Rect GetParametersRect(Rect position, float lineHeight) {
-    return new Rect(position.x, position.y + lineHeight + Spacing, position.width, lineHeight);
-  }
+  static Rect GetParametersRect(Rect position, float lineHeight) =>
+    new(position.x, position.y + lineHeight + Spacing, position.width, lineHeight);
 
   public override float GetPropertyHeight(SerializedProperty property, GUIContent label) {
     var lineHeight = EditorGUIUtility.singleLineHeight;

@@ -95,17 +95,12 @@ public abstract class SerializableDictionaryBase<TKey, TValue, TValueStorage> : 
     ((IDictionary<TKey, TValue>)m_dict).Add(key, value);
   }
 
-  public bool ContainsKey(TKey key) {
-    return ((IDictionary<TKey, TValue>)m_dict).ContainsKey(key);
-  }
+  public bool ContainsKey(TKey key) => ((IDictionary<TKey, TValue>)m_dict).ContainsKey(key);
 
-  public bool Remove(TKey key) {
-    return ((IDictionary<TKey, TValue>)m_dict).Remove(key);
-  }
+  public bool Remove(TKey key) => ((IDictionary<TKey, TValue>)m_dict).Remove(key);
 
-  public bool TryGetValue(TKey key, out TValue value) {
-    return ((IDictionary<TKey, TValue>)m_dict).TryGetValue(key, out value);
-  }
+  public bool TryGetValue(TKey key, out TValue value) =>
+    ((IDictionary<TKey, TValue>)m_dict).TryGetValue(key, out value);
 
   public void Add(KeyValuePair<TKey, TValue> item) {
     ((IDictionary<TKey, TValue>)m_dict).Add(item);
@@ -115,25 +110,17 @@ public abstract class SerializableDictionaryBase<TKey, TValue, TValueStorage> : 
     ((IDictionary<TKey, TValue>)m_dict).Clear();
   }
 
-  public bool Contains(KeyValuePair<TKey, TValue> item) {
-    return ((IDictionary<TKey, TValue>)m_dict).Contains(item);
-  }
+  public bool Contains(KeyValuePair<TKey, TValue> item) => ((IDictionary<TKey, TValue>)m_dict).Contains(item);
 
   public void CopyTo(KeyValuePair<TKey, TValue>[] array, int arrayIndex) {
     ((IDictionary<TKey, TValue>)m_dict).CopyTo(array, arrayIndex);
   }
 
-  public bool Remove(KeyValuePair<TKey, TValue> item) {
-    return ((IDictionary<TKey, TValue>)m_dict).Remove(item);
-  }
+  public bool Remove(KeyValuePair<TKey, TValue> item) => ((IDictionary<TKey, TValue>)m_dict).Remove(item);
 
-  public IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator() {
-    return ((IDictionary<TKey, TValue>)m_dict).GetEnumerator();
-  }
+  public IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator() => ((IDictionary<TKey, TValue>)m_dict).GetEnumerator();
 
-  IEnumerator IEnumerable.GetEnumerator() {
-    return ((IDictionary<TKey, TValue>)m_dict).GetEnumerator();
-  }
+  IEnumerator IEnumerable.GetEnumerator() => ((IDictionary<TKey, TValue>)m_dict).GetEnumerator();
   #endregion
 
   #region IDictionary
@@ -152,13 +139,9 @@ public abstract class SerializableDictionaryBase<TKey, TValue, TValueStorage> : 
     ((IDictionary)m_dict).Add(key, value);
   }
 
-  public bool Contains(object key) {
-    return ((IDictionary)m_dict).Contains(key);
-  }
+  public bool Contains(object key) => ((IDictionary)m_dict).Contains(key);
 
-  IDictionaryEnumerator IDictionary.GetEnumerator() {
-    return ((IDictionary)m_dict).GetEnumerator();
-  }
+  IDictionaryEnumerator IDictionary.GetEnumerator() => ((IDictionary)m_dict).GetEnumerator();
 
   public void Remove(object key) {
     ((IDictionary)m_dict).Remove(key);
@@ -192,9 +175,7 @@ public class SerializableDictionary<TKey, TValue> : SerializableDictionaryBase<T
   public SerializableDictionary(IDictionary<TKey, TValue> dict) : base(dict) { }
   protected SerializableDictionary(SerializationInfo info, StreamingContext context) : base(info, context) { }
 
-  protected override TValue GetValue(TValue[] storage, int i) {
-    return storage[i];
-  }
+  protected override TValue GetValue(TValue[] storage, int i) => storage[i];
 
   protected override void SetValue(TValue[] storage, int i, TValue value) {
     storage[i] = value;
@@ -209,9 +190,7 @@ public class
   public SerializableDictionary(IDictionary<TKey, TValue> dict) : base(dict) { }
   protected SerializableDictionary(SerializationInfo info, StreamingContext context) : base(info, context) { }
 
-  protected override TValue GetValue(TValueStorage[] storage, int i) {
-    return storage[i].data;
-  }
+  protected override TValue GetValue(TValueStorage[] storage, int i) => storage[i].data;
 
   protected override void SetValue(TValueStorage[] storage, int i, TValue value) {
     storage[i] = new TValueStorage();

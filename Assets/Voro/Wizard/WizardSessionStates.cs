@@ -15,8 +15,6 @@ public static class WizardSessionStates {
     SessionState.SetBool(ShowedWizardStateName, newState);
   }
 
-  public static bool GetShowedState() {
-    return SessionState.GetBool(ShowedWizardStateName, false);
-  }
+  public static bool GetShowedState() => SessionState.GetBool(ShowedWizardStateName, false);
 }
 }

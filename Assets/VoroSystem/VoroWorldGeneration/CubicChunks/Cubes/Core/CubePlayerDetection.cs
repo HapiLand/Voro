@@ -56,15 +56,13 @@ public class CubePlayerDetection {
   }
 
 
-  static Vector3Int[] GenerateNeighborOffsets() {
-    return
-      (from x in Enumerable.Range(-1, 3)
-        from y in Enumerable.Range(-1, 3)
-        from z in Enumerable.Range(-1, 3)
-        where x != 0 || y != 0 || z != 0
-        select new Vector3Int(x, y, z))
-      .ToArray();
-  }
+  static Vector3Int[] GenerateNeighborOffsets() =>
+    (from x in Enumerable.Range(-1, 3)
+      from y in Enumerable.Range(-1, 3)
+      from z in Enumerable.Range(-1, 3)
+      where x != 0 || y != 0 || z != 0
+      select new Vector3Int(x, y, z))
+    .ToArray();
 
   IEnumerable<GridCube> GetNeighbors() {
     var world = CubeWorld.Instance;

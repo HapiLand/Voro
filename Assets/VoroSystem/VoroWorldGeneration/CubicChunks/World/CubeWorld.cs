@@ -37,9 +37,7 @@ public class CubeWorld : BaseWorld {
     CoordinateChanged?.Invoke(cube);
   }
 
-  public bool TryGetCube(Vector3Int coord, out GridCube cube) {
-    return cubes.TryGetCube(coord, out cube);
-  }
+  public bool TryGetCube(Vector3Int coord, out GridCube cube) => cubes.TryGetCube(coord, out cube);
 
   public void NotifyStartGeneration() {
     worldState.StartGeneration();

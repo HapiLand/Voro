@@ -72,13 +72,10 @@ public class ParameterDataDrawer : PropertyDrawer {
     return EditorGUI.EndChangeCheck();
   }
 
-  static Rect GetNameRect(Rect position) {
-    return new Rect(position.x, position.y, NameWidth, position.height);
-  }
+  static Rect GetNameRect(Rect position) => new(position.x, position.y, NameWidth, position.height);
 
-  static Rect GetVariantRect(Rect position) {
-    return new Rect(position.x + NameWidth + Spacing, position.y, VariantWidth, position.height);
-  }
+  static Rect GetVariantRect(Rect position) =>
+    new(position.x + NameWidth + Spacing, position.y, VariantWidth, position.height);
 
   static Rect GetValueRect(Rect position, float usedWidth) {
     var valueWidth = position.width - usedWidth - Spacing * 2;

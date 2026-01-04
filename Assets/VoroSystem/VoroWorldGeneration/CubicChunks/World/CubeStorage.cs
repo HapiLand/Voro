@@ -17,15 +17,12 @@ public class CubeStorage {
     this.parent = parent;
   }
 
-  public bool TryGetCube(Vector3Int coord, out GridCube cube) {
-    return cubeDictionary.TryGetValue(coord, out cube);
-  }
+  public bool TryGetCube(Vector3Int coord, out GridCube cube) => cubeDictionary.TryGetValue(coord, out cube);
 
-  public GridCube GetOrCreateCube(Vector3Int coord) {
-    return cubeDictionary.TryGetValue(coord, out var cube)
+  public GridCube GetOrCreateCube(Vector3Int coord) =>
+    cubeDictionary.TryGetValue(coord, out var cube)
       ? cube
       : CreateCube(coord);
-  }
 
   GridCube CreateCube(Vector3Int coord) {
     var cubeObject = new GameObject($"Cube [{coord.x}, {coord.y}, {coord.z}]");

@@ -27,7 +27,9 @@ public class AdjustIntegerEditor : CustomEditor {
     _members = new List<EditorMember>();
 
     var targetType = attributeType.OfType;
-    bool IsSupportedType(Type type) => type == typeof(int) || type == typeof(string) || type == typeof(bool) || type.IsEnum;
+
+    bool IsSupportedType(Type type) =>
+      type == typeof(int) || type == typeof(string) || type == typeof(bool) || type.IsEnum;
 
     // fields
     var fieldMembers = targetType
@@ -72,9 +74,10 @@ public class AdjustIntegerEditor : CustomEditor {
         table.DrawHorizontalLine(1, Color.black);
         continue;
       }
+
       member.SetValue(_targetInstance!, result.result);
       GUI.changed = true; // trigger repaint
-      
+
       table.DrawHorizontalLine(1, Color.black);
     }
 

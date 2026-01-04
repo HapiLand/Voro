@@ -32,8 +32,7 @@ public static class PlayerLocator {
   /// </summary>
   /// <param name="gridCoord"> origin point of a cube (bottom-left) </param>
   /// <returns> </returns>
-  public static Vector3 GridToWorld(Vector3Int gridCoord) {
-    return (Vector3)gridCoord * WorldSettings.GridSize + Vector3.one * (WorldSettings.GridSize * 0.5f);
-  }
+  public static Vector3 GridToWorld(Vector3Int gridCoord) =>
+    (Vector3)gridCoord * WorldSettings.GridSize + Vector3.one * (WorldSettings.GridSize * 0.5f);
 }
 }

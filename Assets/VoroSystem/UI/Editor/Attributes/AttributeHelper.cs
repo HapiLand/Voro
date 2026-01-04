@@ -5,9 +5,8 @@ using VoroSystem.UI.Editor.Reflection;
 
 namespace VoroSystem.UI.Editor.Attributes {
 public static class AttributeHelper {
-  public static bool TryGetAttribute<T>(EditorMember member, [NotNullWhen(true)] out T? attribute) where T : Attribute {
-    return TryGetAttribute(member.Member, out attribute);
-  }
+  public static bool TryGetAttribute<T>(EditorMember member, [NotNullWhen(true)] out T? attribute)
+    where T : Attribute => TryGetAttribute(member.Member, out attribute);
 
   public static bool TryGetAttribute<T>(MemberInfo member, [NotNullWhen(true)] out T? attribute) where T : Attribute {
     if (Attribute.IsDefined(member, typeof(T)) &&
@@ -19,6 +18,5 @@ public static class AttributeHelper {
     attribute = default;
     return false;
   }
-
 }
 }

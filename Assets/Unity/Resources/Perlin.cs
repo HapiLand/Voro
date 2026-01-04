@@ -207,17 +207,13 @@ public abstract class Perlin<GradientType> {
     }
   }
 
-  static double LinearlyInterpolate(double valueA, double valueB, double t) {
-    return valueA + t * (valueB - valueA);
-  }
+  static double LinearlyInterpolate(double valueA, double valueB, double t) => valueA + t * (valueB - valueA);
 
   //Takes a val in the range 0..1 and returns an s-curve
   //in the range 0..1
   //This is a recommended replacement for the original 3t^2 - 2t^3
   //from https://mrl.nyu.edu/~perlin/paper445.pdf
-  protected static double SmoothToSCurve(double val) {
-    return val * val * val * (val * (val * 6d - 15d) + 10d);
-  }
+  protected static double SmoothToSCurve(double val) => val * val * val * (val * (val * 6d - 15d) + 10d);
 }
 
 public class Perlin : Perlin<Perlin.Vector3> {
@@ -234,9 +230,7 @@ public class Perlin : Perlin<Perlin.Vector3> {
 
   public Perlin() : this(SmoothToSCurve) { }
 
-  static double Dot(Vector3 gradient, double x, double y, double z) {
-    return gradient.x * x + gradient.y * y + gradient.z * z;
-  }
+  static double Dot(Vector3 gradient, double x, double y, double z) => gradient.x * x + gradient.y * y + gradient.z * z;
 
   #region Nested type: Vector3
   public struct Vector3 {

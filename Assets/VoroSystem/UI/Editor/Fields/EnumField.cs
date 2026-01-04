@@ -1,10 +1,8 @@
 #nullable enable
 using System;
-using UnityEditor;
 using UnityEngine;
 using VoroSystem.UI.Editor.Attributes;
 using VoroSystem.UI.Editor.Reflection;
-using VoroSystem.VoroDataStructures;
 
 namespace VoroSystem.UI.Editor.Fields {
 [Serializable]
@@ -16,19 +14,18 @@ public class EnumField : CustomField {
     if (!AttributeHelper.TryGetAttribute(member, out VariantAttribute? enumAttr)) {
       return (false, fieldValue);
     }
+
     var enumType = enumAttr.EnumType;
     var defaultValue = enumAttr.DefaultValue;
-    
+
     var state = fieldValue != null && fieldValue.GetType() == enumType ? (Enum)fieldValue : (Enum)defaultValue;
     if (member.IsReadOnly) {
       // GUILayout.Label(member.Name, state.ToString());
     }
-    else {
-      // var newValue = EditorGUILayout.EnumPopup(state);
-      // modified = !Equals(newValue, state);
-      // state = newValue;
-    }
 
+    // var newValue = EditorGUILayout.EnumPopup(state);
+    // modified = !Equals(newValue, state);
+    // state = newValue;
     return (modified, state);
   }
 }

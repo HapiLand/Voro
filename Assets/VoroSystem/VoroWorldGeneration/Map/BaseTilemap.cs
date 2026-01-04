@@ -68,9 +68,7 @@ public abstract class BaseTilemap<T> where T : Tile {
     return this[x, z];
   }
 
-  public int GetIndex(int x, int z, int sizeX) {
-    return z * sizeX + x;
-  }
+  public int GetIndex(int x, int z, int sizeX) => z * sizeX + x;
 
   public void ForEach(Action<T> action) {
     foreach (var t in map) {

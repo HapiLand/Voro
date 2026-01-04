@@ -31,8 +31,6 @@ public class GridCubeBoundingBox {
     Mathf.Max(1, Mathf.CeilToInt(Bounds.size.z))
   );
 
-  public bool Contains(Vector3 worldPosition) {
-    return Bounds.Contains(worldPosition);
-  }
+  public bool Contains(Vector3 worldPosition) => Bounds.Contains(worldPosition);
 }
 }

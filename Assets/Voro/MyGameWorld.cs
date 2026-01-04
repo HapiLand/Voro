@@ -1,8 +1,10 @@
+using UnityEditor;
 using UnityEngine;
+using Voro.Internal.World.GameWorldMap;
 
 namespace Voro {
 /// <summary>
-/// <para>voro internal is only a framework to build the actual runtime code</para>
+/// <para> voro internal is only a framework to build the actual runtime code </para>
 /// <para>
 /// my game world is an infinitely long map along a single direction.
 /// </para>
@@ -15,15 +17,34 @@ namespace Voro {
 /// has a profile for the style of world generation
 /// </para>
 /// </summary>
+[ExecuteAlways]
 public class MyGameWorld : MonoBehaviour {
-    // todo make a horizontal line, across the line are GridTiles
-    //  GridTiles behave like the old GridCubes
-    //  
-    
-    // todo provide camera and players position to a system that controls
-    //  the visibility/enabling of the GridTiles
-    
-    // todo provide scriptable object for graph to the system in order
-    //  for the WorldChunks to generate the mesh for the terrain
+  #region Serialized Fields
+  /// <summary>
+  /// The space where the map is found
+  /// </summary>
+  [SerializeField] WorldMap worldMap;
+  #endregion
+
+  #region Event Functions
+  void Awake() {
+    var parent = gameObject.transform;
+    worldMap = GameObjectUtility.CreateWithComponent<WorldMap>("Game World Map", parent);
+  }
+  #endregion
+
+  // todo provide camera and players position to a system that controls
+  //  the visibility/enabling of the GridTiles
+
+  // todo provide scriptable object for graph to the system in order
+  //  for the WorldChunks to generate the mesh for the terrain
+
+  [MenuItem("GameObject/Voro/My Game World", false, 999)]
+  public static void Create() {
+    var obj = GameObjectUtility.CreateWithComponent<MyGameWorld>("Voro Terrain Example");
+#if UNITY_EDITOR
+    Selection.activeGameObject = obj.gameObject;
+#endif
+  }
 }
 }

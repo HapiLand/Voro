@@ -26,15 +26,14 @@ public static class GraphMapper {
   }
 
   // ReSharper disable InconsistentNaming
-  static ParameterDataDTO ToParameterDTO(ParameterData arg) {
+  static ParameterDataDTO ToParameterDTO(ParameterData arg) =>
     // ReSharper restore InconsistentNaming
-    return new ParameterDataDTO
+    new()
     {
       name = arg.parameterName,
       parameterType = arg.parameterType,
       defaultValue = arg.defaultValue
     };
-  }
 
   static ParameterData ToParameterData(ParameterDataDTO arg) {
     return arg.parameterType switch

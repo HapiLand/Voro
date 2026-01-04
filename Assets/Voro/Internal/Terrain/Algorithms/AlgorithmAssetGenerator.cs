@@ -3,7 +3,6 @@ using System.Linq;
 using System.Reflection;
 using UnityEditor;
 using UnityEngine;
-using UnityEngine.Windows;
 using Voro.Internal.Terrain.Attributes;
 
 namespace Voro.Internal.Terrain.Algorithms {
@@ -23,9 +22,9 @@ public static class AlgorithmAssetGenerator {
           return e.Types.Where(t => t != null);
         }
       })
-      .Where(t => t.IsClass 
-                  && !t.IsAbstract 
-                  && typeof(ScriptableObject).IsAssignableFrom(t) 
+      .Where(t => t.IsClass
+                  && !t.IsAbstract
+                  && typeof(ScriptableObject).IsAssignableFrom(t)
                   && t.GetCustomAttribute<AlgorithmAttribute>() != null);
 
     foreach (var type in algorithmTypes) {
@@ -36,7 +35,8 @@ public static class AlgorithmAssetGenerator {
 
       method?
         .MakeGenericMethod(type)
-        .Invoke(null, new object[] {
+        .Invoke(null, new object[]
+        {
           AlgorithmAssetPaths.AlgorithmPath,
           asset
         });
@@ -45,6 +45,5 @@ public static class AlgorithmAssetGenerator {
     AssetDatabase.SaveAssets();
     AssetDatabase.Refresh();
   }
-
 }
 }

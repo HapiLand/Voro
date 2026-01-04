@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Voro.Internal.World.GridTiles {
+namespace Voro.Internal.World {
 /// <summary>
 /// space within the grid that the player can be inside
 /// </summary>

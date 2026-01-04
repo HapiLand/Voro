@@ -1,5 +1,4 @@
 using UnityEngine;
-using Voro.Internal.World.GridTiles;
 
 namespace Voro.Internal.World.WorldChunks {
 /// <summary>

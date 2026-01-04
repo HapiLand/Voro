@@ -16,9 +16,7 @@ public class EditorProperty : EditorMember {
   /// </summary>
   public override bool IsReadOnly => _property.SetMethod is null;
 
-  public override object? GetValue(object? obj) {
-    return _property.GetValue(obj);
-  }
+  public override object? GetValue(object? obj) => _property.GetValue(obj);
 
   public override void SetValue(object? obj, object? value) {
     _property.SetValue(obj, value);

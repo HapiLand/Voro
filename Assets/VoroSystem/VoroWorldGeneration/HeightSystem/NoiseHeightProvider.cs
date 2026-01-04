@@ -54,9 +54,7 @@ public class NoiseHeightProvider : IHeightProvider<float> {
     };
   }
 
-  Array IHeightProvider.ProvideUntyped(TerrainRegion region, Vector3[] vertices) {
-    return Provide(region, vertices);
-  }
+  Array IHeightProvider.ProvideUntyped(TerrainRegion region, Vector3[] vertices) => Provide(region, vertices);
 
   public float[] Provide(TerrainRegion region, Vector3[] vertices) {
     var result = new float[vertices.Length];

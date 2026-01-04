@@ -13,9 +13,7 @@ public class EditorField : EditorMember {
 
   public override bool IsReadOnly => false;
 
-  public override object? GetValue(object? obj) {
-    return _field.GetValue(obj);
-  }
+  public override object? GetValue(object? obj) => _field.GetValue(obj);
 
   public override void SetValue(object? obj, object? value) {
     _field.SetValue(obj, value);
